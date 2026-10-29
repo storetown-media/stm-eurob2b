@@ -1,0 +1,1324 @@
+/*
+ * EuroB2B storefront UI (docs/frontend.md).
+ *
+ * Theme first: EuroB2B's controls carry WooCommerce's and WordPress's own classes, so the theme styles
+ * them. The defaults below use :where() and therefore have zero specificity: any rule of the theme or
+ * of WooCommerce wins. Layout rules (grids, alignment, the small-screen layout) keep their specificity.
+ * Themes tune the defaults through the --eurob2b-* custom properties on .eurob2b-ui.
+ */
+
+/* Tokens ------------------------------------------------------------------------------------------ */
+
+.eurob2b-ui {
+	--eurob2b-line: rgba(0, 0, 0, 0.12);
+	--eurob2b-line-strong: rgba(0, 0, 0, 0.28);
+	/* Secondary text keeps the theme's text colour and is set smaller: a lighter mix of a grey theme
+	   colour fell below the 4.5:1 contrast of WCAG 1.4.3 (seen with #4b5563 text in My Account). */
+	--eurob2b-muted: currentColor;
+	--eurob2b-tint: rgba(0, 0, 0, 0.035);
+	--eurob2b-focus: currentColor;
+	/* Primary buttons only fall back to these when the theme styles neither `wp-element-button` nor `.woocommerce .button`. */
+	--eurob2b-primary: var(--wp--preset--color--contrast, #1d2327);
+	--eurob2b-on-primary: var(--wp--preset--color--base, #ffffff);
+	--eurob2b-error: #a12622;
+	--eurob2b-success: #1f6b3a;
+	--eurob2b-radius: 3px;
+	--eurob2b-control: 2.75rem;
+	--eurob2b-gap: 0.75rem;
+	--eurob2b-space: 1.5rem;
+}
+
+@supports (color: color-mix(in srgb, red, blue)) {
+	.eurob2b-ui {
+		/* Derived from the text colour, so the defaults also fit dark themes. */
+		--eurob2b-line: color-mix(in srgb, currentColor 13%, transparent);
+		--eurob2b-line-strong: color-mix(in srgb, currentColor 30%, transparent);
+		--eurob2b-tint: color-mix(in srgb, currentColor 4%, transparent);
+	}
+}
+
+/* Visually hidden, still read out (themes usually define this WordPress class themselves). */
+.eurob2b-ui .screen-reader-text {
+	position: absolute !important;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+/* Hidden stays hidden, whatever display the rules below give an element. */
+.eurob2b-ui [hidden] {
+	display: none !important;
+}
+
+/* Fields ------------------------------------------------------------------------------------------ */
+
+:where(.eurob2b-ui) :where(input[type="text"], input[type="search"], input[type="email"], input[type="number"], input[type="password"], input[type="tel"], select, textarea) {
+	box-sizing: border-box;
+	min-height: var(--eurob2b-control);
+	padding: 0.5em 0.75em;
+	border: 1px solid var(--eurob2b-line-strong);
+	border-radius: var(--eurob2b-radius);
+	background-color: transparent;
+	color: inherit;
+	font: inherit;
+	line-height: 1.3;
+	transition: border-color 0.15s ease;
+}
+
+:where(.eurob2b-ui) :where(textarea) {
+	min-height: 6em;
+	width: 100%;
+	resize: vertical;
+}
+
+:where(.eurob2b-ui) :where(input, select, textarea):hover {
+	border-color: currentColor;
+}
+
+/* With specificity on purpose: a theme's `:focus { outline: 0 }` must not remove it (WCAG 2.4.7). */
+.eurob2b-ui :is(input, select, textarea, button, a):focus-visible {
+	outline: 2px solid var(--eurob2b-focus);
+	outline-offset: 2px;
+}
+
+:where(.eurob2b-ui) :where(input[type="number"]) {
+	font-variant-numeric: tabular-nums;
+}
+
+:where(.eurob2b-ui) :where(label) {
+	display: block;
+	margin: 0 0 0.35em;
+	font-weight: 600;
+}
+
+:where(.eurob2b-ui) :where(input[type="file"]) {
+	max-width: 100%;
+	font: inherit;
+}
+
+:where(.eurob2b-ui) :where(input[type="file"])::file-selector-button {
+	margin-right: 0.75em;
+	padding: 0.55em 1em;
+	border: 1px solid var(--eurob2b-line-strong);
+	border-radius: var(--eurob2b-radius);
+	background: transparent;
+	color: inherit;
+	font: inherit;
+	cursor: pointer;
+}
+
+/* Buttons --------------------------------------------------------------------------------------- */
+
+/* Primary action: the theme's `wp-element-button` or WooCommerce's `.button`. Only when the theme styles
+   neither does this quiet filled default apply. */
+:where(.eurob2b-ui) :where(.button:not(.eurob2b-button-secondary), .wp-element-button) {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	box-sizing: border-box;
+	min-height: var(--eurob2b-control);
+	padding: 0.5em 1.25em;
+	border: 1px solid var(--eurob2b-primary);
+	border-radius: var(--eurob2b-radius);
+	background: var(--eurob2b-primary);
+	color: var(--eurob2b-on-primary);
+	font: inherit;
+	font-weight: 600;
+	line-height: 1.2;
+	text-decoration: none;
+	cursor: pointer;
+	transition: opacity 0.15s ease;
+}
+
+:where(.eurob2b-ui) :where(.button:not(.eurob2b-button-secondary), .wp-element-button):hover {
+	opacity: 0.88;
+}
+
+/* The other actions. */
+
+:where(.eurob2b-ui) :where(.eurob2b-button-secondary) {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	box-sizing: border-box;
+	min-height: var(--eurob2b-control);
+	padding: 0.5em 1.1em;
+	border: 1px solid var(--eurob2b-line-strong);
+	border-radius: var(--eurob2b-radius);
+	background: transparent;
+	color: inherit;
+	font: inherit;
+	line-height: 1.2;
+	text-decoration: none;
+	cursor: pointer;
+	transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+:where(.eurob2b-ui) :where(.eurob2b-button-secondary):hover {
+	border-color: currentColor;
+	background: var(--eurob2b-tint);
+}
+
+:where(.eurob2b-ui) :where(.eurob2b-button-danger):hover {
+	border-color: var(--eurob2b-error);
+	color: var(--eurob2b-error);
+}
+
+:where(.eurob2b-ui) :where(.eurob2b-icon-button) {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 2.25rem;
+	height: 2.25rem;
+	padding: 0;
+	border: 1px solid transparent;
+	border-radius: var(--eurob2b-radius);
+	background: transparent;
+	color: var(--eurob2b-muted);
+	font: inherit;
+	font-size: 1.25rem;
+	line-height: 1;
+	cursor: pointer;
+}
+
+:where(.eurob2b-ui) :where(.eurob2b-icon-button):hover {
+	border-color: var(--eurob2b-line);
+	background: var(--eurob2b-tint);
+	color: var(--eurob2b-error);
+}
+
+.eurob2b-actions {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--eurob2b-gap);
+	margin: var(--eurob2b-space) 0 0;
+}
+
+.eurob2b-actions__end {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--eurob2b-gap);
+	margin-left: auto;
+}
+
+/* Inline form: a field and its button(s) on one line, wrapping on small screens. */
+.eurob2b-inline-form {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	gap: 0.5rem var(--eurob2b-gap);
+	margin: 0 0 var(--eurob2b-space);
+}
+
+.eurob2b-inline-form > label,
+.eurob2b-inline-form > .eurob2b-inline-form__label {
+	flex: 1 1 100%;
+	margin: 0;
+}
+
+.eurob2b-inline-form > input[type="text"],
+.eurob2b-inline-form > input[type="search"],
+.eurob2b-inline-form > input[type="email"] {
+	flex: 1 1 14rem;
+	max-width: 26rem;
+}
+
+.eurob2b-inline-form > input[type="number"] {
+	flex: 0 0 6.5rem;
+	width: 6.5rem;
+}
+
+.eurob2b-inline-form > p {
+	margin: 0;
+}
+
+/* Section headings and quiet text --------------------------------------------------------------- */
+
+:where(.eurob2b-ui) :where(.eurob2b-heading) {
+	margin: var(--eurob2b-space) 0 0.75rem;
+	font-size: 1.05em;
+}
+
+:where(.eurob2b-ui) :where(.eurob2b-muted, .eurob2b-hint) {
+	color: var(--eurob2b-muted);
+	font-size: 0.9em;
+}
+
+/* Inline messages (WooCommerce notices stay the theme's). */
+:where(.eurob2b-ui) :where(.eurob2b-notice) {
+	margin: 0 0 var(--eurob2b-gap);
+	padding: 0.75em 1em;
+	border-left: 2px solid currentColor;
+	background: var(--eurob2b-tint);
+}
+
+:where(.eurob2b-ui) :where(.eurob2b-notice.is-error, .is-error) {
+	border-color: var(--eurob2b-error);
+	color: var(--eurob2b-error);
+}
+
+/* Tables --------------------------------------------------------------------------------------- */
+
+:where(.eurob2b-ui) :where(table.eurob2b-table) {
+	width: 100%;
+	margin: 0 0 var(--eurob2b-space);
+	border: 0;
+	border-collapse: collapse;
+	font-variant-numeric: tabular-nums;
+}
+
+:where(.eurob2b-ui) :where(table.eurob2b-table) :where(th, td) {
+	padding: 0.8em 0.75em;
+	border: 0;
+	border-bottom: 1px solid var(--eurob2b-line);
+	text-align: left;
+	vertical-align: middle;
+}
+
+:where(.eurob2b-ui) :where(table.eurob2b-table) :where(thead th) {
+	padding-top: 0.5em;
+	padding-bottom: 0.6em;
+	border-bottom-color: var(--eurob2b-line-strong);
+	color: var(--eurob2b-muted);
+	font-size: 0.75rem;
+	font-weight: 600;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	white-space: nowrap;
+}
+
+:where(.eurob2b-ui) :where(table.eurob2b-table) :where(tfoot th, tfoot td) {
+	border-bottom: 0;
+	border-top: 1px solid var(--eurob2b-line-strong);
+	font-weight: 600;
+}
+
+:where(.eurob2b-ui) :where(table.eurob2b-table) :where(th:first-child, td:first-child) {
+	padding-left: 0;
+}
+
+:where(.eurob2b-ui) :where(table.eurob2b-table) :where(th:last-child, td:last-child) {
+	padding-right: 0;
+}
+
+.eurob2b-table .eurob2b-num {
+	text-align: right;
+	white-space: nowrap;
+	font-variant-numeric: tabular-nums;
+}
+
+.eurob2b-table .eurob2b-nowrap {
+	white-space: nowrap;
+}
+
+.eurob2b-table .eurob2b-cell-actions {
+	text-align: right;
+	white-space: nowrap;
+}
+
+.eurob2b-cell-actions form {
+	display: inline-flex;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+	gap: 0.5rem;
+	margin: 0;
+}
+
+/* Small screens: stacked tables become labelled rows. WooCommerce's small-screen stylesheet does the
+   same for shop_table_responsive; these rules cover themes that do not load it. */
+@media (max-width: 768px) {
+	:where(.eurob2b-ui) :where(table.eurob2b-table.shop_table_responsive) :where(thead) {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		white-space: nowrap;
+	}
+
+	:where(.eurob2b-ui) :where(table.eurob2b-table.shop_table_responsive) :where(tbody tr) {
+		display: block;
+		padding: 0.6em 0;
+		border-bottom: 1px solid var(--eurob2b-line);
+	}
+
+	:where(.eurob2b-ui) :where(table.eurob2b-table.shop_table_responsive) :where(tbody td) {
+		display: flex;
+		justify-content: space-between;
+		gap: 1em;
+		padding: 0.3em 0;
+		border: 0;
+		text-align: right;
+	}
+
+	:where(.eurob2b-ui) :where(table.eurob2b-table.shop_table_responsive) :where(tbody td[data-title])::before {
+		content: attr(data-title);
+		color: var(--eurob2b-muted);
+		font-size: 0.85em;
+		text-align: left;
+	}
+
+	/* The buttons of a row need no label (WooCommerce does the same for its own action cells); they
+	   take the whole width and wrap from the left. */
+	.eurob2b-ui table.shop_table_responsive tr td.eurob2b-cell-actions::before {
+		display: none;
+	}
+
+	.eurob2b-ui table.shop_table_responsive td.eurob2b-cell-actions form {
+		display: flex;
+		width: 100%;
+		justify-content: flex-start;
+	}
+}
+
+/* Editable line tables (purchase list items, quote basket): a compact block per line on small
+   screens instead of one labelled row per cell. */
+.eurob2b-table--lines .eurob2b-cell-qty input {
+	width: 6.5rem;
+}
+
+@media (max-width: 640px) {
+	.eurob2b-ui table.eurob2b-table--lines thead {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		white-space: nowrap;
+	}
+
+	.eurob2b-ui table.eurob2b-table--lines tbody tr {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto;
+		align-items: center;
+		gap: 0.35rem 0.75rem;
+		/* Inline padding: themes often frame the table, the content must not touch the frame. */
+		padding: 0.85rem 0.75rem;
+		border-bottom: 1px solid var(--eurob2b-line);
+	}
+
+	.eurob2b-ui table.eurob2b-table--lines tbody td {
+		display: block;
+		padding: 0;
+		border: 0;
+		background: none;
+		text-align: left;
+	}
+
+	.eurob2b-ui table.eurob2b-table--lines tbody td.eurob2b-cell-main {
+		grid-column: 1;
+		grid-row: 1;
+	}
+
+	.eurob2b-ui table.eurob2b-table--lines tbody td.eurob2b-cell-actions {
+		grid-column: 2;
+		grid-row: 1;
+		text-align: right;
+	}
+
+	.eurob2b-ui table.eurob2b-table--lines tbody td.eurob2b-cell-sku {
+		grid-column: 1 / -1;
+		color: var(--eurob2b-muted);
+		font-size: 0.85em;
+	}
+
+	.eurob2b-ui table.eurob2b-table--lines tbody td.eurob2b-cell-qty {
+		grid-column: 1;
+	}
+
+	.eurob2b-ui table.eurob2b-table--lines tbody td.eurob2b-num {
+		grid-column: 2;
+		text-align: right;
+	}
+}
+
+/* Order form ------------------------------------------------------------------------------------ */
+
+/* The layout follows the width the theme gives the form (a container query), not the window: My
+   Account and sidebars are much narrower than the screen. */
+.eurob2b-order-form {
+	margin: 0 0 2.5rem;
+	container: eurob2b-order-form / inline-size;
+}
+
+.eurob2b-order-form__search {
+	max-width: 42rem;
+	margin: 0 0 var(--eurob2b-space);
+}
+
+.eurob2b-order-form__query {
+	width: 100%;
+}
+
+.eurob2b-order-form__results {
+	margin: 0.6rem 0 0;
+}
+
+:where(.eurob2b-ui) :where(.eurob2b-order-form__hint) {
+	margin: 0.5em 0;
+	color: var(--eurob2b-muted);
+}
+
+:where(.eurob2b-ui) :where(.eurob2b-order-form__hint.is-error) {
+	color: var(--eurob2b-error);
+}
+
+.eurob2b-order-form__hits {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	border-top: 1px solid var(--eurob2b-line-strong);
+}
+
+.eurob2b-order-form__hit {
+	display: grid;
+	grid-template-columns: auto 1fr auto;
+	align-items: center;
+	gap: 0.25rem 1rem;
+	margin: 0;
+	padding: 0.75rem 0;
+	border-bottom: 1px solid var(--eurob2b-line);
+}
+
+.eurob2b-order-form__hit-thumb {
+	display: block;
+	width: 44px;
+	height: 44px;
+	object-fit: cover;
+	border-radius: var(--eurob2b-radius);
+}
+
+.eurob2b-order-form__hit:not(:has(.eurob2b-order-form__hit-thumb)) {
+	grid-template-columns: 1fr auto;
+}
+
+.eurob2b-order-form__hit-main {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 0.15rem 0.9rem;
+	min-width: 0;
+}
+
+.eurob2b-order-form__hit-name {
+	flex: 1 1 100%;
+	font-weight: 600;
+}
+
+.eurob2b-order-form__hit-meta,
+.eurob2b-order-form__hit-tiers {
+	color: var(--eurob2b-muted);
+	font-size: 0.85em;
+}
+
+.eurob2b-order-form__hit-price {
+	font-variant-numeric: tabular-nums;
+}
+
+.eurob2b-order-form__hit-tier {
+	margin-right: 0.75em;
+	white-space: nowrap;
+}
+
+.eurob2b-order-form__more {
+	margin: 0.9rem 0 0;
+}
+
+/* Import from a file or Excel (ORD-013). */
+.eurob2b-order-form__import {
+	max-width: 42rem;
+	margin: 0 0 var(--eurob2b-space);
+}
+
+.eurob2b-order-form__import-panel {
+	margin: 0.9rem 0 0;
+	padding: 1rem 0 0;
+	border-top: 1px solid var(--eurob2b-line);
+}
+
+.eurob2b-order-form__import-panel .eurob2b-hint {
+	margin: 0 0 0.6rem;
+}
+
+.eurob2b-order-form__import-text {
+	width: 100%;
+	font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	font-size: 0.9em;
+	tab-size: 12;
+}
+
+.eurob2b-order-form__import .eurob2b-actions {
+	margin-top: 0.75rem;
+}
+
+.eurob2b-ui .eurob2b-order-form__import-file {
+	position: relative;
+	margin: 0;
+	font-weight: normal;
+}
+
+.eurob2b-order-form__import-file:focus-within {
+	outline: 2px solid var(--eurob2b-focus);
+	outline-offset: 2px;
+}
+
+/* A button that waits for an answer stays focusable (aria-disabled instead of disabled). */
+.eurob2b-ui [aria-disabled="true"] {
+	opacity: 0.6;
+	cursor: progress;
+}
+
+/* Live regions stay in the accessibility tree while empty, or the first message is often not read out. */
+.eurob2b-order-form__import-report:empty {
+	margin: 0;
+}
+
+.eurob2b-order-form__import-report {
+	margin: 0.75rem 0 0;
+}
+
+.eurob2b-order-form__import-problems {
+	margin: 0.4rem 0 0;
+	padding-left: 1.1rem;
+	color: var(--eurob2b-error);
+	font-size: 0.9em;
+}
+
+.eurob2b-order-form__table {
+	overflow-x: auto;
+}
+
+.eurob2b-order-form__lines .eurob2b-order-form__col-name {
+	min-width: 7rem;
+}
+
+.eurob2b-order-form__lines td.eurob2b-order-form__col-stock {
+	width: 1%;
+	white-space: nowrap;
+	color: var(--eurob2b-muted);
+	font-size: 0.9em;
+}
+
+.eurob2b-order-form__lines .eurob2b-order-form__col-unit,
+.eurob2b-order-form__lines .eurob2b-order-form__col-total {
+	width: 1%;
+	text-align: right;
+	white-space: nowrap;
+	font-variant-numeric: tabular-nums;
+}
+
+.eurob2b-order-form__lines .eurob2b-order-form__col-actions {
+	width: 2.75rem;
+	text-align: right;
+}
+
+.eurob2b-order-form__sku,
+.eurob2b-order-form__qty {
+	width: 100%;
+}
+
+/* With stock and amounts the table needs about 45rem; below that the lines stack (see the container
+   query). The minimum widths keep the fields usable; a theme with wide cell padding still gets a
+   scrolling table instead of squeezed fields. */
+.eurob2b-order-form__sku {
+	min-width: 9rem;
+}
+
+.eurob2b-order-form__qty {
+	min-width: 4.5rem;
+}
+
+.eurob2b-order-form__name {
+	text-decoration: none;
+}
+
+.eurob2b-order-form__name:hover {
+	text-decoration: underline;
+}
+
+.eurob2b-order-form__line.is-missing .eurob2b-order-form__col-name {
+	color: var(--eurob2b-error);
+	font-size: 0.9em;
+}
+
+.eurob2b-order-form__lines .eurob2b-order-form__sum-label {
+	text-align: right;
+}
+
+.eurob2b-order-form__message {
+	margin: 0.75rem 0 0;
+}
+
+@container eurob2b-order-form (max-width: 45rem) {
+	/* Each line becomes a small block: SKU and remove, product, stock, then quantity, unit price and
+	   line total side by side. The column headings are hidden, so every value carries its label
+	   (data-title). The amount columns have minimum widths, so the fields line up from line to line. */
+	.eurob2b-order-form__lines thead {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		white-space: nowrap;
+	}
+
+	.eurob2b-order-form__lines tbody tr {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) minmax(5.5rem, auto) minmax(6rem, auto);
+		grid-template-areas:
+			"sku sku actions"
+			"name name name"
+			"stock stock stock"
+			"qty unit total";
+		align-items: end;
+		gap: 0.45rem 1rem;
+		padding: 0.9rem 0.75rem;
+		border-bottom: 1px solid var(--eurob2b-line);
+	}
+
+	/* The root class lifts these above the table rules (width: 1% of the stock and amount columns). */
+	.eurob2b-order-form .eurob2b-order-form__lines tbody td {
+		display: block;
+		width: auto;
+		padding: 0;
+		border: 0;
+	}
+
+	.eurob2b-order-form__lines tbody .eurob2b-order-form__col-sku {
+		grid-area: sku;
+		width: auto;
+	}
+
+	.eurob2b-order-form__lines tbody .eurob2b-order-form__col-name {
+		grid-area: name;
+		min-width: 0;
+	}
+
+	.eurob2b-order-form__lines tbody .eurob2b-order-form__col-name:empty,
+	.eurob2b-order-form__lines tbody .eurob2b-order-form__col-stock:empty,
+	.eurob2b-order-form__lines tbody .eurob2b-order-form__col-unit:empty,
+	.eurob2b-order-form__lines tbody .eurob2b-order-form__col-total:empty {
+		display: none;
+	}
+
+	.eurob2b-order-form__lines tbody td[data-title]::before {
+		content: attr(data-title);
+		display: block;
+		margin: 0 0 0.2rem;
+		color: var(--eurob2b-muted);
+		font-size: 0.8rem;
+		font-weight: normal;
+	}
+
+	/* Stock is short: label and value on one line. */
+	.eurob2b-order-form__lines tbody td.eurob2b-order-form__col-stock[data-title]::before {
+		display: inline;
+		margin: 0 0.4em 0 0;
+	}
+
+	.eurob2b-order-form__lines tbody .eurob2b-order-form__col-stock {
+		grid-area: stock;
+	}
+
+	.eurob2b-order-form__lines tbody .eurob2b-order-form__col-qty {
+		grid-area: qty;
+		max-width: 7.5rem;
+	}
+
+	.eurob2b-order-form__lines tbody .eurob2b-order-form__col-unit {
+		grid-area: unit;
+		color: var(--eurob2b-muted);
+		font-size: 0.9em;
+	}
+
+	.eurob2b-order-form__lines tbody .eurob2b-order-form__col-total {
+		grid-area: total;
+		font-weight: 600;
+	}
+
+	.eurob2b-order-form__lines tbody .eurob2b-order-form__col-unit,
+	.eurob2b-order-form__lines tbody .eurob2b-order-form__col-total {
+		text-align: right;
+	}
+
+	.eurob2b-order-form__lines tbody .eurob2b-order-form__col-actions {
+		grid-area: actions;
+		width: auto;
+	}
+
+	.eurob2b-order-form__lines tfoot tr {
+		display: flex;
+		justify-content: space-between;
+		padding: 0.9rem 0.75rem;
+	}
+
+	.eurob2b-order-form .eurob2b-order-form__lines tfoot th,
+	.eurob2b-order-form .eurob2b-order-form__lines tfoot td {
+		width: auto;
+		padding: 0;
+		border: 0;
+	}
+
+	.eurob2b-order-form__lines tfoot td:empty {
+		display: none;
+	}
+}
+
+/* Search hits need less room than the lines: the add button moves below only on phone widths. */
+@container eurob2b-order-form (max-width: 30rem) {
+	.eurob2b-order-form__hit {
+		grid-template-columns: auto 1fr;
+	}
+
+	.eurob2b-order-form__hit:not(:has(.eurob2b-order-form__hit-thumb)) {
+		grid-template-columns: 1fr;
+	}
+
+	.eurob2b-order-form__hit-add {
+		grid-column: 1 / -1;
+		justify-self: start;
+	}
+}
+
+/* Phones: action bars stack their buttons at full width. The group that ends with the primary button
+   moves to the top with the primary first; the other actions follow in their order, a destructive one
+   last. */
+@media (max-width: 640px) {
+	.eurob2b-actions,
+	.eurob2b-actions__end {
+		flex-direction: column;
+		align-items: stretch;
+		margin-left: 0;
+	}
+
+	.eurob2b-actions__end:has(> .button.alt) {
+		flex-direction: column-reverse;
+		order: -1;
+	}
+
+	.eurob2b-actions .button,
+	.eurob2b-actions label.button {
+		width: 100%;
+	}
+}
+
+/* CSV quick order ------------------------------------------------------------------------------- */
+
+.eurob2b-csv-order {
+	max-width: 42rem;
+	margin: 0 0 2.5rem;
+}
+
+.eurob2b-csv-order__help {
+	margin: 0 0 var(--eurob2b-space);
+	color: var(--eurob2b-muted);
+}
+
+.eurob2b-csv-order__file {
+	margin: 0 0 var(--eurob2b-space);
+}
+
+.eurob2b-csv-order__text {
+	margin: 0 0 var(--eurob2b-space);
+}
+
+.eurob2b-csv-order__rows {
+	width: 100%;
+	font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	font-size: 0.9em;
+	tab-size: 12;
+}
+
+.eurob2b-csv-order__mode {
+	margin: 0 0 var(--eurob2b-space);
+	padding: 0;
+	border: 0;
+}
+
+.eurob2b-csv-order__mode legend {
+	margin: 0 0 0.5rem;
+	padding: 0;
+	font-weight: 600;
+}
+
+.eurob2b-csv-order__mode label {
+	display: flex;
+	align-items: center;
+	gap: 0.6em;
+	margin: 0 0 0.4rem;
+	font-weight: normal;
+}
+
+/* Purchase lists -------------------------------------------------------------------------------- */
+
+.eurob2b-lists__items .eurob2b-lists__qty {
+	width: 6.5rem;
+}
+
+.eurob2b-lists__hint {
+	display: block;
+	color: var(--eurob2b-muted);
+	font-size: 0.85em;
+}
+
+.eurob2b-lists__row--unavailable td {
+	color: var(--eurob2b-muted);
+}
+
+.eurob2b-lists__panel {
+	margin: 2rem 0 0;
+	padding: 1.5rem 0 0;
+	border-top: 1px solid var(--eurob2b-line);
+}
+
+.eurob2b-lists__import {
+	margin: 0 0 var(--eurob2b-space);
+}
+
+.eurob2b-lists__import summary {
+	cursor: pointer;
+	font-weight: 600;
+}
+
+.eurob2b-lists__import form {
+	max-width: 42rem;
+	margin: 0.75rem 0 0;
+}
+
+.eurob2b-lists__import-rows {
+	width: 100%;
+	font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	font-size: 0.9em;
+	tab-size: 12;
+}
+
+.eurob2b-lists-save-cart--block {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.5rem;
+	margin: 1rem 0 0;
+}
+
+.eurob2b-lists-save-cart--block input[type="text"] {
+	flex: 0 1 16rem;
+	min-width: 0;
+}
+
+/* Classic cart: "Save as purchase list" and "Request a quote" sit in WooCommerce's cart actions, next to
+   the coupon field and "Update cart". Each takes a line of its own, in block layouts and in the flex
+   rows some themes and checkout plugins make of the actions. */
+.eurob2b-cart-action {
+	display: flex;
+	flex: 1 1 100%;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 0.5rem;
+	clear: both;
+	width: 100%;
+	/* A cart-actions cell that a theme turned into a flex box loses its table width; the controls
+	   stay usable instead of shrinking with it. */
+	min-width: 16rem;
+	margin: 0.75rem 0 0;
+}
+
+/* WooCommerce sizes every `.input-text` in the cart actions for the coupon code (80px). */
+.woocommerce table.cart td.actions .eurob2b-cart-action .input-text,
+.eurob2b-cart-action .input-text {
+	flex: 0 1 16rem;
+	width: auto;
+	min-width: 0;
+	margin: 0;
+}
+
+@media (max-width: 768px) {
+	.woocommerce table.cart td.actions .eurob2b-cart-action .input-text,
+	.eurob2b-cart-action .input-text {
+		flex: 1 1 100%;
+	}
+
+	.eurob2b-cart-action .button {
+		flex: 1 1 100%;
+	}
+}
+
+/* Recommended retail price (PRC-009) ------------------------------------------------------------ */
+
+.eurob2b-rrp {
+	display: block;
+	margin-top: 0.15em;
+	color: var(--eurob2b-muted, inherit);
+	font-size: 0.85em;
+	font-weight: normal;
+}
+
+/* Quotes and offers ----------------------------------------------------------------------------- */
+
+.eurob2b-quotes__lines .eurob2b-quotes__qty {
+	width: 6.5rem;
+}
+
+.eurob2b-quotes__field {
+	margin: 0 0 var(--eurob2b-space);
+}
+
+.eurob2b-quotes__field input[type="text"],
+.eurob2b-quotes__field input[type="email"] {
+	width: 100%;
+	max-width: 32rem;
+}
+
+.eurob2b-quotes__meta {
+	margin: 0 0 var(--eurob2b-space);
+	color: var(--eurob2b-muted);
+}
+
+.eurob2b-quote-control {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.5rem var(--eurob2b-gap);
+	margin: 1rem 0;
+}
+
+.eurob2b-quote-control input[type="number"] {
+	width: 5.5rem;
+}
+
+.eurob2b-quote-from-cart--block {
+	margin: 1rem 0 0;
+}
+
+/* Conversations ----------------------------------------------------------------------------------- */
+
+.eurob2b-conversations__start {
+	margin: 0 0 var(--eurob2b-space);
+}
+
+.eurob2b-conversations__field {
+	margin: 0 0 var(--eurob2b-space);
+}
+
+.eurob2b-conversations__field input[type="text"],
+.eurob2b-conversations__field select,
+.eurob2b-conversations__field textarea {
+	width: 100%;
+	max-width: 40rem;
+}
+
+.eurob2b-conversations__table tr.is-unread a {
+	font-weight: 600;
+}
+
+.eurob2b-conversations__new {
+	margin-left: 0.4em;
+	font-size: 0.85em;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+}
+
+.eurob2b-conversations__meta {
+	margin: 0 0 var(--eurob2b-space);
+	color: var(--eurob2b-muted);
+}
+
+.eurob2b-conversations__messages {
+	max-width: 44rem;
+	margin: 0 0 var(--eurob2b-space);
+	padding: 0;
+	list-style: none;
+}
+
+.eurob2b-conversations__message {
+	margin: 0 0 var(--eurob2b-gap);
+	padding: 0.75em 1em;
+	border-left: 2px solid var(--eurob2b-line-strong);
+}
+
+.eurob2b-conversations__message.is-staff {
+	border-left-color: currentColor;
+	background: var(--eurob2b-tint);
+}
+
+.eurob2b-conversations__author {
+	margin: 0 0 0.4em;
+}
+
+.eurob2b-conversations__body > :last-child {
+	margin-bottom: 0;
+}
+
+/* Company and approvals ------------------------------------------------------------------------- */
+
+.eurob2b-company__me {
+	margin: 0 0 var(--eurob2b-space);
+}
+
+.eurob2b-company__contact {
+	margin: 0 0 2rem;
+}
+
+.eurob2b-company__fields {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 0 var(--eurob2b-space);
+	max-width: 42rem;
+}
+
+.eurob2b-company__fields .form-row {
+	margin: 0 0 1rem;
+}
+
+.eurob2b-company__fields .form-row-wide {
+	grid-column: 1 / -1;
+}
+
+.eurob2b-company__fields input[type="text"],
+.eurob2b-company__fields input[type="email"],
+.eurob2b-company__fields input[type="password"],
+.eurob2b-company__fields select {
+	width: 100%;
+}
+
+.eurob2b-company__fields label.eurob2b-checkbox {
+	display: flex;
+	align-items: center;
+	gap: 0.6em;
+	font-weight: normal;
+}
+
+.eurob2b-approvals__decide {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.eurob2b-approvals__decide input[type="text"] {
+	flex: 1 1 12rem;
+}
+
+@media (max-width: 640px) {
+	.eurob2b-company__fields {
+		grid-template-columns: 1fr;
+	}
+}
+
+/* Product page: tier table ---------------------------------------------------------------------- */
+
+.eurob2b-tier-table-wrap {
+	margin: 1rem 0 1.25rem;
+}
+
+:where(.eurob2b-ui) :where(table.eurob2b-tier-table) {
+	width: auto;
+	min-width: 14rem;
+	margin: 0;
+	border: 0;
+	border-collapse: collapse;
+	font-size: 0.95em;
+	font-variant-numeric: tabular-nums;
+}
+
+:where(.eurob2b-ui) :where(table.eurob2b-tier-table) :where(th, td) {
+	padding: 0.45em 1.5em 0.45em 0;
+	border: 0;
+	border-bottom: 1px solid var(--eurob2b-line);
+	text-align: left;
+}
+
+:where(.eurob2b-ui) :where(table.eurob2b-tier-table) :where(th) {
+	color: var(--eurob2b-muted);
+	font-size: 0.75rem;
+	font-weight: 600;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+
+:where(.eurob2b-ui) :where(table.eurob2b-tier-table) :where(tr.is-active td) {
+	font-weight: 600;
+}
+
+:where(.eurob2b-ui) :where(table.eurob2b-tier-table) :where(tr.is-active td:first-child) {
+	box-shadow: inset 2px 0 0 currentColor;
+	padding-left: 0.6em;
+}
+
+/* Product page: variations table ---------------------------------------------------------------- */
+
+.eurob2b-variation-table {
+	clear: both;
+	margin: var(--eurob2b-space) 0;
+}
+
+.eurob2b-variation-table__filters {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem var(--eurob2b-gap);
+	margin: 0 0 0.75rem;
+}
+
+.eurob2b-variation-table__filter {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+	min-width: 10rem;
+}
+
+:where(.eurob2b-ui) :where(.eurob2b-variation-table__filter > span) {
+	font-size: 0.75em;
+	font-weight: 600;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+
+.eurob2b-variation-table__table .eurob2b-cell-qty input {
+	width: 6.5rem;
+}
+
+/* Filtered rows and the swapped price stay hidden, also where stacked tables make rows blocks. */
+.eurob2b-ui .eurob2b-variation-table__table tbody tr[hidden],
+.eurob2b-ui .eurob2b-variation-table [hidden] {
+	display: none;
+}
+
+:where(.eurob2b-ui) :where(.eurob2b-variation-table__tiers) {
+	display: block;
+	color: var(--eurob2b-muted);
+	font-size: 0.85em;
+	white-space: normal;
+}
+
+:where(.eurob2b-ui) :where(.eurob2b-variation-table__table tr.is-selected td:first-child) {
+	box-shadow: inset 2px 0 0 currentColor;
+}
+
+:where(.eurob2b-ui) :where(.eurob2b-variation-table__total) {
+	margin: 0;
+	font-variant-numeric: tabular-nums;
+}
+
+/* Phones: one compact block per variation: variant and price on top, SKU and availability below,
+   the quantity field on the right. */
+@media (max-width: 640px) {
+	.eurob2b-ui table.eurob2b-variation-table__table thead {
+		display: none;
+	}
+
+	.eurob2b-ui table.eurob2b-variation-table__table tbody tr {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto;
+		align-items: center;
+		gap: 0.2rem 0.75rem;
+		padding: 0.85rem 0.75rem;
+		border-bottom: 1px solid var(--eurob2b-line);
+	}
+
+	.eurob2b-ui table.eurob2b-variation-table__table tbody td {
+		display: block;
+		padding: 0;
+		border: 0;
+		background: none;
+		text-align: left;
+	}
+
+	.eurob2b-ui table.eurob2b-variation-table__table tbody td.eurob2b-cell-main {
+		grid-column: 1;
+		grid-row: 1;
+		font-weight: 600;
+	}
+
+	.eurob2b-ui table.eurob2b-variation-table__table tbody td.eurob2b-num {
+		grid-column: 2;
+		grid-row: 1;
+		text-align: right;
+	}
+
+	.eurob2b-ui table.eurob2b-variation-table__table tbody td.eurob2b-cell-sku,
+	.eurob2b-ui table.eurob2b-variation-table__table tbody td.eurob2b-variation-table__stock {
+		grid-column: 1;
+		color: var(--eurob2b-muted);
+		font-size: 0.85em;
+	}
+
+	.eurob2b-ui table.eurob2b-variation-table__table tbody td.eurob2b-cell-qty {
+		grid-column: 2;
+		grid-row: 2 / span 2;
+		text-align: right;
+	}
+}
+
+/* Checkout: payment window hints ---------------------------------------------------------------- */
+
+:where(.eurob2b-payment-hints) {
+	margin: 0 0 1em;
+}
+
+:where(.eurob2b-payment-hint) {
+	margin: 0 0 0.35em;
+	padding: 0.5em 0.85em;
+	border-left: 2px solid currentColor;
+	font-size: 0.9em;
+}
+
+/* Checkout and registration: VAT ID check feedback ---------------------------------------------- */
+
+:where(.eurob2b-vat-feedback) {
+	margin: 0.4em 0 0;
+	font-size: 0.9em;
+}
+
+:where(.eurob2b-vat-feedback--error, .eurob2b-vat-feedback--invalid) {
+	color: #a12622;
+}
+
+:where(.eurob2b-vat-feedback--valid) {
+	color: #1f6b3a;
+}
+
+/* Log in as a member (CMP-011): a plain strip at the top while someone acts for a member --------- */
+
+.eurob2b-member-login {
+	position: sticky;
+	top: 0;
+	z-index: 1000;
+	background: var(--eurob2b-primary);
+	color: var(--eurob2b-on-primary);
+}
+
+.eurob2b-member-login__form {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--eurob2b-gap);
+	max-width: 72rem;
+	margin: 0 auto;
+	padding: 0.6rem 1rem;
+}
+
+.eurob2b-member-login__text {
+	flex: 1 1 20rem;
+	margin: 0;
+	font-size: 0.95em;
+}
+
+.eurob2b-member-login .button {
+	border: 1px solid currentColor;
+	background: var(--eurob2b-on-primary);
+	color: var(--eurob2b-primary);
+}
+
+@media (max-width: 30rem) {
+	.eurob2b-member-login .button {
+		width: 100%;
+	}
+}

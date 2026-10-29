@@ -1,0 +1,23 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "eurob2b/registration-form",
+  "version": "1.4.0",
+  "title": "EuroB2B Registration Form",
+  "category": "woocommerce",
+  "icon": "id-alt",
+  "description": "A registration form locked to one EuroB2B registration type, for example a dedicated business customer sign-up page.",
+  "keywords": ["b2b", "registration", "register", "wholesale"],
+  "textdomain": "eurob2b",
+  "attributes": {
+    "type": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "supports": {
+    "html": false,
+    "align": ["wide"]
+  },
+  "editorScript": "file:./index.js"
+}

@@ -1,0 +1,85 @@
+{
+  "name": "storetown-media/eurob2b",
+  "description": "EuroB2B – the complete B2B solution for WooCommerce, built for Europe.",
+  "type": "wordpress-plugin",
+  "license": "GPL-2.0-or-later",
+  "homepage": "https://github.com/storetown-media/eurob2b",
+  "require": {
+    "php": ">=8.1",
+    "ext-json": "*",
+    "ext-mbstring": "*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.6",
+    "yoast/phpunit-polyfills": "^4.0",
+    "squizlabs/php_codesniffer": "^3.10",
+    "wp-coding-standards/wpcs": "^3.1",
+    "phpcompatibility/phpcompatibility-wp": "^2.1",
+    "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+    "phpstan/phpstan": "^2.0",
+    "szepeviktor/phpstan-wordpress": "^2.0",
+    "php-stubs/woocommerce-stubs": "^11.2",
+    "brain/monkey": "^2.6",
+    "dompdf/dompdf": "3.1.6",
+    "brianhenryie/strauss": "0.26.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "EuroB2B\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "EuroB2B\\Tests\\": "tests/"
+    }
+  },
+  "extra": {
+    "strauss": {
+      "target_directory": "vendor-prefixed",
+      "namespace_prefix": "EuroB2B\\Vendor\\",
+      "classmap_prefix": "EuroB2B_Vendor_",
+      "constant_prefix": "EUROB2B_VENDOR_",
+      "packages": [
+        "dompdf/dompdf"
+      ],
+      "update_call_sites": false,
+      "delete_vendor_packages": false,
+      "delete_vendor_files": false,
+      "include_modified_date": false,
+      "include_author": false
+    }
+  },
+  "config": {
+    "sort-packages": true,
+    "optimize-autoloader": true,
+    "platform": {
+      "php": "8.1.0"
+    },
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
+  },
+  "scripts": {
+    "lint": "@php -l eurob2b.php && find src tests -name '*.php' -print0 | xargs -0 -n1 -P4 php -l > /dev/null",
+    "phpcs": "phpcs",
+    "phpcs:fix": "phpcbf",
+    "phpstan": "phpstan analyse --memory-limit=1G",
+    "test:unit": "phpunit --testsuite unit",
+    "test:integration": "phpunit --testsuite integration",
+    "test": "phpunit",
+    "editions": "@php bin/check-editions.php",
+    "check": [
+      "@editions",
+      "@phpcs",
+      "@phpstan",
+      "@test:unit"
+    ],
+    "prefix-vendor": "@php bin/prefix-vendor.php",
+    "post-install-cmd": [
+      "@prefix-vendor"
+    ],
+    "post-update-cmd": [
+      "@prefix-vendor"
+    ]
+  }
+}
