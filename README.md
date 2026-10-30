@@ -74,7 +74,7 @@ Beides. Feld für die USt-IdNr., Steuerentscheidung und Preisanzeige arbeiten in
 | | Für | Preis |
 |---|---|---|
 | **EuroB2B** | alle oben genannten Funktionen | **kostenlos** (GPLv2+) |
-| **[EuroB2B Pro](https://www.storetown-media.de/produkt/eurob2b-pro-woocommerce/)** | zusätzlich Firmenkonten, Angebote, Bestellformular, Staffelpreise, Rechnungskauf, Steuerberichte und mehr | ab **199 €** netto im Jahr |
+| **[EuroB2B Pro](https://www.storetown-media.de/produkt/eurob2b-pro-woocommerce/)** | zusätzlich Firmenkonten, Angebote, Bestellformular, Staffelpreise, Rechnungskauf, Steuerberichte und mehr | ab **249 €** im Jahr (inkl. MwSt.) |
 
 Alles, was auf dieser Seite beschrieben ist, steckt in der kostenlosen Edition und bleibt dort.
 
