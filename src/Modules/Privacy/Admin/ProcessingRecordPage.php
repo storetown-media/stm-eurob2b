@@ -12,6 +12,7 @@ namespace EuroB2B\Modules\Privacy\Admin;
 use EuroB2B\Infrastructure\Capabilities;
 use EuroB2B\Modules\Admin\Menu;
 use EuroB2B\Modules\Admin\PageHeader;
+use EuroB2B\Modules\Admin\SettingsPage;
 use EuroB2B\Modules\Privacy\ProcessingRecord;
 
 /**
@@ -87,6 +88,9 @@ final class ProcessingRecordPage {
 		$this->check_capability();
 		PageHeader::open( 'eurob2b-processing-record', __( 'Record of processing activities', 'eurob2b' ) );
 		echo '<p>' . esc_html__( 'A draft for your record of processing activities under Art. 30 GDPR, built from the current EuroB2B settings. Print it or save it as a PDF from the print view, or download it as an HTML file that you can edit in a word processor.', 'eurob2b' ) . '</p>';
+		$settings = '<a href="' . esc_url( Menu::url( SettingsPage::SLUG, array( 'tab' => 'privacy' ) ) ) . '">' . esc_html__( 'EuroB2B → Settings → Privacy and data', 'eurob2b' ) . '</a>';
+		/* translators: %s: link to the privacy settings */
+		echo '<p>' . sprintf( esc_html__( 'Phone and e-mail address, contact person, joint controllers, the representative in the EU and the data protection officer are entered under %s; until then the record says "please add".', 'eurob2b' ), $settings ) . '</p>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- the link is built from escaped parts above.
 		echo '<p><a class="button button-primary" href="' . esc_url( self::document_url() ) . '" target="_blank" rel="noopener">' . esc_html__( 'Print view', 'eurob2b' ) . '</a> ';
 		echo '<a class="button" href="' . esc_url( self::document_url( true ) ) . '">' . esc_html__( 'Download as HTML file', 'eurob2b' ) . '</a></p>';
 		echo '<style>' . self::CSS . '</style>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- constant stylesheet.

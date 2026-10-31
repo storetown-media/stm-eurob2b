@@ -4,7 +4,7 @@ Tags: b2b, wholesale, vat, reverse charge, customer groups
 Requires at least: 6.7
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.5.0
+Stable tag: 1.6.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -98,6 +98,11 @@ EuroB2B connects to one external service, and only when you use it:
 == Changelog ==
 
 The full changelog is in CHANGELOG.md in the plugin folder and on https://github.com/storetown-media/eurob2b.
+
+= 1.6.0 =
+* Confirm the review of orders whose tax treatment EuroB2B could not decide itself; the overview lists them.
+* Contact details, data protection officer and representative for the record of processing activities in the privacy settings.
+* Summaries in the EuroB2B product tab.
 
 = 1.5.0 =
 * Clearer admin: the EuroB2B menu is grouped into areas with an overview of what is waiting, settings with a side navigation, coloured statuses and a product data tab of its own.

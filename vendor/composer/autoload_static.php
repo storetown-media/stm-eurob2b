@@ -209,6 +209,7 @@ class ComposerStaticInit95dd42046cc0e4279f8ebe4fd6b5b402
         'EuroB2B\\Modules\\Rules\\Scope' => __DIR__ . '/../..' . '/src/Modules/Rules/Scope.php',
         'EuroB2B\\Modules\\Tax\\Admin\\ProductSupplyTypeField' => __DIR__ . '/../..' . '/src/Modules/Tax/Admin/ProductSupplyTypeField.php',
         'EuroB2B\\Modules\\Tax\\Admin\\TaxReports' => __DIR__ . '/../..' . '/src/Modules/Tax/Admin/TaxReports.php',
+        'EuroB2B\\Modules\\Tax\\Admin\\TaxReviewAdmin' => __DIR__ . '/../..' . '/src/Modules/Tax/Admin/TaxReviewAdmin.php',
         'EuroB2B\\Modules\\Tax\\Admin\\ValidationsPage' => __DIR__ . '/../..' . '/src/Modules/Tax/Admin/ValidationsPage.php',
         'EuroB2B\\Modules\\Tax\\Export\\ExportEvidenceDataProvider' => __DIR__ . '/../..' . '/src/Modules/Tax/Export/ExportEvidenceDataProvider.php',
         'EuroB2B\\Modules\\Tax\\Export\\ExportEvidenceRecords' => __DIR__ . '/../..' . '/src/Modules/Tax/Export/ExportEvidenceRecords.php',

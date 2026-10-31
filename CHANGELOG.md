@@ -4,6 +4,21 @@ All notable changes to EuroB2B are documented here. The format follows [Keep a C
 
 ## [Unreleased]
 
+## [1.6.0] – 2026-10-31
+
+Follow-ups of the reorganised admin: a confirmation for orders whose tax treatment EuroB2B could not decide itself, with a line on the overview and a filtered order list; the controller details of the record of processing activities in the privacy settings; a summary next to each section of the product tab; clearer colours in the quote list. No database migration (database version stays 12). New personal data, approved by the product owner: the controller details the shop enters (data inventory D-34, never exported, removed on every uninstall) and the user id of the staff member who confirms a tax review (D-05, removed by WooCommerce's order anonymisation).
+
+### Added
+- Controller details for the record of processing activities (PRV-010): *EuroB2B → Settings → Privacy and data* has fields for the phone and e-mail address, the contact person, joint controllers, the representative in the EU and the data protection officer. The record shows them on its cover sheet instead of "please add", and its page links to the fields. The details stay on the site: they are not part of the settings export and are deleted whenever EuroB2B is deleted, also without *Remove all data on uninstall* (data inventory D-34).
+- Tax review of flagged orders: when EuroB2B could not decide the tax itself (VAT ID check unavailable or pending, pick-up, a country rule not reviewed yet), the order screen now offers *Mark the tax treatment as reviewed* (capability `eurob2b_decide_validation`). EuroB2B stores who and when (`_eurob2b_tax_reviewed_at`, `_eurob2b_tax_reviewed_by`), writes the audit log (*Tax treatment reviewed*) and shows the treatment as *reviewed* in green; the flag stays as evidence and the audit file adds *Review confirmed*. The overview gets the line *Orders whose tax treatment needs a review*, whose button opens the order list filtered to them (HPOS and the legacy list). The staff member's id goes with WooCommerce's order anonymisation (product owner decision of 2026-10-31).
+
+### Changed
+- Quote list colours (PLT-017): a request whose offer was sent (*Offer sent*) is now green like an answered request, because nothing is left to do for it; the offer itself stays yellow (*Sent*) until the customer accepts (green) or declines (red).
+- Product screen (PLT-017): each section of the *EuroB2B* product data tab shows a short summary of its saved values next to its title, so the closed sections tell what is set: e.g. *2 of 4 groups with their own price · 1 customer price*, *for all customers and Wholesale*, *minimum 10 · step 5*, *shared stock*, *Visible to everyone*, *Goods*. Each part appears only for users who may see the fields behind it. Developers can add parts with the filter `eurob2b_product_panel_summary`.
+
+### Fixed
+- Menu paths in two more texts (PLT-017): the description of the payment reminder e-mail and of the invoice payment gateway now name the area, *EuroB2B → Accounting → Overdue orders* and *EuroB2B → Prices & rules → Payment & shipping*.
+
 ## [1.5.0] – 2026-10-31
 
 A calmer, clearer admin for EuroB2B and EuroB2B Pro (PLT-017): the menu is grouped into seven areas with an overview of what is waiting, the settings have a side navigation, statuses are coloured labels and the product fields have their own product data tab. Every page keeps its URL. No database migration (database version stays 12), no new personal data and no new external connection.

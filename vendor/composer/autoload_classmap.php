@@ -194,6 +194,7 @@ return array(
     'EuroB2B\\Modules\\Rules\\Scope' => $baseDir . '/src/Modules/Rules/Scope.php',
     'EuroB2B\\Modules\\Tax\\Admin\\ProductSupplyTypeField' => $baseDir . '/src/Modules/Tax/Admin/ProductSupplyTypeField.php',
     'EuroB2B\\Modules\\Tax\\Admin\\TaxReports' => $baseDir . '/src/Modules/Tax/Admin/TaxReports.php',
+    'EuroB2B\\Modules\\Tax\\Admin\\TaxReviewAdmin' => $baseDir . '/src/Modules/Tax/Admin/TaxReviewAdmin.php',
     'EuroB2B\\Modules\\Tax\\Admin\\ValidationsPage' => $baseDir . '/src/Modules/Tax/Admin/ValidationsPage.php',
     'EuroB2B\\Modules\\Tax\\Export\\ExportEvidenceDataProvider' => $baseDir . '/src/Modules/Tax/Export/ExportEvidenceDataProvider.php',
     'EuroB2B\\Modules\\Tax\\Export\\ExportEvidenceRecords' => $baseDir . '/src/Modules/Tax/Export/ExportEvidenceRecords.php',

@@ -32,6 +32,7 @@ final class AuditLog {
 	public const ACTION_MEMBER_LOGOUT         = 'member_login_ended';
 	public const ACTION_MEMBER_ORDER          = 'member_login_order';
 	public const ACTION_EXPORT_EVIDENCE       = 'export_evidence_changed';
+	public const ACTION_TAX_REVIEWED          = 'tax_review_confirmed';
 
 	public const OBJECT_USER  = 'user';
 	public const OBJECT_ORDER = 'order';
@@ -61,6 +62,7 @@ final class AuditLog {
 			self::ACTION_MEMBER_LOGOUT,
 			self::ACTION_MEMBER_ORDER,
 			self::ACTION_EXPORT_EVIDENCE,
+			self::ACTION_TAX_REVIEWED,
 		);
 	}
 

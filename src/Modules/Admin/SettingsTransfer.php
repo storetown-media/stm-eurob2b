@@ -9,6 +9,7 @@ declare( strict_types=1 );
 
 namespace EuroB2B\Modules\Admin;
 
+use EuroB2B\Infrastructure\Schema;
 use EuroB2B\Modules\Customers\CustomerType;
 use EuroB2B\Modules\Customers\Group;
 use EuroB2B\Modules\Customers\GroupRepository;
@@ -57,9 +58,10 @@ final class SettingsTransfer {
 	private const CORE_KEYS = array( 'format', 'version', 'plugin_version', 'exported_at', 'groups', 'settings', 'registration_types', 'registration_fields' );
 
 	/**
-	 * Settings that never travel: the uninstall opt-in decides about data deletion on this site only.
+	 * Settings that never travel: the uninstall opt-in decides about data deletion on this site only;
+	 * the controller details of the record of processing activities are personal data of this site.
 	 */
-	public const LOCAL_SETTINGS = array( 'remove_data_on_uninstall' );
+	public const LOCAL_SETTINGS = array( 'remove_data_on_uninstall', ...Schema::RECORD_CONTROLLER_SETTINGS );
 
 	/**
 	 * Settings.

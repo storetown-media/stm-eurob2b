@@ -10,6 +10,7 @@ declare( strict_types=1 );
 namespace EuroB2B\Modules\Privacy;
 
 use EuroB2B\Modules\Admin\Settings;
+use EuroB2B\Modules\Admin\SettingsSchema;
 use EuroB2B\Modules\Registration\FieldDefinition;
 use EuroB2B\Modules\Registration\FieldRepository;
 use EuroB2B\Modules\Tax\VatIdField;
@@ -57,6 +58,7 @@ final class ProcessingRecord {
 		'D-26' => 'The OSS threshold totals hold no personal data: sums and order counts per year and a shop-wide list of hidden notices.',
 		'D-27' => 'The audit file stores nothing: it compiles, on request, records already listed under EB-03 (including the proof of supply and the export evidence), EB-05 and EB-10 for the tax audit of an order; the temporary ZIP is deleted right after the download.',
 		'D-32' => 'The Northern Ireland notice holds no personal data: a shop-wide yes/no whether such orders or customers were found and whether the notice was hidden.',
+		'D-34' => 'The controller details are the cover sheet of the record itself (Art. 30(1)(a) GDPR), not a processing of the customers of the shop.',
 	);
 
 	/**
@@ -78,6 +80,34 @@ final class ProcessingRecord {
 	 */
 	public function __construct( Settings $settings ) {
 		$this->settings = $settings;
+	}
+
+	/**
+	 * Settings fields for the controller details the shop does not know by itself (Art. 30(1)(a) GDPR),
+	 * in the section *Privacy and data*. Kept on this site only (`Schema::RECORD_CONTROLLER_SETTINGS`).
+	 *
+	 * @param SettingsSchema $schema Schema.
+	 */
+	public static function settings_schema( SettingsSchema $schema ): void {
+		$fields = array(
+			'record_contact'           => array( __( 'Phone and e-mail address', 'eurob2b' ), SettingsSchema::TYPE_TEXTAREA, __( 'For the controller sheet of the record of processing activities (EuroB2B → Settings → Processing record); empty fields are marked "please add" there, write "none" where something does not apply. These details stay on this site: they are not part of the settings export and are deleted when EuroB2B is deleted.', 'eurob2b' ) ),
+			'record_contact_person'    => array( __( 'Contact person', 'eurob2b' ), SettingsSchema::TYPE_TEXT, '' ),
+			'record_joint_controllers' => array( __( 'Joint controllers (Art. 26 GDPR)', 'eurob2b' ), SettingsSchema::TYPE_TEXTAREA, '' ),
+			'record_eu_representative' => array( __( 'Representative in the EU (Art. 27 GDPR)', 'eurob2b' ), SettingsSchema::TYPE_TEXTAREA, '' ),
+			'record_dpo'               => array( __( 'Data protection officer (Art. 37 GDPR)', 'eurob2b' ), SettingsSchema::TYPE_TEXTAREA, __( 'Name and contact details.', 'eurob2b' ) ),
+		);
+		foreach ( $fields as $id => list( $label, $type, $description ) ) {
+			$schema->add_field(
+				array(
+					'id'          => $id,
+					'section'     => 'privacy',
+					'label'       => $label,
+					'description' => $description,
+					'type'        => $type,
+					'default'     => '',
+				)
+			);
+		}
 	}
 
 	/**
@@ -460,9 +490,10 @@ final class ProcessingRecord {
 	}
 
 	/**
-	 * Name and contact details of the controller as far as the shop knows them (Art. 30(1)(a)).
+	 * Name and contact details of the controller (Art. 30(1)(a)): name, address and website from the
+	 * site and the WooCommerce store, the rest from the settings of *Privacy and data* (empty when not set).
 	 *
-	 * @return array{name: string, address: string, website: string}
+	 * @return array{name: string, address: string, website: string, contact: string, contact_person: string, joint_controllers: string, eu_representative: string, dpo: string}
 	 */
 	public function controller(): array {
 		$address = '';
@@ -482,9 +513,14 @@ final class ProcessingRecord {
 		}
 		// Plain text: WordPress stores the site title HTML-escaped; html() escapes once on output.
 		return array(
-			'name'    => wp_specialchars_decode( (string) get_bloginfo( 'name' ), ENT_QUOTES ),
-			'address' => trim( wp_specialchars_decode( $address, ENT_QUOTES ) ),
-			'website' => (string) home_url( '/' ),
+			'name'              => wp_specialchars_decode( (string) get_bloginfo( 'name' ), ENT_QUOTES ),
+			'address'           => trim( wp_specialchars_decode( $address, ENT_QUOTES ) ),
+			'website'           => (string) home_url( '/' ),
+			'contact'           => trim( (string) $this->settings->get( 'record_contact' ) ),
+			'contact_person'    => trim( (string) $this->settings->get( 'record_contact_person' ) ),
+			'joint_controllers' => trim( (string) $this->settings->get( 'record_joint_controllers' ) ),
+			'eu_representative' => trim( (string) $this->settings->get( 'record_eu_representative' ) ),
+			'dpo'               => trim( (string) $this->settings->get( 'record_dpo' ) ),
 		);
 	}
 
@@ -497,6 +533,7 @@ final class ProcessingRecord {
 		$not_in_use = array_values( array_filter( $activities, static fn( array $a ): bool => ! $a['in_use'] ) );
 		$controller = $this->controller();
 		$missing    = '<span class="eurob2b-record__todo">' . esc_html__( 'please add', 'eurob2b' ) . '</span>';
+		$text       = static fn( string $value ): string => '' !== $value ? nl2br( esc_html( $value ), false ) : $missing;
 
 		$html  = '<div class="eurob2b-record">';
 		$html .= '<p class="eurob2b-record__scope">' . esc_html__( 'This draft covers only the processing that EuroB2B adds to the shop. Your record also needs the processing of WordPress, WooCommerce and other plugins, of your hosting, e-mail delivery, payment and shipping services and of your business outside the shop. Check every entry, add what is missing and remove what does not apply. Legal bases are candidates that you should review with your data protection advisor. Whether you must keep a record follows from Art. 30(5) GDPR.', 'eurob2b' ) . '</p>';
@@ -506,11 +543,11 @@ final class ProcessingRecord {
 			__( 'Name', 'eurob2b' )                     => '' !== $controller['name'] ? esc_html( $controller['name'] ) : $missing,
 			__( 'Address', 'eurob2b' )                  => '' !== $controller['address'] ? nl2br( esc_html( $controller['address'] ), false ) : $missing,
 			__( 'Website', 'eurob2b' )                  => esc_html( $controller['website'] ),
-			__( 'Phone and e-mail address', 'eurob2b' ) => $missing,
-			__( 'Contact person', 'eurob2b' )           => $missing,
-			__( 'Joint controllers (Art. 26 GDPR)', 'eurob2b' ) => $missing,
-			__( 'Representative in the EU (Art. 27 GDPR)', 'eurob2b' ) => $missing,
-			__( 'Data protection officer (Art. 37 GDPR)', 'eurob2b' ) => $missing,
+			__( 'Phone and e-mail address', 'eurob2b' ) => $text( $controller['contact'] ),
+			__( 'Contact person', 'eurob2b' )           => $text( $controller['contact_person'] ),
+			__( 'Joint controllers (Art. 26 GDPR)', 'eurob2b' ) => $text( $controller['joint_controllers'] ),
+			__( 'Representative in the EU (Art. 27 GDPR)', 'eurob2b' ) => $text( $controller['eu_representative'] ),
+			__( 'Data protection officer (Art. 37 GDPR)', 'eurob2b' ) => $text( $controller['dpo'] ),
 		);
 		foreach ( $rows as $label => $value ) {
 			$html .= '<tr><th scope="row">' . esc_html( $label ) . '</th><td>' . $value . '</td></tr>';

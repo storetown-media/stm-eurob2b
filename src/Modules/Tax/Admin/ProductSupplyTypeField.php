@@ -22,7 +22,24 @@ final class ProductSupplyTypeField {
 	 */
 	public function hooks(): void {
 		add_action( 'eurob2b_product_panel_tax', array( $this, 'render' ) );
+		add_filter( 'eurob2b_product_panel_summary', array( $this, 'summary' ), 10, 3 );
 		add_action( 'woocommerce_admin_process_product_object', array( $this, 'save' ) );
+	}
+
+	/**
+	 * Summary of the section "tax" of the EuroB2B product tab: goods or service.
+	 *
+	 * @param mixed  $parts   Parts.
+	 * @param string $key     Section key.
+	 * @param mixed  $product Product.
+	 * @return mixed
+	 */
+	public function summary( $parts, $key, $product ) {
+		if ( 'tax' !== $key || ! is_array( $parts ) || ! $product instanceof WC_Product ) {
+			return $parts;
+		}
+		$parts[] = SupplyType::SERVICES === SupplyType::of( $product ) ? __( 'Service', 'eurob2b' ) : __( 'Goods', 'eurob2b' );
+		return $parts;
 	}
 
 	/**

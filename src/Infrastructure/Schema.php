@@ -29,6 +29,13 @@ final class Schema {
 	public const ACTION_GROUP           = 'eurob2b';
 
 	/**
+	 * Settings with the controller details of the record of processing activities (PRV-010): contact
+	 * details and names of people, so they never travel with a settings export and are removed whenever
+	 * EuroB2B is deleted, also without the opt-in to remove all data (product owner decision of 2026-10-31).
+	 */
+	public const RECORD_CONTROLLER_SETTINGS = array( 'record_contact', 'record_contact_person', 'record_joint_controllers', 'record_eu_representative', 'record_dpo' );
+
+	/**
 	 * Table suffixes (without the WordPress prefix).
 	 *
 	 * @return string[]

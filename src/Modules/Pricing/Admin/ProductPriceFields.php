@@ -55,13 +55,39 @@ final class ProductPriceFields {
 	 */
 	public function hooks(): void {
 		add_action( 'eurob2b_product_panel_prices', array( $this, 'render_product_fields' ) );
+		add_filter( 'eurob2b_product_panel_summary', array( $this, 'summary' ), 10, 3 );
 		add_action( 'woocommerce_admin_process_product_object', array( $this, 'save_product' ) );
 		add_action( 'woocommerce_variation_options_pricing', array( $this, 'render_variation_fields' ), 10, 3 );
 		add_action( 'woocommerce_save_product_variation', array( $this, 'save_variation' ), 10, 2 );
 	}
 
 	/**
-	 * Fields in the "General" tab, after WooCommerce's own prices.
+	 * Summary of the section "prices" of the EuroB2B product tab: how many groups have a price.
+	 *
+	 * @param mixed  $parts   Parts.
+	 * @param string $key     Section key.
+	 * @param mixed  $product Product.
+	 * @return mixed
+	 */
+	public function summary( $parts, $key, $product ) {
+		if ( 'prices' !== $key || ! is_array( $parts ) || ! $product instanceof WC_Product || ! current_user_can( Capabilities::MANAGE_GROUPS ) ) {
+			return $parts;
+		}
+		$groups = $this->sorted_groups();
+		if ( empty( $groups ) ) {
+			return $parts;
+		}
+		$own = 0;
+		foreach ( $groups as $group ) {
+			$own += '' !== (string) $this->prices->get( $product, $group->id, Currency::of_group( $group ) )['regular'] ? 1 : 0;
+		}
+		/* translators: 1: groups with a group price on this product, 2: all groups */
+		$parts[] = sprintf( _n( '%1$d of %2$d group with its own price', '%1$d of %2$d groups with their own price', count( $groups ), 'eurob2b' ), $own, count( $groups ) );
+		return $parts;
+	}
+
+	/**
+	 * Fields of the section "prices" of the EuroB2B product tab.
 	 */
 	public function render_product_fields(): void {
 		if ( ! current_user_can( Capabilities::MANAGE_GROUPS ) ) {

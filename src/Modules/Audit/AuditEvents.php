@@ -55,6 +55,21 @@ final class AuditEvents {
 		add_action( 'eurob2b_customer_assigned', array( $this, 'customer_assigned' ), 10, 8 );
 		add_action( 'eurob2b_vat_decided', array( $this, 'vat_decided' ), 10, 3 );
 		add_action( 'eurob2b_export_evidence_changed', array( $this, 'export_evidence_changed' ), 10, 5 );
+		add_action( 'eurob2b_tax_review_confirmed', array( $this, 'tax_review_confirmed' ), 10, 2 );
+	}
+
+	/**
+	 * A staff member confirmed the review of an order whose tax treatment EuroB2B flagged. Old value:
+	 * empty; new value: `reviewed`. The concerned person is the order's customer (0 for guests).
+	 *
+	 * @param mixed $order    Order.
+	 * @param mixed $actor_id Staff user.
+	 */
+	public function tax_review_confirmed( $order, $actor_id ): void {
+		if ( ! $order instanceof WC_Order ) {
+			return;
+		}
+		$this->log->record( AuditLog::ACTION_TAX_REVIEWED, (int) $actor_id, (int) $order->get_customer_id(), AuditLog::OBJECT_ORDER, (int) $order->get_id(), '', 'reviewed' );
 	}
 
 	/**

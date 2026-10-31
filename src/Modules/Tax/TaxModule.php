@@ -20,6 +20,7 @@ use EuroB2B\Modules\Pricing\PricingContext;
 use EuroB2B\Modules\Privacy\PrivateFiles;
 use EuroB2B\Modules\Tax\Admin\ProductSupplyTypeField;
 use EuroB2B\Modules\Tax\Admin\TaxReports;
+use EuroB2B\Modules\Tax\Admin\TaxReviewAdmin;
 use EuroB2B\Modules\Tax\Admin\ValidationsPage;
 use EuroB2B\Modules\Tax\Export\ExportEvidenceDataProvider;
 use EuroB2B\Modules\Tax\Export\ExportEvidenceRecords;
@@ -154,7 +155,10 @@ final class TaxModule extends AbstractModule {
 			add_action( 'eurob2b_vat_validations_page_end', static fn() => $c->get( TaxReports::class )->render_profiles(), 20 );
 			add_action( 'admin_notices', static fn() => $c->get( TaxReports::class )->render_rate_warning() );
 			$c->get( ProductSupplyTypeField::class )->hooks();
+			( new TaxReviewAdmin() )->hooks();
 		}
+		// The staff member who confirmed a tax review goes with WooCommerce's order anonymisation.
+		add_action( 'woocommerce_privacy_remove_order_personal_data', array( TaxReviewAdmin::class, 'anonymise_order' ) );
 	}
 
 	/**

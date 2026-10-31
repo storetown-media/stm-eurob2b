@@ -53,6 +53,7 @@ final class PrivacyModule extends AbstractModule {
 		$c->set( ProcessingRecordPage::class, static fn( Container $c ): ProcessingRecordPage => new ProcessingRecordPage( $c->get( ProcessingRecord::class ) ) );
 		$c->set( PrivacySelfTest::class, static fn(): PrivacySelfTest => new PrivacySelfTest() );
 		ProDataPrivacy::register( $c );
+		add_action( 'eurob2b_settings_schema', array( ProcessingRecord::class, 'settings_schema' ) );
 	}
 
 	/**

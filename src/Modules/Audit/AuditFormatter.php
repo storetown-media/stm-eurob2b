@@ -56,6 +56,7 @@ final class AuditFormatter {
 			AuditLog::ACTION_MEMBER_LOGOUT         => __( 'Acting as a company member ended', 'eurob2b' ),
 			AuditLog::ACTION_MEMBER_ORDER          => __( 'Order placed while acting as a member', 'eurob2b' ),
 			AuditLog::ACTION_EXPORT_EVIDENCE       => __( 'Export evidence changed', 'eurob2b' ),
+			AuditLog::ACTION_TAX_REVIEWED          => __( 'Tax treatment reviewed', 'eurob2b' ),
 		);
 	}
 
@@ -108,6 +109,8 @@ final class AuditFormatter {
 				return $labels[ $value ] ?? $value;
 			case AuditLog::ACTION_EXPORT_EVIDENCE:
 				return self::export_evidence_value( $value );
+			case AuditLog::ACTION_TAX_REVIEWED:
+				return 'reviewed' === $value ? __( 'Reviewed', 'eurob2b' ) : $value;
 		}//end switch
 		/**
 		 * Label of a stored value the core does not know, e.g. why acting as a member ended

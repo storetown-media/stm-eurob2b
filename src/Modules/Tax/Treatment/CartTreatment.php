@@ -15,6 +15,7 @@ use EuroB2B\Modules\Countries\CountryProfiles;
 use EuroB2B\Modules\Countries\CountryRegistry;
 use EuroB2B\Modules\Customers\AudienceContext;
 use EuroB2B\Modules\Customers\AudienceResolver;
+use EuroB2B\Modules\Tax\Admin\TaxReviewAdmin;
 use EuroB2B\Modules\Tax\Validation\ValidationService;
 use EuroB2B\Modules\Tax\VatId\ValidationStatus;
 use EuroB2B\Modules\Tax\VatId\VatId;
@@ -415,8 +416,8 @@ final class CartTreatment {
 		if ( ! is_array( $tones ) || ! is_array( $rows ) || ! $order instanceof WC_Order ) {
 			return $tones;
 		}
-		if ( 'yes' === (string) $order->get_meta( self::META_NEEDS_REVIEW, true ) ) {
-			$tones[ __( 'Tax treatment', 'eurob2b' ) ] = StatusLabel::BAD;
+		if ( TaxReviewAdmin::flagged( $order ) ) {
+			$tones[ __( 'Tax treatment', 'eurob2b' ) ] = TaxReviewAdmin::reviewed( $order ) ? StatusLabel::OK : StatusLabel::BAD;
 		}
 		return $tones;
 	}
@@ -436,7 +437,8 @@ final class CartTreatment {
 		if ( null === $treatment ) {
 			return $rows;
 		}
-		$rows[ __( 'Tax treatment', 'eurob2b' ) ] = self::treatment_label( $treatment ) . ( 'yes' === (string) $order->get_meta( self::META_NEEDS_REVIEW, true ) ? ' – ' . __( 'needs review', 'eurob2b' ) : '' );
+		$review                                   = TaxReviewAdmin::reviewed( $order ) ? __( 'reviewed', 'eurob2b' ) : __( 'needs review', 'eurob2b' );
+		$rows[ __( 'Tax treatment', 'eurob2b' ) ] = self::treatment_label( $treatment ) . ( TaxReviewAdmin::flagged( $order ) ? ' – ' . $review : '' );
 		$reason                                   = (string) $order->get_meta( self::META_REASON_CODE, true );
 		if ( '' !== $reason ) {
 			$rows[ __( 'Reason', 'eurob2b' ) ] = self::reason_label( $reason );

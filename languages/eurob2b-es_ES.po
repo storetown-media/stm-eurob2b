@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: EuroB2B\n"
 "Report-Msgid-Bugs-To: https://github.com/storetown-media/eurob2b/issues\n"
-"PO-Revision-Date: 2026-10-31 08:36+0000\n"
+"PO-Revision-Date: 2026-10-31 13:20+0000\n"
 "Last-Translator: Storetown Media\n"
 "Language-Team: Spanish (Spain)\n"
 "Language: es_ES\n"
@@ -20,10 +20,10 @@ msgid "Empty: everyone. Tokens: all, registered, b2b, b2c, guest, group:<id>, us
 msgstr "Vacío: todos. Códigos: all, registered, b2b, b2c, guest, group:<id>, user:<id>, bought:<product id>."
 
 #: assets/js/block-visibility.js:54
-#: src/Modules/Access/Admin/VisibilityFields.php:104
-#: src/Modules/Access/Admin/VisibilityFields.php:120
-#: src/Modules/Access/Admin/VisibilityFields.php:152
-#: src/Modules/Access/Admin/VisibilityFields.php:200
+#: src/Modules/Access/Admin/VisibilityFields.php:105
+#: src/Modules/Access/Admin/VisibilityFields.php:121
+#: src/Modules/Access/Admin/VisibilityFields.php:174
+#: src/Modules/Access/Admin/VisibilityFields.php:222
 msgid "EuroB2B visibility"
 msgstr "Visibilidad de EuroB2B"
 
@@ -128,7 +128,7 @@ msgstr "presupuesto"
 
 #: blocks/offers/index.js:25
 #: src/Modules/Privacy/ProData/QuotesDataProvider.php:78
-#: src/Modules/Quotes/Admin/QuotesPage.php:451
+#: src/Modules/Quotes/Admin/QuotesPage.php:452
 #: src/Modules/Quotes/OfferCheckout.php:447
 #: src/Modules/Quotes/QuoteAccount.php:416
 msgid "Offer"
@@ -329,8 +329,8 @@ msgid "visibility"
 msgstr "visibilidad"
 
 #: blocks/restricted-content/index.js:38
-#: src/Modules/Ordering/Admin/ProductQuantityFields.php:122
-#: src/Modules/Ordering/Admin/ProductQuantityFields.php:75
+#: src/Modules/Ordering/Admin/ProductQuantityFields.php:114
+#: src/Modules/Ordering/Admin/ProductQuantityFields.php:161
 #: src/Modules/Rules/Admin/RulesPage.php:417
 #: src/Modules/Rules/Admin/RulesPage.php:546
 msgid "Audience"
@@ -387,7 +387,7 @@ msgstr "B2B para WooCommerce, pensado para Europa: clientes empresariales, preci
 #: eurob2b.php:Plugin-Name
 #: src/Modules/Admin/Menu.php:218
 #: src/Modules/Admin/Menu.php:219
-#: src/Modules/Admin/ProductDataTab.php:87
+#: src/Modules/Admin/ProductDataTab.php:91
 msgid "EuroB2B"
 msgstr "EuroB2B"
 
@@ -525,91 +525,94 @@ msgstr "Texto para clientes particulares"
 msgid "With \"Business customers only\": shown to logged-in private customers instead of the price and, with \"Hide the shop\", as the notice after the redirect. Empty: \"This shop sells to approved business customers only.\""
 msgstr "Con «Solo clientes empresariales»: se muestra a los clientes particulares con sesión iniciada en lugar del precio y, con «Ocultar la tienda», como aviso tras la redirección. Vacío: «Esta tienda solo vende a clientes empresariales aprobados.»"
 
-#: src/Modules/Access/Admin/VisibilityFields.php:107
-#: src/Modules/Access/Admin/VisibilityFields.php:123
+#: src/Modules/Access/Admin/VisibilityFields.php:108
+#: src/Modules/Access/Admin/VisibilityFields.php:124
 msgid "Hidden categories and their products vanish from the shop, search, menus and widgets for the other audiences; products in sub-categories follow."
 msgstr "Las categorías ocultas y sus productos desaparecen de la tienda, la búsqueda, los menús y los widgets para los demás públicos; los productos de las subcategorías las siguen."
 
-#: src/Modules/Access/Admin/VisibilityFields.php:154
-msgid "Follow the categories"
-msgstr "Seguir las categorías"
-
-#: src/Modules/Access/Admin/VisibilityFields.php:155
-#: src/Modules/Access/Admin/VisibilityFields.php:97
+#: src/Modules/Access/Admin/VisibilityFields.php:157
+#: src/Modules/Access/Admin/VisibilityFields.php:177
+#: src/Modules/Access/Admin/VisibilityFields.php:98
 msgid "Visible to everyone"
 msgstr "Visible para todos"
 
-#: src/Modules/Access/Admin/VisibilityFields.php:156
-#: src/Modules/Access/Admin/VisibilityFields.php:203
-#: src/Modules/Access/Admin/VisibilityFields.php:97
+#: src/Modules/Access/Admin/VisibilityFields.php:158
+#: src/Modules/Access/Admin/VisibilityFields.php:178
+#: src/Modules/Access/Admin/VisibilityFields.php:225
+#: src/Modules/Access/Admin/VisibilityFields.php:98
 msgid "Visible only to the ticked audiences"
 msgstr "Visible solo para los públicos marcados"
 
 #: src/Modules/Access/Admin/VisibilityFields.php:159
+#: src/Modules/Access/Admin/VisibilityFields.php:176
+msgid "Follow the categories"
+msgstr "Seguir las categorías"
+
+#: src/Modules/Access/Admin/VisibilityFields.php:181
 msgid "A manual choice wins over the categories. Hidden products are left out of the shop, search, feeds, sitemap and Store API for the other audiences; their URL answers 404."
 msgstr "Una elección manual prevalece sobre las categorías. Los productos ocultos quedan fuera de la tienda, la búsqueda, los feeds, el mapa del sitio y la Store API para los demás públicos; su URL responde 404."
 
-#: src/Modules/Access/Admin/VisibilityFields.php:202
+#: src/Modules/Access/Admin/VisibilityFields.php:224
 msgid "Like the product"
 msgstr "Como el producto"
 
-#: src/Modules/Access/Admin/VisibilityFields.php:206
+#: src/Modules/Access/Admin/VisibilityFields.php:228
 msgid "A hidden variation is left out of the variation form, the variations table and the Store API for the other audiences and cannot be bought by them. The product itself stays visible."
 msgstr "Una variación oculta queda fuera del formulario de variaciones, la tabla de variaciones y la Store API para los demás públicos, y ellos no pueden comprarla. El producto en sí sigue visible."
 
-#: src/Modules/Access/Admin/VisibilityFields.php:233
+#: src/Modules/Access/Admin/VisibilityFields.php:255
 #: src/Modules/Admin/SettingsPage.php:73
 #: src/Modules/Admin/SettingsTransferPage.php:298
 #: src/Modules/Payments/Admin/MethodsPage.php:73
 msgid "You are not allowed to change these settings."
 msgstr "No tienes permiso para cambiar estos ajustes."
 
-#: src/Modules/Access/Admin/VisibilityFields.php:261
+#: src/Modules/Access/Admin/VisibilityFields.php:283
 msgid "All categories are visible to everyone again."
 msgstr "Todas las categorías vuelven a ser visibles para todos."
 
-#: src/Modules/Access/Admin/VisibilityFields.php:266
+#: src/Modules/Access/Admin/VisibilityFields.php:288
 msgid "Make all categories visible to everyone"
 msgstr "Hacer visibles todas las categorías para todos"
 
-#: src/Modules/Access/Admin/VisibilityFields.php:267
+#: src/Modules/Access/Admin/VisibilityFields.php:289
 msgid "Removes the visibility rules of every category; product overrides stay."
 msgstr "Elimina las reglas de visibilidad de todas las categorías; las excepciones de los productos se mantienen."
 
-#: src/Modules/Access/Admin/VisibilityFields.php:70
+#: src/Modules/Access/Admin/VisibilityFields.php:71
 #: src/Modules/Coupons/CouponRestrictions.php:193
 #: src/Modules/Payments/Admin/MethodsPage.php:242
 #: src/Modules/Rules/Admin/RulesPage.php:817
 msgid "Guests"
 msgstr "Invitados"
 
-#: src/Modules/Access/Admin/VisibilityFields.php:71
+#: src/Modules/Access/Admin/VisibilityFields.php:72
 #: src/Modules/Coupons/CouponRestrictions.php:192
 #: src/Modules/Customers/GroupRepository.php:323
 #: src/Modules/Rules/Admin/RulesPage.php:815
 msgid "Private customers"
 msgstr "Clientes particulares"
 
-#: src/Modules/Access/Admin/VisibilityFields.php:72
+#: src/Modules/Access/Admin/VisibilityFields.php:73
 #: src/Modules/Coupons/CouponRestrictions.php:191
 #: src/Modules/Customers/GroupRepository.php:322
 #: src/Modules/Rules/Admin/RulesPage.php:813
 msgid "Business customers"
 msgstr "Clientes empresariales"
 
-#: src/Modules/Access/Admin/VisibilityFields.php:73
+#: src/Modules/Access/Admin/VisibilityFields.php:74
 #: src/Modules/Coupons/CouponRestrictions.php:190
 #: src/Modules/Rules/Admin/RulesPage.php:811
 msgid "Logged-in customers"
 msgstr "Clientes con sesión iniciada"
 
-#: src/Modules/Access/Admin/VisibilityFields.php:76
+#: src/Modules/Access/Admin/VisibilityFields.php:77
 #: src/Modules/Coupons/CouponRestrictions.php:198
 #: src/Modules/Rules/Admin/RulesPage.php:531
 msgid "Customer types"
 msgstr "Tipos de cliente"
 
-#: src/Modules/Access/Admin/VisibilityFields.php:83
+#: src/Modules/Access/Admin/VisibilityFields.php:84
 #: src/Modules/Coupons/CouponRestrictions.php:202
 #: src/Modules/Customers/Admin/GroupsPage.php:59
 #: src/Modules/Pricing/Admin/PriceListsPage.php:296
@@ -687,9 +690,9 @@ msgid "Prices & rules"
 msgstr "Precios y reglas"
 
 #: src/Modules/Admin/Menu.php:109
-#: src/Modules/Quotes/Admin/QuotesPage.php:150
-#: src/Modules/Quotes/Admin/QuotesPage.php:154
-#: src/Modules/Quotes/Admin/QuotesPage.php:393
+#: src/Modules/Quotes/Admin/QuotesPage.php:151
+#: src/Modules/Quotes/Admin/QuotesPage.php:155
+#: src/Modules/Quotes/Admin/QuotesPage.php:394
 #: src/Modules/Quotes/QuoteAccount.php:207
 #: src/Modules/Quotes/QuoteAccount.php:240
 msgid "Quotes"
@@ -705,7 +708,7 @@ msgstr "Contabilidad"
 
 #: src/Modules/Admin/Menu.php:112
 #: src/Modules/Admin/SettingsPage.php:65
-#: src/Modules/Admin/SettingsTransfer.php:286
+#: src/Modules/Admin/SettingsTransfer.php:288
 msgid "Settings"
 msgstr "Ajustes"
 
@@ -737,41 +740,41 @@ msgstr "Lo que te espera. Cada línea lleva a la página donde decides."
 msgid "To do"
 msgstr "Pendiente"
 
-#: src/Modules/Admin/ProductDataTab.php:102
+#: src/Modules/Admin/ProductDataTab.php:108
 msgid "Variable products: group prices, customer prices, quantity tiers and order quantities are set on each variation in the Variations tab."
 msgstr "Productos variables: los precios de grupo, los precios de cliente, los tramos de cantidad y las cantidades de pedido se configuran en cada variación, en la pestaña Variaciones."
 
-#: src/Modules/Admin/ProductDataTab.php:117
+#: src/Modules/Admin/ProductDataTab.php:128
 msgid "No EuroB2B settings for this product."
 msgstr "No hay ajustes de EuroB2B para este producto."
 
-#: src/Modules/Admin/ProductDataTab.php:39
+#: src/Modules/Admin/ProductDataTab.php:43
 #: src/Modules/Pricing/PricingModule.php:129
 msgid "Prices"
 msgstr "Precios"
 
-#: src/Modules/Admin/ProductDataTab.php:44
+#: src/Modules/Admin/ProductDataTab.php:48
 msgid "Quantity tiers"
 msgstr "Tramos de cantidad"
 
-#: src/Modules/Admin/ProductDataTab.php:49
+#: src/Modules/Admin/ProductDataTab.php:53
 msgid "Order quantities"
 msgstr "Cantidades de pedido"
 
-#: src/Modules/Admin/ProductDataTab.php:54
-#: src/Modules/Stock/Admin/StockPoolFields.php:122
+#: src/Modules/Admin/ProductDataTab.php:58
+#: src/Modules/Stock/Admin/StockPoolFields.php:123
 msgid "Stock for business customers"
 msgstr "Inventario para clientes empresariales"
 
-#: src/Modules/Admin/ProductDataTab.php:59
+#: src/Modules/Admin/ProductDataTab.php:63
 msgid "Visibility"
 msgstr "Visibilidad"
 
-#: src/Modules/Admin/ProductDataTab.php:64
+#: src/Modules/Admin/ProductDataTab.php:68
 msgid "Variations table"
 msgstr "Tabla de variaciones"
 
-#: src/Modules/Admin/ProductDataTab.php:69
+#: src/Modules/Admin/ProductDataTab.php:73
 #: src/Modules/Reports/Admin/ReportsPage.php:435
 #: src/Modules/Reports/ReportCsv.php:42
 #: src/Modules/Tax/AuditFile/AuditFileSections.php:83
@@ -827,54 +830,54 @@ msgstr "Más"
 msgid "Unknown settings tab; nothing was saved."
 msgstr "Pestaña de ajustes desconocida; no se ha guardado nada."
 
-#: src/Modules/Admin/SettingsTransfer.php:178
+#: src/Modules/Admin/SettingsTransfer.php:180
 #: src/Modules/Admin/SettingsTransferPage.php:92
 msgid "The file is larger than 1 MB."
 msgstr "El archivo supera 1 MB."
 
-#: src/Modules/Admin/SettingsTransfer.php:182
+#: src/Modules/Admin/SettingsTransfer.php:184
 msgid "This is not a EuroB2B settings file."
 msgstr "Este no es un archivo de ajustes de EuroB2B."
 
-#: src/Modules/Admin/SettingsTransfer.php:185
+#: src/Modules/Admin/SettingsTransfer.php:187
 msgid "This settings file was written by a EuroB2B version this one cannot read."
 msgstr "Este archivo de ajustes lo escribió una versión de EuroB2B que esta no puede leer."
 
-#: src/Modules/Admin/SettingsTransfer.php:257
+#: src/Modules/Admin/SettingsTransfer.php:259
 #: src/Modules/Payments/Admin/PaymentsProTransferParts.php:82
 msgid "%1$s: %2$s"
 msgstr "%1$s: %2$s"
 
-#: src/Modules/Admin/SettingsTransfer.php:275
+#: src/Modules/Admin/SettingsTransfer.php:277
 msgid "The other parts were not imported because a group could not be matched or created. Fix the group and check the file again."
 msgstr "Las demás partes no se han importado porque no se pudo asignar ni crear un grupo. Corrige el grupo y vuelve a comprobar el archivo."
 
-#: src/Modules/Admin/SettingsTransfer.php:287
+#: src/Modules/Admin/SettingsTransfer.php:289
 #: src/Modules/Registration/Admin/RegistrationPage.php:239
 #: src/Modules/Registration/Admin/RegistrationPage.php:254
 #: src/Modules/Registration/Admin/RegistrationPage.php:342
 msgid "Registration types"
 msgstr "Tipos de registro"
 
-#: src/Modules/Admin/SettingsTransfer.php:288
+#: src/Modules/Admin/SettingsTransfer.php:290
 #: src/Modules/Migration/Sources/B2BKingSource.php:176
 msgid "Registration fields"
 msgstr "Campos de registro"
 
-#: src/Modules/Admin/SettingsTransfer.php:336
+#: src/Modules/Admin/SettingsTransfer.php:338
 msgid "Registration field \"%1$s\": %2$s"
 msgstr "Campo de registro «%1$s»: %2$s"
 
-#: src/Modules/Admin/SettingsTransfer.php:390
-#: src/Modules/Admin/SettingsTransfer.php:409
+#: src/Modules/Admin/SettingsTransfer.php:392
+#: src/Modules/Admin/SettingsTransfer.php:411
 msgid "Group \"%1$s\": %2$s"
 msgstr "Grupo «%1$s»: %2$s"
 
-#: src/Modules/Admin/SettingsTransfer.php:390
+#: src/Modules/Admin/SettingsTransfer.php:392
 msgid "The slug \"%s\" belongs to a group of the other customer type in this shop."
 msgstr "El slug «%s» pertenece a un grupo del otro tipo de cliente en esta tienda."
 
-#: src/Modules/Admin/SettingsTransfer.php:462
+#: src/Modules/Admin/SettingsTransfer.php:464
 msgid "The file names individual customers or companies (user:… or company:… in an audience). Their numbers belong to the shop the file comes from; check those audiences after the import."
 msgstr "El archivo nombra a clientes o empresas concretos (user:… o company:… en un público). Sus números pertenecen a la tienda de la que procede el archivo; revisa esos públicos después de la importación."
 
@@ -1149,7 +1152,7 @@ msgstr "Decisión desconocida."
 #: src/Modules/Audit/Admin/AuditLogPage.php:115
 #: src/Modules/Audit/AuditDataProvider.php:81
 #: src/Modules/Customers/Admin/UpgradeSuggestionsPage.php:247
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:312
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:313
 msgid "Action"
 msgstr "Acción"
 
@@ -1165,15 +1168,15 @@ msgstr "ID de usuario"
 #: src/Modules/Company/Admin/CompanyUsersFilter.php:82
 #: src/Modules/Customers/Admin/UsersListFilters.php:71
 #: src/Modules/Payments/Dunning/DunningAdmin.php:133
-#: src/Modules/Quotes/Admin/QuotesPage.php:437
+#: src/Modules/Quotes/Admin/QuotesPage.php:438
 #: src/Modules/Tax/Export/ExportEvidenceAdmin.php:278
 #: src/Modules/Tax/Proof/ProofAdmin.php:232
 msgid "Filter"
 msgstr "Filtrar"
 
 #: src/Modules/Audit/Admin/AuditLogPage.php:114
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:243
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:312
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:244
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:313
 msgid "Time"
 msgstr "Hora"
 
@@ -1189,7 +1192,7 @@ msgstr "Afecta a"
 #: src/Modules/Audit/Admin/AuditLogPage.php:118
 #: src/Modules/Audit/AuditDataProvider.php:93
 #: src/Modules/Payments/Admin/MethodsProSections.php:149
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:312
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:313
 msgid "Change"
 msgstr "Cambio"
 
@@ -1198,12 +1201,12 @@ msgid "No entries."
 msgstr "No hay entradas."
 
 #: src/Modules/Audit/Admin/AuditLogPage.php:176
-#: src/Modules/Tax/AuditFile/AuditFileFacts.php:533
+#: src/Modules/Tax/AuditFile/AuditFileFacts.php:550
 msgid "removed"
 msgstr "eliminado"
 
 #: src/Modules/Audit/Admin/AuditLogPage.php:181
-#: src/Modules/Tax/AuditFile/AuditFileFacts.php:599
+#: src/Modules/Tax/AuditFile/AuditFileFacts.php:616
 msgid "Deleted user #%d"
 msgstr "Usuario eliminado #%d"
 
@@ -1266,51 +1269,56 @@ msgstr "Afectado por la decisión"
 msgid "Made the decision"
 msgstr "Tomó la decisión"
 
-#: src/Modules/Audit/AuditFormatter.php:100
+#: src/Modules/Audit/AuditFormatter.php:101
 msgid "Deleted group #%d"
 msgstr "Grupo eliminado #%d"
 
-#: src/Modules/Audit/AuditFormatter.php:103
+#: src/Modules/Audit/AuditFormatter.php:104
 #: src/Modules/Tax/Admin/ValidationsPage.php:266
 msgid "Valid"
 msgstr "Válido"
 
-#: src/Modules/Audit/AuditFormatter.php:104
+#: src/Modules/Audit/AuditFormatter.php:105
 #: src/Modules/Tax/Admin/ValidationsPage.php:267
 msgid "Invalid"
 msgstr "No válido"
 
-#: src/Modules/Audit/AuditFormatter.php:105
+#: src/Modules/Audit/AuditFormatter.php:106
 #: src/Modules/Tax/Admin/ValidationsPage.php:268
 msgid "Service unavailable"
 msgstr "Servicio no disponible"
 
-#: src/Modules/Audit/AuditFormatter.php:106
+#: src/Modules/Audit/AuditFormatter.php:107
 #: src/Modules/Tax/Admin/ValidationsPage.php:269
 msgid "Pending (retrying)"
 msgstr "Pendiente (reintentando)"
 
-#: src/Modules/Audit/AuditFormatter.php:136
+#: src/Modules/Audit/AuditFormatter.php:113
+#: src/Modules/Tax/Admin/TaxReports.php:102
+msgid "Reviewed"
+msgstr "Revisado"
+
+#: src/Modules/Audit/AuditFormatter.php:139
 msgid "details recorded"
 msgstr "datos registrados"
 
-#: src/Modules/Audit/AuditFormatter.php:137
+#: src/Modules/Audit/AuditFormatter.php:140
 msgid "document added"
 msgstr "documento añadido"
 
-#: src/Modules/Audit/AuditFormatter.php:138
+#: src/Modules/Audit/AuditFormatter.php:141
 msgid "accepted"
 msgstr "aceptado"
 
-#: src/Modules/Audit/AuditFormatter.php:139
+#: src/Modules/Audit/AuditFormatter.php:142
 msgid "marked as not needed"
 msgstr "marcado como no necesario"
 
-#: src/Modules/Audit/AuditFormatter.php:140
+#: src/Modules/Audit/AuditFormatter.php:143
 msgid "reopened"
 msgstr "reabierto"
 
-#: src/Modules/Audit/AuditFormatter.php:156
+#: src/Modules/Audit/AuditFormatter.php:159
 msgctxt "audit value"
 msgid "none"
 msgstr "ninguno"
@@ -1363,23 +1371,27 @@ msgstr "Pedido realizado actuando como miembro"
 msgid "Export evidence changed"
 msgstr "Justificante de exportación cambiado"
 
-#: src/Modules/Audit/AuditFormatter.php:89
+#: src/Modules/Audit/AuditFormatter.php:59
+msgid "Tax treatment reviewed"
+msgstr "Tratamiento fiscal revisado"
+
+#: src/Modules/Audit/AuditFormatter.php:90
 msgid "for at most %d minute"
 msgid_plural "for at most %d minutes"
 msgstr[0] "durante %d minuto como máximo"
 msgstr[1] "durante %d minutos como máximo"
 
-#: src/Modules/Audit/AuditFormatter.php:92
+#: src/Modules/Audit/AuditFormatter.php:93
 #: src/Modules/Registration/RegistrationTypeRepository.php:165
 msgid "Business customer"
 msgstr "Cliente empresarial"
 
-#: src/Modules/Audit/AuditFormatter.php:93
+#: src/Modules/Audit/AuditFormatter.php:94
 #: src/Modules/Registration/RegistrationTypeRepository.php:164
 msgid "Private customer"
 msgstr "Cliente particular"
 
-#: src/Modules/Audit/AuditFormatter.php:94
+#: src/Modules/Audit/AuditFormatter.php:95
 #: src/Modules/Customers/Admin/GroupsPage.php:427
 msgid "Guest"
 msgstr "Invitado"
@@ -1411,7 +1423,7 @@ msgstr "Las cuentas de empresa están desactivadas en los ajustes de EuroB2B. La
 #: src/Modules/Company/Admin/CompaniesPage.php:335
 #: src/Modules/Conversations/Admin/ConversationsPage.php:245
 #: src/Modules/Quotes/Admin/QuoteFieldsPage.php:115
-#: src/Modules/Quotes/Admin/QuotesPage.php:401
+#: src/Modules/Quotes/Admin/QuotesPage.php:402
 #: src/Modules/Registration/Admin/RegistrationPage.php:206
 msgid "Saved."
 msgstr "Guardado."
@@ -1454,7 +1466,7 @@ msgstr "Miembros"
 #: src/Modules/Ordering/Lists/PurchaseLists.php:663
 #: src/Modules/Privacy/ProData/PurchaseListsDataProvider.php:77
 #: src/Modules/Privacy/ProData/QuotesDataProvider.php:99
-#: src/Modules/Privacy/ProcessingRecord.php:506
+#: src/Modules/Privacy/ProcessingRecord.php:543
 #: src/Modules/Rules/Admin/RulesPage.php:417
 #: src/Modules/Rules/Admin/RulesPage.php:474
 msgid "Name"
@@ -1479,8 +1491,8 @@ msgstr "Editar empresa"
 #: src/Modules/Company/Admin/CompaniesPage.php:510
 #: src/Modules/Conversations/Admin/ConversationsPage.php:364
 #: src/Modules/Coupons/CouponRestrictions.php:208
-#: src/Modules/Quotes/Admin/QuotesPage.php:467
-#: src/Modules/Quotes/Admin/QuotesPage.php:558
+#: src/Modules/Quotes/Admin/QuotesPage.php:468
+#: src/Modules/Quotes/Admin/QuotesPage.php:559
 #: src/Modules/Rules/Admin/RulesPage.php:540
 msgid "Search customers…"
 msgstr "Buscar clientes…"
@@ -1565,7 +1577,7 @@ msgstr "Elige un país…"
 #: src/Modules/Registration/FieldDefinition.php:61
 #: src/Modules/Tax/Admin/TaxReports.php:108
 #: src/Modules/Tax/Admin/TaxReports.php:126
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:185
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:186
 msgid "Country"
 msgstr "País"
 
@@ -1661,9 +1673,9 @@ msgstr "Un usuario pertenece a una sola empresa. Desvincularlo elimina la membre
 #: src/Modules/Orders/OrderAttributes.php:163
 #: src/Modules/Privacy/ProData/CompanyDataProvider.php:115
 #: src/Modules/Privacy/ProData/QuotesDataProvider.php:108
-#: src/Modules/Quotes/Admin/QuotesPage.php:441
-#: src/Modules/Quotes/Admin/QuotesPage.php:484
-#: src/Modules/Quotes/Admin/QuotesPage.php:487
+#: src/Modules/Quotes/Admin/QuotesPage.php:442
+#: src/Modules/Quotes/Admin/QuotesPage.php:485
+#: src/Modules/Quotes/Admin/QuotesPage.php:488
 #: src/Modules/Registration/FieldDefinition.php:55
 #: src/Modules/Reports/Admin/ReportsPage.php:306
 #: src/Modules/Reports/ReportLabels.php:55
@@ -1901,8 +1913,8 @@ msgid "Log in as %1$s for %2$d minutes? Your own session ends; the banner at the
 msgstr "¿Acceder como %1$s durante %2$d minutos? Tu propia sesión termina; la barra superior te lleva de vuelta."
 
 #: src/Modules/Company/CompanyAccount.php:258
-#: src/Modules/Pricing/Admin/CustomerPriceFields.php:193
-#: src/Modules/Pricing/Admin/CustomerPriceFields.php:206
+#: src/Modules/Pricing/Admin/CustomerPriceFields.php:214
+#: src/Modules/Pricing/Admin/CustomerPriceFields.php:227
 #: src/Modules/Pricing/Admin/CustomerPriceProfile.php:114
 #: src/Modules/Pricing/Admin/CustomerPriceProfile.php:129
 #: src/Modules/Quotes/QuoteAccount.php:327
@@ -1919,7 +1931,7 @@ msgstr "Añadir un miembro"
 
 #: src/Modules/Company/CompanyAccount.php:270
 #: src/Modules/Privacy/ProData/QuotesDataProvider.php:103
-#: src/Modules/Quotes/Admin/QuotesPage.php:483
+#: src/Modules/Quotes/Admin/QuotesPage.php:484
 #: src/Modules/Quotes/GuestQuotes.php:147
 msgid "E-mail address"
 msgstr "Correo electrónico"
@@ -2305,10 +2317,10 @@ msgstr "Sin leer"
 #: src/Modules/Conversations/Admin/ConversationsPage.php:331
 #: src/Modules/Conversations/Admin/ConversationsPage.php:364
 #: src/Modules/Customers/Admin/UpgradeSuggestionsPage.php:247
-#: src/Modules/Pricing/Admin/CustomerPriceFields.php:189
-#: src/Modules/Quotes/Admin/QuotesPage.php:441
-#: src/Modules/Quotes/Admin/QuotesPage.php:482
-#: src/Modules/Quotes/Admin/QuotesPage.php:486
+#: src/Modules/Pricing/Admin/CustomerPriceFields.php:210
+#: src/Modules/Quotes/Admin/QuotesPage.php:442
+#: src/Modules/Quotes/Admin/QuotesPage.php:483
+#: src/Modules/Quotes/Admin/QuotesPage.php:487
 #: src/Modules/Reports/Admin/ReportsPage.php:315
 #: src/Modules/Tax/Admin/ValidationsPage.php:182
 #: src/Modules/Tax/AuditFile/AuditFileSections.php:74
@@ -2332,13 +2344,13 @@ msgstr "Último mensaje"
 #: src/Modules/Customers/CustomersDataProvider.php:132
 #: src/Modules/Privacy/ProData/ConversationsDataProvider.php:84
 #: src/Modules/Privacy/ProData/QuotesDataProvider.php:85
-#: src/Modules/Quotes/Admin/QuotesPage.php:441
-#: src/Modules/Quotes/Admin/QuotesPage.php:489
+#: src/Modules/Quotes/Admin/QuotesPage.php:442
+#: src/Modules/Quotes/Admin/QuotesPage.php:490
 #: src/Modules/Quotes/QuoteAccount.php:408
 #: src/Modules/Quotes/QuoteAccount.php:419
 #: src/Modules/Tax/Admin/OssMonitorSection.php:86
 #: src/Modules/Tax/Admin/ValidationsPage.php:182
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:215
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:216
 #: src/Modules/Tax/AuditFile/AuditFileSections.php:70
 #: src/Modules/Tax/Export/ExportEvidenceAdmin.php:273
 #: src/Modules/Tax/Export/ExportEvidenceAuditSection.php:105
@@ -2355,8 +2367,8 @@ msgstr "Estado"
 #: src/Modules/Payments/Dunning/DunningAdmin.php:331
 #: src/Modules/Privacy/ProData/ConversationsDataProvider.php:76
 #: src/Modules/Privacy/ProData/QuotesDataProvider.php:81
-#: src/Modules/Quotes/Admin/QuotesPage.php:441
-#: src/Modules/Quotes/Admin/QuotesPage.php:604
+#: src/Modules/Quotes/Admin/QuotesPage.php:442
+#: src/Modules/Quotes/Admin/QuotesPage.php:605
 #: src/Modules/Quotes/QuoteAccount.php:359
 #: src/Modules/Quotes/QuoteAccount.php:406
 #: src/Modules/Quotes/QuoteAccount.php:417
@@ -2374,7 +2386,7 @@ msgstr "Asunto"
 #: src/Modules/Privacy/ProData/QuotesDataProvider.php:77
 #: src/Modules/Quotes/Admin/QuoteFieldsPage.php:135
 #: src/Modules/Quotes/Admin/QuoteFieldsPage.php:168
-#: src/Modules/Quotes/Admin/QuotesPage.php:441
+#: src/Modules/Quotes/Admin/QuotesPage.php:442
 #: src/Modules/Quotes/QuoteAccount.php:405
 #: src/Modules/Quotes/QuoteAccount.php:416
 #: src/Modules/Registration/Admin/RegistrationPage.php:254
@@ -2382,7 +2394,7 @@ msgstr "Asunto"
 #: src/Modules/Rules/Admin/RulesPage.php:417
 #: src/Modules/Rules/Admin/RulesPage.php:481
 #: src/Modules/Tax/Admin/RecapitulativeStatementPage.php:137
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:232
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:233
 #: src/Modules/Tax/Export/ExportEvidenceAdmin.php:373
 #: src/Modules/Tax/Export/ExportEvidenceAuditSection.php:140
 #: src/Modules/Tax/Proof/ProofAdmin.php:401
@@ -2403,7 +2415,7 @@ msgid "All conversations"
 msgstr "Todas las conversaciones"
 
 #: src/Modules/Conversations/Admin/ConversationsPage.php:318
-#: src/Modules/Quotes/Admin/QuotesPage.php:486
+#: src/Modules/Quotes/Admin/QuotesPage.php:487
 #: templates/emails/plain/admin-new-registration.php:28
 msgid "Profile"
 msgstr "Perfil"
@@ -2413,7 +2425,7 @@ msgid "Shop"
 msgstr "Tienda"
 
 #: src/Modules/Conversations/Admin/ConversationsPage.php:340
-#: src/Modules/Quotes/Admin/QuotesPage.php:515
+#: src/Modules/Quotes/Admin/QuotesPage.php:516
 msgid "Reply"
 msgstr "Responder"
 
@@ -2423,7 +2435,7 @@ msgstr "La conversación está cerrada; una respuesta la vuelve a abrir."
 
 #: src/Modules/Conversations/Admin/ConversationsPage.php:344
 #: src/Modules/Conversations/ConversationAccount.php:361
-#: src/Modules/Quotes/Admin/QuotesPage.php:521
+#: src/Modules/Quotes/Admin/QuotesPage.php:522
 msgid "Send reply"
 msgstr "Enviar respuesta"
 
@@ -2441,7 +2453,7 @@ msgstr "Opcional: número de un pedido de este cliente."
 #: src/Modules/Privacy/ProData/ConversationRecords.php:68
 #: src/Modules/Privacy/ProData/ConversationsDataProvider.php:132
 #: src/Modules/Privacy/ProData/QuotesDataProvider.php:115
-#: src/Modules/Quotes/Admin/QuotesPage.php:491
+#: src/Modules/Quotes/Admin/QuotesPage.php:492
 msgid "Message"
 msgstr "Mensaje"
 
@@ -2717,7 +2729,7 @@ msgstr "Los grupos son privados: los clientes nunca ven los nombres de los grupo
 #: src/Modules/Customers/Admin/GroupsPage.php:205
 #: src/Modules/Customers/Admin/GroupsPage.php:304
 #: src/Modules/Payments/Admin/OverduePage.php:151
-#: src/Modules/Pricing/Admin/CustomerPriceFields.php:190
+#: src/Modules/Pricing/Admin/CustomerPriceFields.php:211
 #: src/Modules/Pricing/CustomerPricesDataProvider.php:78
 #: src/Modules/Reports/ReportCsv.php:43
 #: src/Modules/Tax/AuditFile/AuditFileSections.php:81
@@ -2772,8 +2784,8 @@ msgstr "Todavía no hay grupos."
 #: src/Modules/Registration/Admin/RegistrationPage.php:263
 #: src/Modules/Registration/FieldStorage.php:103
 #: src/Modules/Rules/Admin/RulesPage.php:437
-#: src/Modules/Tax/AuditFile/AuditFileFacts.php:327
-#: src/Modules/Tax/AuditFile/AuditFileFacts.php:336
+#: src/Modules/Tax/AuditFile/AuditFileFacts.php:328
+#: src/Modules/Tax/AuditFile/AuditFileFacts.php:337
 msgid "Yes"
 msgstr "Sí"
 
@@ -2867,14 +2879,14 @@ msgstr "Los clientes de este grupo que alcanzan las ventas netas (sin impuestos 
 #: src/Modules/Customers/Admin/GroupsPage.php:425
 #: src/Modules/Orders/OrderAttributes.php:158
 #: src/Modules/Reports/ReportLabels.php:72
-#: src/Modules/Tax/AuditFile/AuditFileFacts.php:172
+#: src/Modules/Tax/AuditFile/AuditFileFacts.php:173
 msgid "Business (B2B)"
 msgstr "Empresarial (B2B)"
 
 #: src/Modules/Customers/Admin/GroupsPage.php:426
 #: src/Modules/Orders/OrderAttributes.php:158
 #: src/Modules/Reports/ReportLabels.php:72
-#: src/Modules/Tax/AuditFile/AuditFileFacts.php:173
+#: src/Modules/Tax/AuditFile/AuditFileFacts.php:174
 msgid "Private (B2C)"
 msgstr "Particular (B2C)"
 
@@ -3223,7 +3235,7 @@ msgstr "Referencia del comprador"
 #: src/Modules/Invoicing/InvoicingProfile.php:285
 #: src/Modules/Privacy/ProData/InvoicingDataProvider.php:52
 #: src/Modules/Privacy/ProData/InvoicingRecords.php:199
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:267
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:268
 msgid "Leitweg-ID"
 msgstr "Leitweg-ID"
 
@@ -3232,7 +3244,7 @@ msgstr "Leitweg-ID"
 #: src/Modules/Invoicing/InvoicingProfile.php:286
 #: src/Modules/Privacy/ProData/InvoicingDataProvider.php:53
 #: src/Modules/Privacy/ProData/InvoicingRecords.php:200
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:268
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:269
 msgid "Peppol ID"
 msgstr "ID de Peppol"
 
@@ -3295,7 +3307,7 @@ msgstr "Un campo «Tu referencia» para clientes empresariales en la página cl�
 #: src/Modules/Ordering/OrderingModule.php:265
 #: src/Modules/Payments/PaymentsProModule.php:266
 #: src/Modules/Payments/PaymentsProModule.php:295
-#: src/Modules/Tax/TaxModule.php:214
+#: src/Modules/Tax/TaxModule.php:218
 #: src/Modules/Tax/TaxProModule.php:266
 msgid "Off"
 msgstr "Desactivado"
@@ -3303,7 +3315,7 @@ msgstr "Desactivado"
 #: src/Modules/Invoicing/InvoicingModule.php:140
 #: src/Modules/Payments/PaymentsProModule.php:267
 #: src/Modules/Payments/PaymentsProModule.php:296
-#: src/Modules/Tax/TaxModule.php:215
+#: src/Modules/Tax/TaxModule.php:219
 msgid "Optional"
 msgstr "Opcional"
 
@@ -3723,9 +3735,10 @@ msgstr "Antes de la importación"
 #: src/Modules/Migration/MigrationDataProvider.php:78
 #: src/Modules/Payments/Dunning/DunningAdmin.php:182
 #: src/Modules/Payments/PaymentsDataProvider.php:72
+#: src/Modules/Pricing/Admin/ProductTierFields.php:114
 #: src/Modules/Reports/Admin/ReportsPage.php:341
 #: src/Modules/Reports/Datev/DatevPage.php:135
-#: src/Modules/Tax/AuditFile/AuditFileFacts.php:195
+#: src/Modules/Tax/AuditFile/AuditFileFacts.php:196
 msgid "none"
 msgstr "ninguno"
 
@@ -4010,74 +4023,97 @@ msgstr "Precios de mayorista de productos y variaciones"
 msgid "General discount per role"
 msgstr "Descuento general por rol"
 
-#: src/Modules/Ordering/Admin/ProductQuantityFields.php:121
-msgid "Empty = inherit from the product."
-msgstr "Vacío = heredar del producto."
+#: src/Modules/Ordering/Admin/ProductQuantityFields.php:101
+msgid "no limits"
+msgstr "sin límites"
 
-#: src/Modules/Ordering/Admin/ProductQuantityFields.php:121
-#: src/Modules/Ordering/Admin/ProductQuantityFields.php:74
+#: src/Modules/Ordering/Admin/ProductQuantityFields.php:113
+msgid "Minimum, maximum and step per audience. Group rows replace the default row for members of that group; variations inherit these values unless they set their own."
+msgstr "Mínimo, máximo y múltiplo por público. Las filas de grupo sustituyen a la fila por defecto para los miembros de ese grupo; las variaciones heredan estos valores salvo que definan los suyos."
+
+#: src/Modules/Ordering/Admin/ProductQuantityFields.php:113
+#: src/Modules/Ordering/Admin/ProductQuantityFields.php:160
 msgid "Quantity rules (EuroB2B)"
 msgstr "Reglas de cantidad (EuroB2B)"
 
-#: src/Modules/Ordering/Admin/ProductQuantityFields.php:122
-#: src/Modules/Ordering/Admin/ProductQuantityFields.php:75
+#: src/Modules/Ordering/Admin/ProductQuantityFields.php:114
+#: src/Modules/Ordering/Admin/ProductQuantityFields.php:161
 msgid "Maximum"
 msgstr "Máximo"
 
-#: src/Modules/Ordering/Admin/ProductQuantityFields.php:122
-#: src/Modules/Ordering/Admin/ProductQuantityFields.php:75
+#: src/Modules/Ordering/Admin/ProductQuantityFields.php:114
+#: src/Modules/Ordering/Admin/ProductQuantityFields.php:161
 msgid "Minimum"
 msgstr "Mínimo"
 
-#: src/Modules/Ordering/Admin/ProductQuantityFields.php:122
-#: src/Modules/Ordering/Admin/ProductQuantityFields.php:75
+#: src/Modules/Ordering/Admin/ProductQuantityFields.php:114
+#: src/Modules/Ordering/Admin/ProductQuantityFields.php:161
 #: src/Modules/Rules/Admin/RuleFormParts.php:148
 msgid "Step"
 msgstr "Múltiplo"
 
-#: src/Modules/Ordering/Admin/ProductQuantityFields.php:161
+#: src/Modules/Ordering/Admin/ProductQuantityFields.php:160
+msgid "Empty = inherit from the product."
+msgstr "Vacío = heredar del producto."
+
+#: src/Modules/Ordering/Admin/ProductQuantityFields.php:200
 msgid "Default (everyone)"
 msgstr "Por defecto (todos)"
 
-#: src/Modules/Ordering/Admin/ProductQuantityFields.php:74
-msgid "Minimum, maximum and step per audience. Group rows replace the default row for members of that group; variations inherit these values unless they set their own."
-msgstr "Mínimo, máximo y múltiplo por público. Las filas de grupo sustituyen a la fila por defecto para los miembros de ese grupo; las variaciones heredan estos valores salvo que definan los suyos."
+#: src/Modules/Ordering/Admin/ProductQuantityFields.php:89
+msgid "minimum %d"
+msgstr "mínimo %d"
 
-#: src/Modules/Ordering/Admin/VariationTableFields.php:100
-#: src/Modules/Ordering/Admin/VariationTableFields.php:112
-msgid "Follow the shop setting"
-msgstr "Seguir el ajuste de la tienda"
+#: src/Modules/Ordering/Admin/ProductQuantityFields.php:91
+msgid "maximum %d"
+msgstr "máximo %d"
 
-#: src/Modules/Ordering/Admin/VariationTableFields.php:101
-#: src/Modules/Ordering/Admin/VariationTableFields.php:113
-msgid "For the variable products of this category that have no choice of their own."
-msgstr "Para los productos variables de esta categoría que no tienen una elección propia."
+#: src/Modules/Ordering/Admin/ProductQuantityFields.php:93
+msgid "step %d"
+msgstr "paso %d"
 
-#: src/Modules/Ordering/Admin/VariationTableFields.php:111
-#: src/Modules/Ordering/Admin/VariationTableFields.php:71
-#: src/Modules/Ordering/Admin/VariationTableFields.php:99
+#: src/Modules/Ordering/Admin/ProductQuantityFields.php:98
+msgid "%d group with its own rule"
+msgid_plural "%d groups with their own rule"
+msgstr[0] "%d grupo con regla propia"
+msgstr[1] "%d grupos con regla propia"
+
+#: src/Modules/Ordering/Admin/VariationTableFields.php:117
+#: src/Modules/Ordering/Admin/VariationTableFields.php:129
+#: src/Modules/Ordering/Admin/VariationTableFields.php:89
 msgid "Variations table (EuroB2B)"
 msgstr "Tabla de variaciones (EuroB2B)"
 
-#: src/Modules/Ordering/Admin/VariationTableFields.php:43
+#: src/Modules/Ordering/Admin/VariationTableFields.php:118
+#: src/Modules/Ordering/Admin/VariationTableFields.php:130
+msgid "Follow the shop setting"
+msgstr "Seguir el ajuste de la tienda"
+
+#: src/Modules/Ordering/Admin/VariationTableFields.php:119
+#: src/Modules/Ordering/Admin/VariationTableFields.php:131
+msgid "For the variable products of this category that have no choice of their own."
+msgstr "Para los productos variables de esta categoría que no tienen una elección propia."
+
+#: src/Modules/Ordering/Admin/VariationTableFields.php:44
 #: src/Modules/Ordering/OrderingModule.php:266
 msgid "Table below the variation form"
 msgstr "Tabla debajo del formulario de variaciones"
 
-#: src/Modules/Ordering/Admin/VariationTableFields.php:44
+#: src/Modules/Ordering/Admin/VariationTableFields.php:45
 #: src/Modules/Ordering/OrderingModule.php:267
 msgid "Table instead of the variation form"
 msgstr "Tabla en lugar del formulario de variaciones"
 
-#: src/Modules/Ordering/Admin/VariationTableFields.php:45
+#: src/Modules/Ordering/Admin/VariationTableFields.php:46
 msgid "No table"
 msgstr "Sin tabla"
 
-#: src/Modules/Ordering/Admin/VariationTableFields.php:72
+#: src/Modules/Ordering/Admin/VariationTableFields.php:77
+#: src/Modules/Ordering/Admin/VariationTableFields.php:90
 msgid "Follow the categories and the shop setting"
 msgstr "Seguir las categorías y el ajuste de la tienda"
 
-#: src/Modules/Ordering/Admin/VariationTableFields.php:73
+#: src/Modules/Ordering/Admin/VariationTableFields.php:91
 msgid "A table of all variations with a quantity field per row, so customers order several variations at once."
 msgstr "Una tabla de todas las variaciones con un campo de cantidad por fila, para que los clientes pidan varias variaciones a la vez."
 
@@ -4153,8 +4189,8 @@ msgstr "No se ha podido guardar ninguna fila: elige primero productos y cantidad
 #: src/Modules/Ordering/OrderForm/OrderForm.php:495
 #: src/Modules/Ordering/VariationTable.php:322
 #: src/Modules/Pricing/TierTable.php:210
-#: src/Modules/Quotes/Admin/QuotesPage.php:498
-#: src/Modules/Quotes/Admin/QuotesPage.php:613
+#: src/Modules/Quotes/Admin/QuotesPage.php:499
+#: src/Modules/Quotes/Admin/QuotesPage.php:614
 #: src/Modules/Quotes/QuoteAccount.php:326
 #: src/Modules/Quotes/QuoteAccount.php:347
 #: src/Modules/Quotes/QuoteAccount.php:547
@@ -4175,7 +4211,7 @@ msgstr "Cantidad"
 #: src/Modules/Ordering/OrderForm/OrderForm.php:486
 #: src/Modules/Ordering/OrderForm/OrderForm.php:488
 #: src/Modules/Ordering/VariationTable.php:318
-#: src/Modules/Quotes/Admin/QuotesPage.php:498
+#: src/Modules/Quotes/Admin/QuotesPage.php:499
 msgid "SKU"
 msgstr "SKU"
 
@@ -4185,7 +4221,7 @@ msgstr "SKU"
 #: src/Modules/Ordering/OrderForm/OrderForm.php:477
 #: src/Modules/Ordering/OrderForm/OrderForm.php:498
 #: src/Modules/Ordering/VariationTable.php:321
-#: src/Modules/Pricing/Admin/ProductTierFields.php:249
+#: src/Modules/Pricing/Admin/ProductTierFields.php:274
 #: src/Modules/Pricing/TierTable.php:210
 #: src/Modules/Rules/Admin/RuleFormParts.php:126
 msgid "Unit price"
@@ -4308,8 +4344,8 @@ msgstr "Esta lista está vacía. Añade productos con la búsqueda o por SKU aba
 #: src/Modules/Ordering/OrderForm/OrderForm.php:471
 #: src/Modules/Pricing/Admin/CustomerPriceProfile.php:109
 #: src/Modules/Pricing/CustomerPricesDataProvider.php:74
-#: src/Modules/Quotes/Admin/QuotesPage.php:498
-#: src/Modules/Quotes/Admin/QuotesPage.php:613
+#: src/Modules/Quotes/Admin/QuotesPage.php:499
+#: src/Modules/Quotes/Admin/QuotesPage.php:614
 #: src/Modules/Quotes/QuoteAccount.php:325
 #: src/Modules/Quotes/QuoteAccount.php:337
 #: src/Modules/Quotes/QuoteAccount.php:546
@@ -5030,7 +5066,7 @@ msgstr "Recargo habilitado"
 
 #: src/Modules/Payments/Admin/MethodsProSections.php:205
 #: src/Modules/Payments/Admin/MethodsProSections.php:224
-#: src/Modules/Quotes/Admin/QuotesPage.php:613
+#: src/Modules/Quotes/Admin/QuotesPage.php:614
 #: src/Modules/Rules/Admin/RuleFormParts.php:162
 msgid "Tax class"
 msgstr "Clase de impuesto"
@@ -5478,8 +5514,8 @@ msgid "EuroB2B: payment reminder"
 msgstr "EuroB2B: recordatorio de pago"
 
 #: src/Modules/Payments/Dunning/Emails/PaymentReminderEmail.php:25
-msgid "Sent by hand from EuroB2B → Overdue orders or the order screen to the billing address of an overdue business order: the first, friendly reminder with the open amount. Add your bank details under \"Additional content\" unless the payment method instructions carry them."
-msgstr "Se envía a mano desde EuroB2B → Pedidos vencidos o desde la pantalla del pedido a la dirección de facturación de un pedido empresarial vencido: el primer recordatorio amable con el importe pendiente. Añade tus datos bancarios en «Contenido adicional» salvo que ya figuren en las instrucciones del método de pago."
+msgid "Sent by hand from EuroB2B → Accounting → Overdue orders or the order screen to the billing address of an overdue business order: the first, friendly reminder with the open amount. Add your bank details under \"Additional content\" unless the payment method instructions carry them."
+msgstr "Se envía a mano desde EuroB2B → Contabilidad → Pedidos vencidos o desde la pantalla del pedido a la dirección de facturación de un pedido empresarial vencido: el primer recordatorio amable con el importe pendiente. Añade tus datos bancarios en «Contenido adicional» salvo que ya figuren en las instrucciones del método de pago."
 
 #: src/Modules/Payments/Dunning/Emails/PaymentReminderEmail.php:27
 msgid "[{site_title}] Payment reminder for order #{order_number}"
@@ -5490,8 +5526,8 @@ msgid "Invoice (EuroB2B)"
 msgstr "Factura (EuroB2B)"
 
 #: src/Modules/Payments/InvoiceGateway.php:26
-msgid "Business customers order on account and pay the invoice later. Payment terms per group are set under EuroB2B → Payment & shipping; the due date is stored on the order."
-msgstr "Los clientes empresariales piden a crédito y pagan la factura más tarde. Las condiciones de pago por grupo se definen en EuroB2B → Pago y envío; la fecha de vencimiento se guarda en el pedido."
+msgid "Business customers order on account and pay the invoice later. Payment terms per group are set under EuroB2B → Prices & rules → Payment & shipping; the due date is stored on the order."
+msgstr "Los clientes empresariales piden a crédito y pagan la factura más tarde. Las condiciones de pago por grupo se definen en EuroB2B → Precios y reglas → Pago y envío; la fecha de vencimiento se guarda en el pedido."
 
 #: src/Modules/Payments/InvoiceGateway.php:34
 msgid "Order on account: awaiting payment of the invoice."
@@ -5550,7 +5586,7 @@ msgid "Shown to customers at checkout."
 msgstr "Se muestra a los clientes al finalizar la compra."
 
 #: src/Modules/Payments/OfflineGateway.php:80
-#: src/Modules/Quotes/Admin/QuotesPage.php:613
+#: src/Modules/Quotes/Admin/QuotesPage.php:614
 msgid "Description"
 msgstr "Descripción"
 
@@ -5710,7 +5746,7 @@ msgid "You can upload your purchase order document here."
 msgstr "Aquí puedes subir el documento de tu orden de compra."
 
 #: src/Modules/Payments/PurchaseOrderDocumentAccount.php:128
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:232
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:233
 #: src/Modules/Tax/Export/ExportEvidenceAdmin.php:377
 #: src/Modules/Tax/Export/ExportEvidenceAuditSection.php:140
 #: src/Modules/Tax/Proof/ProofAdmin.php:405
@@ -5932,33 +5968,39 @@ msgstr "El cambio de gastos de envío para «%s» está fuera del rango (porcent
 msgid "Free shipping"
 msgstr "Envío gratuito"
 
-#: src/Modules/Pricing/Admin/CustomerPriceFields.php:187
+#: src/Modules/Pricing/Admin/CustomerPriceFields.php:208
 msgid "A customer with an own price pays it instead of every other price (group price, fixed-price rules); discount rules still apply on top. Customers who wait for approval do not get it."
 msgstr "Un cliente con un precio propio paga ese precio en lugar de cualquier otro (precio de grupo, reglas de precio fijo); las reglas de descuento se siguen aplicando encima. Los clientes pendientes de aprobación no lo reciben."
 
-#: src/Modules/Pricing/Admin/CustomerPriceFields.php:187
+#: src/Modules/Pricing/Admin/CustomerPriceFields.php:208
 #: src/Modules/Pricing/Admin/CustomerPriceProfile.php:102
 msgid "Customer prices (EuroB2B)"
 msgstr "Precios de cliente (EuroB2B)"
 
-#: src/Modules/Pricing/Admin/CustomerPriceFields.php:187
+#: src/Modules/Pricing/Admin/CustomerPriceFields.php:208
 #: src/Modules/Pricing/Admin/CustomerPriceProfile.php:107
 msgid "Prices are in the currency the customer pays in, the currency of the customer's group."
 msgstr "Los precios están en la moneda en la que paga el cliente, la moneda del grupo del cliente."
 
-#: src/Modules/Pricing/Admin/CustomerPriceFields.php:191
+#: src/Modules/Pricing/Admin/CustomerPriceFields.php:212
 #: src/Modules/Pricing/CustomerPricesDataProvider.php:84
 msgid "Price"
 msgstr "Precio"
 
-#: src/Modules/Pricing/Admin/CustomerPriceFields.php:192
+#: src/Modules/Pricing/Admin/CustomerPriceFields.php:213
 #: src/Modules/Pricing/CustomerPricesDataProvider.php:90
 msgid "Sale price"
 msgstr "Precio rebajado"
 
-#: src/Modules/Pricing/Admin/CustomerPriceFields.php:208
+#: src/Modules/Pricing/Admin/CustomerPriceFields.php:229
 msgid "Add a customer…"
 msgstr "Añadir un cliente…"
+
+#: src/Modules/Pricing/Admin/CustomerPriceFields.php:81
+msgid "%d customer price"
+msgid_plural "%d customer prices"
+msgstr[0] "%d precio de cliente"
+msgstr[1] "%d precios de cliente"
 
 #: src/Modules/Pricing/Admin/CustomerPriceProfile.php:107
 msgid "Prices for this customer only. They replace every other price (group price, fixed-price rules); discount rules still apply on top. Tier sets for the customer come through the CSV import."
@@ -6103,54 +6145,68 @@ msgstr "Los precios usan el separador decimal de la tienda, como en la exportaci
 msgid "Tier sets are \"quantity:price\" pairs separated by \"|\", e.g. \"10:9,50 | 50:8,90\"."
 msgstr "Los conjuntos de tramos son pares «cantidad:precio» separados por «|», p. ej. «10:9,50 | 50:8,90»."
 
-#: src/Modules/Pricing/Admin/ProductPriceFields.php:133
-#: src/Modules/Pricing/Admin/ProductPriceFields.php:77
+#: src/Modules/Pricing/Admin/ProductPriceFields.php:103
+#: src/Modules/Pricing/Admin/ProductPriceFields.php:159
 msgid "Group prices (EuroB2B)"
 msgstr "Precios de grupo (EuroB2B)"
 
-#: src/Modules/Pricing/Admin/ProductPriceFields.php:201
-msgid "%1$s – price (%2$s)"
-msgstr "%1$s – precio (%2$s)"
-
-#: src/Modules/Pricing/Admin/ProductPriceFields.php:201
-msgid "%1$s – sale price (%2$s)"
-msgstr "%1$s – precio rebajado (%2$s)"
-
-#: src/Modules/Pricing/Admin/ProductPriceFields.php:77
+#: src/Modules/Pricing/Admin/ProductPriceFields.php:103
 msgid "Members of a group pay the group price instead of the regular price. Leave empty to use the regular price."
 msgstr "Los miembros de un grupo pagan el precio de grupo en lugar del precio normal. Déjalo vacío para usar el precio normal."
 
-#: src/Modules/Pricing/Admin/ProductTierFields.php:100
+#: src/Modules/Pricing/Admin/ProductPriceFields.php:227
+msgid "%1$s – price (%2$s)"
+msgstr "%1$s – precio (%2$s)"
+
+#: src/Modules/Pricing/Admin/ProductPriceFields.php:227
+msgid "%1$s – sale price (%2$s)"
+msgstr "%1$s – precio rebajado (%2$s)"
+
+#: src/Modules/Pricing/Admin/ProductPriceFields.php:85
+msgid "%1$d of %2$d group with its own price"
+msgid_plural "%1$d of %2$d groups with their own price"
+msgstr[0] "grupo con precio propio: %1$d de %2$d"
+msgstr[1] "grupos con precio propio: %1$d de %2$d"
+
+#: src/Modules/Pricing/Admin/ProductTierFields.php:110
+msgid "all customers"
+msgstr "todos los clientes"
+
+#: src/Modules/Pricing/Admin/ProductTierFields.php:114
+msgid "for %s"
+msgstr "para %s"
+
+#: src/Modules/Pricing/Admin/ProductTierFields.php:125
 msgid "From the minimum quantity on, the unit price of the tier applies. Group tiers replace the regular tiers for members of that group."
 msgstr "A partir de la cantidad mínima se aplica el precio unitario del tramo. Los tramos de grupo sustituyen a los tramos normales para los miembros de ese grupo."
 
-#: src/Modules/Pricing/Admin/ProductTierFields.php:100
-#: src/Modules/Pricing/Admin/ProductTierFields.php:155
+#: src/Modules/Pricing/Admin/ProductTierFields.php:125
+#: src/Modules/Pricing/Admin/ProductTierFields.php:180
 msgid "Quantity tiers (EuroB2B)"
 msgstr "Tramos de cantidad (EuroB2B)"
 
-#: src/Modules/Pricing/Admin/ProductTierFields.php:108
+#: src/Modules/Pricing/Admin/ProductTierFields.php:133
 msgid "Show the tier table on the product page"
 msgstr "Mostrar la tabla de tramos en la página del producto"
 
-#: src/Modules/Pricing/Admin/ProductTierFields.php:108
+#: src/Modules/Pricing/Admin/ProductTierFields.php:133
 msgid "Variable products: the tiers of the chosen variation are shown."
 msgstr "Productos variables: se muestran los tramos de la variación elegida."
 
-#: src/Modules/Pricing/Admin/ProductTierFields.php:218
+#: src/Modules/Pricing/Admin/ProductTierFields.php:243
 msgid "Everyone (regular tiers)"
 msgstr "Todos (tramos normales)"
 
-#: src/Modules/Pricing/Admin/ProductTierFields.php:249
+#: src/Modules/Pricing/Admin/ProductTierFields.php:274
 #: src/Modules/Rules/Admin/RuleFormParts.php:127
 msgid "From quantity"
 msgstr "Desde la cantidad"
 
-#: src/Modules/Pricing/Admin/ProductTierFields.php:254
+#: src/Modules/Pricing/Admin/ProductTierFields.php:279
 msgid "Add tier"
 msgstr "Añadir tramo"
 
-#: src/Modules/Pricing/Admin/ProductTierFields.php:272
+#: src/Modules/Pricing/Admin/ProductTierFields.php:297
 msgid "Remove tier"
 msgstr "Eliminar tramo"
 
@@ -6355,42 +6411,50 @@ msgstr "%1$d – %2$d"
 msgid "Price on request"
 msgstr "Precio a consultar"
 
-#: src/Modules/Privacy/Admin/ProcessingRecordPage.php:126
+#: src/Modules/Privacy/Admin/ProcessingRecordPage.php:130
 msgid "You are not allowed to view the record of processing activities."
 msgstr "No tienes permiso para ver el registro de actividades de tratamiento."
 
-#: src/Modules/Privacy/Admin/ProcessingRecordPage.php:134
+#: src/Modules/Privacy/Admin/ProcessingRecordPage.php:138
 msgctxt "file name"
 msgid "processing-record"
 msgstr "registro-de-tratamiento"
 
-#: src/Modules/Privacy/Admin/ProcessingRecordPage.php:144
-#: src/Modules/Privacy/Admin/ProcessingRecordPage.php:67
-#: src/Modules/Privacy/Admin/ProcessingRecordPage.php:88
+#: src/Modules/Privacy/Admin/ProcessingRecordPage.php:148
+#: src/Modules/Privacy/Admin/ProcessingRecordPage.php:68
+#: src/Modules/Privacy/Admin/ProcessingRecordPage.php:89
 msgid "Record of processing activities"
 msgstr "Registro de actividades de tratamiento"
 
-#: src/Modules/Privacy/Admin/ProcessingRecordPage.php:155
+#: src/Modules/Privacy/Admin/ProcessingRecordPage.php:159
 #: src/Modules/Tax/Proof/ProofAdmin.php:550
 #: templates/offer-print.php:55
 msgid "Print"
 msgstr "Imprimir"
 
-#: src/Modules/Privacy/Admin/ProcessingRecordPage.php:67
+#: src/Modules/Privacy/Admin/ProcessingRecordPage.php:68
 msgid "Processing record"
 msgstr "Registro de tratamiento"
 
-#: src/Modules/Privacy/Admin/ProcessingRecordPage.php:89
+#: src/Modules/Privacy/Admin/ProcessingRecordPage.php:90
 msgid "A draft for your record of processing activities under Art. 30 GDPR, built from the current EuroB2B settings. Print it or save it as a PDF from the print view, or download it as an HTML file that you can edit in a word processor."
 msgstr "Un borrador de tu registro de actividades de tratamiento según el Art. 30 RGPD, generado a partir de los ajustes actuales de EuroB2B. Imprímelo o guárdalo como PDF desde la vista de impresión, o descárgalo como archivo HTML que puedes editar en un procesador de textos."
 
-#: src/Modules/Privacy/Admin/ProcessingRecordPage.php:90
-#: src/Modules/Quotes/Admin/QuotesPage.php:586
+#: src/Modules/Privacy/Admin/ProcessingRecordPage.php:91
+msgid "EuroB2B → Settings → Privacy and data"
+msgstr "EuroB2B → Ajustes → Privacidad y datos"
+
+#: src/Modules/Privacy/Admin/ProcessingRecordPage.php:93
+msgid "Phone and e-mail address, contact person, joint controllers, the representative in the EU and the data protection officer are entered under %s; until then the record says \"please add\"."
+msgstr "El teléfono y el correo electrónico, la persona de contacto, los corresponsables, el representante en la UE y el delegado de protección de datos se introducen en %s; hasta entonces el registro indica «por completar»."
+
+#: src/Modules/Privacy/Admin/ProcessingRecordPage.php:94
+#: src/Modules/Quotes/Admin/QuotesPage.php:587
 #: src/Modules/Quotes/QuoteAccount.php:509
 msgid "Print view"
 msgstr "Vista de impresión"
 
-#: src/Modules/Privacy/Admin/ProcessingRecordPage.php:91
+#: src/Modules/Privacy/Admin/ProcessingRecordPage.php:95
 msgid "Download as HTML file"
 msgstr "Descargar como archivo HTML"
 
@@ -6571,9 +6635,9 @@ msgstr "La carpeta de documentos subidos está fuera de la carpeta de WordPress.
 #: src/Modules/Privacy/ProData/PurchaseListsDataProvider.php:94
 #: src/Modules/Privacy/ProData/QuoteRecords.php:151
 #: src/Modules/Quotes/QuoteField.php:73
-#: src/Modules/Tax/AuditFile/AuditFileFacts.php:329
-#: src/Modules/Tax/AuditFile/AuditFileFacts.php:336
-#: src/Modules/Tax/AuditFile/AuditFileFacts.php:512
+#: src/Modules/Tax/AuditFile/AuditFileFacts.php:330
+#: src/Modules/Tax/AuditFile/AuditFileFacts.php:337
+#: src/Modules/Tax/AuditFile/AuditFileFacts.php:529
 msgid "No"
 msgstr "No"
 
@@ -6683,8 +6747,8 @@ msgstr "Tú"
 #: src/Modules/Privacy/ProData/ConversationsDataProvider.php:136
 #: src/Modules/Privacy/ProData/ConversationsDataProvider.php:88
 #: src/Modules/Privacy/ProData/QuotesDataProvider.php:89
-#: src/Modules/Quotes/Admin/QuotesPage.php:441
-#: src/Modules/Quotes/Admin/QuotesPage.php:490
+#: src/Modules/Quotes/Admin/QuotesPage.php:442
+#: src/Modules/Quotes/Admin/QuotesPage.php:491
 msgid "Created"
 msgstr "Creada"
 
@@ -6790,7 +6854,7 @@ msgid "Our reply"
 msgstr "Nuestra respuesta"
 
 #: src/Modules/Privacy/ProData/QuotesDataProvider.php:127
-#: src/Modules/Quotes/Admin/QuotesPage.php:605
+#: src/Modules/Quotes/Admin/QuotesPage.php:606
 msgid "Text for the customer"
 msgstr "Texto para el cliente"
 
@@ -6803,490 +6867,503 @@ msgid "EuroB2B quotes and offers"
 msgstr "Presupuestos y ofertas de EuroB2B"
 
 #: src/Modules/Privacy/ProData/QuotesDataProvider.php:78
-#: src/Modules/Quotes/Admin/QuotesPage.php:451
+#: src/Modules/Quotes/Admin/QuotesPage.php:452
 #: src/Modules/Quotes/QuoteAccount.php:416
 msgid "Request"
 msgstr "Solicitud"
 
 #: src/Modules/Privacy/ProData/QuotesDataProvider.php:93
-#: src/Modules/Quotes/Admin/QuotesPage.php:611
+#: src/Modules/Quotes/Admin/QuotesPage.php:612
 msgid "Lines"
 msgstr "Líneas"
 
-#: src/Modules/Privacy/ProcessingRecord.php:160
+#: src/Modules/Privacy/ProcessingRecord.php:190
 msgid "Customer type, customer group, approval status with time and approving staff member"
 msgstr "Tipo de cliente, grupo de clientes, estado de aprobación con la hora y el miembro del personal que aprobó"
 
-#: src/Modules/Privacy/ProcessingRecord.php:161
+#: src/Modules/Privacy/ProcessingRecord.php:191
 msgid "Registration type, the values of the registration form fields set up by the shop, time the terms were accepted"
 msgstr "Tipo de registro, los valores de los campos del formulario de registro configurados por la tienda, hora en que se aceptaron las condiciones"
 
-#: src/Modules/Privacy/ProcessingRecord.php:162
+#: src/Modules/Privacy/ProcessingRecord.php:192
 msgid "Rejection note, time of the rejection and rejecting staff member"
 msgstr "Nota de rechazo, hora del rechazo y miembro del personal que rechazó"
 
-#: src/Modules/Privacy/ProcessingRecord.php:165
+#: src/Modules/Privacy/ProcessingRecord.php:195
 msgid "Shop staff with the capability to manage customers (eurob2b_manage_customers), in the admin and through the REST API (classification by user ID only)"
 msgstr "Personal de la tienda con la capacidad de gestionar clientes (eurob2b_manage_customers), en la administración y a través de la API REST (clasificación solo por ID de usuario)"
 
-#: src/Modules/Privacy/ProcessingRecord.php:166
+#: src/Modules/Privacy/ProcessingRecord.php:196
 msgid "Shop staff and extensions with access to orders (copies of registration fields on orders)"
 msgstr "Personal de la tienda y extensiones con acceso a los pedidos (copias de los campos de registro en los pedidos)"
 
-#: src/Modules/Privacy/ProcessingRecord.php:169
+#: src/Modules/Privacy/ProcessingRecord.php:199
 msgid "As long as the customer account exists."
 msgstr "Mientras exista la cuenta de cliente."
 
-#: src/Modules/Privacy/ProcessingRecord.php:172
+#: src/Modules/Privacy/ProcessingRecord.php:202
 msgid "Rejected applications that were never approved: deleted %d day after the rejection, unless orders were placed with the account or it has other roles."
 msgid_plural "Rejected applications that were never approved: deleted %d days after the rejection, unless orders were placed with the account or it has other roles."
 msgstr[0] "Solicitudes rechazadas que nunca se aprobaron: se borran %d día después del rechazo, salvo que se hayan realizado pedidos con la cuenta o tenga otros roles."
 msgstr[1] "Solicitudes rechazadas que nunca se aprobaron: se borran %d días después del rechazo, salvo que se hayan realizado pedidos con la cuenta o tenga otros roles."
 
-#: src/Modules/Privacy/ProcessingRecord.php:173
+#: src/Modules/Privacy/ProcessingRecord.php:203
 msgid "Rejected applications: kept until deleted manually (automatic deletion is switched off in the settings)."
 msgstr "Solicitudes rechazadas: se conservan hasta que se borren manualmente (el borrado automático está desactivado en los ajustes)."
 
-#: src/Modules/Privacy/ProcessingRecord.php:174
+#: src/Modules/Privacy/ProcessingRecord.php:204
 msgid "Copies of registration fields on orders: with the order; removed when WooCommerce anonymises the order."
 msgstr "Copias de los campos de registro en los pedidos: con el pedido; se eliminan cuando WooCommerce anonimiza el pedido."
 
-#: src/Modules/Privacy/ProcessingRecord.php:179
+#: src/Modules/Privacy/ProcessingRecord.php:209
 msgid "Documents uploaded with the registration (for example a trade licence): the file, its original name, type and size, and the time of the upload"
 msgstr "Documentos subidos con el registro (por ejemplo, una licencia de actividad): el archivo, su nombre original, tipo y tamaño, y la hora de la subida"
 
-#: src/Modules/Privacy/ProcessingRecord.php:180
+#: src/Modules/Privacy/ProcessingRecord.php:210
 msgid "Shop staff with the capability to manage customers, through a protected download link; the files cannot be downloaded publicly"
 msgstr "Personal de la tienda con la capacidad de gestionar clientes, mediante un enlace de descarga protegido; los archivos no se pueden descargar públicamente"
 
-#: src/Modules/Privacy/ProcessingRecord.php:183
+#: src/Modules/Privacy/ProcessingRecord.php:213
 msgid "Uploaded documents: deleted %d day after the approval or rejection, at the latest with the customer account or on an erasure request."
 msgid_plural "Uploaded documents: deleted %d days after the approval or rejection, at the latest with the customer account or on an erasure request."
 msgstr[0] "Documentos subidos: se borran %d día después de la aprobación o el rechazo, como muy tarde con la cuenta de cliente o ante una solicitud de supresión."
 msgstr[1] "Documentos subidos: se borran %d días después de la aprobación o el rechazo, como muy tarde con la cuenta de cliente o ante una solicitud de supresión."
 
-#: src/Modules/Privacy/ProcessingRecord.php:184
+#: src/Modules/Privacy/ProcessingRecord.php:214
 msgid "Uploaded documents: kept as long as the customer account exists; deleted with it or on an erasure request."
 msgstr "Documentos subidos: se conservan mientras exista la cuenta de cliente; se borran con ella o ante una solicitud de supresión."
 
-#: src/Modules/Privacy/ProcessingRecord.php:189
+#: src/Modules/Privacy/ProcessingRecord.php:219
 msgid "Business customer registration and approval"
 msgstr "Registro y aprobación de clientes empresariales"
 
-#: src/Modules/Privacy/ProcessingRecord.php:191
+#: src/Modules/Privacy/ProcessingRecord.php:221
 msgid "Reviewing applications for a business customer account and approving or rejecting them."
 msgstr "Revisar las solicitudes de una cuenta de cliente empresarial y aprobarlas o rechazarlas."
 
-#: src/Modules/Privacy/ProcessingRecord.php:192
+#: src/Modules/Privacy/ProcessingRecord.php:222
 msgid "Classifying customers as business or consumer customers and assigning them to a customer group, which decides prices, payment methods and visible products."
 msgstr "Clasificar a los clientes como clientes empresariales o consumidores y asignarlos a un grupo de clientes, que determina los precios, los métodos de pago y los productos visibles."
 
-#: src/Modules/Privacy/ProcessingRecord.php:193
+#: src/Modules/Privacy/ProcessingRecord.php:223
 msgid "Recording who approved or rejected an account and when."
 msgstr "Registrar quién aprobó o rechazó una cuenta y cuándo."
 
-#: src/Modules/Privacy/ProcessingRecord.php:196
+#: src/Modules/Privacy/ProcessingRecord.php:226
 msgid "Applicants for a business customer account (sole traders and contact persons of companies)"
 msgstr "Solicitantes de una cuenta de cliente empresarial (empresarios individuales y personas de contacto de empresas)"
 
-#: src/Modules/Privacy/ProcessingRecord.php:197
+#: src/Modules/Privacy/ProcessingRecord.php:227
 msgid "Customers with a customer account"
 msgstr "Clientes con una cuenta de cliente"
 
-#: src/Modules/Privacy/ProcessingRecord.php:198
+#: src/Modules/Privacy/ProcessingRecord.php:228
 msgid "Shop staff who approve or reject applications (user ID only)"
 msgstr "Personal de la tienda que aprueba o rechaza solicitudes (solo ID de usuario)"
 
-#: src/Modules/Privacy/ProcessingRecord.php:204
+#: src/Modules/Privacy/ProcessingRecord.php:234
 msgid "Art. 6(1)(b) GDPR: contract and steps prior to entering into a contract at the request of the applicant"
 msgstr "Art. 6(1)(b) RGPD: contrato y medidas precontractuales a petición del solicitante"
 
-#: src/Modules/Privacy/ProcessingRecord.php:230
+#: src/Modules/Privacy/ProcessingRecord.php:260
 msgid "Conditions agreed with individual customers"
 msgstr "Condiciones acordadas con clientes concretos"
 
-#: src/Modules/Privacy/ProcessingRecord.php:232
+#: src/Modules/Privacy/ProcessingRecord.php:262
 msgid "Applying the prices and conditions agreed with one customer: own prices and tier prices, allowed payment and shipping methods, pricing and checkout rules addressed to that customer."
 msgstr "Aplicar los precios y las condiciones acordados con un cliente: precios propios y precios escalonados, métodos de pago y de envío permitidos, reglas de precios y de pago dirigidas a ese cliente."
 
-#: src/Modules/Privacy/ProcessingRecord.php:235
+#: src/Modules/Privacy/ProcessingRecord.php:265
 msgid "Customers with individual conditions, in particular sole traders"
 msgstr "Clientes con condiciones individuales, en particular empresarios individuales"
 
-#: src/Modules/Privacy/ProcessingRecord.php:238
+#: src/Modules/Privacy/ProcessingRecord.php:268
 msgid "Own regular, sale and tier prices per product or variation"
 msgstr "Precios propios normales, rebajados y escalonados por producto o variación"
 
-#: src/Modules/Privacy/ProcessingRecord.php:239
+#: src/Modules/Privacy/ProcessingRecord.php:269
 msgid "Lists of the payment and shipping methods allowed for the customer"
 msgstr "Listas de los métodos de pago y de envío permitidos para el cliente"
 
-#: src/Modules/Privacy/ProcessingRecord.php:240
+#: src/Modules/Privacy/ProcessingRecord.php:270
 msgid "References to the customer (user ID) in pricing and checkout rules"
 msgstr "Referencias al cliente (ID de usuario) en las reglas de precios y de pago"
 
-#: src/Modules/Privacy/ProcessingRecord.php:243
+#: src/Modules/Privacy/ProcessingRecord.php:273
 msgid "Shop staff on the product screen, on the user profile and in the rules (capability eurob2b_manage_rules)"
 msgstr "Personal de la tienda en la pantalla del producto, en el perfil del usuario y en las reglas (capacidad eurob2b_manage_rules)"
 
-#: src/Modules/Privacy/ProcessingRecord.php:244
+#: src/Modules/Privacy/ProcessingRecord.php:274
 msgid "The customer sees their own prices in the shop"
 msgstr "El cliente ve sus propios precios en la tienda"
 
-#: src/Modules/Privacy/ProcessingRecord.php:247
+#: src/Modules/Privacy/ProcessingRecord.php:277
 msgid "Own prices and allowed payment and shipping methods: as long as the customer account exists; deleted on an erasure request and when the account is deleted. Orders keep the prices they were placed at."
 msgstr "Precios propios y métodos de pago y de envío permitidos: mientras exista la cuenta de cliente; se borran ante una solicitud de supresión y cuando se elimina la cuenta. Los pedidos conservan los precios con los que se realizaron."
 
-#: src/Modules/Privacy/ProcessingRecord.php:248
+#: src/Modules/Privacy/ProcessingRecord.php:278
 msgid "References to the customer in rules: until the rule is changed or the account is deleted. An erasure request does not remove them, because the rule still applies to the existing account."
 msgstr "Referencias al cliente en las reglas: hasta que se cambia la regla o se elimina la cuenta. Una solicitud de supresión no las elimina, porque la regla sigue aplicándose a la cuenta existente."
 
-#: src/Modules/Privacy/ProcessingRecord.php:251
+#: src/Modules/Privacy/ProcessingRecord.php:281
 msgid "Art. 6(1)(b) GDPR: conditions agreed with the customer"
 msgstr "Art. 6(1)(b) RGPD: condiciones acordadas con el cliente"
 
-#: src/Modules/Privacy/ProcessingRecord.php:252
+#: src/Modules/Privacy/ProcessingRecord.php:282
 msgid "Art. 6(1)(f) GDPR: legitimate interest in payment risk decisions and in the configuration of the shop"
 msgstr "Art. 6(1)(f) RGPD: interés legítimo en las decisiones sobre el riesgo de pago y en la configuración de la tienda"
 
-#: src/Modules/Privacy/ProcessingRecord.php:271
+#: src/Modules/Privacy/ProcessingRecord.php:301
 msgid "VAT ID and country, check result with reason, checking service, consultation number and times"
 msgstr "NIF-IVA y país, resultado de la comprobación con el motivo, servicio de comprobación, número de consulta y horas"
 
-#: src/Modules/Privacy/ProcessingRecord.php:272
+#: src/Modules/Privacy/ProcessingRecord.php:302
 msgid "Manual decision with the deciding staff member and note"
 msgstr "Decisión manual con el miembro del personal que decidió y la nota"
 
-#: src/Modules/Privacy/ProcessingRecord.php:273
+#: src/Modules/Privacy/ProcessingRecord.php:303
 msgid "Copy of the VAT ID and of the tax treatment on orders"
 msgstr "Copia del NIF-IVA y del tratamiento fiscal en los pedidos"
 
-#: src/Modules/Privacy/ProcessingRecord.php:276
+#: src/Modules/Privacy/ProcessingRecord.php:306
 msgid "Name and address of the trader as returned by VIES"
 msgstr "Nombre y dirección del operador tal como los devuelve VIES"
 
-#: src/Modules/Privacy/ProcessingRecord.php:281
+#: src/Modules/Privacy/ProcessingRecord.php:311
 msgid "European Commission, VIES service: the VAT ID to check and the shop's own VAT ID"
 msgstr "Comisión Europea, servicio VIES: el NIF-IVA que se comprueba y el NIF-IVA propio de la tienda"
 
-#: src/Modules/Privacy/ProcessingRecord.php:282
+#: src/Modules/Privacy/ProcessingRecord.php:312
 msgid "European Commission, VIES service: the VAT ID to check"
 msgstr "Comisión Europea, servicio VIES: el NIF-IVA que se comprueba"
 
-#: src/Modules/Privacy/ProcessingRecord.php:288
+#: src/Modules/Privacy/ProcessingRecord.php:318
 msgid "Checking VAT identification numbers to decide the tax treatment of orders (tax-exempt intra-Community supplies, reverse charge)."
 msgstr "Comprobar los números de identificación fiscal a efectos del IVA para decidir el tratamiento fiscal de los pedidos (entregas intracomunitarias exentas, inversión del sujeto pasivo)."
 
-#: src/Modules/Privacy/ProcessingRecord.php:289
+#: src/Modules/Privacy/ProcessingRecord.php:319
 msgid "Keeping the check results as evidence of due diligence."
 msgstr "Conservar los resultados de comprobación como prueba de la diligencia debida."
 
-#: src/Modules/Privacy/ProcessingRecord.php:292
+#: src/Modules/Privacy/ProcessingRecord.php:322
 msgid "Business customers who enter a VAT ID (for sole traders the number is personal data)"
 msgstr "Clientes empresariales que introducen un NIF-IVA (en el caso de los empresarios individuales, el número es un dato personal)"
 
-#: src/Modules/Privacy/ProcessingRecord.php:293
+#: src/Modules/Privacy/ProcessingRecord.php:323
 msgid "Shop staff who decide on a check manually (user ID only)"
 msgstr "Personal de la tienda que decide manualmente sobre una comprobación (solo ID de usuario)"
 
-#: src/Modules/Privacy/ProcessingRecord.php:297
+#: src/Modules/Privacy/ProcessingRecord.php:327
 msgid "Shop staff with the capability to decide on VAT ID checks (eurob2b_decide_validation)"
 msgstr "Personal de la tienda con la capacidad de decidir sobre las comprobaciones del NIF-IVA (eurob2b_decide_validation)"
 
-#: src/Modules/Privacy/ProcessingRecord.php:302
+#: src/Modules/Privacy/ProcessingRecord.php:332
 msgid "Check results that belong to an order: %d year, counted from the end of the calendar year of the order."
 msgid_plural "Check results that belong to an order: %d years, counted from the end of the calendar year of the order."
 msgstr[0] "Resultados de comprobación que pertenecen a un pedido: %d año, contado desde el final del año natural del pedido."
 msgstr[1] "Resultados de comprobación que pertenecen a un pedido: %d años, contados desde el final del año natural del pedido."
 
-#: src/Modules/Privacy/ProcessingRecord.php:304
+#: src/Modules/Privacy/ProcessingRecord.php:334
 msgid "Other check results: deleted after %d day."
 msgid_plural "Other check results: deleted after %d days."
 msgstr[0] "Otros resultados de comprobación: se borran después de %d día."
 msgstr[1] "Otros resultados de comprobación: se borran después de %d días."
 
-#: src/Modules/Privacy/ProcessingRecord.php:305
+#: src/Modules/Privacy/ProcessingRecord.php:335
 msgid "On an erasure request, results that belong to an order keep the number and the result as tax evidence without the link to the person."
 msgstr "Ante una solicitud de supresión, los resultados que pertenecen a un pedido conservan el número y el resultado como prueba fiscal, sin el vínculo con la persona."
 
-#: src/Modules/Privacy/ProcessingRecord.php:307
+#: src/Modules/Privacy/ProcessingRecord.php:337
 msgid "Art. 6(1)(c) GDPR in connection with the tax evidence duties for tax-exempt supplies, or Art. 6(1)(f) GDPR for other checks; this is an open legal question"
 msgstr "Art. 6(1)(c) RGPD en relación con las obligaciones de prueba fiscal de las entregas exentas, o Art. 6(1)(f) RGPD para otras comprobaciones; se trata de una cuestión jurídica abierta"
 
-#: src/Modules/Privacy/ProcessingRecord.php:314
+#: src/Modules/Privacy/ProcessingRecord.php:344
 msgid "VAT ID checks and tax evidence"
 msgstr "Comprobaciones del NIF-IVA y pruebas fiscales"
 
-#: src/Modules/Privacy/ProcessingRecord.php:318
+#: src/Modules/Privacy/ProcessingRecord.php:348
 msgid "The VAT ID field and all checking services are switched off."
 msgstr "El campo del NIF-IVA y todos los servicios de comprobación están desactivados."
 
-#: src/Modules/Privacy/ProcessingRecord.php:323
+#: src/Modules/Privacy/ProcessingRecord.php:353
 msgid "None: VAT IDs are only checked for their format, because no checking service is switched on."
 msgstr "Ninguno: los NIF-IVA solo se comprueban en cuanto a su formato, porque no hay ningún servicio de comprobación activado."
 
-#: src/Modules/Privacy/ProcessingRecord.php:367
+#: src/Modules/Privacy/ProcessingRecord.php:397
 msgid "Business details on orders"
 msgstr "Datos empresariales en los pedidos"
 
-#: src/Modules/Privacy/ProcessingRecord.php:369
+#: src/Modules/Privacy/ProcessingRecord.php:399
 msgid "Recording on each order the customer classification and the tax treatment, for order processing and invoicing."
 msgstr "Registrar en cada pedido la clasificación del cliente y el tratamiento fiscal, para la tramitación y la facturación de los pedidos."
 
-#: src/Modules/Privacy/ProcessingRecord.php:372
+#: src/Modules/Privacy/ProcessingRecord.php:402
 msgid "Customers who place orders"
 msgstr "Clientes que realizan pedidos"
 
-#: src/Modules/Privacy/ProcessingRecord.php:375
+#: src/Modules/Privacy/ProcessingRecord.php:405
 #: src/Pro/Privacy/ProcessingActivities.php:617
 msgid "Copy of the VAT ID, tax treatment and reason for a tax exemption"
 msgstr "Copia del NIF-IVA, tratamiento fiscal y motivo de una exención"
 
-#: src/Modules/Privacy/ProcessingRecord.php:376
+#: src/Modules/Privacy/ProcessingRecord.php:406
 msgid "Customer type and customer group"
 msgstr "Tipo de cliente y grupo de clientes"
 
-#: src/Modules/Privacy/ProcessingRecord.php:379
+#: src/Modules/Privacy/ProcessingRecord.php:409
 msgid "Shop staff who process orders, and extensions with access to orders (for example invoicing plugins)"
 msgstr "Personal de la tienda que procesa pedidos y extensiones con acceso a los pedidos (por ejemplo, plugins de facturación)"
 
-#: src/Modules/Privacy/ProcessingRecord.php:382
+#: src/Modules/Privacy/ProcessingRecord.php:412
 msgid "With the order, following the retention of orders in WooCommerce and the statutory retention periods for business records."
 msgstr "Con el pedido, según la conservación de pedidos en WooCommerce y los plazos legales de conservación de los documentos empresariales."
 
-#: src/Modules/Privacy/ProcessingRecord.php:383
+#: src/Modules/Privacy/ProcessingRecord.php:413
 msgid "When WooCommerce anonymises an order, these details are removed; on orders with a tax exemption the VAT ID stays as tax evidence."
 msgstr "Cuando WooCommerce anonimiza un pedido, estos datos se eliminan; en los pedidos con exención de impuestos, el NIF-IVA se conserva como prueba fiscal."
 
-#: src/Modules/Privacy/ProcessingRecord.php:386
+#: src/Modules/Privacy/ProcessingRecord.php:416
 #: src/Pro/Privacy/ProcessingActivities.php:434
 msgid "Art. 6(1)(b) GDPR: performance of the contract"
 msgstr "Art. 6(1)(b) RGPD: ejecución del contrato"
 
-#: src/Modules/Privacy/ProcessingRecord.php:387
+#: src/Modules/Privacy/ProcessingRecord.php:417
 msgid "Art. 6(1)(c) GDPR: statutory retention duties"
 msgstr "Art. 6(1)(c) RGPD: obligaciones legales de conservación"
 
-#: src/Modules/Privacy/ProcessingRecord.php:402
+#: src/Modules/Privacy/ProcessingRecord.php:432
 msgid "Audit log of administrative decisions"
 msgstr "Registro de auditoría de las decisiones administrativas"
 
-#: src/Modules/Privacy/ProcessingRecord.php:404
+#: src/Modules/Privacy/ProcessingRecord.php:434
 msgid "Tracing who decided on registrations, customer status, type and group and VAT ID checks, and when, as evidence of accountability and for internal control."
 msgstr "Saber quién decidió sobre registros, estado, tipo y grupo de clientes y comprobaciones del NIF-IVA, y cuándo, como prueba de la responsabilidad proactiva y para el control interno."
 
-#: src/Modules/Privacy/ProcessingRecord.php:407
+#: src/Modules/Privacy/ProcessingRecord.php:437
 msgid "Customers concerned by a decision"
 msgstr "Clientes afectados por una decisión"
 
-#: src/Modules/Privacy/ProcessingRecord.php:408
+#: src/Modules/Privacy/ProcessingRecord.php:438
 msgid "Shop staff who decide (user ID only)"
 msgstr "Personal de la tienda que decide (solo ID de usuario)"
 
-#: src/Modules/Privacy/ProcessingRecord.php:411
+#: src/Modules/Privacy/ProcessingRecord.php:441
 msgid "Time, action, user IDs of the deciding and the concerned person, order or check number, previous and new value (status, customer type, customer group, check result); no IP addresses, no notes, no names"
 msgstr "Hora, acción, ID de usuario de la persona que decide y de la afectada, número de pedido o de comprobación, valor anterior y nuevo (estado, tipo de cliente, grupo de clientes, resultado de la comprobación); sin direcciones IP, sin notas, sin nombres"
 
-#: src/Modules/Privacy/ProcessingRecord.php:414
+#: src/Modules/Privacy/ProcessingRecord.php:444
 msgid "Shop staff with the capability to manage settings (eurob2b_manage_settings), read only"
 msgstr "Personal de la tienda con la capacidad de gestionar los ajustes (eurob2b_manage_settings), solo lectura"
 
-#: src/Modules/Privacy/ProcessingRecord.php:418
+#: src/Modules/Privacy/ProcessingRecord.php:448
 msgid "Deleted %d day after the entry was written, by a daily job."
 msgid_plural "Deleted %d days after the entry was written, by a daily job."
 msgstr[0] "Se borran %d día después de escribirse la entrada, mediante una tarea diaria."
 msgstr[1] "Se borran %d días después de escribirse la entrada, mediante una tarea diaria."
 
-#: src/Modules/Privacy/ProcessingRecord.php:419
+#: src/Modules/Privacy/ProcessingRecord.php:449
 msgid "On an erasure request and when an account is deleted, the reference to the person is removed; the entry stays without it."
 msgstr "Ante una solicitud de supresión y cuando se elimina una cuenta, se elimina la referencia a la persona; la entrada se conserva sin ella."
 
-#: src/Modules/Privacy/ProcessingRecord.php:422
+#: src/Modules/Privacy/ProcessingRecord.php:452
 msgid "Art. 6(1)(f) GDPR: legitimate interest in tracing decisions and in internal control, as part of the accountability under Art. 5(2) GDPR"
 msgstr "Art. 6(1)(f) RGPD: interés legítimo en la trazabilidad de las decisiones y en el control interno, como parte de la responsabilidad proactiva según el Art. 5(2) RGPD"
 
-#: src/Modules/Privacy/ProcessingRecord.php:438
+#: src/Modules/Privacy/ProcessingRecord.php:468
 msgid "Protection of the registration against abuse"
 msgstr "Protección del registro contra abusos"
 
-#: src/Modules/Privacy/ProcessingRecord.php:440
+#: src/Modules/Privacy/ProcessingRecord.php:470
 #: src/Pro/Privacy/ProcessingActivities.php:306
 msgid "All request limits are switched off."
 msgstr "Todos los límites de peticiones están desactivados."
 
-#: src/Modules/Privacy/ProcessingRecord.php:442
+#: src/Modules/Privacy/ProcessingRecord.php:472
 #: src/Pro/Privacy/ProcessingActivities.php:289
 msgid "Limiting the registrations per connection and hour, against automated mass registrations."
 msgstr "Limitar los registros por conexión y hora, contra registros masivos automatizados."
 
-#: src/Modules/Privacy/ProcessingRecord.php:445
+#: src/Modules/Privacy/ProcessingRecord.php:475
 msgid "Visitors who register"
 msgstr "Visitantes que se registran"
 
-#: src/Modules/Privacy/ProcessingRecord.php:448
+#: src/Modules/Privacy/ProcessingRecord.php:478
 msgid "A salted hash of the IP address that cannot be turned back into the address, and a request count"
 msgstr "Un hash con sal de la dirección IP que no se puede volver a convertir en la dirección y un contador de peticiones"
 
-#: src/Modules/Privacy/ProcessingRecord.php:451
+#: src/Modules/Privacy/ProcessingRecord.php:481
 #: src/Pro/Privacy/ProcessingActivities.php:316
 msgid "None; the entries are not shown in the admin"
 msgstr "Ninguno; las entradas no se muestran en la administración"
 
-#: src/Modules/Privacy/ProcessingRecord.php:454
+#: src/Modules/Privacy/ProcessingRecord.php:484
 #: src/Pro/Privacy/ProcessingActivities.php:290
 msgid "Registration: 1 hour, then the entry expires."
 msgstr "Registro: 1 hora; después la entrada caduca."
 
-#: src/Modules/Privacy/ProcessingRecord.php:457
+#: src/Modules/Privacy/ProcessingRecord.php:487
 #: src/Pro/Privacy/ProcessingActivities.php:320
 msgid "Art. 6(1)(f) GDPR: legitimate interest in protecting the shop against automated abuse"
 msgstr "Art. 6(1)(f) RGPD: interés legítimo en proteger la tienda contra abusos automatizados"
 
-#: src/Modules/Privacy/ProcessingRecord.php:499
+#: src/Modules/Privacy/ProcessingRecord.php:535
 msgid "please add"
 msgstr "por completar"
 
-#: src/Modules/Privacy/ProcessingRecord.php:502
+#: src/Modules/Privacy/ProcessingRecord.php:539
 msgid "This draft covers only the processing that EuroB2B adds to the shop. Your record also needs the processing of WordPress, WooCommerce and other plugins, of your hosting, e-mail delivery, payment and shipping services and of your business outside the shop. Check every entry, add what is missing and remove what does not apply. Legal bases are candidates that you should review with your data protection advisor. Whether you must keep a record follows from Art. 30(5) GDPR."
 msgstr "Este borrador solo cubre los tratamientos que EuroB2B añade a la tienda. Tu registro también necesita los tratamientos de WordPress, WooCommerce y otros plugins, de tu alojamiento, el envío de correo electrónico, los servicios de pago y de envío y de tu actividad fuera de la tienda. Revisa cada entrada, añade lo que falte y elimina lo que no proceda. Las bases jurídicas son propuestas que debes revisar con tu asesor de protección de datos. Si debes llevar un registro se deduce del Art. 30(5) RGPD."
 
-#: src/Modules/Privacy/ProcessingRecord.php:504
+#: src/Modules/Privacy/ProcessingRecord.php:541
 msgid "Controller (Art. 30(1)(a) GDPR)"
 msgstr "Responsable del tratamiento (Art. 30(1)(a) RGPD)"
 
-#: src/Modules/Privacy/ProcessingRecord.php:507
+#: src/Modules/Privacy/ProcessingRecord.php:544
 msgid "Address"
 msgstr "Dirección"
 
-#: src/Modules/Privacy/ProcessingRecord.php:508
+#: src/Modules/Privacy/ProcessingRecord.php:545
 msgid "Website"
 msgstr "Sitio web"
 
-#: src/Modules/Privacy/ProcessingRecord.php:509
+#: src/Modules/Privacy/ProcessingRecord.php:546
+#: src/Modules/Privacy/ProcessingRecord.php:93
 msgid "Phone and e-mail address"
 msgstr "Teléfono y correo electrónico"
 
-#: src/Modules/Privacy/ProcessingRecord.php:510
+#: src/Modules/Privacy/ProcessingRecord.php:547
+#: src/Modules/Privacy/ProcessingRecord.php:94
 msgid "Contact person"
 msgstr "Persona de contacto"
 
-#: src/Modules/Privacy/ProcessingRecord.php:511
+#: src/Modules/Privacy/ProcessingRecord.php:548
+#: src/Modules/Privacy/ProcessingRecord.php:95
 msgid "Joint controllers (Art. 26 GDPR)"
 msgstr "Corresponsables del tratamiento (Art. 26 RGPD)"
 
-#: src/Modules/Privacy/ProcessingRecord.php:512
+#: src/Modules/Privacy/ProcessingRecord.php:549
+#: src/Modules/Privacy/ProcessingRecord.php:96
 msgid "Representative in the EU (Art. 27 GDPR)"
 msgstr "Representante en la UE (Art. 27 RGPD)"
 
-#: src/Modules/Privacy/ProcessingRecord.php:513
+#: src/Modules/Privacy/ProcessingRecord.php:550
+#: src/Modules/Privacy/ProcessingRecord.php:97
 msgid "Data protection officer (Art. 37 GDPR)"
 msgstr "Delegado de protección de datos (Art. 37 RGPD)"
 
-#: src/Modules/Privacy/ProcessingRecord.php:524
+#: src/Modules/Privacy/ProcessingRecord.php:561
 msgid "For all activities above"
 msgstr "Para todas las actividades anteriores"
 
-#: src/Modules/Privacy/ProcessingRecord.php:525
+#: src/Modules/Privacy/ProcessingRecord.php:562
 msgid "Special categories of personal data (Art. 9 and 10 GDPR)"
 msgstr "Categorías especiales de datos personales (Art. 9 y 10 RGPD)"
 
-#: src/Modules/Privacy/ProcessingRecord.php:532
+#: src/Modules/Privacy/ProcessingRecord.php:569
 msgid "EuroB2B itself processes no special categories of personal data and no data on criminal convictions. Fields you add to the registration form can change this."
 msgstr "EuroB2B por sí mismo no trata categorías especiales de datos personales ni datos sobre condenas penales. Los campos que añadas al formulario de registro pueden cambiar esto."
 
-#: src/Modules/Privacy/ProcessingRecord.php:534
+#: src/Modules/Privacy/ProcessingRecord.php:571
 msgid "Transfers to third countries (Art. 30(1)(e) GDPR)"
 msgstr "Transferencias a terceros países (Art. 30(1)(e) RGPD)"
 
-#: src/Modules/Privacy/ProcessingRecord.php:543
+#: src/Modules/Privacy/ProcessingRecord.php:580
 msgid "EuroB2B transfers no personal data to third countries or international organisations. Add the transfers of your hosting, e-mail delivery and other services."
 msgstr "EuroB2B no transfiere datos personales a terceros países ni a organizaciones internacionales. Añade las transferencias de tu alojamiento, el envío de correo electrónico y otros servicios."
 
-#: src/Modules/Privacy/ProcessingRecord.php:546
+#: src/Modules/Privacy/ProcessingRecord.php:583
 msgid "Technical and organisational measures (Art. 30(1)(g) and Art. 32(1) GDPR)"
 msgstr "Medidas técnicas y organizativas (Art. 30(1)(g) y Art. 32(1) RGPD)"
 
-#: src/Modules/Privacy/ProcessingRecord.php:547
+#: src/Modules/Privacy/ProcessingRecord.php:584
 msgid "Measures of EuroB2B; add those of your hosting and your organisation (for example encryption in transit, backups, access to the server, staff instructions):"
 msgstr "Medidas de EuroB2B; añade las de tu alojamiento y tu organización (por ejemplo, cifrado en tránsito, copias de seguridad, acceso al servidor, instrucciones al personal):"
 
-#: src/Modules/Privacy/ProcessingRecord.php:558
+#: src/Modules/Privacy/ProcessingRecord.php:595
 msgid "Admin screens, exports and the REST API require role-based capabilities; forms and downloads are protected against cross-site request forgery (nonces)."
 msgstr "Las pantallas de administración, las exportaciones y la API REST requieren capacidades basadas en roles; los formularios y las descargas están protegidos contra la falsificación de peticiones en sitios cruzados (nonces)."
 
-#: src/Modules/Privacy/ProcessingRecord.php:559
+#: src/Modules/Privacy/ProcessingRecord.php:596
 msgid "Input is validated on the server, output is escaped, and database queries use prepared statements."
 msgstr "Los datos de entrada se validan en el servidor, los de salida se escapan y las consultas a la base de datos usan sentencias preparadas."
 
-#: src/Modules/Privacy/ProcessingRecord.php:560
+#: src/Modules/Privacy/ProcessingRecord.php:597
 msgid "The abuse protection stores IP addresses only as salted hashes that cannot be turned back into the address."
 msgstr "La protección contra abusos guarda las direcciones IP solo como hashes con sal que no se pueden volver a convertir en la dirección."
 
-#: src/Modules/Privacy/ProcessingRecord.php:561
+#: src/Modules/Privacy/ProcessingRecord.php:598
 msgid "Retention periods are applied by a daily job; requests for access and erasure are answered with the WordPress tools Export Personal Data and Erase Personal Data, which include EuroB2B's data."
 msgstr "Los plazos de conservación los aplica una tarea diaria; las solicitudes de acceso y de supresión se atienden con las herramientas de WordPress Exportar datos personales y Borrar datos personales, que incluyen los datos de EuroB2B."
 
-#: src/Modules/Privacy/ProcessingRecord.php:562
+#: src/Modules/Privacy/ProcessingRecord.php:599
 msgid "Connections to external services exist only for VAT ID checks, only after they are switched on, and use HTTPS."
 msgstr "Solo hay conexiones a servicios externos para las comprobaciones del NIF-IVA, solo después de activarlas, y usan HTTPS."
 
-#: src/Modules/Privacy/ProcessingRecord.php:563
+#: src/Modules/Privacy/ProcessingRecord.php:600
 msgid "EuroB2B has no telemetry and sends no data to its developers. Uninstalling deletes data only after an explicit opt-in."
 msgstr "EuroB2B no tiene telemetría y no envía datos a sus desarrolladores. La desinstalación solo borra datos tras una aceptación expresa."
 
-#: src/Modules/Privacy/ProcessingRecord.php:574
+#: src/Modules/Privacy/ProcessingRecord.php:611
 msgid "Not in use on this shop"
 msgstr "No se usa en esta tienda"
 
-#: src/Modules/Privacy/ProcessingRecord.php:575
+#: src/Modules/Privacy/ProcessingRecord.php:612
 msgid "These activities are not part of the record while their feature is switched off. Data stored while it was on stays until its retention period ends."
 msgstr "Estas actividades no forman parte del registro mientras su función esté desactivada. Los datos guardados mientras estaba activada se conservan hasta que termina su plazo de conservación."
 
-#: src/Modules/Privacy/ProcessingRecord.php:585
+#: src/Modules/Privacy/ProcessingRecord.php:622
 msgid "Generated on %1$s by EuroB2B %2$s from the current settings. Changes to the settings change this draft; keep dated copies as the history of your record."
 msgstr "Generado el %1$s por EuroB2B %2$s a partir de los ajustes actuales. Los cambios en los ajustes cambian este borrador; guarda copias fechadas como historial de tu registro."
 
-#: src/Modules/Privacy/ProcessingRecord.php:599
+#: src/Modules/Privacy/ProcessingRecord.php:636
 msgctxt "recipients"
 msgid "None"
 msgstr "Ninguno"
 
-#: src/Modules/Privacy/ProcessingRecord.php:601
+#: src/Modules/Privacy/ProcessingRecord.php:638
 msgid "Purposes (Art. 30(1)(b))"
 msgstr "Fines (Art. 30(1)(b))"
 
-#: src/Modules/Privacy/ProcessingRecord.php:602
+#: src/Modules/Privacy/ProcessingRecord.php:639
 msgid "Categories of data subjects (Art. 30(1)(c))"
 msgstr "Categorías de interesados (Art. 30(1)(c))"
 
-#: src/Modules/Privacy/ProcessingRecord.php:603
+#: src/Modules/Privacy/ProcessingRecord.php:640
 msgid "Categories of personal data (Art. 30(1)(c))"
 msgstr "Categorías de datos personales (Art. 30(1)(c))"
 
-#: src/Modules/Privacy/ProcessingRecord.php:604
+#: src/Modules/Privacy/ProcessingRecord.php:641
 msgid "Recipients inside the shop (persons with access)"
 msgstr "Destinatarios dentro de la tienda (personas con acceso)"
 
-#: src/Modules/Privacy/ProcessingRecord.php:605
+#: src/Modules/Privacy/ProcessingRecord.php:642
 msgid "External recipients (Art. 30(1)(d))"
 msgstr "Destinatarios externos (Art. 30(1)(d))"
 
-#: src/Modules/Privacy/ProcessingRecord.php:606
+#: src/Modules/Privacy/ProcessingRecord.php:643
 msgid "Time limits for erasure (Art. 30(1)(f))"
 msgstr "Plazos de supresión (Art. 30(1)(f))"
 
-#: src/Modules/Privacy/ProcessingRecord.php:607
+#: src/Modules/Privacy/ProcessingRecord.php:644
 msgid "Legal basis (candidates to review)"
 msgstr "Base jurídica (propuestas que revisar)"
 
-#: src/Modules/Privacy/ProcessingRecord.php:620
+#: src/Modules/Privacy/ProcessingRecord.php:657
 msgid "EuroB2B data inventory"
 msgstr "Inventario de datos de EuroB2B"
 
+#: src/Modules/Privacy/ProcessingRecord.php:93
+msgid "For the controller sheet of the record of processing activities (EuroB2B → Settings → Processing record); empty fields are marked \"please add\" there, write \"none\" where something does not apply. These details stay on this site: they are not part of the settings export and are deleted when EuroB2B is deleted."
+msgstr "Para la portada del registro de actividades de tratamiento (EuroB2B → Ajustes → Registro de tratamiento); allí los campos vacíos aparecen marcados como «por completar», escribe «ninguno» donde algo no proceda. Estos datos se quedan en este sitio: no forman parte de la exportación de ajustes y se eliminan cuando se elimina EuroB2B."
+
+#: src/Modules/Privacy/ProcessingRecord.php:97
+msgid "Name and contact details."
+msgstr "Nombre y datos de contacto."
+
 #: src/Modules/Quotes/Admin/QuoteFieldsPage.php:105
 #: src/Modules/Quotes/Admin/QuoteFieldsPage.php:218
-#: src/Modules/Quotes/Admin/QuotesPage.php:383
-#: src/Modules/Quotes/Admin/QuotesPage.php:808
+#: src/Modules/Quotes/Admin/QuotesPage.php:384
+#: src/Modules/Quotes/Admin/QuotesPage.php:809
 msgid "You are not allowed to manage quotes."
 msgstr "No tienes permiso para gestionar presupuestos."
 
@@ -7415,61 +7492,61 @@ msgstr "Solicitudes de clientes que aún no tienen respuesta."
 msgid "Answer"
 msgstr "Responder"
 
-#: src/Modules/Quotes/Admin/QuotesPage.php:223
-#: src/Modules/Quotes/Admin/QuotesPage.php:292
-#: src/Modules/Quotes/Admin/QuotesPage.php:713
+#: src/Modules/Quotes/Admin/QuotesPage.php:224
+#: src/Modules/Quotes/Admin/QuotesPage.php:293
+#: src/Modules/Quotes/Admin/QuotesPage.php:714
 msgid "The quote does not exist."
 msgstr "El presupuesto no existe."
 
-#: src/Modules/Quotes/Admin/QuotesPage.php:265
+#: src/Modules/Quotes/Admin/QuotesPage.php:266
 msgid "The expiry date is not valid."
 msgstr "La fecha de caducidad no es válida."
 
-#: src/Modules/Quotes/Admin/QuotesPage.php:342
-#: src/Modules/Quotes/Admin/QuotesPage.php:362
+#: src/Modules/Quotes/Admin/QuotesPage.php:343
+#: src/Modules/Quotes/Admin/QuotesPage.php:363
 msgid "Product #%d does not exist."
 msgstr "El producto #%d no existe."
 
-#: src/Modules/Quotes/Admin/QuotesPage.php:366
+#: src/Modules/Quotes/Admin/QuotesPage.php:367
 msgid "The line \"%s\" needs a unit price."
 msgstr "La línea «%s» necesita un precio unitario."
 
-#: src/Modules/Quotes/Admin/QuotesPage.php:370
+#: src/Modules/Quotes/Admin/QuotesPage.php:371
 msgid "Unit prices cannot be negative."
 msgstr "Los precios unitarios no pueden ser negativos."
 
-#: src/Modules/Quotes/Admin/QuotesPage.php:395
+#: src/Modules/Quotes/Admin/QuotesPage.php:396
 msgid "Quotes are switched off in the EuroB2B settings. Existing requests and offers are kept; customers do not see them."
 msgstr "Los presupuestos están desactivados en los ajustes de EuroB2B. Las solicitudes y ofertas existentes se conservan; los clientes no las ven."
 
-#: src/Modules/Quotes/Admin/QuotesPage.php:404
+#: src/Modules/Quotes/Admin/QuotesPage.php:405
 msgid "The offer was deleted."
 msgstr "La oferta se ha eliminado."
 
-#: src/Modules/Quotes/Admin/QuotesPage.php:429
+#: src/Modules/Quotes/Admin/QuotesPage.php:430
 msgid "Offers"
 msgstr "Ofertas"
 
-#: src/Modules/Quotes/Admin/QuotesPage.php:429
+#: src/Modules/Quotes/Admin/QuotesPage.php:430
 msgid "Requests"
 msgstr "Solicitudes"
 
-#: src/Modules/Quotes/Admin/QuotesPage.php:429
+#: src/Modules/Quotes/Admin/QuotesPage.php:430
 msgid "Requests and offers"
 msgstr "Solicitudes y ofertas"
 
-#: src/Modules/Quotes/Admin/QuotesPage.php:430
+#: src/Modules/Quotes/Admin/QuotesPage.php:431
 msgid "Any status"
 msgstr "Cualquier estado"
 
-#: src/Modules/Quotes/Admin/QuotesPage.php:441
+#: src/Modules/Quotes/Admin/QuotesPage.php:442
 #: src/Modules/Quotes/QuoteAccount.php:404
 #: src/Modules/Quotes/QuoteAccount.php:415
 msgid "Number"
 msgstr "Número"
 
-#: src/Modules/Quotes/Admin/QuotesPage.php:441
-#: src/Modules/Quotes/Admin/QuotesPage.php:624
+#: src/Modules/Quotes/Admin/QuotesPage.php:442
+#: src/Modules/Quotes/Admin/QuotesPage.php:625
 #: src/Modules/Quotes/QuoteAccount.php:409
 #: src/Modules/Quotes/QuoteAccount.php:420
 #: src/Modules/Quotes/QuoteAccount.php:550
@@ -7486,178 +7563,178 @@ msgstr "Número"
 msgid "Total (net)"
 msgstr "Total (neto)"
 
-#: src/Modules/Quotes/Admin/QuotesPage.php:441
-#: src/Modules/Quotes/Admin/QuotesPage.php:606
+#: src/Modules/Quotes/Admin/QuotesPage.php:442
+#: src/Modules/Quotes/Admin/QuotesPage.php:607
 msgid "Valid until"
 msgstr "Válida hasta"
 
-#: src/Modules/Quotes/Admin/QuotesPage.php:446
+#: src/Modules/Quotes/Admin/QuotesPage.php:447
 msgid "No quotes yet."
 msgstr "Todavía no hay presupuestos."
 
-#: src/Modules/Quotes/Admin/QuotesPage.php:463
+#: src/Modules/Quotes/Admin/QuotesPage.php:464
 msgid "New offer"
 msgstr "Nueva oferta"
 
-#: src/Modules/Quotes/Admin/QuotesPage.php:468
+#: src/Modules/Quotes/Admin/QuotesPage.php:469
 msgid "Create offer"
 msgstr "Crear oferta"
 
-#: src/Modules/Quotes/Admin/QuotesPage.php:469
+#: src/Modules/Quotes/Admin/QuotesPage.php:470
 msgid "Offers for a request are created from the request itself; this form starts an empty offer for a customer."
 msgstr "Las ofertas para una solicitud se crean desde la propia solicitud; este formulario inicia una oferta vacía para un cliente."
 
-#: src/Modules/Quotes/Admin/QuotesPage.php:478
-#: src/Modules/Quotes/Admin/QuotesPage.php:578
+#: src/Modules/Quotes/Admin/QuotesPage.php:479
+#: src/Modules/Quotes/Admin/QuotesPage.php:579
 #: src/Modules/Quotes/QuoteAccount.php:457
 #: src/Modules/Quotes/QuoteAccount.php:496
 msgid "All quotes"
 msgstr "Todos los presupuestos"
 
-#: src/Modules/Quotes/Admin/QuotesPage.php:482
+#: src/Modules/Quotes/Admin/QuotesPage.php:483
 msgid "guest without a customer account"
 msgstr "invitado sin cuenta de cliente"
 
-#: src/Modules/Quotes/Admin/QuotesPage.php:497
+#: src/Modules/Quotes/Admin/QuotesPage.php:498
 msgid "Requested lines"
 msgstr "Líneas solicitadas"
 
-#: src/Modules/Quotes/Admin/QuotesPage.php:508
+#: src/Modules/Quotes/Admin/QuotesPage.php:509
 #: src/Modules/Quotes/QuoteAccount.php:474
 msgid "Offers for this request"
 msgstr "Ofertas para esta solicitud"
 
-#: src/Modules/Quotes/Admin/QuotesPage.php:519
+#: src/Modules/Quotes/Admin/QuotesPage.php:520
 msgid "Your reply is e-mailed to the customer and shown in their account."
 msgstr "Tu respuesta se envía por correo electrónico al cliente y se muestra en su cuenta."
 
-#: src/Modules/Quotes/Admin/QuotesPage.php:519
+#: src/Modules/Quotes/Admin/QuotesPage.php:520
 msgid "Your reply is e-mailed to the guest."
 msgstr "Tu respuesta se envía por correo electrónico al invitado."
 
-#: src/Modules/Quotes/Admin/QuotesPage.php:532
+#: src/Modules/Quotes/Admin/QuotesPage.php:533
 msgid "Create offer from this request"
 msgstr "Crear una oferta a partir de esta solicitud"
 
-#: src/Modules/Quotes/Admin/QuotesPage.php:539
+#: src/Modules/Quotes/Admin/QuotesPage.php:540
 msgid "Close request"
 msgstr "Cerrar solicitud"
 
-#: src/Modules/Quotes/Admin/QuotesPage.php:554
+#: src/Modules/Quotes/Admin/QuotesPage.php:555
 msgid "Assign to a customer account"
 msgstr "Asignar a una cuenta de cliente"
 
-#: src/Modules/Quotes/Admin/QuotesPage.php:563
+#: src/Modules/Quotes/Admin/QuotesPage.php:564
 msgid "Assign"
 msgstr "Asignar"
 
-#: src/Modules/Quotes/Admin/QuotesPage.php:564
+#: src/Modules/Quotes/Admin/QuotesPage.php:565
 msgid "An offer can only be accepted in a customer account. Once the guest has an account, assign the request to it; then create the offer. The name, e-mail address and company of the guest are removed from the request, the account holds them. Check that the account belongs to the guest: the shop does not confirm e-mail addresses at registration."
 msgstr "Una oferta solo se puede aceptar en una cuenta de cliente. Cuando el invitado tenga una cuenta, asígnale la solicitud; después crea la oferta. El nombre, el correo electrónico y la empresa del invitado se eliminan de la solicitud; la cuenta los contiene. Comprueba que la cuenta pertenece al invitado: la tienda no confirma los correos electrónicos en el registro."
 
-#: src/Modules/Quotes/Admin/QuotesPage.php:566
+#: src/Modules/Quotes/Admin/QuotesPage.php:567
 msgid "A customer account with the e-mail address of the guest exists and is preselected."
 msgstr "Existe una cuenta de cliente con el correo electrónico del invitado y está preseleccionada."
 
-#: src/Modules/Quotes/Admin/QuotesPage.php:580
+#: src/Modules/Quotes/Admin/QuotesPage.php:581
 msgid "Request #%d"
 msgstr "Solicitud #%d"
 
-#: src/Modules/Quotes/Admin/QuotesPage.php:584
+#: src/Modules/Quotes/Admin/QuotesPage.php:585
 msgid "Status: %1$s · Customer: %2$s · Company: %3$s"
 msgstr "Estado: %1$s · Cliente: %2$s · Empresa: %3$s"
 
-#: src/Modules/Quotes/Admin/QuotesPage.php:588
+#: src/Modules/Quotes/Admin/QuotesPage.php:589
 #: src/Modules/Quotes/QuoteAccount.php:511
 msgid "Download PDF"
 msgstr "Descargar PDF"
 
-#: src/Modules/Quotes/Admin/QuotesPage.php:594
+#: src/Modules/Quotes/Admin/QuotesPage.php:595
 msgid "Order #%d was placed from this offer."
 msgstr "El pedido #%d se realizó a partir de esta oferta."
 
-#: src/Modules/Quotes/Admin/QuotesPage.php:605
+#: src/Modules/Quotes/Admin/QuotesPage.php:606
 msgid "Shown in My Account and in the offer e-mail (delivery, terms, validity…)."
 msgstr "Se muestra en Mi cuenta y en el correo electrónico de la oferta (entrega, condiciones, validez…)."
 
-#: src/Modules/Quotes/Admin/QuotesPage.php:606
+#: src/Modules/Quotes/Admin/QuotesPage.php:607
 msgid "Empty: no expiry. After this moment the offer cannot be accepted."
 msgstr "Vacío: sin caducidad. A partir de este momento la oferta no se puede aceptar."
 
-#: src/Modules/Quotes/Admin/QuotesPage.php:607
+#: src/Modules/Quotes/Admin/QuotesPage.php:608
 msgid "Reusable"
 msgstr "Reutilizable"
 
-#: src/Modules/Quotes/Admin/QuotesPage.php:607
+#: src/Modules/Quotes/Admin/QuotesPage.php:608
 msgid "The customer may order from this offer more than once (until it expires)."
 msgstr "El cliente puede pedir a partir de esta oferta más de una vez (hasta que caduque)."
 
-#: src/Modules/Quotes/Admin/QuotesPage.php:608
+#: src/Modules/Quotes/Admin/QuotesPage.php:609
 msgid "Also visible to"
 msgstr "También visible para"
 
-#: src/Modules/Quotes/Admin/QuotesPage.php:608
+#: src/Modules/Quotes/Admin/QuotesPage.php:609
 msgid "Optional audience tokens, comma separated: b2b, b2c, registered, group:<id>, company:<id>, user:<id>. Matching customers see the sent offer in their account and may accept it; only the customer above gets the e-mail and may decline it. Make the offer reusable when several customers should order from it."
 msgstr "Códigos de público opcionales separados por comas: b2b, b2c, registered, group:<id>, company:<id>, user:<id>. Los clientes que coincidan ven la oferta enviada en su cuenta y pueden aceptarla; solo el cliente de arriba recibe el correo electrónico y puede rechazarla. Haz que la oferta sea reutilizable cuando varios clientes deban pedir a partir de ella."
 
-#: src/Modules/Quotes/Admin/QuotesPage.php:612
+#: src/Modules/Quotes/Admin/QuotesPage.php:613
 msgid "Pick a product or write a free-text line; the description is what the customer sees. Unit prices are net; the tax class decides the VAT at checkout. Free-text lines become fees on the order; link a product to a free-text line when ordering it should reduce the stock of that product (the customer still sees only the description). Empty rows are ignored."
 msgstr "Elige un producto o escribe una línea de texto libre; la descripción es lo que ve el cliente. Los precios unitarios son netos; la clase de impuesto determina el IVA al finalizar la compra. Las líneas de texto libre se convierten en cargos en el pedido; vincula un producto a una línea de texto libre cuando pedirla deba reducir el inventario de ese producto (el cliente sigue viendo solo la descripción). Las filas vacías se ignoran."
 
-#: src/Modules/Quotes/Admin/QuotesPage.php:613
+#: src/Modules/Quotes/Admin/QuotesPage.php:614
 msgid "Unit price (net, %s)"
 msgstr "Precio unitario (neto, %s)"
 
-#: src/Modules/Quotes/Admin/QuotesPage.php:628
+#: src/Modules/Quotes/Admin/QuotesPage.php:629
 msgid "Save draft"
 msgstr "Guardar borrador"
 
-#: src/Modules/Quotes/Admin/QuotesPage.php:629
+#: src/Modules/Quotes/Admin/QuotesPage.php:630
 msgid "Save and send"
 msgstr "Guardar y enviar"
 
-#: src/Modules/Quotes/Admin/QuotesPage.php:629
+#: src/Modules/Quotes/Admin/QuotesPage.php:630
 msgid "Save and send again"
 msgstr "Guardar y volver a enviar"
 
-#: src/Modules/Quotes/Admin/QuotesPage.php:629
+#: src/Modules/Quotes/Admin/QuotesPage.php:630
 msgid "Send this offer to the customer by e-mail?"
 msgstr "¿Enviar esta oferta al cliente por correo electrónico?"
 
-#: src/Modules/Quotes/Admin/QuotesPage.php:635
+#: src/Modules/Quotes/Admin/QuotesPage.php:636
 msgid "Delete this offer?"
 msgstr "¿Eliminar esta oferta?"
 
-#: src/Modules/Quotes/Admin/QuotesPage.php:638
+#: src/Modules/Quotes/Admin/QuotesPage.php:639
 msgid "Delete offer"
 msgstr "Eliminar oferta"
 
-#: src/Modules/Quotes/Admin/QuotesPage.php:658
+#: src/Modules/Quotes/Admin/QuotesPage.php:659
 msgid "Free-text line (no product)"
 msgstr "Línea de texto libre (sin producto)"
 
-#: src/Modules/Quotes/Admin/QuotesPage.php:687
+#: src/Modules/Quotes/Admin/QuotesPage.php:688
 msgid "Linked product for stock (free-text lines only)"
 msgstr "Producto vinculado para el inventario (solo líneas de texto libre)"
 
-#: src/Modules/Quotes/Admin/QuotesPage.php:689
+#: src/Modules/Quotes/Admin/QuotesPage.php:690
 msgid "No stock change"
 msgstr "Sin cambio de inventario"
 
-#: src/Modules/Quotes/Admin/QuotesPage.php:696
+#: src/Modules/Quotes/Admin/QuotesPage.php:697
 msgid "The linked product #%d no longer exists; saving removes the link."
 msgstr "El producto vinculado #%d ya no existe; al guardar se elimina el vínculo."
 
-#: src/Modules/Quotes/Admin/QuotesPage.php:699
+#: src/Modules/Quotes/Admin/QuotesPage.php:700
 msgid "This product does not manage stock; ordering the offer changes no stock."
 msgstr "Este producto no gestiona inventario; pedir la oferta no cambia el inventario."
 
-#: src/Modules/Quotes/Admin/QuotesPage.php:741
+#: src/Modules/Quotes/Admin/QuotesPage.php:742
 #: src/Modules/Quotes/Emails/QuoteEmail.php:99
 msgid "anonymised"
 msgstr "anonimizado"
 
-#: src/Modules/Quotes/Admin/QuotesPage.php:755
+#: src/Modules/Quotes/Admin/QuotesPage.php:756
 msgid "%1$s (%2$s, guest)"
 msgstr "%1$s (%2$s, invitado)"
 
@@ -8298,6 +8375,7 @@ msgid "Check the new business customers and assign them to a customer group."
 msgstr "Revisa los nuevos clientes empresariales y asígnalos a un grupo de clientes."
 
 #: src/Modules/Registration/Admin/ApprovalsPage.php:95
+#: src/Modules/Tax/Admin/TaxReviewAdmin.php:184
 msgctxt "button on the overview page"
 msgid "Review"
 msgstr "Revisar"
@@ -9095,8 +9173,8 @@ msgstr "Tipo impositivo"
 #: src/Modules/Reports/Datev/DatevPage.php:271
 #: src/Modules/Tax/AuditFile/AuditFileSections.php:146
 #: src/Modules/Tax/AuditFile/AuditFileSummary.php:40
-#: src/Modules/Tax/Treatment/CartTreatment.php:419
-#: src/Modules/Tax/Treatment/CartTreatment.php:439
+#: src/Modules/Tax/Treatment/CartTreatment.php:420
+#: src/Modules/Tax/Treatment/CartTreatment.php:441
 msgid "Tax treatment"
 msgstr "Tratamiento fiscal"
 
@@ -9296,7 +9374,8 @@ msgid "No tax treatment recorded"
 msgstr "Ningún tratamiento fiscal registrado"
 
 #: src/Modules/Reports/Datev/DatevTreatment.php:69
-#: src/Modules/Tax/Admin/ProductSupplyTypeField.php:43
+#: src/Modules/Tax/Admin/ProductSupplyTypeField.php:41
+#: src/Modules/Tax/Admin/ProductSupplyTypeField.php:60
 #: src/Modules/Tax/Proof/ProofDataProvider.php:91
 msgid "Goods"
 msgstr "Bienes"
@@ -9931,56 +10010,64 @@ msgstr "Descuento en los totales del carrito"
 msgid "This discount comes with your customer account and cannot be removed."
 msgstr "Este descuento va asociado a tu cuenta de cliente y no se puede eliminar."
 
-#: src/Modules/Stock/Admin/StockPoolFields.php:112
+#: src/Modules/Stock/Admin/StockPoolFields.php:113
 #: src/Modules/Stock/StockModule.php:107
 msgid "Separate stock for business customers"
 msgstr "Inventario separado para clientes empresariales"
 
-#: src/Modules/Stock/Admin/StockPoolFields.php:113
+#: src/Modules/Stock/Admin/StockPoolFields.php:114
 msgid "Business customers buy from the stock below; everyone else from the stock above."
 msgstr "Los clientes empresariales compran del inventario de abajo; todos los demás, del inventario de arriba."
 
-#: src/Modules/Stock/Admin/StockPoolFields.php:123
+#: src/Modules/Stock/Admin/StockPoolFields.php:124
 msgid "Used when the product manages stock."
 msgstr "Se usa cuando el producto gestiona inventario."
 
-#: src/Modules/Stock/Admin/StockPoolFields.php:123
+#: src/Modules/Stock/Admin/StockPoolFields.php:124
 msgid "Used when this variation manages its own stock; with the product's stock, the product's business stock applies."
 msgstr "Se usa cuando esta variación gestiona su propio inventario; con el inventario del producto, se aplica el inventario empresarial del producto."
 
-#: src/Modules/Stock/Admin/StockPoolFields.php:136
+#: src/Modules/Stock/Admin/StockPoolFields.php:137
 msgid "Backorders for business customers"
 msgstr "Reservas para clientes empresariales"
 
-#: src/Modules/Stock/Admin/StockPoolFields.php:147
+#: src/Modules/Stock/Admin/StockPoolFields.php:148
 msgid "Stock status for business customers"
 msgstr "Estado del inventario para clientes empresariales"
 
-#: src/Modules/Stock/Admin/StockPoolFields.php:148
+#: src/Modules/Stock/Admin/StockPoolFields.php:149
 msgid "Used when stock is not managed."
 msgstr "Se usa cuando no se gestiona el inventario."
 
-#: src/Modules/Stock/Admin/StockPoolFields.php:57
+#: src/Modules/Stock/Admin/StockPoolFields.php:172
+msgid "shared stock"
+msgstr "inventario compartido"
+
+#: src/Modules/Stock/Admin/StockPoolFields.php:179
+msgid "own stock: %s"
+msgstr "inventario propio: %s"
+
+#: src/Modules/Stock/Admin/StockPoolFields.php:58
 msgid "Do not allow"
 msgstr "No permitir"
 
-#: src/Modules/Stock/Admin/StockPoolFields.php:58
+#: src/Modules/Stock/Admin/StockPoolFields.php:59
 msgid "Allow, but notify customer"
 msgstr "Permitir, pero avisar al cliente"
 
-#: src/Modules/Stock/Admin/StockPoolFields.php:59
+#: src/Modules/Stock/Admin/StockPoolFields.php:60
 msgid "Allow"
 msgstr "Permitir"
 
-#: src/Modules/Stock/Admin/StockPoolFields.php:70
+#: src/Modules/Stock/Admin/StockPoolFields.php:71
 msgid "In stock"
 msgstr "Hay existencias"
 
-#: src/Modules/Stock/Admin/StockPoolFields.php:71
+#: src/Modules/Stock/Admin/StockPoolFields.php:72
 msgid "Out of stock"
 msgstr "Sin existencias"
 
-#: src/Modules/Stock/Admin/StockPoolFields.php:72
+#: src/Modules/Stock/Admin/StockPoolFields.php:73
 msgid "On backorder"
 msgstr "Se puede reservar"
 
@@ -10239,18 +10326,19 @@ msgstr "Ventas a distancia contadas (neto)"
 msgid "Year"
 msgstr "Año"
 
-#: src/Modules/Tax/Admin/ProductSupplyTypeField.php:38
-msgid "Supply type (EuroB2B)"
-msgstr "Tipo de operación (EuroB2B)"
-
-#: src/Modules/Tax/Admin/ProductSupplyTypeField.php:39
-msgid "Services are taxed where the business customer is established (Art. 44); goods where they are delivered."
-msgstr "Los servicios tributan donde está establecido el cliente empresarial (Art. 44); los bienes, donde se entregan."
-
-#: src/Modules/Tax/Admin/ProductSupplyTypeField.php:44
+#: src/Modules/Tax/Admin/ProductSupplyTypeField.php:41
+#: src/Modules/Tax/Admin/ProductSupplyTypeField.php:61
 #: src/Modules/Tax/AuditFile/AuditFileSections.php:120
 msgid "Service"
 msgstr "Servicio"
+
+#: src/Modules/Tax/Admin/ProductSupplyTypeField.php:55
+msgid "Supply type (EuroB2B)"
+msgstr "Tipo de operación (EuroB2B)"
+
+#: src/Modules/Tax/Admin/ProductSupplyTypeField.php:56
+msgid "Services are taxed where the business customer is established (Art. 44); goods where they are delivered."
+msgstr "Los servicios tributan donde está establecido el cliente empresarial (Art. 44); los bienes, donde se entregan."
 
 #: src/Modules/Tax/Admin/RecapitulativeStatementPage.php:101
 msgid "Recapitulative statement: upload file (Germany)"
@@ -10357,7 +10445,7 @@ msgid "Sources"
 msgstr "Fuentes"
 
 #: src/Modules/Tax/Admin/SpecialTerritoriesSection.php:57
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:174
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:175
 msgid "Territory"
 msgstr "Territorio"
 
@@ -10376,10 +10464,6 @@ msgstr "Códigos postales %s"
 #: src/Modules/Tax/Admin/SpecialTerritoriesSection.php:83
 msgid "without a state: postcodes %s"
 msgstr "sin provincia: códigos postales %s"
-
-#: src/Modules/Tax/Admin/TaxReports.php:102
-msgid "Reviewed"
-msgstr "Revisado"
 
 #: src/Modules/Tax/Admin/TaxReports.php:103
 msgid "Researched, needs professional review"
@@ -10665,6 +10749,34 @@ msgstr "Organisasjonsnummer (9 dígitos, + MVA)"
 msgid "EuroB2B: no WooCommerce tax rate exists for these customer countries: %s. Without a rate, taxed and exempt orders look the same to the customer; add the rates under WooCommerce → Settings → Tax."
 msgstr "EuroB2B: no existe ningún tipo impositivo de WooCommerce para estos países de clientes: %s. Sin un tipo, los pedidos con IVA y los exentos se ven iguales para el cliente; añade los tipos en WooCommerce → Ajustes → Impuestos."
 
+#: src/Modules/Tax/Admin/TaxReviewAdmin.php:181
+msgid "Orders whose tax treatment needs a review"
+msgstr "Pedidos cuyo tratamiento fiscal necesita revisión"
+
+#: src/Modules/Tax/Admin/TaxReviewAdmin.php:182
+msgid "EuroB2B could not decide the tax itself: the VAT ID check was unavailable or pending, the customer picks the goods up, or the country rule is not reviewed yet."
+msgstr "EuroB2B no pudo decidir el impuesto por sí mismo: la comprobación del NIF-IVA no estaba disponible o está pendiente, el cliente recoge la mercancía, o la regla del país aún no está revisada."
+
+#: src/Modules/Tax/Admin/TaxReviewAdmin.php:204
+msgid "Tax treatment reviewed on %1$s by %2$s."
+msgstr "Tratamiento fiscal revisado el %1$s por %2$s."
+
+#: src/Modules/Tax/Admin/TaxReviewAdmin.php:212
+msgid "EuroB2B could not decide the tax of this order itself. Check the VAT ID, the delivery and the taxes of the order and correct them if needed, then confirm the review."
+msgstr "EuroB2B no pudo decidir por sí mismo el impuesto de este pedido. Comprueba el NIF-IVA, la entrega y los impuestos del pedido, corrígelos si hace falta y luego confirma la revisión."
+
+#: src/Modules/Tax/Admin/TaxReviewAdmin.php:213
+msgid "Mark the tax treatment as reviewed"
+msgstr "Marcar el tratamiento fiscal como revisado"
+
+#: src/Modules/Tax/Admin/TaxReviewAdmin.php:223
+msgid "You are not allowed to review tax treatments."
+msgstr "No tienes permiso para revisar tratamientos fiscales."
+
+#: src/Modules/Tax/Admin/TaxReviewAdmin.php:230
+msgid "This order is not flagged for a tax review."
+msgstr "Este pedido no está marcado para una revisión fiscal."
+
 #: src/Modules/Tax/Admin/ValidationsPage.php:120
 msgid "The stored number cannot be parsed."
 msgstr "El número guardado no se puede analizar."
@@ -10720,7 +10832,7 @@ msgstr "Prueba"
 #: src/Modules/Tax/Admin/ValidationsPage.php:182
 #: src/Modules/Tax/AuditFile/AuditFileSections.php:150
 #: src/Modules/Tax/Export/ExportEvidenceAdmin.php:392
-#: src/Modules/Tax/Treatment/CartTreatment.php:442
+#: src/Modules/Tax/Treatment/CartTreatment.php:444
 msgid "Reason"
 msgstr "Motivo"
 
@@ -10827,86 +10939,90 @@ msgstr "Descargar archivo de auditoría (PDF)"
 msgid "Audit file: order #%s"
 msgstr "Archivo de auditoría: pedido #%s"
 
-#: src/Modules/Tax/AuditFile/AuditFileFacts.php:153
+#: src/Modules/Tax/AuditFile/AuditFileFacts.php:154
 msgid "not applicable"
 msgstr "no aplicable"
 
-#: src/Modules/Tax/AuditFile/AuditFileFacts.php:184
+#: src/Modules/Tax/AuditFile/AuditFileFacts.php:185
 msgid "%1$s (customer account #%2$d)"
 msgstr "%1$s (cuenta de cliente #%2$d)"
 
-#: src/Modules/Tax/AuditFile/AuditFileFacts.php:184
+#: src/Modules/Tax/AuditFile/AuditFileFacts.php:185
 msgid "guest order"
 msgstr "pedido de invitado"
 
-#: src/Modules/Tax/AuditFile/AuditFileFacts.php:301
+#: src/Modules/Tax/AuditFile/AuditFileFacts.php:302
 msgid "the customer (used at purchase)"
 msgstr "el cliente (usado en la compra)"
 
-#: src/Modules/Tax/AuditFile/AuditFileFacts.php:301
+#: src/Modules/Tax/AuditFile/AuditFileFacts.php:302
 msgid "this order"
 msgstr "este pedido"
 
-#: src/Modules/Tax/AuditFile/AuditFileFacts.php:328
+#: src/Modules/Tax/AuditFile/AuditFileFacts.php:329
 msgid "Partly (services only)"
 msgstr "Parcialmente (solo servicios)"
 
-#: src/Modules/Tax/AuditFile/AuditFileFacts.php:413
+#: src/Modules/Tax/AuditFile/AuditFileFacts.php:354
+msgid "%1$s UTC by user #%2$d"
+msgstr "%1$s UTC por el usuario n.º %2$d"
+
+#: src/Modules/Tax/AuditFile/AuditFileFacts.php:430
 msgid "Confirmation of receipt requested"
 msgstr "Justificante de llegada solicitado"
 
-#: src/Modules/Tax/AuditFile/AuditFileFacts.php:421
+#: src/Modules/Tax/AuditFile/AuditFileFacts.php:438
 msgid "Received in %1$s at %2$s; confirmed on %3$s by %4$s"
 msgstr "Recibido en %1$s, en %2$s; confirmado el %3$s por %4$s"
 
-#: src/Modules/Tax/AuditFile/AuditFileFacts.php:427
+#: src/Modules/Tax/AuditFile/AuditFileFacts.php:444
 msgid "Receipt confirmed by the customer"
 msgstr "Recepción confirmada por el cliente"
 
-#: src/Modules/Tax/AuditFile/AuditFileFacts.php:436
+#: src/Modules/Tax/AuditFile/AuditFileFacts.php:453
 #: src/Modules/Tax/Export/ExportEvidenceAdmin.php:361
 #: src/Modules/Tax/Export/ExportEvidenceAuditSection.php:132
 #: src/Modules/Tax/Proof/ProofAdmin.php:389
 msgid "file deleted"
 msgstr "archivo eliminado"
 
-#: src/Modules/Tax/AuditFile/AuditFileFacts.php:440
+#: src/Modules/Tax/AuditFile/AuditFileFacts.php:457
 msgid "Document added"
 msgstr "Documento añadido"
 
-#: src/Modules/Tax/AuditFile/AuditFileFacts.php:444
+#: src/Modules/Tax/AuditFile/AuditFileFacts.php:461
 msgid "Evidence marked as complete"
 msgstr "Justificante marcado como completo"
 
-#: src/Modules/Tax/AuditFile/AuditFileFacts.php:505
+#: src/Modules/Tax/AuditFile/AuditFileFacts.php:522
 msgid "(page #%d)"
 msgstr "(página #%d)"
 
-#: src/Modules/Tax/AuditFile/AuditFileFacts.php:508
+#: src/Modules/Tax/AuditFile/AuditFileFacts.php:525
 msgid "The page no longer exists."
 msgstr "La página ya no existe."
 
-#: src/Modules/Tax/AuditFile/AuditFileFacts.php:511
+#: src/Modules/Tax/AuditFile/AuditFileFacts.php:528
 msgid "Yes, last changed on %s; the text shown at purchase is not stored by EuroB2B."
 msgstr "Sí, modificada por última vez el %s; EuroB2B no guarda el texto mostrado en la compra."
 
-#: src/Modules/Tax/AuditFile/AuditFileFacts.php:532
+#: src/Modules/Tax/AuditFile/AuditFileFacts.php:549
 msgid "(validation record #%d)"
 msgstr "(registro de validación #%d)"
 
-#: src/Modules/Tax/AuditFile/AuditFileFacts.php:566
+#: src/Modules/Tax/AuditFile/AuditFileFacts.php:583
 msgid "reviewed by a tax professional"
 msgstr "revisado por un profesional fiscal"
 
-#: src/Modules/Tax/AuditFile/AuditFileFacts.php:567
+#: src/Modules/Tax/AuditFile/AuditFileFacts.php:584
 msgid "needs review (sourced, not signed off by a tax professional)"
 msgstr "necesita revisión (con fuentes, no validado por un profesional fiscal)"
 
-#: src/Modules/Tax/AuditFile/AuditFileFacts.php:568
+#: src/Modules/Tax/AuditFile/AuditFileFacts.php:585
 msgid "UNVERIFIED (no official source)"
 msgstr "UNVERIFIED (sin fuente oficial)"
 
-#: src/Modules/Tax/AuditFile/AuditFileFacts.php:569
+#: src/Modules/Tax/AuditFile/AuditFileFacts.php:586
 msgid "verified against the sources (not signed off by a tax professional)"
 msgstr "verificado con las fuentes (no validado por un profesional fiscal)"
 
@@ -11004,96 +11120,100 @@ msgstr "Texto de exención en el pedido"
 msgid "Flagged for review"
 msgstr "Marcado para revisión"
 
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:160
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:153
+msgid "Review confirmed"
+msgstr "Revisión confirmada"
+
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:161
 msgid "Country-matrix rule"
 msgstr "Regla de la matriz de países"
 
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:163
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:164
 msgid "Country-matrix rules behind the reason (docs/country-matrix.md)"
 msgstr "Reglas de la matriz de países que respaldan el motivo (docs/country-matrix.md)"
 
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:164
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:165
 msgid "Content"
 msgstr "Contenido"
 
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:164
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:178
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:188
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:165
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:179
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:189
 msgid "Review status"
 msgstr "Estado de revisión"
 
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:164
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:165
 msgid "Rule"
 msgstr "Regla"
 
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:164
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:177
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:187
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:165
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:178
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:188
 msgid "Sources checked on"
 msgstr "Fuentes comprobadas el"
 
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:171
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:172
 #: src/Modules/Tax/Treatment/SpecialTerritoryTreatment.php:122
 msgid "Special territory"
 msgstr "Territorio especial"
 
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:175
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:176
 msgid "Legal basis"
 msgstr "Base jurídica"
 
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:176
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:191
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:177
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:192
 msgid "Source"
 msgstr "Fuente"
 
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:186
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:187
 msgid "Rule set version"
 msgstr "Versión del conjunto de reglas"
 
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:194
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:195
 msgid "Country profile of the billing country"
 msgstr "Perfil de país del país de facturación"
 
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:197
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:198
 msgid "The order stores the decision and its reason, not the version of the rules. The rules and the country profile above are those of the plugin version that generated this file."
 msgstr "El pedido guarda la decisión y su motivo, no la versión de las reglas. Las reglas y el perfil de país de arriba son los de la versión del plugin que generó este archivo."
 
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:208
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:209
 #: src/Modules/Tax/Proof/ProofAdmin.php:195
 #: src/Modules/Tax/Proof/ProofAdmin.php:88
 #: src/Modules/Tax/Proof/ProofDataProvider.php:114
 msgid "Proof of intra-Community supply"
 msgstr "Justificante de entrega intracomunitaria"
 
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:210
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:211
 msgid "Not applicable: EuroB2B did not exempt the goods of this order as an intra-Community supply."
 msgstr "No aplicable: EuroB2B no declaró exentos los bienes de este pedido como entrega intracomunitaria."
 
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:216
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:217
 msgid "Confirmation last requested on"
 msgstr "Confirmación solicitada por última vez el"
 
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:217
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:218
 msgid "Customer's confirmation of receipt"
 msgstr "Justificante de llegada del cliente"
 
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:218
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:219
 #: src/Modules/Tax/Export/ExportEvidenceAuditSection.php:111
 msgid "Evidence accepted on"
 msgstr "Justificante aceptado el"
 
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:219
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:220
 #: src/Modules/Tax/Export/ExportEvidenceAuditSection.php:112
 msgid "Evidence accepted by"
 msgstr "Justificante aceptado por"
 
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:220
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:221
 #: src/Modules/Tax/Export/ExportEvidenceAuditSection.php:113
 msgid "Kept until"
 msgstr "Conservado hasta"
 
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:228
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:231
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:229
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:232
 #: src/Modules/Tax/Export/ExportEvidenceAdmin.php:352
 #: src/Modules/Tax/Export/ExportEvidenceAuditSection.php:139
 #: src/Modules/Tax/Export/ExportEvidenceAuditSection.php:144
@@ -11101,90 +11221,90 @@ msgstr "Conservado hasta"
 msgid "Documents"
 msgstr "Documentos"
 
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:232
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:233
 #: src/Modules/Tax/Export/ExportEvidenceAuditSection.php:140
 msgid "Uploaded by"
 msgstr "Subido por"
 
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:232
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:233
 #: src/Modules/Tax/Export/ExportEvidenceAuditSection.php:140
 msgid "Uploaded on"
 msgstr "Subido el"
 
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:242
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:243
 msgid "History"
 msgstr "Historial"
 
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:243
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:312
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:244
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:313
 msgid "By"
 msgstr "Por"
 
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:243
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:244
 msgid "Event"
 msgstr "Evento"
 
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:246
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:247
 msgid "Only the latest request is stored; earlier requests and a taken-back acceptance are not part of the history."
 msgstr "Solo se guarda la última solicitud; las solicitudes anteriores y una aceptación retirada no forman parte del historial."
 
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:260
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:261
 msgid "E-invoicing data copied to the order"
 msgstr "Datos de facturación electrónica copiados en el pedido"
 
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:262
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:263
 msgid "Buyer reference (BT-10)"
 msgstr "Referencia del comprador (BT-10)"
 
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:263
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:264
 msgid "Purchase order number (BT-13)"
 msgstr "Número de orden de compra (BT-13)"
 
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:264
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:265
 msgid "Buyer VAT ID (BT-48)"
 msgstr "NIF-IVA del comprador (BT-48)"
 
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:265
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:266
 msgid "Electronic address (BT-49)"
 msgstr "Dirección electrónica (BT-49)"
 
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:266
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:267
 msgid "Company register (BT-47)"
 msgstr "Registro mercantil (BT-47)"
 
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:269
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:270
 msgid "Exemption reason code"
 msgstr "Código del motivo de exención"
 
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:270
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:271
 msgid "Exemption text (BT-120)"
 msgstr "Texto de exención (BT-120)"
 
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:284
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:285
 msgid "Terms and conditions shown at checkout"
 msgstr "Términos y condiciones mostrados al finalizar la compra"
 
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:286
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:287
 msgid "Page"
 msgstr "Página"
 
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:287
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:288
 msgid "Version (last change of the page at purchase)"
 msgstr "Versión (último cambio de la página en el momento de la compra)"
 
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:288
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:289
 msgid "Changed since the purchase"
 msgstr "Modificada desde la compra"
 
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:300
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:301
 msgid "Audit log entries"
 msgstr "Entradas del registro de auditoría"
 
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:306
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:307
 msgid "Entries"
 msgstr "Entradas"
 
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:307
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:308
 msgid "The audit log keeps entries for the period set under Privacy; older entries were deleted."
 msgstr "El registro de auditoría conserva las entradas durante el plazo definido en Privacidad; las entradas más antiguas se han borrado."
 
@@ -11973,167 +12093,167 @@ msgstr "Datos del NIF-IVA de EuroB2B"
 msgid "Last check"
 msgstr "Última comprobación"
 
-#: src/Modules/Tax/TaxModule.php:183
+#: src/Modules/Tax/TaxModule.php:187
 msgid "Tax and VAT IDs"
 msgstr "Impuestos y NIF-IVA"
 
-#: src/Modules/Tax/TaxModule.php:188
+#: src/Modules/Tax/TaxModule.php:192
 msgid "Validate EU VAT IDs via VIES"
 msgstr "Validar los NIF-IVA de la UE mediante VIES"
 
-#: src/Modules/Tax/TaxModule.php:189
+#: src/Modules/Tax/TaxModule.php:193
 msgid "Send VAT IDs to the European Commission's VIES service to confirm they are registered"
 msgstr "Enviar los NIF-IVA al servicio VIES de la Comisión Europea para confirmar que están registrados"
 
-#: src/Modules/Tax/TaxModule.php:190
+#: src/Modules/Tax/TaxModule.php:194
 msgid "External connection (see the privacy documentation). Off: numbers are only checked for syntax."
 msgstr "Conexión externa (consulta la documentación de privacidad). Desactivado: los números solo se comprueban en cuanto a su sintaxis."
 
-#: src/Modules/Tax/TaxModule.php:199
+#: src/Modules/Tax/TaxModule.php:203
 msgid "Your own VAT ID"
 msgstr "Tu propio NIF-IVA"
 
-#: src/Modules/Tax/TaxModule.php:200
+#: src/Modules/Tax/TaxModule.php:204
 msgid "Sent along with each VIES check so the consultation number is returned as proof (recommended)."
 msgstr "Se envía con cada comprobación en VIES para que se devuelva el número de consulta como prueba (recomendado)."
 
-#: src/Modules/Tax/TaxModule.php:209
+#: src/Modules/Tax/TaxModule.php:213
 msgid "VAT ID field"
 msgstr "Campo del NIF-IVA"
 
-#: src/Modules/Tax/TaxModule.php:210
+#: src/Modules/Tax/TaxModule.php:214
 msgid "Shown at registration (business types), in My Account and at checkout for the countries below."
 msgstr "Se muestra en el registro (tipos empresariales), en Mi cuenta y al finalizar la compra para los países de abajo."
 
-#: src/Modules/Tax/TaxModule.php:216
+#: src/Modules/Tax/TaxModule.php:220
 msgid "Required for business customers"
 msgstr "Obligatorio para clientes empresariales"
 
-#: src/Modules/Tax/TaxModule.php:224
+#: src/Modules/Tax/TaxModule.php:228
 msgid "Countries whose VAT IDs are checked at checkout"
 msgstr "Países cuyos NIF-IVA se comprueban al finalizar la compra"
 
-#: src/Modules/Tax/TaxModule.php:225
+#: src/Modules/Tax/TaxModule.php:229
 msgid "The field is shown at checkout for every billing country; a number is checked (and required, where the field is mandatory) only for these billing countries."
 msgstr "El campo se muestra al finalizar la compra para cualquier país de facturación; un número solo se comprueba (y se exige, cuando el campo es obligatorio) para estos países de facturación."
 
-#: src/Modules/Tax/TaxModule.php:235
+#: src/Modules/Tax/TaxModule.php:239
 msgid "Check at registration"
 msgstr "Comprobar en el registro"
 
-#: src/Modules/Tax/TaxModule.php:236
+#: src/Modules/Tax/TaxModule.php:240
 msgid "Check the VAT ID online when a business customer registers"
 msgstr "Comprobar el NIF-IVA en línea cuando se registra un cliente empresarial"
 
-#: src/Modules/Tax/TaxModule.php:245
+#: src/Modules/Tax/TaxModule.php:249
 msgid "Invalid numbers"
 msgstr "Números no válidos"
 
-#: src/Modules/Tax/TaxModule.php:246
+#: src/Modules/Tax/TaxModule.php:250
 msgid "Block registration and checkout when the checking service reports the number as not registered"
 msgstr "Bloquear el registro y el pago cuando el servicio de comprobación indica que el número no está registrado"
 
-#: src/Modules/Tax/TaxModule.php:255
+#: src/Modules/Tax/TaxModule.php:259
 msgid "When the checking service is unavailable"
 msgstr "Cuando el servicio de comprobación no está disponible"
 
-#: src/Modules/Tax/TaxModule.php:256
+#: src/Modules/Tax/TaxModule.php:260
 msgid "The number is retried in the background either way. This decides what happens with the action the customer is taking."
 msgstr "En cualquier caso, el número se vuelve a intentar en segundo plano. Esto decide qué ocurre con la acción que está realizando el cliente."
 
-#: src/Modules/Tax/TaxModule.php:260
+#: src/Modules/Tax/TaxModule.php:264
 msgid "Proceed with VAT and add the number to the review list"
 msgstr "Continuar con IVA y añadir el número a la lista de revisión"
 
-#: src/Modules/Tax/TaxModule.php:261
+#: src/Modules/Tax/TaxModule.php:265
 msgid "Block the action until the check succeeds"
 msgstr "Bloquear la acción hasta que la comprobación tenga éxito"
 
-#: src/Modules/Tax/TaxModule.php:262
+#: src/Modules/Tax/TaxModule.php:266
 msgid "Provisionally accept approved customers with a recent valid result"
 msgstr "Aceptar provisionalmente a los clientes aprobados con un resultado válido reciente"
 
-#: src/Modules/Tax/TaxModule.php:270
+#: src/Modules/Tax/TaxModule.php:274
 msgid "Provisional acceptance: max age of the last valid result (days)"
 msgstr "Aceptación provisional: antigüedad máxima del último resultado válido (días)"
 
-#: src/Modules/Tax/TaxModule.php:281
+#: src/Modules/Tax/TaxModule.php:285
 msgid "Re-check a valid number after (days)"
 msgstr "Volver a comprobar un número válido después de (días)"
 
-#: src/Modules/Tax/TaxModule.php:292
+#: src/Modules/Tax/TaxModule.php:296
 msgid "Retries when the service is unavailable"
 msgstr "Reintentos cuando el servicio no está disponible"
 
-#: src/Modules/Tax/TaxModule.php:303
+#: src/Modules/Tax/TaxModule.php:307
 msgid "Keep validation evidence linked to orders (years)"
 msgstr "Conservar las pruebas de validación vinculadas a pedidos (años)"
 
-#: src/Modules/Tax/TaxModule.php:304
+#: src/Modules/Tax/TaxModule.php:308
 msgid "Invoice retention period of your country (Germany: 8 years from the end of the year; 10 is a safe default)."
 msgstr "Plazo de conservación de facturas de tu país (Alemania: 8 años desde el final del año; 10 es un valor seguro por defecto)."
 
-#: src/Modules/Tax/TaxModule.php:315
+#: src/Modules/Tax/TaxModule.php:319
 msgid "Keep validation records without an order (days)"
 msgstr "Conservar los registros de validación sin pedido (días)"
 
-#: src/Modules/Tax/TaxModule.php:326
+#: src/Modules/Tax/TaxModule.php:330
 msgid "Intra-Community exemption"
 msgstr "Exención intracomunitaria"
 
-#: src/Modules/Tax/TaxModule.php:327
+#: src/Modules/Tax/TaxModule.php:331
 msgid "Exempt business customers in other EU member states from VAT when all conditions hold (valid VAT ID from another member state, delivery or establishment outside the shop country, no self-collection)"
 msgstr "Eximir del IVA a los clientes empresariales de otros Estados miembros de la UE cuando se cumplan todas las condiciones (NIF-IVA válido de otro Estado miembro, entrega o establecimiento fuera del país de la tienda, sin recogida por el propio cliente)"
 
-#: src/Modules/Tax/TaxModule.php:328
+#: src/Modules/Tax/TaxModule.php:332
 msgid "Domestic customers, consumers, invalid or unchecked numbers and pick-up orders are always taxed. Have the rules reviewed by your tax adviser before enabling."
 msgstr "Los clientes nacionales, los consumidores, los números no válidos o no comprobados y los pedidos con recogida siempre se gravan. Haz que tu asesor fiscal revise las reglas antes de activarlo."
 
-#: src/Modules/Tax/TaxModule.php:337
+#: src/Modules/Tax/TaxModule.php:341
 msgid "Unreviewed country rules"
 msgstr "Reglas de países no revisadas"
 
-#: src/Modules/Tax/TaxModule.php:338
+#: src/Modules/Tax/TaxModule.php:342
 msgid "Apply the exemption also for countries whose profile has not been signed off by a tax professional (your responsibility)"
 msgstr "Aplicar la exención también a los países cuyo perfil no ha sido validado por un profesional fiscal (bajo tu responsabilidad)"
 
-#: src/Modules/Tax/TaxModule.php:339
+#: src/Modules/Tax/TaxModule.php:343
 msgid "Off: such orders are taxed and flagged for review. The review state of every country is listed on the VAT IDs page."
 msgstr "Desactivado: esos pedidos se gravan y se marcan para revisión. El estado de revisión de cada país figura en la página de NIF-IVA."
 
-#: src/Modules/Tax/TaxModule.php:348
+#: src/Modules/Tax/TaxModule.php:352
 msgid "Price display per audience"
 msgstr "Visualización de precios por público"
 
-#: src/Modules/Tax/TaxModule.php:349
+#: src/Modules/Tax/TaxModule.php:353
 msgid "Show prices excluding tax to business customers and including tax to consumers (tax is added as a line in cart and checkout)"
 msgstr "Mostrar los precios sin impuestos a los clientes empresariales y con impuestos a los consumidores (el impuesto se añade como línea en el carrito y al finalizar la compra)"
 
-#: src/Modules/Tax/TaxModule.php:358
+#: src/Modules/Tax/TaxModule.php:362
 msgid "Price suffix for business customers"
 msgstr "Sufijo de precio para clientes empresariales"
 
-#: src/Modules/Tax/TaxModule.php:360
+#: src/Modules/Tax/TaxModule.php:364
 msgid "excl. VAT"
 msgstr "IVA no incluido"
 
-#: src/Modules/Tax/TaxModule.php:367
+#: src/Modules/Tax/TaxModule.php:371
 msgid "Price suffix for consumers"
 msgstr "Sufijo de precio para consumidores"
 
-#: src/Modules/Tax/TaxModule.php:369
+#: src/Modules/Tax/TaxModule.php:373
 msgid "incl. VAT"
 msgstr "IVA incluido"
 
-#: src/Modules/Tax/TaxModule.php:376
+#: src/Modules/Tax/TaxModule.php:380
 msgid "Notifications"
 msgstr "Avisos"
 
-#: src/Modules/Tax/TaxModule.php:377
+#: src/Modules/Tax/TaxModule.php:381
 msgid "E-mail the shop administrator when a check ends invalid or unavailable"
 msgstr "Enviar un correo electrónico al administrador de la tienda cuando una comprobación termine como no válida o no disponible"
 
-#: src/Modules/Tax/TaxModule.php:416
+#: src/Modules/Tax/TaxModule.php:420
 msgid "Northern Ireland, XI"
 msgstr "Irlanda del Norte, XI"
 
@@ -12205,139 +12325,143 @@ msgstr "Tratar los bienes destinados a Irlanda del Norte según las normas del I
 msgid "Recognised by a United Kingdom address with a BT postcode (delivery address, else billing address). Goods there are then decided like goods to another member state: exempt only for a business with a valid XI VAT ID (same conditions as for other member states; without a reviewed country profile for XI such orders are taxed and flagged), otherwise taxed, which needs a WooCommerce tax rate for the United Kingdom with the postcodes BT*. Services stay under UK rules (third country); orders with goods and services are flagged for review. Off: every United Kingdom address is a third country, as before. This changes the tax of such orders; have it reviewed by your tax adviser before enabling."
 msgstr "Se reconoce por una dirección del Reino Unido con código postal BT (dirección de envío o, si no hay, de facturación). Los bienes destinados allí se deciden entonces como bienes destinados a otro Estado miembro: exentos solo para una empresa con un NIF-IVA XI válido (en las mismas condiciones que para los demás Estados miembros; sin un perfil de país revisado para XI, esos pedidos se gravan y se marcan), gravados en los demás casos, para lo que hace falta un tipo impositivo de WooCommerce para el Reino Unido con los códigos postales BT*. Los servicios siguen sujetos a las normas del Reino Unido (país tercero); los pedidos con bienes y servicios se marcan para revisión. Desactivado: toda dirección del Reino Unido es un país tercero, como hasta ahora. Esto cambia el impuesto de esos pedidos; haz que tu asesor fiscal lo revise antes de activarlo."
 
-#: src/Modules/Tax/Treatment/CartTreatment.php:439
+#: src/Modules/Tax/Treatment/CartTreatment.php:440
 msgid "needs review"
 msgstr "necesita revisión"
 
-#: src/Modules/Tax/Treatment/CartTreatment.php:487
+#: src/Modules/Tax/Treatment/CartTreatment.php:440
+msgid "reviewed"
+msgstr "revisado"
+
+#: src/Modules/Tax/Treatment/CartTreatment.php:489
 msgid "Reverse charge: VAT to be accounted for by the recipient (Art. 196 VAT Directive 2006/112/EC)."
 msgstr "Inversión del sujeto pasivo: IVA a declarar por el destinatario (Art. 196 de la Directiva del IVA 2006/112/EC)."
 
-#: src/Modules/Tax/Treatment/CartTreatment.php:488
+#: src/Modules/Tax/Treatment/CartTreatment.php:490
 msgid "VAT-exempt intra-Community supply (Art. 138 VAT Directive 2006/112/EC); reverse charge, VAT to be accounted for by the recipient."
 msgstr "Entrega intracomunitaria exenta de IVA (Art. 138 de la Directiva del IVA 2006/112/EC); inversión del sujeto pasivo, IVA a declarar por el destinatario."
 
-#: src/Modules/Tax/Treatment/CartTreatment.php:507
+#: src/Modules/Tax/Treatment/CartTreatment.php:509
 msgid "Domestic, taxed"
 msgstr "Nacional, con IVA"
 
-#: src/Modules/Tax/Treatment/CartTreatment.php:508
+#: src/Modules/Tax/Treatment/CartTreatment.php:510
 msgid "EU customer, taxed"
 msgstr "Cliente de la UE, con IVA"
 
-#: src/Modules/Tax/Treatment/CartTreatment.php:509
+#: src/Modules/Tax/Treatment/CartTreatment.php:511
 msgid "Intra-Community B2B, exempt (reverse charge)"
 msgstr "B2B intracomunitario, exento (inversión del sujeto pasivo)"
 
-#: src/Modules/Tax/Treatment/CartTreatment.php:510
+#: src/Modules/Tax/Treatment/CartTreatment.php:512
 msgid "Swiss VAT area"
 msgstr "Ámbito del IVA suizo"
 
-#: src/Modules/Tax/Treatment/CartTreatment.php:511
+#: src/Modules/Tax/Treatment/CartTreatment.php:513
 msgid "Export / third country"
 msgstr "Exportación / tercer país"
 
-#: src/Modules/Tax/Treatment/CartTreatment.php:512
+#: src/Modules/Tax/Treatment/CartTreatment.php:514
 msgid "Taxed, manual review"
 msgstr "Con IVA, revisión manual"
 
-#: src/Modules/Tax/Treatment/CartTreatment.php:513
+#: src/Modules/Tax/Treatment/CartTreatment.php:515
 msgid "Mixed: goods taxed, services reverse charge"
 msgstr "Mixto: bienes con IVA, servicios con inversión del sujeto pasivo"
 
-#: src/Modules/Tax/Treatment/CartTreatment.php:514
+#: src/Modules/Tax/Treatment/CartTreatment.php:516
 msgid "No automatic decision (shop outside the EU)"
 msgstr "Sin decisión automática (tienda fuera de la UE)"
 
-#: src/Modules/Tax/Treatment/CartTreatment.php:525
+#: src/Modules/Tax/Treatment/CartTreatment.php:527
 msgid "The shop is not in the EU"
 msgstr "La tienda no está en la UE"
 
-#: src/Modules/Tax/Treatment/CartTreatment.php:526
+#: src/Modules/Tax/Treatment/CartTreatment.php:528
 msgid "Billing country unknown"
 msgstr "País de facturación desconocido"
 
-#: src/Modules/Tax/Treatment/CartTreatment.php:527
+#: src/Modules/Tax/Treatment/CartTreatment.php:529
 msgid "Customer in the shop's country"
 msgstr "Cliente en el país de la tienda"
 
-#: src/Modules/Tax/Treatment/CartTreatment.php:528
+#: src/Modules/Tax/Treatment/CartTreatment.php:530
 msgid "VAT ID from the shop's country"
 msgstr "NIF-IVA del país de la tienda"
 
-#: src/Modules/Tax/Treatment/CartTreatment.php:529
+#: src/Modules/Tax/Treatment/CartTreatment.php:531
 msgid "Private customer in another EU country"
 msgstr "Cliente particular en otro país de la UE"
 
-#: src/Modules/Tax/Treatment/CartTreatment.php:530
+#: src/Modules/Tax/Treatment/CartTreatment.php:532
 msgid "No VAT ID"
 msgstr "Sin NIF-IVA"
 
-#: src/Modules/Tax/Treatment/CartTreatment.php:531
+#: src/Modules/Tax/Treatment/CartTreatment.php:533
 msgid "VAT ID invalid"
 msgstr "NIF-IVA no válido"
 
-#: src/Modules/Tax/Treatment/CartTreatment.php:532
+#: src/Modules/Tax/Treatment/CartTreatment.php:534
 msgid "VAT ID check service unavailable"
 msgstr "Servicio de comprobación del NIF-IVA no disponible"
 
-#: src/Modules/Tax/Treatment/CartTreatment.php:533
+#: src/Modules/Tax/Treatment/CartTreatment.php:535
 msgid "VAT ID check still pending"
 msgstr "Comprobación del NIF-IVA todavía pendiente"
 
-#: src/Modules/Tax/Treatment/CartTreatment.php:534
+#: src/Modules/Tax/Treatment/CartTreatment.php:536
 msgid "Delivery to the shop's country"
 msgstr "Entrega en el país de la tienda"
 
-#: src/Modules/Tax/Treatment/CartTreatment.php:535
+#: src/Modules/Tax/Treatment/CartTreatment.php:537
 msgid "Delivery outside the EU"
 msgstr "Entrega fuera de la UE"
 
-#: src/Modules/Tax/Treatment/CartTreatment.php:536
+#: src/Modules/Tax/Treatment/CartTreatment.php:538
 msgid "Pickup: proof of transport needed"
 msgstr "Recogida: se necesita justificante de transporte"
 
-#: src/Modules/Tax/Treatment/CartTreatment.php:537
+#: src/Modules/Tax/Treatment/CartTreatment.php:539
 msgid "Exemption switched off in the settings"
 msgstr "Exención desactivada en los ajustes"
 
-#: src/Modules/Tax/Treatment/CartTreatment.php:538
+#: src/Modules/Tax/Treatment/CartTreatment.php:540
 msgid "Goods to a business in another EU country"
 msgstr "Bienes a una empresa de otro país de la UE"
 
-#: src/Modules/Tax/Treatment/CartTreatment.php:539
+#: src/Modules/Tax/Treatment/CartTreatment.php:541
 msgid "Services to a business in another EU country"
 msgstr "Servicios a una empresa de otro país de la UE"
 
-#: src/Modules/Tax/Treatment/CartTreatment.php:540
+#: src/Modules/Tax/Treatment/CartTreatment.php:542
 msgid "Customer in the Swiss VAT area"
 msgstr "Cliente en el ámbito del IVA suizo"
 
-#: src/Modules/Tax/Treatment/CartTreatment.php:541
+#: src/Modules/Tax/Treatment/CartTreatment.php:543
 msgid "Customer outside the EU"
 msgstr "Cliente fuera de la UE"
 
-#: src/Modules/Tax/Treatment/CartTreatment.php:542
+#: src/Modules/Tax/Treatment/CartTreatment.php:544
 msgid "Country rules not reviewed yet"
 msgstr "Reglas del país aún no revisadas"
 
-#: src/Modules/Tax/Treatment/CartTreatment.php:543
+#: src/Modules/Tax/Treatment/CartTreatment.php:545
 msgid "Territory outside the EU VAT area"
 msgstr "Territorio fuera del ámbito del IVA de la UE"
 
-#: src/Modules/Tax/Treatment/CartTreatment.php:544
+#: src/Modules/Tax/Treatment/CartTreatment.php:546
 msgid "The shop is in a territory outside the EU VAT area"
 msgstr "La tienda está en un territorio fuera del ámbito del IVA de la UE"
 
-#: src/Modules/Tax/Treatment/CartTreatment.php:545
+#: src/Modules/Tax/Treatment/CartTreatment.php:547
 msgid "Private customer in Northern Ireland (goods under EU VAT rules)"
 msgstr "Cliente particular en Irlanda del Norte (bienes según las normas del IVA de la UE)"
 
-#: src/Modules/Tax/Treatment/CartTreatment.php:546
+#: src/Modules/Tax/Treatment/CartTreatment.php:548
 msgid "Northern Ireland: only a valid XI VAT ID exempts goods"
 msgstr "Irlanda del Norte: solo un NIF-IVA XI válido exime los bienes"
 
-#: src/Modules/Tax/Treatment/CartTreatment.php:547
+#: src/Modules/Tax/Treatment/CartTreatment.php:549
 msgid "Northern Ireland: goods under EU rules, services under UK rules; check the service lines"
 msgstr "Irlanda del Norte: bienes según las normas de la UE, servicios según las del Reino Unido; revisa las líneas de servicios"
 

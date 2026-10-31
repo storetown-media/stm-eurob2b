@@ -54,6 +54,21 @@ final class Uninstaller {
 	}
 
 	/**
+	 * Removes the controller details of the record of processing activities from the stored settings
+	 * (`Schema::RECORD_CONTROLLER_SETTINGS`); the other settings stay.
+	 */
+	private static function remove_record_controller(): void {
+		$settings = get_option( Schema::OPTION_SETTINGS );
+		if ( ! is_array( $settings ) ) {
+			return;
+		}
+		$kept = array_diff_key( $settings, array_flip( Schema::RECORD_CONTROLLER_SETTINGS ) );
+		if ( count( $kept ) !== count( $settings ) ) {
+			update_option( Schema::OPTION_SETTINGS, $kept );
+		}
+	}
+
+	/**
 	 * Deletes a folder with its files and subfolders (two levels, as the offer PDF writes them).
 	 *
 	 * @param string $folder Folder.
@@ -79,8 +94,10 @@ final class Uninstaller {
 
 		$remove_data = (bool) get_option( Schema::OPTION_REMOVE_DATA, false );
 		if ( ! $remove_data ) {
-			// Default: keep all data. Only the version marker goes so a re-install migrates cleanly.
+			// Default: keep all data. Only the version marker goes so a re-install migrates cleanly, and the
+			// controller details of the record of processing activities, which are never kept.
 			delete_option( Schema::OPTION_PLUGIN_VERSION );
+			self::remove_record_controller();
 			return false;
 		}
 
