@@ -11,6 +11,7 @@ namespace EuroB2B\Modules\Registration\Admin;
 
 use EuroB2B\Infrastructure\Capabilities;
 use EuroB2B\Modules\Admin\Menu;
+use EuroB2B\Modules\Admin\PageHeader;
 use EuroB2B\Modules\Customers\Admin\GroupsPage;
 use EuroB2B\Modules\Customers\CustomerType;
 use EuroB2B\Modules\Customers\GroupRepository;
@@ -197,7 +198,7 @@ final class RegistrationPage {
 		$edit_field = isset( $_GET['edit_field'] ) ? sanitize_key( (string) wp_unslash( $_GET['edit_field'] ) ) : null;
 		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
-		echo '<div class="wrap eurob2b-registration-admin"><h1>' . esc_html__( 'Registration', 'eurob2b' ) . '</h1>';
+		PageHeader::open( 'eurob2b-registration-admin', __( 'Registration', 'eurob2b' ) );
 		if ( '' !== $error ) {
 			echo '<div class="notice notice-error"><p>' . esc_html( $error ) . '</p></div>';
 		}

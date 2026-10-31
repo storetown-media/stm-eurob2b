@@ -54,7 +54,7 @@ final class ProductPriceFields {
 	 * Registers hooks.
 	 */
 	public function hooks(): void {
-		add_action( 'woocommerce_product_options_pricing', array( $this, 'render_product_fields' ) );
+		add_action( 'eurob2b_product_panel_prices', array( $this, 'render_product_fields' ) );
 		add_action( 'woocommerce_admin_process_product_object', array( $this, 'save_product' ) );
 		add_action( 'woocommerce_variation_options_pricing', array( $this, 'render_variation_fields' ), 10, 3 );
 		add_action( 'woocommerce_save_product_variation', array( $this, 'save_variation' ), 10, 2 );

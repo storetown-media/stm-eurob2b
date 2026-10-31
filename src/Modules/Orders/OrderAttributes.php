@@ -9,9 +9,12 @@ declare( strict_types=1 );
 
 namespace EuroB2B\Modules\Orders;
 
+use EuroB2B\Modules\Admin\PageHeader;
+use EuroB2B\Modules\Admin\StatusLabel;
 use EuroB2B\Modules\Customers\AudienceContext;
 use EuroB2B\Modules\Customers\AudienceResolver;
 use EuroB2B\Modules\Customers\CustomerType;
+use EuroB2B\Support\Assets;
 use WC_Order;
 
 /**
@@ -57,6 +60,7 @@ final class OrderAttributes {
 		// Store API checkout: the order is saved right after this action.
 		add_action( 'woocommerce_store_api_checkout_update_order_from_request', array( $this, 'record_on_store_api' ), 10, 1 );
 		add_action( 'woocommerce_admin_order_data_after_order_details', array( $this, 'render_admin_box' ) );
+		add_action( 'admin_enqueue_scripts', array( self::class, 'enqueue_style' ) );
 	}
 
 	/**
@@ -171,11 +175,36 @@ final class OrderAttributes {
 			return;
 		}
 
+		/**
+		 * Colours of rows in the EuroB2B box (PLT-017): label => tone of `StatusLabel` (ok, warn, bad,
+		 * info). A coloured row shows its text as a label, e.g. a missing proof of supply in red.
+		 *
+		 * @param array<string, string> $tones Label => tone.
+		 * @param array<string, string> $rows  Rows of the box.
+		 * @param WC_Order              $order Order.
+		 */
+		$tones = apply_filters( 'eurob2b_order_attribute_tones', array(), $rows, $order );
+		$tones = is_array( $tones ) ? $tones : array();
+
 		echo '<div class="eurob2b-order-attributes" style="clear:both;padding-top:12px;">';
 		echo '<h3 style="margin-bottom:4px;">' . esc_html__( 'EuroB2B at purchase', 'eurob2b' ) . '</h3>';
 		foreach ( $rows as $label => $value ) {
-			echo '<p class="form-field form-field-wide" style="margin:0 0 4px;"><strong>' . esc_html( (string) $label ) . ':</strong> ' . esc_html( (string) $value ) . '</p>';
+			$tone = isset( $tones[ $label ] ) ? (string) $tones[ $label ] : '';
+			echo '<p class="form-field form-field-wide" style="margin:0 0 4px;"><strong>' . esc_html( (string) $label ) . ':</strong> ' . ( '' === $tone ? esc_html( (string) $value ) : StatusLabel::html( (string) $value, $tone ) ) . '</p>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped here or in StatusLabel::html().
 		}
 		echo '</div>';
+	}
+
+	/**
+	 * Hooked to admin_enqueue_scripts: the EuroB2B admin stylesheet (status labels) on the order screens.
+	 */
+	public static function enqueue_style(): void {
+		$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
+		// WooCommerce's own id of the order screen: the HPOS page or the legacy post screen.
+		$order_screen = function_exists( 'wc_get_page_screen_id' ) ? wc_get_page_screen_id( 'shop-order' ) : '';
+		if ( null === $screen || '' === $order_screen || $order_screen !== (string) $screen->id ) {
+			return;
+		}
+		wp_enqueue_style( PageHeader::STYLE, EUROB2B_PLUGIN_URL . 'assets/css/admin.css', array(), Assets::version( 'assets/css/admin.css' ) );
 	}
 }

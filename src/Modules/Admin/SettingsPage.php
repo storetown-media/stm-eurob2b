@@ -12,7 +12,11 @@ namespace EuroB2B\Modules\Admin;
 use EuroB2B\Infrastructure\Capabilities;
 
 /**
- * Renders the settings tabs and handles the save request.
+ * Renders the settings sections and handles the save request.
+ *
+ * The sections are listed in a side navigation, grouped by task (PLT-017): customers and access,
+ * selling, tax and legal, reports. A section that is not in NAV_GROUPS (for example from an add-on)
+ * appears under "More".
  *
  * Save flow: POST to admin-post.php with action "eurob2b_save_settings",
  * nonce and capability checked server-side, values sanitised by the schema,
@@ -23,6 +27,18 @@ final class SettingsPage {
 	public const ACTION = 'eurob2b_save_settings';
 	public const NONCE  = 'eurob2b_settings';
 	public const SLUG   = 'settings';
+
+	/**
+	 * Groups of the side navigation, each with its sections in order.
+	 *
+	 * @var array<string, array<int, string>>
+	 */
+	public const NAV_GROUPS = array(
+		'customers' => array( 'registration', 'access', 'company' ),
+		'selling'   => array( 'pricing', 'ordering', 'stock', 'quotes', 'conversations', 'payments' ),
+		'tax'       => array( 'tax', 'legal', 'einvoice', 'privacy' ),
+		'reports'   => array( 'reports', 'datev' ),
+	);
 
 	/**
 	 * Settings store.
@@ -100,16 +116,18 @@ final class SettingsPage {
 		$sections = $schema->sections();
 		$values   = $this->settings->all();
 
+		$nav = self::nav( $sections );
+
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only tab selection.
 		$current = isset( $_GET['tab'] ) ? sanitize_key( (string) wp_unslash( $_GET['tab'] ) ) : '';
 		if ( ! isset( $sections[ $current ] ) ) {
-			$current = (string) array_key_first( $sections );
+			$first   = reset( $nav );
+			$current = false === $first ? '' : (string) ( $first['sections'][0] ?? '' );
 		}
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- status flag only.
 		$updated = isset( $_GET['updated'] );
 
-		echo '<div class="wrap eurob2b-settings">';
-		echo '<h1>' . esc_html__( 'EuroB2B settings', 'eurob2b' ) . '</h1>';
+		PageHeader::open( 'eurob2b-settings', __( 'EuroB2B settings', 'eurob2b' ) );
 
 		if ( $updated ) {
 			echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'Settings saved.', 'eurob2b' ) . '</p></div>';
@@ -120,12 +138,19 @@ final class SettingsPage {
 			echo '<div class="notice notice-error"><p>' . esc_html( $error ) . '</p></div>';
 		}
 
-		echo '<nav class="nav-tab-wrapper">';
-		foreach ( $sections as $id => $section ) {
-			$class = 'nav-tab' . ( $id === $current ? ' nav-tab-active' : '' );
-			echo '<a class="' . esc_attr( $class ) . '" href="' . esc_url( Menu::url( self::SLUG, array( 'tab' => $id ) ) ) . '">' . esc_html( $section['label'] ) . '</a>';
+		echo '<div class="eurob2b-settings-layout"><nav class="eurob2b-sidenav" aria-label="' . esc_attr__( 'Settings sections', 'eurob2b' ) . '">';
+		foreach ( $nav as $key => $group ) {
+			echo '<p class="eurob2b-sidenav__group" id="eurob2b-sidenav-' . esc_attr( $key ) . '">' . esc_html( $group['label'] ) . '</p>';
+			echo '<ul aria-labelledby="eurob2b-sidenav-' . esc_attr( $key ) . '">';
+			foreach ( $group['sections'] as $id ) {
+				echo '<li><a href="' . esc_url( Menu::url( self::SLUG, array( 'tab' => $id ) ) ) . '"' . ( $id === $current ? ' aria-current="page"' : '' ) . '>' . esc_html( $sections[ $id ]['label'] ) . '</a></li>';
+			}
+			echo '</ul>';
 		}
-		echo '</nav>';
+		echo '</nav><div class="eurob2b-settings-main">';
+		if ( isset( $sections[ $current ] ) ) {
+			echo '<h2 class="eurob2b-settings-title">' . esc_html( $sections[ $current ]['label'] ) . '</h2>';
+		}
 
 		echo '<form method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '">';
 		wp_nonce_field( self::NONCE );
@@ -139,7 +164,46 @@ final class SettingsPage {
 		echo '</tbody></table>';
 
 		submit_button( __( 'Save settings', 'eurob2b' ) );
-		echo '</form></div>';
+		echo '</form></div></div></div>';
+	}
+
+	/**
+	 * Sections grouped for the side navigation: group => label and section ids, groups and sections in
+	 * the order of NAV_GROUPS; sections missing there follow under "More" in their schema order. Groups
+	 * without a registered section are left out.
+	 *
+	 * @param array<string, array{label: string, order: int}> $sections Sections of the schema, in order.
+	 * @return array<string, array{label: string, sections: array<int, string>}>
+	 */
+	public static function nav( array $sections ): array {
+		$labels = array(
+			'customers' => __( 'Customers & access', 'eurob2b' ),
+			'selling'   => __( 'Selling', 'eurob2b' ),
+			'tax'       => __( 'Tax & legal', 'eurob2b' ),
+			'reports'   => __( 'Reports', 'eurob2b' ),
+			'other'     => __( 'More', 'eurob2b' ),
+		);
+		$nav    = array();
+		$rest   = $sections;
+		foreach ( self::NAV_GROUPS as $key => $ids ) {
+			foreach ( $ids as $id ) {
+				if ( isset( $sections[ $id ] ) ) {
+					$nav[ $key ]['sections'][] = $id;
+					unset( $rest[ $id ] );
+				}
+			}
+		}
+		foreach ( array_keys( $rest ) as $id ) {
+			$nav['other']['sections'][] = (string) $id;
+		}
+		$out = array();
+		foreach ( $nav as $key => $group ) {
+			$out[ $key ] = array(
+				'label'    => $labels[ $key ],
+				'sections' => $group['sections'],
+			);
+		}
+		return $out;
 	}
 
 	/**

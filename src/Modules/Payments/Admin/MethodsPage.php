@@ -11,6 +11,7 @@ namespace EuroB2B\Modules\Payments\Admin;
 
 use EuroB2B\Infrastructure\Capabilities;
 use EuroB2B\Modules\Admin\Menu;
+use EuroB2B\Modules\Admin\PageHeader;
 use EuroB2B\Modules\Customers\Group;
 use EuroB2B\Modules\Customers\GroupRepository;
 use EuroB2B\Modules\Payments\MethodPolicy;
@@ -138,7 +139,7 @@ final class MethodsPage {
 		if ( ! current_user_can( Capabilities::MANAGE_SETTINGS ) ) {
 			wp_die( esc_html__( 'You are not allowed to view this page.', 'eurob2b' ), '', array( 'response' => 403 ) );
 		}
-		echo '<div class="wrap eurob2b-methods"><h1>' . esc_html__( 'Payment and shipping methods', 'eurob2b' ) . '</h1>';
+		PageHeader::open( 'eurob2b-methods', __( 'Payment and shipping methods', 'eurob2b' ) );
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only notice flag.
 		if ( isset( $_GET['saved'] ) ) {
 			echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'Settings saved.', 'eurob2b' ) . '</p></div>';

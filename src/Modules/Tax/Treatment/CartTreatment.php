@@ -10,6 +10,7 @@ declare( strict_types=1 );
 namespace EuroB2B\Modules\Tax\Treatment;
 
 use EuroB2B\Modules\Admin\Settings;
+use EuroB2B\Modules\Admin\StatusLabel;
 use EuroB2B\Modules\Countries\CountryProfiles;
 use EuroB2B\Modules\Countries\CountryRegistry;
 use EuroB2B\Modules\Customers\AudienceContext;
@@ -96,6 +97,7 @@ final class CartTreatment {
 		add_action( 'woocommerce_checkout_create_order', array( $this, 'refresh_order_treatment' ), 30 );
 		add_action( 'woocommerce_store_api_checkout_order_processed', array( $this, 'refresh_order_treatment_and_save' ), 30 );
 		add_filter( 'eurob2b_order_attribute_rows', array( $this, 'order_rows' ), 20, 2 );
+		add_filter( 'eurob2b_order_attribute_tones', array( $this, 'order_tones' ), 20, 3 );
 		add_action( 'woocommerce_order_details_after_order_table', array( $this, 'render_order_note' ) );
 		add_action( 'woocommerce_email_after_order_table', array( $this, 'render_order_note' ) );
 	}
@@ -399,6 +401,24 @@ final class CartTreatment {
 			return $attributes;
 		}
 		return array_merge( $attributes, $this->treatment_meta( $this->decide_for_order( $order, $audience ) ) );
+	}
+
+	/**
+	 * Colour of a tax treatment that needs review (red) in the EuroB2B box of the order screen (PLT-017).
+	 *
+	 * @param mixed $tones Label => tone (StatusLabel constants).
+	 * @param mixed $rows  Rows of the box (label => text).
+	 * @param mixed $order Order.
+	 * @return mixed
+	 */
+	public function order_tones( $tones, $rows, $order ) {
+		if ( ! is_array( $tones ) || ! is_array( $rows ) || ! $order instanceof WC_Order ) {
+			return $tones;
+		}
+		if ( 'yes' === (string) $order->get_meta( self::META_NEEDS_REVIEW, true ) ) {
+			$tones[ __( 'Tax treatment', 'eurob2b' ) ] = StatusLabel::BAD;
+		}
+		return $tones;
 	}
 
 	/**

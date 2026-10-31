@@ -11,6 +11,7 @@ namespace EuroB2B\Modules\Customers\Admin;
 
 use EuroB2B\Infrastructure\Capabilities;
 use EuroB2B\Modules\Admin\Menu;
+use EuroB2B\Modules\Admin\PageHeader;
 use EuroB2B\Modules\Customers\CustomerType;
 use EuroB2B\Modules\Customers\Group;
 use EuroB2B\Modules\Customers\GroupRepository;
@@ -168,12 +169,11 @@ final class GroupsPage {
 		$deleted = isset( $_GET['deleted'] );
 		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
-		echo '<div class="wrap eurob2b-groups">';
-		echo '<h1 class="wp-heading-inline">' . esc_html__( 'Customer groups', 'eurob2b' ) . '</h1>';
-		if ( null === $edit_id ) {
-			echo ' <a href="' . esc_url( Menu::url( self::SLUG, array( 'edit' => 0 ) ) ) . '" class="page-title-action">' . esc_html__( 'Add group', 'eurob2b' ) . '</a>';
-		}
-		echo '<hr class="wp-header-end" />';
+		PageHeader::open(
+			'eurob2b-groups',
+			__( 'Customer groups', 'eurob2b' ),
+			null === $edit_id ? '<a class="button" href="' . esc_url( Menu::url( self::SLUG, array( 'edit' => 0 ) ) ) . '">' . esc_html__( 'Add group', 'eurob2b' ) . '</a>' : ''
+		);
 
 		if ( '' !== $error ) {
 			echo '<div class="notice notice-error"><p>' . esc_html( $error ) . '</p></div>';
@@ -388,7 +388,7 @@ final class GroupsPage {
 			echo '<option value="' . esc_attr( $value ) . '"' . selected( null !== $rule ? $rule->period : UpgradeRule::PERIOD_LAST_12_MONTHS, $value, false ) . '>' . esc_html( $label ) . '</option>';
 		}
 		echo '</select>';
-		echo '<p class="description">' . esc_html__( 'Customers of this group who reach the net sales (without tax and shipping, after refunds, paid orders) are listed under EuroB2B → Group suggestions. Nothing moves automatically. The target group must have the same customer type; for a new group, choose it after saving.', 'eurob2b' ) . '</p></td></tr>';
+		echo '<p class="description">' . esc_html__( 'Customers of this group who reach the net sales (without tax and shipping, after refunds, paid orders) are listed under EuroB2B → Customers → Group suggestions. Nothing moves automatically. The target group must have the same customer type; for a new group, choose it after saving.', 'eurob2b' ) . '</p></td></tr>';
 	}
 
 	/**

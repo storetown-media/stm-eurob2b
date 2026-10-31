@@ -123,6 +123,7 @@ final class RegistrationModule extends AbstractModule {
 		}
 		$approvals = $c->get( ApprovalsPage::class );
 		add_action( 'eurob2b_admin_menu', array( $approvals, 'register_page' ) );
+		add_filter( 'eurob2b_overview_items', array( $approvals, 'overview_items' ) );
 		add_action( 'admin_post_' . ApprovalsPage::ACTION_APPROVE, array( $approvals, 'handle_approve' ) );
 		add_action( 'admin_post_' . ApprovalsPage::ACTION_REJECT, array( $approvals, 'handle_reject' ) );
 

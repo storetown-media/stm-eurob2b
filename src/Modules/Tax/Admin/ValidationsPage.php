@@ -11,6 +11,8 @@ namespace EuroB2B\Modules\Tax\Admin;
 
 use EuroB2B\Infrastructure\Capabilities;
 use EuroB2B\Modules\Admin\Menu;
+use EuroB2B\Modules\Admin\StatusLabel;
+use EuroB2B\Modules\Admin\PageHeader;
 use EuroB2B\Modules\Tax\Validation\ValidationRecord;
 use EuroB2B\Modules\Tax\Validation\ValidationService;
 use EuroB2B\Modules\Tax\VatId\ExternalServices;
@@ -50,6 +52,28 @@ final class ValidationsPage {
 	 */
 	public function register_page( Menu $menu ): void {
 		$menu->add_page( self::SLUG, __( 'VAT ID validations', 'eurob2b' ), __( 'VAT IDs', 'eurob2b' ), Capabilities::DECIDE_VALIDATION, array( $this, 'render' ), 40 );
+	}
+
+	/**
+	 * Line of the overview page (PLT-017).
+	 *
+	 * @param array<int, array<string, mixed>> $items Lines.
+	 * @return array<int, array<string, mixed>>
+	 */
+	public function overview_items( array $items ): array {
+		// Count only for users who may open the page; the overview hides the line for others anyway.
+		if ( ! current_user_can( Capabilities::DECIDE_VALIDATION ) ) {
+			return $items;
+		}
+		$items[] = array(
+			'count'      => $this->review_count(),
+			'title'      => __( 'VAT ID checks to look at', 'eurob2b' ),
+			'text'       => __( 'Checks without a clear result or waiting for your decision.', 'eurob2b' ),
+			'url'        => Menu::url( self::SLUG ),
+			'action'     => __( 'Look at', 'eurob2b' ),
+			'capability' => Capabilities::DECIDE_VALIDATION,
+		);
+		return $items;
 	}
 
 	/**
@@ -113,7 +137,7 @@ final class ValidationsPage {
 		$error     = isset( $_GET['error'] ) ? sanitize_text_field( (string) wp_unslash( $_GET['error'] ) ) : '';
 		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
-		echo '<div class="wrap eurob2b-vat-validations"><h1>' . esc_html__( 'VAT ID validations', 'eurob2b' ) . '</h1>';
+		PageHeader::open( 'eurob2b-vat-validations', __( 'VAT ID validations', 'eurob2b' ) );
 		if ( $decided > 0 ) {
 			echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'Decision stored.', 'eurob2b' ) . '</p></div>';
 		}
@@ -128,7 +152,7 @@ final class ValidationsPage {
 		}
 
 		$review = $this->service->repository()->review_list( 200 );
-		echo '<h2>' . esc_html__( 'Needs a look', 'eurob2b' ) . ' <span class="count">(' . esc_html( (string) count( $review ) ) . ')</span></h2>';
+		echo '<h2>' . esc_html__( 'Needs a look', 'eurob2b' ) . ' ' . StatusLabel::html( (string) count( $review ), array() === $review ? StatusLabel::OK : StatusLabel::BAD ) . '</h2>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in StatusLabel::html().
 		if ( empty( $review ) ) {
 			echo '<p>' . esc_html__( 'Nothing to review.', 'eurob2b' ) . '</p>';
 		} else {
@@ -163,7 +187,7 @@ final class ValidationsPage {
 			$user = null !== $record->user_id ? get_userdata( $record->user_id ) : false;
 			echo '<tr>';
 			echo '<td><code>' . esc_html( $record->vat_id() ) . '</code></td>';
-			echo '<td>' . esc_html( self::status_label( $record->status ) ) . '</td>';
+			echo '<td>' . StatusLabel::html( self::status_label( $record->status ), self::status_tone( $record->status ) ) . '</td>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in StatusLabel::html().
 			echo '<td>' . esc_html( (string) $record->reason_code ) . '</td>';
 			echo '<td>' . esc_html( self::service_label( $record->service ) ) . '</td>';
 			echo '<td>' . esc_html( self::checked_label( $record ) ) . '</td>';
@@ -216,6 +240,19 @@ final class ValidationsPage {
 			ExternalServices::UID   => 'UID (BFS)',
 			ExternalServices::BRREG => 'Brønnøysund',
 			default                 => $service,
+		};
+	}
+
+	/**
+	 * Colour of a validation status (PLT-017).
+	 *
+	 * @param ValidationStatus $status Status.
+	 */
+	public static function status_tone( ValidationStatus $status ): string {
+		return match ( $status ) {
+			ValidationStatus::VALID => StatusLabel::OK,
+			ValidationStatus::INVALID => StatusLabel::BAD,
+			ValidationStatus::UNAVAILABLE, ValidationStatus::PENDING => StatusLabel::WARN,
 		};
 	}
 

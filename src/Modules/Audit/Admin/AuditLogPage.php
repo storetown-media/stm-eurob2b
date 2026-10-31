@@ -11,6 +11,7 @@ namespace EuroB2B\Modules\Audit\Admin;
 
 use EuroB2B\Infrastructure\Capabilities;
 use EuroB2B\Modules\Admin\Menu;
+use EuroB2B\Modules\Admin\PageHeader;
 use EuroB2B\Modules\Audit\AuditEntry;
 use EuroB2B\Modules\Audit\AuditFormatter;
 use EuroB2B\Modules\Audit\AuditLog;
@@ -90,7 +91,7 @@ final class AuditLogPage {
 		$total   = $this->log->count( $filters );
 		$entries = $this->log->search( $filters, self::PER_PAGE, ( $paged - 1 ) * self::PER_PAGE );
 
-		echo '<div class="wrap eurob2b-audit-log"><h1>' . esc_html__( 'Audit log', 'eurob2b' ) . '</h1>';
+		PageHeader::open( 'eurob2b-audit-log', __( 'Audit log', 'eurob2b' ) );
 		echo '<p>' . esc_html(
 			sprintf(
 				/* translators: %d: number of days */

@@ -163,6 +163,7 @@ final class VatIdField {
 
 		// Order screen.
 		add_filter( 'eurob2b_order_attribute_rows', array( $this, 'order_rows' ), 10, 2 );
+		add_filter( 'eurob2b_order_attribute_tones', array( $this, 'order_tones' ), 10, 3 );
 	}
 
 	/**
@@ -678,6 +679,25 @@ final class VatIdField {
 			$rows[ __( 'VAT ID check', 'eurob2b' ) ] = Admin\ValidationsPage::status_label( $status );
 		}
 		return $rows;
+	}
+
+	/**
+	 * Colour of the VAT ID check in the EuroB2B box of the order screen (PLT-017).
+	 *
+	 * @param mixed $tones Label => tone (StatusLabel constants).
+	 * @param mixed $rows  Rows of the box (label => text).
+	 * @param mixed $order Order.
+	 * @return mixed
+	 */
+	public function order_tones( $tones, $rows, $order ) {
+		if ( ! is_array( $tones ) || ! is_array( $rows ) || ! $order instanceof WC_Order ) {
+			return $tones;
+		}
+		$status = ValidationStatus::tryFrom( (string) $order->get_meta( self::META_VALIDATION_STATE, true ) );
+		if ( null !== $status ) {
+			$tones[ __( 'VAT ID check', 'eurob2b' ) ] = Admin\ValidationsPage::status_tone( $status );
+		}
+		return $tones;
 	}
 
 	/* ---------------------------------------------------------------- Shared */

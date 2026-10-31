@@ -21,7 +21,7 @@ final class ProductSupplyTypeField {
 	 * Registers hooks.
 	 */
 	public function hooks(): void {
-		add_action( 'woocommerce_product_options_tax', array( $this, 'render' ) );
+		add_action( 'eurob2b_product_panel_tax', array( $this, 'render' ) );
 		add_action( 'woocommerce_admin_process_product_object', array( $this, 'save' ) );
 	}
 
@@ -31,6 +31,7 @@ final class ProductSupplyTypeField {
 	public function render(): void {
 		global $product_object;
 		$value = $product_object instanceof WC_Product ? SupplyType::of( $product_object ) : SupplyType::GOODS;
+		echo '<div class="options_group eurob2b-supply-type">';
 		woocommerce_wp_select(
 			array(
 				'id'          => SupplyType::META,
@@ -44,6 +45,7 @@ final class ProductSupplyTypeField {
 				),
 			)
 		);
+		echo '</div>';
 	}
 
 	/**

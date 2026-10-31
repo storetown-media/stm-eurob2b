@@ -1,0 +1,491 @@
+/*
+ * EuroB2B admin pages (PLT-017). Loaded only on ?page=eurob2b-… screens; every rule is scoped to
+ * .eurob2b-admin so WordPress and other plugins are not affected. Colours and type follow the
+ * WordPress admin; EuroB2B adds a white header band, underlined tabs, white cards for tables and forms,
+ * one blue accent for the current tab, buttons and numbers, and coloured status labels (product owner
+ * decision of 2026-10-30: colours as in the approved reference screens; no gradients, small radii).
+ * Contrast of text colours against their backgrounds meets WCAG 2.2 AA (4.5:1).
+ */
+
+.eurob2b-admin {
+	--eurob2b-line: #e2e4e7;
+	--eurob2b-line-soft: #f0f0f1;
+	--eurob2b-muted: #646970;
+	--eurob2b-navy: #14254f;
+	--eurob2b-accent: #2563eb;
+	--eurob2b-accent-dark: #1d4ed8;
+	--eurob2b-accent-soft: #eff6ff;
+	--eurob2b-radius: 6px;
+	--eurob2b-shadow: 0 1px 2px rgba(16, 24, 40, 0.06);
+	--eurob2b-head-bg: #fff;
+	--eurob2b-table-head: #f8f9fa;
+}
+
+/* Header band: bleeds to the edges of the content area, separates the page from the WordPress grey. */
+.eurob2b-admin .eurob2b-head {
+	margin-block: -10px 20px;
+	margin-inline: -22px -20px;
+	padding: 18px 20px 16px 22px;
+	background: var(--eurob2b-head-bg);
+	border-bottom: 1px solid var(--eurob2b-line);
+}
+
+.eurob2b-admin .eurob2b-head--tabs {
+	padding-bottom: 0;
+}
+
+.eurob2b-admin .eurob2b-head__brand {
+	margin: 0;
+	font-size: 12px;
+	font-weight: 600;
+	line-height: 1.4;
+	color: var(--eurob2b-navy);
+}
+
+.eurob2b-admin .eurob2b-head__row {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px 16px;
+}
+
+.eurob2b-admin .eurob2b-head h1 {
+	margin: 0;
+	padding: 0;
+	font-size: 23px;
+	font-weight: 400;
+	line-height: 1.3;
+}
+
+.eurob2b-admin .eurob2b-head__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+/* Tabs: one quiet row with an underline instead of boxed tabs. The pages of an area (.eurob2b-area) come
+   first; a page's own tabs (.eurob2b-tabs) follow as a smaller second row. */
+.eurob2b-admin .eurob2b-area,
+.eurob2b-admin .eurob2b-tabs {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0 24px;
+	margin-top: 12px;
+}
+
+.eurob2b-admin .eurob2b-area a,
+.eurob2b-admin .eurob2b-tabs a {
+	padding: 10px 0 9px;
+	border-bottom: 3px solid transparent;
+	color: var(--eurob2b-muted);
+	text-decoration: none;
+	white-space: nowrap;
+}
+
+.eurob2b-admin .eurob2b-area a:hover,
+.eurob2b-admin .eurob2b-tabs a:hover {
+	color: #1d2327;
+}
+
+.eurob2b-admin .eurob2b-area a[aria-current="page"],
+.eurob2b-admin .eurob2b-tabs a[aria-current="page"] {
+	border-bottom-color: var(--eurob2b-accent);
+	color: var(--eurob2b-accent);
+	font-weight: 600;
+}
+
+.eurob2b-admin .eurob2b-area a:focus,
+.eurob2b-admin .eurob2b-tabs a:focus {
+	box-shadow: none;
+	outline: 2px solid #2271b1;
+	outline-offset: 2px;
+}
+
+.eurob2b-admin .eurob2b-area + .eurob2b-tabs {
+	gap: 0 18px;
+	margin-top: 0;
+	border-top: 1px solid var(--eurob2b-line-soft);
+}
+
+.eurob2b-admin .eurob2b-area + .eurob2b-tabs a {
+	padding: 8px 0 7px;
+	border-bottom-width: 2px;
+	font-size: 12px;
+}
+
+.eurob2b-admin .eurob2b-head__area {
+	color: var(--eurob2b-muted);
+	font-weight: 400;
+}
+
+.eurob2b-admin .eurob2b-count {
+	display: inline-block;
+	min-width: 18px;
+	margin-inline-start: 4px;
+	padding: 0 5px;
+	border-radius: 9px;
+	background: #d63638;
+	color: #fff;
+	font-size: 11px;
+	font-weight: 600;
+	line-height: 18px;
+	text-align: center;
+}
+
+/* Section headings and help text. */
+.eurob2b-admin h2 {
+	margin: 28px 0 10px;
+	font-size: 15px;
+	font-weight: 600;
+}
+
+.eurob2b-admin .description,
+.eurob2b-admin p.description {
+	color: var(--eurob2b-muted);
+}
+
+/* Lists: white panel, light header row, more air per row. */
+.eurob2b-admin table.widefat {
+	border: 1px solid var(--eurob2b-line);
+	border-radius: var(--eurob2b-radius);
+	box-shadow: var(--eurob2b-shadow);
+	border-collapse: separate;
+}
+
+.eurob2b-admin table.widefat thead th,
+.eurob2b-admin table.widefat thead td,
+.eurob2b-admin table.widefat tfoot th,
+.eurob2b-admin table.widefat tfoot td {
+	background: var(--eurob2b-table-head);
+	color: #50575e;
+	font-size: 12px;
+	font-weight: 600;
+}
+
+.eurob2b-admin table.widefat td,
+.eurob2b-admin table.widefat th {
+	padding-block: 10px;
+}
+
+.eurob2b-admin table.widefat.striped > tbody > :nth-child(odd) {
+	background: #fbfbfb;
+}
+
+/* Forms: each form table becomes a panel with ruled rows. */
+.eurob2b-admin .form-table {
+	background: #fff;
+	border: 1px solid var(--eurob2b-line);
+	border-radius: var(--eurob2b-radius);
+	box-shadow: var(--eurob2b-shadow);
+	border-collapse: separate;
+	border-spacing: 0;
+}
+
+.eurob2b-admin .form-table > tbody > tr > th,
+.eurob2b-admin .form-table > tbody > tr > td {
+	padding: 16px 18px;
+}
+
+.eurob2b-admin .form-table > tbody > tr + tr > th,
+.eurob2b-admin .form-table > tbody > tr + tr > td {
+	border-top: 1px solid var(--eurob2b-line-soft);
+}
+
+.eurob2b-admin .form-table + .submit,
+.eurob2b-admin .form-table + p.submit {
+	padding-top: 16px;
+}
+
+/* Overview: a panel with one ruled line per kind of open work (PLT-017). */
+.eurob2b-admin .eurob2b-panel {
+	max-width: 960px;
+	margin-top: 16px;
+	background: #fff;
+	border: 1px solid var(--eurob2b-line);
+	border-radius: var(--eurob2b-radius);
+	box-shadow: var(--eurob2b-shadow);
+}
+
+.eurob2b-admin .eurob2b-panel__head {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 4px 12px;
+	padding: 14px 18px;
+	border-bottom: 1px solid var(--eurob2b-line-soft);
+}
+
+.eurob2b-admin .eurob2b-panel__head h2 {
+	margin: 0;
+	font-size: 14px;
+}
+
+.eurob2b-admin .eurob2b-panel__note {
+	color: var(--eurob2b-muted);
+	font-size: 12px;
+}
+
+.eurob2b-admin .eurob2b-panel__empty {
+	margin: 0;
+	padding: 18px;
+	color: var(--eurob2b-muted);
+}
+
+.eurob2b-admin .eurob2b-tasks {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.eurob2b-admin .eurob2b-tasks li {
+	display: grid;
+	grid-template-columns: 56px minmax(0, 1fr) auto;
+	gap: 4px 16px;
+	align-items: center;
+	margin: 0;
+	padding: 14px 18px;
+	border-top: 1px solid var(--eurob2b-line-soft);
+}
+
+.eurob2b-admin .eurob2b-tasks li:first-child {
+	border-top: 0;
+}
+
+.eurob2b-admin .eurob2b-tasks li {
+	box-shadow: inset 3px 0 0 #dc2626;
+}
+
+.eurob2b-admin .eurob2b-tasks__count {
+	color: #b91c1c;
+	font-size: 26px;
+	font-weight: 300;
+	font-variant-numeric: tabular-nums;
+	line-height: 1;
+	text-align: end;
+}
+
+.eurob2b-admin .eurob2b-tasks__title {
+	margin: 0;
+	font-size: 14px;
+	font-weight: 600;
+}
+
+.eurob2b-admin .eurob2b-tasks__text {
+	margin: 2px 0 0;
+	color: var(--eurob2b-muted);
+}
+
+@media screen and (max-width: 600px) {
+	.eurob2b-admin .eurob2b-tasks li {
+		grid-template-columns: 40px minmax(0, 1fr);
+	}
+
+	.eurob2b-admin .eurob2b-tasks .button {
+		grid-column: 2;
+		justify-self: start;
+	}
+}
+
+/* Settings: grouped side navigation next to the form (PLT-017). */
+.eurob2b-admin .eurob2b-settings-layout {
+	display: grid;
+	grid-template-columns: 220px minmax(0, 1fr);
+	gap: 28px;
+	align-items: start;
+}
+
+.eurob2b-admin .eurob2b-sidenav {
+	position: sticky;
+	top: 48px;
+}
+
+.eurob2b-admin .eurob2b-sidenav__group {
+	margin: 18px 0 4px;
+	font-size: 11px;
+	font-weight: 600;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--eurob2b-muted);
+}
+
+.eurob2b-admin .eurob2b-sidenav__group:first-child {
+	margin-top: 0;
+}
+
+.eurob2b-admin .eurob2b-sidenav ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.eurob2b-admin .eurob2b-sidenav li {
+	margin: 0;
+}
+
+.eurob2b-admin .eurob2b-sidenav a {
+	display: block;
+	padding: 6px 10px;
+	border-inline-start: 2px solid transparent;
+	color: #1d2327;
+	text-decoration: none;
+}
+
+.eurob2b-admin .eurob2b-sidenav a:hover {
+	color: #2271b1;
+}
+
+.eurob2b-admin .eurob2b-sidenav a[aria-current="page"] {
+	border-inline-start-color: var(--eurob2b-accent);
+	background: var(--eurob2b-accent-soft);
+	color: var(--eurob2b-accent);
+	font-weight: 600;
+}
+
+.eurob2b-admin .eurob2b-sidenav a:focus {
+	box-shadow: none;
+	outline: 2px solid #2271b1;
+	outline-offset: -2px;
+}
+
+.eurob2b-admin .eurob2b-settings-title {
+	margin: 0 0 12px;
+	font-size: 18px;
+	font-weight: 400;
+}
+
+@media screen and (max-width: 960px) {
+	.eurob2b-admin .eurob2b-settings-layout {
+		grid-template-columns: minmax(0, 1fr);
+		gap: 16px;
+	}
+
+	.eurob2b-admin .eurob2b-sidenav {
+		position: static;
+	}
+
+	.eurob2b-admin .eurob2b-sidenav ul {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 2px 4px;
+	}
+}
+
+/* Buttons: blue primary button, blue outlined secondary buttons (links styled as buttons included). */
+.eurob2b-admin .button:not(.button-link),
+.eurob2b-admin .button-secondary {
+	min-height: 32px;
+	padding: 0 14px;
+	border-color: var(--eurob2b-accent);
+	border-radius: var(--eurob2b-radius);
+	background: #fff;
+	color: var(--eurob2b-accent);
+	line-height: 30px;
+}
+
+.eurob2b-admin .button:not(.button-link):hover,
+.eurob2b-admin .button-secondary:hover {
+	border-color: var(--eurob2b-accent-dark);
+	background: var(--eurob2b-accent-soft);
+	color: var(--eurob2b-accent-dark);
+}
+
+.eurob2b-admin .button-primary,
+.eurob2b-admin .button.button-primary {
+	border-color: var(--eurob2b-accent);
+	background: var(--eurob2b-accent);
+	color: #fff;
+}
+
+.eurob2b-admin .button-primary:hover,
+.eurob2b-admin .button.button-primary:hover,
+.eurob2b-admin .button-primary:focus {
+	border-color: var(--eurob2b-accent-dark);
+	background: var(--eurob2b-accent-dark);
+	color: #fff;
+}
+
+.eurob2b-admin .button:not(.button-link):focus,
+.eurob2b-admin .button-primary:focus {
+	box-shadow: 0 0 0 1px #fff, 0 0 0 3px var(--eurob2b-accent);
+	outline: 2px solid transparent;
+}
+
+/* Status labels: colour and text together, never colour alone. Also in the EuroB2B box of the
+   WooCommerce order screen, where this stylesheet is loaded too (OrderAttributes::enqueue_style()). */
+.eurob2b-admin .eurob2b-status,
+.eurob2b-order-attributes .eurob2b-status {
+	display: inline-block;
+	padding: 1px 9px;
+	border: 1px solid #cbd5e1;
+	border-radius: 4px;
+	background: #f1f5f9;
+	color: #475569;
+	font-size: 12px;
+	font-weight: 600;
+	line-height: 20px;
+	white-space: nowrap;
+}
+
+/* Fine: valid, accepted, below the threshold. */
+.eurob2b-admin .eurob2b-status--ok,
+.eurob2b-order-attributes .eurob2b-status--ok {
+	border-color: #86efac;
+	background: #dcfce7;
+	color: #166534;
+}
+
+/* Waiting: requested, service unavailable, close to a threshold. */
+.eurob2b-admin .eurob2b-status--warn,
+.eurob2b-order-attributes .eurob2b-status--warn {
+	border-color: #fcd34d;
+	background: #fef3c7;
+	color: #92400e;
+}
+
+/* Action needed or negative: missing, invalid, declined, exceeded, overdue. */
+.eurob2b-admin .eurob2b-status--bad,
+.eurob2b-order-attributes .eurob2b-status--bad {
+	border-color: #fca5a5;
+	background: #fee2e2;
+	color: #b91c1c;
+}
+
+.eurob2b-admin .eurob2b-status--info,
+.eurob2b-order-attributes .eurob2b-status--info {
+	border-color: #93c5fd;
+	background: #dbeafe;
+	color: #1e40af;
+}
+
+/* The first paragraph directly in a page explains it: a light blue box. */
+.eurob2b-admin > p:first-of-type {
+	max-width: 960px;
+	padding: 10px 14px;
+	border: 1px solid #dbeafe;
+	border-inline-start: 3px solid var(--eurob2b-accent);
+	border-radius: var(--eurob2b-radius);
+	background: var(--eurob2b-accent-soft);
+	color: #1d2327;
+}
+
+@media screen and (max-width: 782px) {
+	.eurob2b-admin .eurob2b-head {
+		margin-inline: -10px -12px;
+		padding-inline: 10px 12px;
+	}
+
+	.eurob2b-admin .form-table > tbody > tr > th {
+		padding-bottom: 0;
+	}
+
+	.eurob2b-admin .form-table > tbody > tr > td {
+		padding-top: 8px;
+	}
+
+	.eurob2b-admin .form-table > tbody > tr > td + td,
+	.eurob2b-admin .form-table > tbody > tr + tr > td {
+		border-top: 0;
+	}
+}

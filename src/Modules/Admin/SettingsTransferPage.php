@@ -150,7 +150,7 @@ final class SettingsTransferPage {
 		$check    = isset( $_GET['check'] ) ? sanitize_text_field( wp_unslash( (string) $_GET['check'] ) ) : '';
 		$imported = isset( $_GET['imported'] );
 		// phpcs:enable WordPress.Security.NonceVerification.Recommended
-		echo '<div class="wrap eurob2b-settings-transfer"><h1>' . esc_html__( 'Transfer settings', 'eurob2b' ) . '</h1>';
+		PageHeader::open( 'eurob2b-settings-transfer', __( 'Transfer settings', 'eurob2b' ) );
 		if ( '' !== $error ) {
 			echo '<div class="notice notice-error"><p>' . esc_html( $error ) . '</p></div>';
 		}

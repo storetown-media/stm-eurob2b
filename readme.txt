@@ -4,7 +4,7 @@ Tags: b2b, wholesale, vat, reverse charge, customer groups
 Requires at least: 6.7
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.4.0
+Stable tag: 1.5.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -55,7 +55,7 @@ EuroB2B works on its own. EuroB2B Pro is a separate add-on for shops that need m
 1. Install and activate WooCommerce (10.0 or newer).
 2. Install EuroB2B from *Plugins → Add New* or upload the zip file, then activate it.
 3. Open *EuroB2B → Settings*: set your shop's VAT ID, choose how the VAT ID field behaves and whether VAT IDs are checked with VIES.
-4. Create customer groups under *EuroB2B → Groups* and assign business customers to them.
+4. Create customer groups under *EuroB2B → Customers → Groups* and assign business customers to them.
 
 EuroB2B needs PHP 8.1 or newer.
 
@@ -98,6 +98,10 @@ EuroB2B connects to one external service, and only when you use it:
 == Changelog ==
 
 The full changelog is in CHANGELOG.md in the plugin folder and on https://github.com/storetown-media/eurob2b.
+
+= 1.5.0 =
+* Clearer admin: the EuroB2B menu is grouped into areas with an overview of what is waiting, settings with a side navigation, coloured statuses and a product data tab of its own.
+* My Account tables fit narrow theme columns.
 
 = 1.4.0 =
 * First release on WordPress.org: EuroB2B is now the free core; the Pro features moved to the separate add-on EuroB2B Pro.

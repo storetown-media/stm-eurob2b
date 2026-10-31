@@ -11,6 +11,7 @@ namespace EuroB2B\Modules\Privacy\Admin;
 
 use EuroB2B\Infrastructure\Capabilities;
 use EuroB2B\Modules\Admin\Menu;
+use EuroB2B\Modules\Admin\PageHeader;
 use EuroB2B\Modules\Privacy\ProcessingRecord;
 
 /**
@@ -84,7 +85,7 @@ final class ProcessingRecordPage {
 	 */
 	public function render(): void {
 		$this->check_capability();
-		echo '<div class="wrap eurob2b-processing-record"><h1>' . esc_html__( 'Record of processing activities', 'eurob2b' ) . '</h1>';
+		PageHeader::open( 'eurob2b-processing-record', __( 'Record of processing activities', 'eurob2b' ) );
 		echo '<p>' . esc_html__( 'A draft for your record of processing activities under Art. 30 GDPR, built from the current EuroB2B settings. Print it or save it as a PDF from the print view, or download it as an HTML file that you can edit in a word processor.', 'eurob2b' ) . '</p>';
 		echo '<p><a class="button button-primary" href="' . esc_url( self::document_url() ) . '" target="_blank" rel="noopener">' . esc_html__( 'Print view', 'eurob2b' ) . '</a> ';
 		echo '<a class="button" href="' . esc_url( self::document_url( true ) ) . '">' . esc_html__( 'Download as HTML file', 'eurob2b' ) . '</a></p>';

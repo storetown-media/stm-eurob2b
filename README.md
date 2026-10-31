@@ -93,7 +93,7 @@ Alles, was auf dieser Seite beschrieben ist, steckt in der kostenlosen Edition u
 1. WooCommerce (10.0 oder neuer) installieren und aktivieren
 2. ZIP über die [Produktseite](https://www.storetown-media.de/produkt/eurob2b-woocommerce/) oder unter [Releases](../../releases) laden, unter **Plugins → Installieren → Plugin hochladen** einspielen und aktivieren
 3. Unter **EuroB2B → Einstellungen** die eigene USt-IdNr. eintragen und festlegen, wie sich das Feld für die USt-IdNr. verhält und ob mit VIES geprüft wird
-4. Unter **EuroB2B → Gruppen** Kundengruppen anlegen und Geschäftskunden zuordnen
+4. Unter **EuroB2B → Kunden → Gruppen** Kundengruppen anlegen und Geschäftskunden zuordnen
 
 ## EuroB2B Pro
 

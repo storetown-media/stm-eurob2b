@@ -13,6 +13,7 @@ use DateTimeImmutable;
 use DateTimeZone;
 use EuroB2B\Infrastructure\Capabilities;
 use EuroB2B\Modules\Admin\Menu;
+use EuroB2B\Modules\Admin\PageHeader;
 use EuroB2B\Modules\Customers\Group;
 use EuroB2B\Modules\Customers\GroupRepository;
 use EuroB2B\Modules\Rules\Condition;
@@ -383,12 +384,11 @@ final class RulesPage {
 		$deleted = isset( $_GET['deleted'] );
 		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
-		echo '<div class="wrap eurob2b-rules">';
-		echo '<h1 class="wp-heading-inline">' . esc_html__( 'Rules', 'eurob2b' ) . '</h1>';
-		if ( null === $edit_id ) {
-			echo ' <a href="' . esc_url( Menu::url( self::SLUG, array( 'edit' => 0 ) ) ) . '" class="page-title-action">' . esc_html__( 'Add rule', 'eurob2b' ) . '</a>';
-		}
-		echo '<hr class="wp-header-end" />';
+		PageHeader::open(
+			'eurob2b-rules',
+			__( 'Rules', 'eurob2b' ),
+			null === $edit_id ? '<a class="button" href="' . esc_url( Menu::url( self::SLUG, array( 'edit' => 0 ) ) ) . '">' . esc_html__( 'Add rule', 'eurob2b' ) . '</a>' : ''
+		);
 		if ( '' !== $error ) {
 			echo '<div class="notice notice-error"><p>' . esc_html( $error ) . '</p></div>';
 		}

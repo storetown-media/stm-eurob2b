@@ -11,6 +11,7 @@ namespace EuroB2B\Modules\Registration\Admin;
 
 use EuroB2B\Infrastructure\Capabilities;
 use EuroB2B\Modules\Admin\Menu;
+use EuroB2B\Modules\Admin\PageHeader;
 use EuroB2B\Modules\Customers\CustomersModule;
 use EuroB2B\Modules\Customers\CustomerStatus;
 use EuroB2B\Modules\Customers\AudienceResolver;
@@ -73,6 +74,28 @@ final class ApprovalsPage {
 		$this->groups    = $groups;
 		$this->storage   = $storage;
 		$this->audiences = $audiences;
+	}
+
+	/**
+	 * Line of the overview page (PLT-017).
+	 *
+	 * @param array<int, array<string, mixed>> $items Lines.
+	 * @return array<int, array<string, mixed>>
+	 */
+	public function overview_items( array $items ): array {
+		// Count only for users who may open the page; the overview hides the line for others anyway.
+		if ( ! current_user_can( Capabilities::MANAGE_CUSTOMERS ) ) {
+			return $items;
+		}
+		$items[] = array(
+			'count'      => $this->pending_count(),
+			'title'      => __( 'Registrations waiting for approval', 'eurob2b' ),
+			'text'       => __( 'Check the new business customers and assign them to a customer group.', 'eurob2b' ),
+			'url'        => Menu::url( self::SLUG ),
+			'action'     => _x( 'Review', 'button on the overview page', 'eurob2b' ),
+			'capability' => Capabilities::MANAGE_CUSTOMERS,
+		);
+		return $items;
 	}
 
 	/**
@@ -175,7 +198,7 @@ final class ApprovalsPage {
 		$error    = isset( $_GET['error'] ) ? sanitize_text_field( (string) wp_unslash( $_GET['error'] ) ) : '';
 		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
-		echo '<div class="wrap eurob2b-approvals"><h1>' . esc_html__( 'Registration approvals', 'eurob2b' ) . '</h1>';
+		PageHeader::open( 'eurob2b-approvals', __( 'Registration approvals', 'eurob2b' ) );
 		if ( $approved > 0 ) {
 			echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'Customer approved and notified.', 'eurob2b' ) . '</p></div>';
 		}

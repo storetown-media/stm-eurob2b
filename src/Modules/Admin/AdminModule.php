@@ -53,6 +53,7 @@ final class AdminModule extends AbstractModule {
 		// in boot() are not missed even if Settings is resolved early.
 		$container->set( Settings::class, static fn( Container $c ): Settings => new Settings( static fn(): SettingsSchema => $c->get( SettingsSchema::class ) ) );
 		$container->set( Menu::class, static fn(): Menu => new Menu() );
+		$container->set( OverviewPage::class, static fn(): OverviewPage => new OverviewPage() );
 		$container->set( SettingsPage::class, static fn( Container $c ): SettingsPage => new SettingsPage( $c->get( Settings::class ) ) );
 		$container->set( SettingsTransfer::class, static fn( Container $c ): SettingsTransfer => new SettingsTransfer( $c->get( Settings::class ), $c->get( GroupRepository::class ), $c->get( RegistrationTypeRepository::class ), $c->get( FieldRepository::class ) ) );
 		$container->set( SettingsTransferPage::class, static fn( Container $c ): SettingsTransferPage => new SettingsTransferPage( $c->get( SettingsTransfer::class ) ) );
@@ -70,6 +71,8 @@ final class AdminModule extends AbstractModule {
 		}
 		// Services are resolved when the hooks fire, i.e. after every module has booted.
 		add_action( 'admin_menu', static fn() => $container->get( Menu::class )->register() );
+		add_action( 'admin_enqueue_scripts', array( PageHeader::class, 'enqueue' ) );
+		add_action( 'eurob2b_admin_menu', static fn( Menu $menu ) => $container->get( OverviewPage::class )->register_page( $menu ) );
 		add_action( 'eurob2b_admin_menu', static fn( Menu $menu ) => $container->get( SettingsPage::class )->register_page( $menu ) );
 		add_action( 'admin_post_' . SettingsPage::ACTION, static fn() => $container->get( SettingsPage::class )->handle_save() );
 		add_action( 'eurob2b_admin_menu', static fn( Menu $menu ) => $container->get( SettingsTransferPage::class )->register_page( $menu ) );
@@ -78,6 +81,7 @@ final class AdminModule extends AbstractModule {
 		add_action( 'admin_post_' . SettingsTransferPage::ACTION_IMPORT, static fn() => $container->get( SettingsTransferPage::class )->handle_import() );
 		add_action( 'admin_post_' . SettingsTransferPage::ACTION_BACKUP, static fn() => $container->get( SettingsTransferPage::class )->handle_backup() );
 		$container->get( BlocksCompatibilityNotice::class )->hooks();
+		( new ProductDataTab() )->hooks();
 	}
 
 	/**

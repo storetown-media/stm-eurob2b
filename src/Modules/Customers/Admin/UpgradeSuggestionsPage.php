@@ -11,6 +11,7 @@ namespace EuroB2B\Modules\Customers\Admin;
 
 use EuroB2B\Infrastructure\Capabilities;
 use EuroB2B\Modules\Admin\Menu;
+use EuroB2B\Modules\Admin\PageHeader;
 use EuroB2B\Modules\Customers\Group;
 use EuroB2B\Modules\Customers\Upgrades\UpgradeRule;
 use EuroB2B\Modules\Customers\Upgrades\UpgradeSuggestions;
@@ -152,7 +153,7 @@ final class UpgradeSuggestionsPage {
 		$fresh = isset( $_GET['refresh'], $_GET['_wpnonce'] ) && false !== wp_verify_nonce( sanitize_text_field( wp_unslash( (string) $_GET['_wpnonce'] ) ), self::NONCE_REFRESH );
 		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
-		echo '<div class="wrap eurob2b-group-suggestions"><h1>' . esc_html__( 'Group suggestions', 'eurob2b' ) . '</h1>';
+		PageHeader::open( 'eurob2b-group-suggestions', __( 'Group suggestions', 'eurob2b' ) );
 		if ( null !== $done && $done > 0 ) {
 			/* translators: %d: number of customers */
 			echo '<div class="notice notice-success is-dismissible"><p>' . esc_html( sprintf( _n( '%d customer updated.', '%d customers updated.', $done, 'eurob2b' ), $done ) ) . '</p></div>';
@@ -164,7 +165,7 @@ final class UpgradeSuggestionsPage {
 
 		$rules = $this->suggestions->rules();
 		if ( empty( $rules ) ) {
-			echo '<p><em>' . esc_html__( 'No group has an upgrade rule yet. Set one on the group\'s edit screen (EuroB2B → Groups).', 'eurob2b' ) . '</em></p></div>';
+			echo '<p><em>' . esc_html__( 'No group has an upgrade rule yet. Set one on the group\'s edit screen (EuroB2B → Customers → Groups).', 'eurob2b' ) . '</em></p></div>';
 			return;
 		}
 		$generated = 0;

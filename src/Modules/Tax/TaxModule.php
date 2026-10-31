@@ -148,6 +148,7 @@ final class TaxModule extends AbstractModule {
 
 		if ( is_admin() ) {
 			add_action( 'eurob2b_admin_menu', static fn( $menu ) => $c->get( ValidationsPage::class )->register_page( $menu ) );
+			add_filter( 'eurob2b_overview_items', static fn( $items ) => $c->get( ValidationsPage::class )->overview_items( (array) $items ) );
 			add_action( 'admin_post_' . ValidationsPage::ACTION_DECIDE, static fn() => $c->get( ValidationsPage::class )->handle_decide() );
 			add_action( 'admin_post_' . ValidationsPage::ACTION_RECHECK, static fn() => $c->get( ValidationsPage::class )->handle_recheck() );
 			add_action( 'eurob2b_vat_validations_page_end', static fn() => $c->get( TaxReports::class )->render_profiles(), 20 );

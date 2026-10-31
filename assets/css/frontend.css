@@ -331,9 +331,23 @@
 	margin: 0;
 }
 
-/* Small screens: stacked tables become labelled rows. WooCommerce's small-screen stylesheet does the
-   same for shop_table_responsive; these rules cover themes that do not load it. */
-@media (max-width: 768px) {
+/* A select is as wide as its longest option; in a table cell that widened the whole table (the
+   permission choice of a company member: 1,184px in a 680px column). */
+.eurob2b-ui table.eurob2b-table select {
+	max-width: 16rem;
+}
+
+/* The components of My Account and the shortcodes measure the width the theme gives them, not the
+   screen: many themes set the My Account content in a column of 30 to 45rem even on wide screens (Twenty
+   Twenty-Five: 42.5rem), and a table sized for the screen ran out of that column. */
+.eurob2b-ui:is(.eurob2b-approvals, .eurob2b-company, .eurob2b-conversations, .eurob2b-lists, .eurob2b-quotes, .eurob2b-po-documents, .eurob2b-receipt-list, .eurob2b-receipt, .eurob2b-csv-order) {
+	container: eurob2b-area / inline-size;
+}
+
+/* Narrow columns: stacked tables become labelled rows. WooCommerce's small-screen stylesheet does the
+   same for shop_table_responsive on small screens; these rules also cover narrow columns on wide
+   screens and themes that do not load it. */
+@container eurob2b-area (max-width: 48rem) {
 	:where(.eurob2b-ui) :where(table.eurob2b-table.shop_table_responsive) :where(thead) {
 		position: absolute;
 		width: 1px;
@@ -371,6 +385,16 @@
 		display: none;
 	}
 
+	.eurob2b-ui table.shop_table_responsive td.eurob2b-cell-actions {
+		white-space: normal;
+	}
+
+	/* A select or field in a stacked row takes the width of the row. */
+	.eurob2b-ui table.shop_table_responsive td :is(select, input[type="text"], input[type="number"]) {
+		width: 100%;
+		max-width: 100%;
+	}
+
 	.eurob2b-ui table.shop_table_responsive td.eurob2b-cell-actions form {
 		display: flex;
 		width: 100%;
@@ -378,13 +402,13 @@
 	}
 }
 
-/* Editable line tables (purchase list items, quote basket): a compact block per line on small
-   screens instead of one labelled row per cell. */
+/* Editable line tables (purchase list items, quote basket): a compact block per line in narrow
+   columns instead of one labelled row per cell. */
 .eurob2b-table--lines .eurob2b-cell-qty input {
 	width: 6.5rem;
 }
 
-@media (max-width: 640px) {
+@container eurob2b-area (max-width: 40rem) {
 	.eurob2b-ui table.eurob2b-table--lines thead {
 		position: absolute;
 		width: 1px;
@@ -928,6 +952,7 @@
 	   stay usable instead of shrinking with it. */
 	min-width: 16rem;
 	margin: 0.75rem 0 0;
+	container: eurob2b-cart-action / inline-size;
 }
 
 /* WooCommerce sizes every `.input-text` in the cart actions for the coupon code (80px). */
@@ -937,6 +962,17 @@
 	width: auto;
 	min-width: 0;
 	margin: 0;
+}
+
+/* A narrow actions column (some themes and checkout plugins): field and button each take the full
+   width, aligned left, instead of a button pushed to the right on a line of its own. After the rule
+   above and with its specificity, so the field follows too. */
+@container eurob2b-cart-action (max-width: 26rem) {
+	.woocommerce table.cart td.actions .eurob2b-cart-action > :is(.input-text, input, .button, button),
+	.eurob2b-cart-action > :is(.input-text, input, .button, button) {
+		flex: 1 1 100%;
+		width: 100%;
+	}
 }
 
 @media (max-width: 768px) {
