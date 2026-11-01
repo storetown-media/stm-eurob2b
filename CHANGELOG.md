@@ -4,6 +4,19 @@ All notable changes to EuroB2B are documented here. The format follows [Keep a C
 
 ## [Unreleased]
 
+## [1.7.0] – 2026-11-01
+
+Checkout and cart follow-ups for block themes and a third archive of EuroB2B Pro for the marketplace WPBay: the Checkout block shows the result of the VAT ID check at the billing address, the mini cart updates after the order form, discount lines keep their names with WooCommerce 11, and the pay-later gateways show customer titles without the plugin name. No database migration (database version stays 12). The WPBay archive is built only on request (`--channel=wpbay`); its privacy entries (EB-16, data inventory D-35) apply only to that archive.
+
+### Added
+- Checkout block: the result of the VAT ID check now appears right at the billing address, as soon as the customer changes the number: *VAT ID confirmed.* in green, a number that is not registered or could not be checked in yellow, and in red when the order would be refused. Before, the block only changed the totals and reported a refused number when the order was placed. The classic checkout showed it next to the order button already. The result travels as Store API cart extension data `eurob2b-vat-id` (TAX-015).
+- EuroB2B Pro for the marketplace WPBay (PLT-018): `bin/build-release.php --channel=wpbay` also builds `eurob2b-pro-<version>-wpbay.zip`, in which licence and updates run through WPBay's purchase code and the WPBay SDK 1.0.7 (GPL-3.0) instead of the Storetown Media shop. Licence page under *Plugins → EuroB2B Pro licence*; the SDK's statistics, feedback, contact form, support page and rating notice are off, and its licence notice appears only on the plugins screen and the licence page. All Pro features work without a licence; only updates need the purchase code. Deleting this archive removes the SDK's data of EuroB2B Pro. New external connection to wpbay.com, new data inventory row D-35 and processing activity EB-16 (both only in the WPBay archive). The shop archive of EuroB2B Pro is unchanged; the WPBay listing follows once EuroB2B is on WordPress.org.
+
+### Fixed
+- Invoice and purchase order gateways: customers saw the admin names *Invoice (EuroB2B)* and *Purchase order (EuroB2B)* at checkout, in e-mails and in the payment window hints until the shop set a title of its own. The default titles are now *Pay by invoice* (*Kauf auf Rechnung*) and *Purchase order* (*Bestellung mit Bestellnummer*); the admin keeps the names with "(EuroB2B)". Titles a shop saved stay as they are.
+- Discount rules shown as a cart line (PRC-018): with WooCommerce 11 the Cart and Checkout blocks showed the internal coupon code (e.g. `eurob2b-2-safety-campaign`) instead of the name of the line, because WooCommerce no longer passes the cart extension data to the `coupons` filter. The script now reads the names from the cart store.
+- Order form: after *Add to cart* the Mini-Cart block of block themes (e.g. Twenty Twenty-Five) still showed the old cart, or an empty one, until the page was reloaded. The form now sends WooCommerce's `wc-blocks_added_to_cart` event as well as the classic fragment refresh, so every mini cart updates at once.
+
 ## [1.6.0] – 2026-10-31
 
 Follow-ups of the reorganised admin: a confirmation for orders whose tax treatment EuroB2B could not decide itself, with a line on the overview and a filtered order list; the controller details of the record of processing activities in the privacy settings; a summary next to each section of the product tab; clearer colours in the quote list. No database migration (database version stays 12). New personal data, approved by the product owner: the controller details the shop enters (data inventory D-34, never exported, removed on every uninstall) and the user id of the staff member who confirms a tax review (D-05, removed by WooCommerce's order anonymisation).

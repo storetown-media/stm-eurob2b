@@ -196,6 +196,7 @@ return array(
     'EuroB2B\\Modules\\Tax\\Admin\\TaxReports' => $baseDir . '/src/Modules/Tax/Admin/TaxReports.php',
     'EuroB2B\\Modules\\Tax\\Admin\\TaxReviewAdmin' => $baseDir . '/src/Modules/Tax/Admin/TaxReviewAdmin.php',
     'EuroB2B\\Modules\\Tax\\Admin\\ValidationsPage' => $baseDir . '/src/Modules/Tax/Admin/ValidationsPage.php',
+    'EuroB2B\\Modules\\Tax\\BlockVatFeedback' => $baseDir . '/src/Modules/Tax/BlockVatFeedback.php',
     'EuroB2B\\Modules\\Tax\\Export\\ExportEvidenceDataProvider' => $baseDir . '/src/Modules/Tax/Export/ExportEvidenceDataProvider.php',
     'EuroB2B\\Modules\\Tax\\Export\\ExportEvidenceRecords' => $baseDir . '/src/Modules/Tax/Export/ExportEvidenceRecords.php',
     'EuroB2B\\Modules\\Tax\\Export\\ExportEvidenceRetention' => $baseDir . '/src/Modules/Tax/Export/ExportEvidenceRetention.php',

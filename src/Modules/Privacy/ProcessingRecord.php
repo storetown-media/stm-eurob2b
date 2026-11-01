@@ -46,6 +46,8 @@ final class ProcessingRecord {
 		'EB-13' => array( 'D-21', 'D-30' ),
 		'EB-14' => array( 'D-31' ),
 		'EB-15' => array( 'D-33' ),
+		// EuroB2B Pro from WPBay (PLT-018): the WPBay archive lists EB-16 in the place of EB-15.
+		'EB-16' => array( 'D-35' ),
 	);
 
 	/**

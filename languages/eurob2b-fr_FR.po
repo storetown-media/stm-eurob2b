@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: EuroB2B\n"
 "Report-Msgid-Bugs-To: https://github.com/storetown-media/eurob2b/issues\n"
-"PO-Revision-Date: 2026-10-31 13:20+0000\n"
+"PO-Revision-Date: 2026-11-01 08:39+0000\n"
 "Last-Translator: Storetown Media\n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -355,6 +355,131 @@ msgstr "Contenu restreint pour : "
 #: blocks/restricted-content/index.js:56
 msgid "everyone"
 msgstr "tout le monde"
+
+#: channels/wpbay/src/Pro/Licence/Wpbay/WpbayLicencePage.php:105
+#: src/Pro/Licence/LicencePage.php:291
+msgid "You are not allowed to manage the licence of EuroB2B Pro."
+msgstr "Vous n'êtes pas autorisé à gérer la licence d'EuroB2B Pro."
+
+#: channels/wpbay/src/Pro/Licence/Wpbay/WpbayLicencePage.php:107
+#: channels/wpbay/src/Pro/Licence/Wpbay/WpbayLicencePage.php:60
+#: channels/wpbay/src/Pro/Licence/Wpbay/WpbayLicencePage.php:94
+#: src/Pro/Licence/LicencePage.php:114
+#: src/Pro/Licence/LicencePage.php:127
+#: src/Pro/Licence/LicencePage.php:129
+#: src/Pro/Licence/LicencePage.php:82
+msgid "EuroB2B Pro licence"
+msgstr "Licence d'EuroB2B Pro"
+
+#: channels/wpbay/src/Pro/Licence/Wpbay/WpbayLicencePage.php:110
+#: src/Modules/Conversations/Admin/ConversationsPage.php:285
+#: src/Modules/Conversations/Admin/ConversationsPage.php:321
+#: src/Modules/Conversations/ConversationAccount.php:230
+#: src/Modules/Conversations/ConversationAccount.php:247
+#: src/Modules/Customers/Admin/UserProfileFields.php:94
+#: src/Modules/Customers/CustomersDataProvider.php:132
+#: src/Modules/Privacy/ProData/ConversationsDataProvider.php:84
+#: src/Modules/Privacy/ProData/QuotesDataProvider.php:85
+#: src/Modules/Quotes/Admin/QuotesPage.php:442
+#: src/Modules/Quotes/Admin/QuotesPage.php:490
+#: src/Modules/Quotes/QuoteAccount.php:408
+#: src/Modules/Quotes/QuoteAccount.php:419
+#: src/Modules/Tax/Admin/OssMonitorSection.php:86
+#: src/Modules/Tax/Admin/ValidationsPage.php:182
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:216
+#: src/Modules/Tax/AuditFile/AuditFileSections.php:70
+#: src/Modules/Tax/Export/ExportEvidenceAdmin.php:273
+#: src/Modules/Tax/Export/ExportEvidenceAuditSection.php:105
+#: src/Modules/Tax/Proof/ProofAdmin.php:227
+#: src/Pro/Licence/LicencePage.php:135
+msgid "Status"
+msgstr "Statut"
+
+#: channels/wpbay/src/Pro/Licence/Wpbay/WpbayLicencePage.php:111
+#: src/Pro/Licence/LicencePage.php:152
+msgid "Installed version"
+msgstr "Version installée"
+
+#: channels/wpbay/src/Pro/Licence/Wpbay/WpbayLicencePage.php:124
+msgid "The update connection to WPBay is not available in this copy of EuroB2B Pro (the WPBay SDK or its configuration is missing). EuroB2B Pro keeps working; updates do not arrive."
+msgstr "La connexion de mise à jour avec WPBay n’est pas disponible dans cette copie d’EuroB2B Pro (le SDK WPBay ou sa configuration est manquant). EuroB2B Pro continue de fonctionner ; les mises à jour n’arrivent pas."
+
+#: channels/wpbay/src/Pro/Licence/Wpbay/WpbayLicencePage.php:127
+#: src/Pro/Licence/LicenceTexts.php:108
+msgid "The licence is activated for this site."
+msgstr "La licence est activée pour ce site."
+
+#: channels/wpbay/src/Pro/Licence/Wpbay/WpbayLicencePage.php:129
+#: channels/wpbay/src/Pro/Licence/Wpbay/WpbayPrivacy.php:86
+msgid "No WPBay purchase code is registered yet."
+msgstr "Aucun code d’achat WPBay n’est encore enregistré."
+
+#: channels/wpbay/src/Pro/Licence/Wpbay/WpbayLicencePage.php:136
+msgid "This copy of EuroB2B Pro was bought on WPBay (wpbay.com). With a registered purchase code, updates of EuroB2B Pro arrive on the Plugins screen like any other update; EuroB2B Pro keeps working without one."
+msgstr "Cette copie d’EuroB2B Pro a été achetée sur WPBay (wpbay.com). Avec un code d’achat enregistré, les mises à jour d’EuroB2B Pro arrivent sur l’écran Extensions comme toute autre mise à jour ; sans code, EuroB2B Pro continue de fonctionner."
+
+#: channels/wpbay/src/Pro/Licence/Wpbay/WpbayLicencePage.php:146
+msgid "Registering sends the purchase code, the address of this site (%s), its administration e-mail address and the product number of EuroB2B Pro to WPBay (wpbay.com). After that, the site asks WPBay for updates automatically at most twice a day and checks the purchase code at most once a day, each time with the purchase code and the address of this site."
+msgstr "L’enregistrement envoie à WPBay (wpbay.com) le code d’achat, l’adresse de ce site (%s), son adresse e-mail d’administration et le numéro de produit d’EuroB2B Pro. Ensuite, le site demande automatiquement les mises à jour à WPBay au plus deux fois par jour et vérifie le code d’achat au plus une fois par jour, chaque fois avec le code d’achat et l’adresse de ce site."
+
+#: channels/wpbay/src/Pro/Licence/Wpbay/WpbayPrivacy.php:102
+msgid "WPBay (wpbay.com, operated by CODE IKIGAI SRL, Romania), the marketplace that sold EuroB2B Pro and delivers its updates; it keeps the registered websites under its own privacy policy"
+msgstr "WPBay (wpbay.com, exploité par CODE IKIGAI SRL, Roumanie), la place de marché qui a vendu EuroB2B Pro et en fournit les mises à jour ; elle conserve les sites enregistrés selon sa propre politique de confidentialité"
+
+#: channels/wpbay/src/Pro/Licence/Wpbay/WpbayPrivacy.php:105
+msgid "In the shop: until the purchase code is revoked or EuroB2B Pro is deleted."
+msgstr "Dans la boutique : jusqu’à ce que le code d’achat soit révoqué ou qu’EuroB2B Pro soit supprimé."
+
+#: channels/wpbay/src/Pro/Licence/Wpbay/WpbayPrivacy.php:106
+msgid "At WPBay: under WPBay's own privacy policy and retention duties."
+msgstr "Chez WPBay : selon la politique de confidentialité et les obligations de conservation propres à WPBay."
+
+#: channels/wpbay/src/Pro/Licence/Wpbay/WpbayPrivacy.php:109
+msgid "Art. 6(1)(b) GDPR: purchase of the licence on WPBay"
+msgstr "Art. 6(1)(b) RGPD : achat de la licence sur WPBay"
+
+#: channels/wpbay/src/Pro/Licence/Wpbay/WpbayPrivacy.php:110
+#: src/Pro/Privacy/ProcessingActivities.php:521
+msgid "Art. 6(1)(f) GDPR: legitimate interest in receiving security and maintenance updates"
+msgstr "Art. 6(1)(f) RGPD : intérêt légitime à recevoir des mises à jour de sécurité et de maintenance"
+
+#: channels/wpbay/src/Pro/Licence/Wpbay/WpbayPrivacy.php:139
+#: src/Pro/Privacy/PolicyText.php:304
+msgid "Updates of the shop software"
+msgstr "Mises à jour du logiciel de la boutique"
+
+#: channels/wpbay/src/Pro/Licence/Wpbay/WpbayPrivacy.php:140
+msgid "Our shop uses the extension EuroB2B Pro by Storetown Media, bought on the marketplace WPBay (wpbay.com, CODE IKIGAI SRL, Romania). To receive updates of this extension, the web server of our shop contacts WPBay at most twice a day for updates and at most once a day to check the purchase code, and transmits the purchase code, the address of this website and the installed version of the extension; when the purchase code is registered or revoked, also the administration e-mail address of this website. No data of our visitors or customers is transmitted."
+msgstr "Notre boutique utilise l’extension EuroB2B Pro de Storetown Media, achetée sur la place de marché WPBay (wpbay.com, CODE IKIGAI SRL, Roumanie). Pour recevoir les mises à jour de cette extension, le serveur web de notre boutique contacte WPBay au plus deux fois par jour pour les mises à jour et au plus une fois par jour pour vérifier le code d’achat, et transmet le code d’achat, l’adresse de ce site et la version installée de l’extension ; lors de l’enregistrement ou de la révocation du code d’achat, également l’adresse e-mail d’administration de ce site. Aucune donnée de nos visiteurs ou clients n’est transmise."
+
+#: channels/wpbay/src/Pro/Licence/Wpbay/WpbayPrivacy.php:84
+msgid "Licence and updates of EuroB2B Pro through WPBay"
+msgstr "Licence et mises à jour d’EuroB2B Pro via WPBay"
+
+#: channels/wpbay/src/Pro/Licence/Wpbay/WpbayPrivacy.php:88
+msgid "Registering the WPBay purchase code of EuroB2B Pro for this website and receiving updates of the plugin from WPBay, the marketplace it was bought on."
+msgstr "Enregistrement du code d’achat WPBay d’EuroB2B Pro pour ce site et réception des mises à jour de l’extension auprès de WPBay, la place de marché sur laquelle elle a été achetée."
+
+#: channels/wpbay/src/Pro/Licence/Wpbay/WpbayPrivacy.php:91
+#: src/Pro/Privacy/ProcessingActivities.php:503
+msgid "The shop operator as the licensee (personal data only when the shop is run by a natural person, for example a sole trader)"
+msgstr "L'exploitant de la boutique en tant que licencié (données personnelles uniquement si la boutique est exploitée par une personne physique, par exemple un entrepreneur individuel)"
+
+#: channels/wpbay/src/Pro/Licence/Wpbay/WpbayPrivacy.php:92
+msgid "The person whose e-mail address is the administration e-mail address of the website"
+msgstr "La personne dont l’adresse e-mail est l’adresse e-mail d’administration du site"
+
+#: channels/wpbay/src/Pro/Licence/Wpbay/WpbayPrivacy.php:95
+msgid "Sent to WPBay when the purchase code is registered or revoked: the purchase code, the address of this website, its administration e-mail address and the product number of EuroB2B Pro; for the update check, automatically at most twice a day, and the check of the purchase code, at most once a day: the purchase code, the address of this website, the installed version and the product number; as with every connection, the IP address of the web server"
+msgstr "Envoyé à WPBay lors de l’enregistrement ou de la révocation du code d’achat : le code d’achat, l’adresse de ce site, son adresse e-mail d’administration et le numéro de produit d’EuroB2B Pro ; pour la vérification des mises à jour, automatiquement au plus deux fois par jour, et la vérification du code d’achat, au plus une fois par jour : le code d’achat, l’adresse de ce site, la version installée et le numéro de produit ; comme pour toute connexion, l’adresse IP du serveur web"
+
+#: channels/wpbay/src/Pro/Licence/Wpbay/WpbayPrivacy.php:96
+msgid "Stored in the shop: the purchase code (encrypted with a key of this website), the plan, the time of the registration and the results of the last checks; no data of customers or visitors"
+msgstr "Stocké dans la boutique : le code d’achat (chiffré avec une clé de ce site), la formule, la date de l’enregistrement et les résultats des dernières vérifications ; aucune donnée de clients ou de visiteurs"
+
+#: channels/wpbay/src/Pro/Licence/Wpbay/WpbayPrivacy.php:99
+msgid "Administrators with the capability manage_options on the licence page under Plugins"
+msgstr "Administrateurs disposant de la capacité manage_options sur la page de licence sous Extensions"
 
 #: eurob2b.php:77
 msgid "EuroB2B requires PHP %1$s or newer. You are running PHP %2$s."
@@ -1466,7 +1591,7 @@ msgstr "Membres"
 #: src/Modules/Ordering/Lists/PurchaseLists.php:663
 #: src/Modules/Privacy/ProData/PurchaseListsDataProvider.php:77
 #: src/Modules/Privacy/ProData/QuotesDataProvider.php:99
-#: src/Modules/Privacy/ProcessingRecord.php:543
+#: src/Modules/Privacy/ProcessingRecord.php:545
 #: src/Modules/Rules/Admin/RulesPage.php:417
 #: src/Modules/Rules/Admin/RulesPage.php:474
 msgid "Name"
@@ -2335,29 +2460,6 @@ msgstr "Client"
 #: src/Modules/Privacy/ProData/ConversationsDataProvider.php:92
 msgid "Last message"
 msgstr "Dernier message"
-
-#: src/Modules/Conversations/Admin/ConversationsPage.php:285
-#: src/Modules/Conversations/Admin/ConversationsPage.php:321
-#: src/Modules/Conversations/ConversationAccount.php:230
-#: src/Modules/Conversations/ConversationAccount.php:247
-#: src/Modules/Customers/Admin/UserProfileFields.php:94
-#: src/Modules/Customers/CustomersDataProvider.php:132
-#: src/Modules/Privacy/ProData/ConversationsDataProvider.php:84
-#: src/Modules/Privacy/ProData/QuotesDataProvider.php:85
-#: src/Modules/Quotes/Admin/QuotesPage.php:442
-#: src/Modules/Quotes/Admin/QuotesPage.php:490
-#: src/Modules/Quotes/QuoteAccount.php:408
-#: src/Modules/Quotes/QuoteAccount.php:419
-#: src/Modules/Tax/Admin/OssMonitorSection.php:86
-#: src/Modules/Tax/Admin/ValidationsPage.php:182
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:216
-#: src/Modules/Tax/AuditFile/AuditFileSections.php:70
-#: src/Modules/Tax/Export/ExportEvidenceAdmin.php:273
-#: src/Modules/Tax/Export/ExportEvidenceAuditSection.php:105
-#: src/Modules/Tax/Proof/ProofAdmin.php:227
-#: src/Pro/Licence/LicencePage.php:135
-msgid "Status"
-msgstr "Statut"
 
 #: src/Modules/Conversations/Admin/ConversationsPage.php:285
 #: src/Modules/Conversations/Admin/ConversationsPage.php:370
@@ -3345,7 +3447,7 @@ msgstr "Si vous recevez des factures électroniques via Peppol : schéma et ide
 
 #: src/Modules/Invoicing/InvoicingProfile.php:226
 #: src/Modules/Invoicing/InvoicingProfile.php:406
-#: src/Modules/Tax/VatIdField.php:938
+#: src/Modules/Tax/VatIdField.php:1053
 msgid "optional"
 msgstr "facultatif"
 
@@ -5530,6 +5632,10 @@ msgid "Business customers order on account and pay the invoice later. Payment te
 msgstr "Les clients professionnels commandent sur compte et paient la facture plus tard. Les conditions de paiement par groupe se définissent sous EuroB2B → Prix et règles → Paiement et livraison ; la date d'échéance est enregistrée sur la commande."
 
 #: src/Modules/Payments/InvoiceGateway.php:34
+msgid "Pay by invoice"
+msgstr "Paiement sur facture"
+
+#: src/Modules/Payments/InvoiceGateway.php:41
 msgid "Order on account: awaiting payment of the invoice."
 msgstr "Commande sur compte : en attente du paiement de la facture."
 
@@ -5950,6 +6056,10 @@ msgid "The customer orders against a purchase order number without paying at che
 msgstr "Le client commande sur la base d'un numéro de bon de commande sans payer lors de la validation de la commande ; le numéro est obligatoire avec cette passerelle."
 
 #: src/Modules/Payments/PurchaseOrderGateway.php:34
+msgid "Purchase order"
+msgstr "Bon de commande"
+
+#: src/Modules/Payments/PurchaseOrderGateway.php:41
 msgid "Ordered against a purchase order number."
 msgstr "Commandé sur la base d'un numéro de bon de commande."
 
@@ -6877,486 +6987,486 @@ msgstr "Demande"
 msgid "Lines"
 msgstr "Lignes"
 
-#: src/Modules/Privacy/ProcessingRecord.php:190
+#: src/Modules/Privacy/ProcessingRecord.php:192
 msgid "Customer type, customer group, approval status with time and approving staff member"
 msgstr "Type de client, groupe de clients, statut d'approbation avec l'heure et le collaborateur qui a approuvé"
 
-#: src/Modules/Privacy/ProcessingRecord.php:191
+#: src/Modules/Privacy/ProcessingRecord.php:193
 msgid "Registration type, the values of the registration form fields set up by the shop, time the terms were accepted"
 msgstr "Type d'inscription, valeurs des champs du formulaire d'inscription définis par la boutique, heure d'acceptation des CGV"
 
-#: src/Modules/Privacy/ProcessingRecord.php:192
+#: src/Modules/Privacy/ProcessingRecord.php:194
 msgid "Rejection note, time of the rejection and rejecting staff member"
 msgstr "Note de refus, heure du refus et collaborateur qui a refusé"
 
-#: src/Modules/Privacy/ProcessingRecord.php:195
+#: src/Modules/Privacy/ProcessingRecord.php:197
 msgid "Shop staff with the capability to manage customers (eurob2b_manage_customers), in the admin and through the REST API (classification by user ID only)"
 msgstr "Collaborateurs de la boutique disposant de la capacité de gérer les clients (eurob2b_manage_customers), dans l'administration et via l'API REST (classement par ID utilisateur uniquement)"
 
-#: src/Modules/Privacy/ProcessingRecord.php:196
+#: src/Modules/Privacy/ProcessingRecord.php:198
 msgid "Shop staff and extensions with access to orders (copies of registration fields on orders)"
 msgstr "Collaborateurs de la boutique et extensions ayant accès aux commandes (copies des champs d'inscription sur les commandes)"
 
-#: src/Modules/Privacy/ProcessingRecord.php:199
+#: src/Modules/Privacy/ProcessingRecord.php:201
 msgid "As long as the customer account exists."
 msgstr "Aussi longtemps que le compte client existe."
 
-#: src/Modules/Privacy/ProcessingRecord.php:202
+#: src/Modules/Privacy/ProcessingRecord.php:204
 msgid "Rejected applications that were never approved: deleted %d day after the rejection, unless orders were placed with the account or it has other roles."
 msgid_plural "Rejected applications that were never approved: deleted %d days after the rejection, unless orders were placed with the account or it has other roles."
 msgstr[0] "Demandes refusées qui n'ont jamais été approuvées : supprimées %d jour après le refus, sauf si des commandes ont été passées avec le compte ou s'il a d'autres rôles."
 msgstr[1] "Demandes refusées qui n'ont jamais été approuvées : supprimées %d jours après le refus, sauf si des commandes ont été passées avec le compte ou s'il a d'autres rôles."
 
-#: src/Modules/Privacy/ProcessingRecord.php:203
+#: src/Modules/Privacy/ProcessingRecord.php:205
 msgid "Rejected applications: kept until deleted manually (automatic deletion is switched off in the settings)."
 msgstr "Demandes refusées : conservées jusqu'à leur suppression manuelle (la suppression automatique est désactivée dans les réglages)."
 
-#: src/Modules/Privacy/ProcessingRecord.php:204
+#: src/Modules/Privacy/ProcessingRecord.php:206
 msgid "Copies of registration fields on orders: with the order; removed when WooCommerce anonymises the order."
 msgstr "Copies des champs d'inscription sur les commandes : avec la commande ; supprimées lorsque WooCommerce anonymise la commande."
 
-#: src/Modules/Privacy/ProcessingRecord.php:209
+#: src/Modules/Privacy/ProcessingRecord.php:211
 msgid "Documents uploaded with the registration (for example a trade licence): the file, its original name, type and size, and the time of the upload"
 msgstr "Documents téléversés avec l'inscription (par exemple une attestation d'activité commerciale) : le fichier, son nom d'origine, son type, sa taille et l'heure du téléversement"
 
-#: src/Modules/Privacy/ProcessingRecord.php:210
+#: src/Modules/Privacy/ProcessingRecord.php:212
 msgid "Shop staff with the capability to manage customers, through a protected download link; the files cannot be downloaded publicly"
 msgstr "Collaborateurs de la boutique disposant de la capacité de gérer les clients, via un lien de téléchargement protégé ; les fichiers ne peuvent pas être téléchargés publiquement"
 
-#: src/Modules/Privacy/ProcessingRecord.php:213
+#: src/Modules/Privacy/ProcessingRecord.php:215
 msgid "Uploaded documents: deleted %d day after the approval or rejection, at the latest with the customer account or on an erasure request."
 msgid_plural "Uploaded documents: deleted %d days after the approval or rejection, at the latest with the customer account or on an erasure request."
 msgstr[0] "Documents téléversés : supprimés %d jour après l'approbation ou le refus, au plus tard avec le compte client ou sur demande d'effacement."
 msgstr[1] "Documents téléversés : supprimés %d jours après l'approbation ou le refus, au plus tard avec le compte client ou sur demande d'effacement."
 
-#: src/Modules/Privacy/ProcessingRecord.php:214
+#: src/Modules/Privacy/ProcessingRecord.php:216
 msgid "Uploaded documents: kept as long as the customer account exists; deleted with it or on an erasure request."
 msgstr "Documents téléversés : conservés aussi longtemps que le compte client existe ; supprimés avec celui-ci ou sur demande d'effacement."
 
-#: src/Modules/Privacy/ProcessingRecord.php:219
+#: src/Modules/Privacy/ProcessingRecord.php:221
 msgid "Business customer registration and approval"
 msgstr "Inscription et approbation des clients professionnels"
 
-#: src/Modules/Privacy/ProcessingRecord.php:221
+#: src/Modules/Privacy/ProcessingRecord.php:223
 msgid "Reviewing applications for a business customer account and approving or rejecting them."
 msgstr "Examen des demandes de compte client professionnel et leur approbation ou leur refus."
 
-#: src/Modules/Privacy/ProcessingRecord.php:222
+#: src/Modules/Privacy/ProcessingRecord.php:224
 msgid "Classifying customers as business or consumer customers and assigning them to a customer group, which decides prices, payment methods and visible products."
 msgstr "Classement des clients comme clients professionnels ou consommateurs et attribution à un groupe de clients, qui détermine les prix, les moyens de paiement et les produits visibles."
 
-#: src/Modules/Privacy/ProcessingRecord.php:223
+#: src/Modules/Privacy/ProcessingRecord.php:225
 msgid "Recording who approved or rejected an account and when."
 msgstr "Enregistrement de la personne qui a approuvé ou refusé un compte et du moment."
 
-#: src/Modules/Privacy/ProcessingRecord.php:226
+#: src/Modules/Privacy/ProcessingRecord.php:228
 msgid "Applicants for a business customer account (sole traders and contact persons of companies)"
 msgstr "Personnes demandant un compte client professionnel (entrepreneurs individuels et interlocuteurs d'entreprises)"
 
-#: src/Modules/Privacy/ProcessingRecord.php:227
+#: src/Modules/Privacy/ProcessingRecord.php:229
 msgid "Customers with a customer account"
 msgstr "Clients disposant d'un compte client"
 
-#: src/Modules/Privacy/ProcessingRecord.php:228
+#: src/Modules/Privacy/ProcessingRecord.php:230
 msgid "Shop staff who approve or reject applications (user ID only)"
 msgstr "Collaborateurs de la boutique qui approuvent ou refusent les demandes (ID utilisateur uniquement)"
 
-#: src/Modules/Privacy/ProcessingRecord.php:234
+#: src/Modules/Privacy/ProcessingRecord.php:236
 msgid "Art. 6(1)(b) GDPR: contract and steps prior to entering into a contract at the request of the applicant"
 msgstr "Art. 6(1)(b) RGPD : contrat et mesures précontractuelles prises à la demande du demandeur"
 
-#: src/Modules/Privacy/ProcessingRecord.php:260
+#: src/Modules/Privacy/ProcessingRecord.php:262
 msgid "Conditions agreed with individual customers"
 msgstr "Conditions convenues avec des clients individuels"
 
-#: src/Modules/Privacy/ProcessingRecord.php:262
+#: src/Modules/Privacy/ProcessingRecord.php:264
 msgid "Applying the prices and conditions agreed with one customer: own prices and tier prices, allowed payment and shipping methods, pricing and checkout rules addressed to that customer."
 msgstr "Application des prix et conditions convenus avec un client : prix propres et prix dégressifs, moyens de paiement et modes de livraison autorisés, règles de prix et de validation de commande adressées à ce client."
 
-#: src/Modules/Privacy/ProcessingRecord.php:265
+#: src/Modules/Privacy/ProcessingRecord.php:267
 msgid "Customers with individual conditions, in particular sole traders"
 msgstr "Clients avec des conditions individuelles, en particulier les entrepreneurs individuels"
 
-#: src/Modules/Privacy/ProcessingRecord.php:268
+#: src/Modules/Privacy/ProcessingRecord.php:270
 msgid "Own regular, sale and tier prices per product or variation"
 msgstr "Prix normaux, prix promo et prix dégressifs propres par produit ou variation"
 
-#: src/Modules/Privacy/ProcessingRecord.php:269
+#: src/Modules/Privacy/ProcessingRecord.php:271
 msgid "Lists of the payment and shipping methods allowed for the customer"
 msgstr "Listes des moyens de paiement et des modes de livraison autorisés pour le client"
 
-#: src/Modules/Privacy/ProcessingRecord.php:270
+#: src/Modules/Privacy/ProcessingRecord.php:272
 msgid "References to the customer (user ID) in pricing and checkout rules"
 msgstr "Références au client (ID utilisateur) dans les règles de prix et de validation de commande"
 
-#: src/Modules/Privacy/ProcessingRecord.php:273
+#: src/Modules/Privacy/ProcessingRecord.php:275
 msgid "Shop staff on the product screen, on the user profile and in the rules (capability eurob2b_manage_rules)"
 msgstr "Collaborateurs de la boutique sur l'écran du produit, sur le profil utilisateur et dans les règles (capacité eurob2b_manage_rules)"
 
-#: src/Modules/Privacy/ProcessingRecord.php:274
+#: src/Modules/Privacy/ProcessingRecord.php:276
 msgid "The customer sees their own prices in the shop"
 msgstr "Le client voit ses propres prix dans la boutique"
 
-#: src/Modules/Privacy/ProcessingRecord.php:277
+#: src/Modules/Privacy/ProcessingRecord.php:279
 msgid "Own prices and allowed payment and shipping methods: as long as the customer account exists; deleted on an erasure request and when the account is deleted. Orders keep the prices they were placed at."
 msgstr "Prix propres et moyens de paiement et modes de livraison autorisés : aussi longtemps que le compte client existe ; supprimés sur demande d'effacement et lors de la suppression du compte. Les commandes conservent les prix auxquels elles ont été passées."
 
-#: src/Modules/Privacy/ProcessingRecord.php:278
+#: src/Modules/Privacy/ProcessingRecord.php:280
 msgid "References to the customer in rules: until the rule is changed or the account is deleted. An erasure request does not remove them, because the rule still applies to the existing account."
 msgstr "Références au client dans les règles : jusqu'à la modification de la règle ou la suppression du compte. Une demande d'effacement ne les supprime pas, car la règle s'applique toujours au compte existant."
 
-#: src/Modules/Privacy/ProcessingRecord.php:281
+#: src/Modules/Privacy/ProcessingRecord.php:283
 msgid "Art. 6(1)(b) GDPR: conditions agreed with the customer"
 msgstr "Art. 6(1)(b) RGPD : conditions convenues avec le client"
 
-#: src/Modules/Privacy/ProcessingRecord.php:282
+#: src/Modules/Privacy/ProcessingRecord.php:284
 msgid "Art. 6(1)(f) GDPR: legitimate interest in payment risk decisions and in the configuration of the shop"
 msgstr "Art. 6(1)(f) RGPD : intérêt légitime pour les décisions relatives au risque de paiement et pour la configuration de la boutique"
 
-#: src/Modules/Privacy/ProcessingRecord.php:301
+#: src/Modules/Privacy/ProcessingRecord.php:303
 msgid "VAT ID and country, check result with reason, checking service, consultation number and times"
 msgstr "Numéro de TVA et pays, résultat de la vérification avec motif, service de vérification, numéro de consultation et heures"
 
-#: src/Modules/Privacy/ProcessingRecord.php:302
+#: src/Modules/Privacy/ProcessingRecord.php:304
 msgid "Manual decision with the deciding staff member and note"
 msgstr "Décision manuelle avec le collaborateur qui a décidé et une note"
 
-#: src/Modules/Privacy/ProcessingRecord.php:303
+#: src/Modules/Privacy/ProcessingRecord.php:305
 msgid "Copy of the VAT ID and of the tax treatment on orders"
 msgstr "Copie du numéro de TVA et du traitement fiscal sur les commandes"
 
-#: src/Modules/Privacy/ProcessingRecord.php:306
+#: src/Modules/Privacy/ProcessingRecord.php:308
 msgid "Name and address of the trader as returned by VIES"
 msgstr "Nom et adresse de l'opérateur tels que renvoyés par VIES"
 
-#: src/Modules/Privacy/ProcessingRecord.php:311
+#: src/Modules/Privacy/ProcessingRecord.php:313
 msgid "European Commission, VIES service: the VAT ID to check and the shop's own VAT ID"
 msgstr "Commission européenne, service VIES : le numéro de TVA à vérifier et le numéro de TVA de la boutique"
 
-#: src/Modules/Privacy/ProcessingRecord.php:312
+#: src/Modules/Privacy/ProcessingRecord.php:314
 msgid "European Commission, VIES service: the VAT ID to check"
 msgstr "Commission européenne, service VIES : le numéro de TVA à vérifier"
 
-#: src/Modules/Privacy/ProcessingRecord.php:318
+#: src/Modules/Privacy/ProcessingRecord.php:320
 msgid "Checking VAT identification numbers to decide the tax treatment of orders (tax-exempt intra-Community supplies, reverse charge)."
 msgstr "Vérification des numéros de TVA intracommunautaire pour déterminer le traitement fiscal des commandes (livraisons intracommunautaires exonérées de TVA, autoliquidation)."
 
-#: src/Modules/Privacy/ProcessingRecord.php:319
+#: src/Modules/Privacy/ProcessingRecord.php:321
 msgid "Keeping the check results as evidence of due diligence."
 msgstr "Conservation des résultats de vérification comme preuve de diligence."
 
-#: src/Modules/Privacy/ProcessingRecord.php:322
+#: src/Modules/Privacy/ProcessingRecord.php:324
 msgid "Business customers who enter a VAT ID (for sole traders the number is personal data)"
 msgstr "Clients professionnels qui saisissent un numéro de TVA (pour les entrepreneurs individuels, le numéro est une donnée personnelle)"
 
-#: src/Modules/Privacy/ProcessingRecord.php:323
+#: src/Modules/Privacy/ProcessingRecord.php:325
 msgid "Shop staff who decide on a check manually (user ID only)"
 msgstr "Collaborateurs de la boutique qui décident manuellement d'une vérification (ID utilisateur uniquement)"
 
-#: src/Modules/Privacy/ProcessingRecord.php:327
+#: src/Modules/Privacy/ProcessingRecord.php:329
 msgid "Shop staff with the capability to decide on VAT ID checks (eurob2b_decide_validation)"
 msgstr "Collaborateurs de la boutique disposant de la capacité de décider des vérifications de numéros de TVA (eurob2b_decide_validation)"
 
-#: src/Modules/Privacy/ProcessingRecord.php:332
+#: src/Modules/Privacy/ProcessingRecord.php:334
 msgid "Check results that belong to an order: %d year, counted from the end of the calendar year of the order."
 msgid_plural "Check results that belong to an order: %d years, counted from the end of the calendar year of the order."
 msgstr[0] "Résultats de vérification liés à une commande : %d an, à compter de la fin de l'année civile de la commande."
 msgstr[1] "Résultats de vérification liés à une commande : %d ans, à compter de la fin de l'année civile de la commande."
 
-#: src/Modules/Privacy/ProcessingRecord.php:334
+#: src/Modules/Privacy/ProcessingRecord.php:336
 msgid "Other check results: deleted after %d day."
 msgid_plural "Other check results: deleted after %d days."
 msgstr[0] "Autres résultats de vérification : supprimés au bout de %d jour."
 msgstr[1] "Autres résultats de vérification : supprimés au bout de %d jours."
 
-#: src/Modules/Privacy/ProcessingRecord.php:335
+#: src/Modules/Privacy/ProcessingRecord.php:337
 msgid "On an erasure request, results that belong to an order keep the number and the result as tax evidence without the link to the person."
 msgstr "Sur demande d'effacement, les résultats liés à une commande conservent le numéro et le résultat comme justificatif fiscal, sans le lien avec la personne."
 
-#: src/Modules/Privacy/ProcessingRecord.php:337
+#: src/Modules/Privacy/ProcessingRecord.php:339
 msgid "Art. 6(1)(c) GDPR in connection with the tax evidence duties for tax-exempt supplies, or Art. 6(1)(f) GDPR for other checks; this is an open legal question"
 msgstr "Art. 6(1)(c) RGPD en lien avec les obligations de justification fiscale pour les livraisons exonérées de TVA, ou Art. 6(1)(f) RGPD pour les autres vérifications ; il s'agit d'une question juridique ouverte"
 
-#: src/Modules/Privacy/ProcessingRecord.php:344
+#: src/Modules/Privacy/ProcessingRecord.php:346
 msgid "VAT ID checks and tax evidence"
 msgstr "Vérifications des numéros de TVA et justificatifs fiscaux"
 
-#: src/Modules/Privacy/ProcessingRecord.php:348
+#: src/Modules/Privacy/ProcessingRecord.php:350
 msgid "The VAT ID field and all checking services are switched off."
 msgstr "Le champ du numéro de TVA et tous les services de vérification sont désactivés."
 
-#: src/Modules/Privacy/ProcessingRecord.php:353
+#: src/Modules/Privacy/ProcessingRecord.php:355
 msgid "None: VAT IDs are only checked for their format, because no checking service is switched on."
 msgstr "Aucun : les numéros de TVA sont uniquement vérifiés quant à leur format, car aucun service de vérification n'est activé."
 
-#: src/Modules/Privacy/ProcessingRecord.php:397
+#: src/Modules/Privacy/ProcessingRecord.php:399
 msgid "Business details on orders"
 msgstr "Données professionnelles sur les commandes"
 
-#: src/Modules/Privacy/ProcessingRecord.php:399
+#: src/Modules/Privacy/ProcessingRecord.php:401
 msgid "Recording on each order the customer classification and the tax treatment, for order processing and invoicing."
 msgstr "Enregistrement sur chaque commande du classement du client et du traitement fiscal, pour le traitement et la facturation des commandes."
 
-#: src/Modules/Privacy/ProcessingRecord.php:402
+#: src/Modules/Privacy/ProcessingRecord.php:404
 msgid "Customers who place orders"
 msgstr "Clients qui passent des commandes"
 
-#: src/Modules/Privacy/ProcessingRecord.php:405
+#: src/Modules/Privacy/ProcessingRecord.php:407
 #: src/Pro/Privacy/ProcessingActivities.php:617
 msgid "Copy of the VAT ID, tax treatment and reason for a tax exemption"
 msgstr "Copie du numéro de TVA, traitement fiscal et motif d'une exonération de TVA"
 
-#: src/Modules/Privacy/ProcessingRecord.php:406
+#: src/Modules/Privacy/ProcessingRecord.php:408
 msgid "Customer type and customer group"
 msgstr "Type de client et groupe de clients"
 
-#: src/Modules/Privacy/ProcessingRecord.php:409
+#: src/Modules/Privacy/ProcessingRecord.php:411
 msgid "Shop staff who process orders, and extensions with access to orders (for example invoicing plugins)"
 msgstr "Collaborateurs de la boutique qui traitent les commandes, et extensions ayant accès aux commandes (par exemple les extensions de facturation)"
 
-#: src/Modules/Privacy/ProcessingRecord.php:412
+#: src/Modules/Privacy/ProcessingRecord.php:414
 msgid "With the order, following the retention of orders in WooCommerce and the statutory retention periods for business records."
 msgstr "Avec la commande, selon la conservation des commandes dans WooCommerce et les durées légales de conservation des documents commerciaux."
 
-#: src/Modules/Privacy/ProcessingRecord.php:413
+#: src/Modules/Privacy/ProcessingRecord.php:415
 msgid "When WooCommerce anonymises an order, these details are removed; on orders with a tax exemption the VAT ID stays as tax evidence."
 msgstr "Lorsque WooCommerce anonymise une commande, ces données sont supprimées ; sur les commandes avec une exonération de TVA, le numéro de TVA est conservé comme justificatif fiscal."
 
-#: src/Modules/Privacy/ProcessingRecord.php:416
+#: src/Modules/Privacy/ProcessingRecord.php:418
 #: src/Pro/Privacy/ProcessingActivities.php:434
 msgid "Art. 6(1)(b) GDPR: performance of the contract"
 msgstr "Art. 6(1)(b) RGPD : exécution du contrat"
 
-#: src/Modules/Privacy/ProcessingRecord.php:417
+#: src/Modules/Privacy/ProcessingRecord.php:419
 msgid "Art. 6(1)(c) GDPR: statutory retention duties"
 msgstr "Art. 6(1)(c) RGPD : obligations légales de conservation"
 
-#: src/Modules/Privacy/ProcessingRecord.php:432
+#: src/Modules/Privacy/ProcessingRecord.php:434
 msgid "Audit log of administrative decisions"
 msgstr "Journal d'audit des décisions administratives"
 
-#: src/Modules/Privacy/ProcessingRecord.php:434
+#: src/Modules/Privacy/ProcessingRecord.php:436
 msgid "Tracing who decided on registrations, customer status, type and group and VAT ID checks, and when, as evidence of accountability and for internal control."
 msgstr "Retracer qui a décidé des inscriptions, du statut, du type et du groupe des clients et des vérifications de numéros de TVA, et quand, comme preuve de responsabilité et pour le contrôle interne."
 
-#: src/Modules/Privacy/ProcessingRecord.php:437
+#: src/Modules/Privacy/ProcessingRecord.php:439
 msgid "Customers concerned by a decision"
 msgstr "Clients concernés par une décision"
 
-#: src/Modules/Privacy/ProcessingRecord.php:438
+#: src/Modules/Privacy/ProcessingRecord.php:440
 msgid "Shop staff who decide (user ID only)"
 msgstr "Collaborateurs de la boutique qui décident (ID utilisateur uniquement)"
 
-#: src/Modules/Privacy/ProcessingRecord.php:441
+#: src/Modules/Privacy/ProcessingRecord.php:443
 msgid "Time, action, user IDs of the deciding and the concerned person, order or check number, previous and new value (status, customer type, customer group, check result); no IP addresses, no notes, no names"
 msgstr "Heure, action, ID utilisateur de la personne qui décide et de la personne concernée, numéro de commande ou de vérification, ancienne et nouvelle valeur (statut, type de client, groupe de clients, résultat de la vérification) ; pas d'adresses IP, pas de notes, pas de noms"
 
-#: src/Modules/Privacy/ProcessingRecord.php:444
+#: src/Modules/Privacy/ProcessingRecord.php:446
 msgid "Shop staff with the capability to manage settings (eurob2b_manage_settings), read only"
 msgstr "Collaborateurs de la boutique disposant de la capacité de gérer les réglages (eurob2b_manage_settings), en lecture seule"
 
-#: src/Modules/Privacy/ProcessingRecord.php:448
+#: src/Modules/Privacy/ProcessingRecord.php:450
 msgid "Deleted %d day after the entry was written, by a daily job."
 msgid_plural "Deleted %d days after the entry was written, by a daily job."
 msgstr[0] "Supprimées %d jour après l'écriture de l'entrée, par une tâche quotidienne."
 msgstr[1] "Supprimées %d jours après l'écriture de l'entrée, par une tâche quotidienne."
 
-#: src/Modules/Privacy/ProcessingRecord.php:449
+#: src/Modules/Privacy/ProcessingRecord.php:451
 msgid "On an erasure request and when an account is deleted, the reference to the person is removed; the entry stays without it."
 msgstr "Sur demande d'effacement et lors de la suppression d'un compte, la référence à la personne est supprimée ; l'entrée est conservée sans elle."
 
-#: src/Modules/Privacy/ProcessingRecord.php:452
+#: src/Modules/Privacy/ProcessingRecord.php:454
 msgid "Art. 6(1)(f) GDPR: legitimate interest in tracing decisions and in internal control, as part of the accountability under Art. 5(2) GDPR"
 msgstr "Art. 6(1)(f) RGPD : intérêt légitime à retracer les décisions et au contrôle interne, dans le cadre de la responsabilité selon l'Art. 5(2) RGPD"
 
-#: src/Modules/Privacy/ProcessingRecord.php:468
+#: src/Modules/Privacy/ProcessingRecord.php:470
 msgid "Protection of the registration against abuse"
 msgstr "Protection de l'inscription contre les abus"
 
-#: src/Modules/Privacy/ProcessingRecord.php:470
+#: src/Modules/Privacy/ProcessingRecord.php:472
 #: src/Pro/Privacy/ProcessingActivities.php:306
 msgid "All request limits are switched off."
 msgstr "Toutes les limites de requêtes sont désactivées."
 
-#: src/Modules/Privacy/ProcessingRecord.php:472
+#: src/Modules/Privacy/ProcessingRecord.php:474
 #: src/Pro/Privacy/ProcessingActivities.php:289
 msgid "Limiting the registrations per connection and hour, against automated mass registrations."
 msgstr "Limitation des inscriptions par connexion et par heure, contre les inscriptions automatisées en masse."
 
-#: src/Modules/Privacy/ProcessingRecord.php:475
+#: src/Modules/Privacy/ProcessingRecord.php:477
 msgid "Visitors who register"
 msgstr "Visiteurs qui s'inscrivent"
 
-#: src/Modules/Privacy/ProcessingRecord.php:478
+#: src/Modules/Privacy/ProcessingRecord.php:480
 msgid "A salted hash of the IP address that cannot be turned back into the address, and a request count"
 msgstr "Une empreinte salée de l'adresse IP qui ne permet pas de retrouver l'adresse, et un compteur de requêtes"
 
-#: src/Modules/Privacy/ProcessingRecord.php:481
+#: src/Modules/Privacy/ProcessingRecord.php:483
 #: src/Pro/Privacy/ProcessingActivities.php:316
 msgid "None; the entries are not shown in the admin"
 msgstr "Aucun ; les entrées ne sont pas affichées dans l'administration"
 
-#: src/Modules/Privacy/ProcessingRecord.php:484
+#: src/Modules/Privacy/ProcessingRecord.php:486
 #: src/Pro/Privacy/ProcessingActivities.php:290
 msgid "Registration: 1 hour, then the entry expires."
 msgstr "Inscription : 1 heure, puis l'entrée expire."
 
-#: src/Modules/Privacy/ProcessingRecord.php:487
+#: src/Modules/Privacy/ProcessingRecord.php:489
 #: src/Pro/Privacy/ProcessingActivities.php:320
 msgid "Art. 6(1)(f) GDPR: legitimate interest in protecting the shop against automated abuse"
 msgstr "Art. 6(1)(f) RGPD : intérêt légitime à protéger la boutique contre les abus automatisés"
 
-#: src/Modules/Privacy/ProcessingRecord.php:535
+#: src/Modules/Privacy/ProcessingRecord.php:537
 msgid "please add"
 msgstr "à compléter"
 
-#: src/Modules/Privacy/ProcessingRecord.php:539
+#: src/Modules/Privacy/ProcessingRecord.php:541
 msgid "This draft covers only the processing that EuroB2B adds to the shop. Your record also needs the processing of WordPress, WooCommerce and other plugins, of your hosting, e-mail delivery, payment and shipping services and of your business outside the shop. Check every entry, add what is missing and remove what does not apply. Legal bases are candidates that you should review with your data protection advisor. Whether you must keep a record follows from Art. 30(5) GDPR."
 msgstr "Ce projet couvre uniquement les traitements qu'EuroB2B ajoute à la boutique. Votre registre doit aussi inclure les traitements de WordPress, de WooCommerce et des autres extensions, de votre hébergement, de l'envoi des e-mails, des services de paiement et d'expédition, ainsi que de votre activité en dehors de la boutique. Vérifiez chaque entrée, ajoutez ce qui manque et supprimez ce qui ne s'applique pas. Les bases juridiques sont des propositions à examiner avec votre conseiller en protection des données. L'obligation de tenir un registre découle de l'Art. 30(5) RGPD."
 
-#: src/Modules/Privacy/ProcessingRecord.php:541
+#: src/Modules/Privacy/ProcessingRecord.php:543
 msgid "Controller (Art. 30(1)(a) GDPR)"
 msgstr "Responsable du traitement (Art. 30(1)(a) RGPD)"
 
-#: src/Modules/Privacy/ProcessingRecord.php:544
+#: src/Modules/Privacy/ProcessingRecord.php:546
 msgid "Address"
 msgstr "Adresse"
 
-#: src/Modules/Privacy/ProcessingRecord.php:545
+#: src/Modules/Privacy/ProcessingRecord.php:547
 msgid "Website"
 msgstr "Site web"
 
-#: src/Modules/Privacy/ProcessingRecord.php:546
-#: src/Modules/Privacy/ProcessingRecord.php:93
+#: src/Modules/Privacy/ProcessingRecord.php:548
+#: src/Modules/Privacy/ProcessingRecord.php:95
 msgid "Phone and e-mail address"
 msgstr "Téléphone et adresse e-mail"
 
-#: src/Modules/Privacy/ProcessingRecord.php:547
-#: src/Modules/Privacy/ProcessingRecord.php:94
+#: src/Modules/Privacy/ProcessingRecord.php:549
+#: src/Modules/Privacy/ProcessingRecord.php:96
 msgid "Contact person"
 msgstr "Interlocuteur"
 
-#: src/Modules/Privacy/ProcessingRecord.php:548
-#: src/Modules/Privacy/ProcessingRecord.php:95
+#: src/Modules/Privacy/ProcessingRecord.php:550
+#: src/Modules/Privacy/ProcessingRecord.php:97
 msgid "Joint controllers (Art. 26 GDPR)"
 msgstr "Responsables conjoints du traitement (Art. 26 RGPD)"
 
-#: src/Modules/Privacy/ProcessingRecord.php:549
-#: src/Modules/Privacy/ProcessingRecord.php:96
+#: src/Modules/Privacy/ProcessingRecord.php:551
+#: src/Modules/Privacy/ProcessingRecord.php:98
 msgid "Representative in the EU (Art. 27 GDPR)"
 msgstr "Représentant dans l'UE (Art. 27 RGPD)"
 
-#: src/Modules/Privacy/ProcessingRecord.php:550
-#: src/Modules/Privacy/ProcessingRecord.php:97
+#: src/Modules/Privacy/ProcessingRecord.php:552
+#: src/Modules/Privacy/ProcessingRecord.php:99
 msgid "Data protection officer (Art. 37 GDPR)"
 msgstr "Délégué à la protection des données (Art. 37 RGPD)"
 
-#: src/Modules/Privacy/ProcessingRecord.php:561
+#: src/Modules/Privacy/ProcessingRecord.php:563
 msgid "For all activities above"
 msgstr "Pour toutes les activités ci-dessus"
 
-#: src/Modules/Privacy/ProcessingRecord.php:562
+#: src/Modules/Privacy/ProcessingRecord.php:564
 msgid "Special categories of personal data (Art. 9 and 10 GDPR)"
 msgstr "Catégories particulières de données personnelles (Art. 9 et 10 RGPD)"
 
-#: src/Modules/Privacy/ProcessingRecord.php:569
+#: src/Modules/Privacy/ProcessingRecord.php:571
 msgid "EuroB2B itself processes no special categories of personal data and no data on criminal convictions. Fields you add to the registration form can change this."
 msgstr "EuroB2B ne traite en lui-même aucune catégorie particulière de données personnelles ni aucune donnée relative aux condamnations pénales. Les champs que vous ajoutez au formulaire d'inscription peuvent changer cela."
 
-#: src/Modules/Privacy/ProcessingRecord.php:571
+#: src/Modules/Privacy/ProcessingRecord.php:573
 msgid "Transfers to third countries (Art. 30(1)(e) GDPR)"
 msgstr "Transferts vers des pays tiers (Art. 30(1)(e) RGPD)"
 
-#: src/Modules/Privacy/ProcessingRecord.php:580
+#: src/Modules/Privacy/ProcessingRecord.php:582
 msgid "EuroB2B transfers no personal data to third countries or international organisations. Add the transfers of your hosting, e-mail delivery and other services."
 msgstr "EuroB2B ne transfère aucune donnée personnelle vers des pays tiers ou des organisations internationales. Ajoutez les transferts de votre hébergement, de l'envoi des e-mails et des autres services."
 
-#: src/Modules/Privacy/ProcessingRecord.php:583
+#: src/Modules/Privacy/ProcessingRecord.php:585
 msgid "Technical and organisational measures (Art. 30(1)(g) and Art. 32(1) GDPR)"
 msgstr "Mesures techniques et organisationnelles (Art. 30(1)(g) et Art. 32(1) RGPD)"
 
-#: src/Modules/Privacy/ProcessingRecord.php:584
+#: src/Modules/Privacy/ProcessingRecord.php:586
 msgid "Measures of EuroB2B; add those of your hosting and your organisation (for example encryption in transit, backups, access to the server, staff instructions):"
 msgstr "Mesures d'EuroB2B ; ajoutez celles de votre hébergement et de votre organisation (par exemple chiffrement en transit, sauvegardes, accès au serveur, instructions au personnel) :"
 
-#: src/Modules/Privacy/ProcessingRecord.php:595
+#: src/Modules/Privacy/ProcessingRecord.php:597
 msgid "Admin screens, exports and the REST API require role-based capabilities; forms and downloads are protected against cross-site request forgery (nonces)."
 msgstr "Les écrans d'administration, les exports et l'API REST exigent des capacités basées sur les rôles ; les formulaires et les téléchargements sont protégés contre la falsification de requêtes intersites (nonces)."
 
-#: src/Modules/Privacy/ProcessingRecord.php:596
+#: src/Modules/Privacy/ProcessingRecord.php:598
 msgid "Input is validated on the server, output is escaped, and database queries use prepared statements."
 msgstr "Les saisies sont validées sur le serveur, les sorties sont échappées et les requêtes de base de données utilisent des requêtes préparées."
 
-#: src/Modules/Privacy/ProcessingRecord.php:597
+#: src/Modules/Privacy/ProcessingRecord.php:599
 msgid "The abuse protection stores IP addresses only as salted hashes that cannot be turned back into the address."
 msgstr "La protection contre les abus enregistre les adresses IP uniquement sous forme d'empreintes salées qui ne permettent pas de retrouver l'adresse."
 
-#: src/Modules/Privacy/ProcessingRecord.php:598
+#: src/Modules/Privacy/ProcessingRecord.php:600
 msgid "Retention periods are applied by a daily job; requests for access and erasure are answered with the WordPress tools Export Personal Data and Erase Personal Data, which include EuroB2B's data."
 msgstr "Les durées de conservation sont appliquées par une tâche quotidienne ; les demandes d'accès et d'effacement sont traitées avec les outils WordPress Exporter les données personnelles et Effacer les données personnelles, qui incluent les données d'EuroB2B."
 
-#: src/Modules/Privacy/ProcessingRecord.php:599
+#: src/Modules/Privacy/ProcessingRecord.php:601
 msgid "Connections to external services exist only for VAT ID checks, only after they are switched on, and use HTTPS."
 msgstr "Les connexions à des services externes n'existent que pour les vérifications de numéros de TVA, uniquement après leur activation, et utilisent HTTPS."
 
-#: src/Modules/Privacy/ProcessingRecord.php:600
+#: src/Modules/Privacy/ProcessingRecord.php:602
 msgid "EuroB2B has no telemetry and sends no data to its developers. Uninstalling deletes data only after an explicit opt-in."
 msgstr "EuroB2B ne comporte aucune télémétrie et n'envoie aucune donnée à ses développeurs. La désinstallation ne supprime des données qu'après un consentement explicite."
 
-#: src/Modules/Privacy/ProcessingRecord.php:611
+#: src/Modules/Privacy/ProcessingRecord.php:613
 msgid "Not in use on this shop"
 msgstr "Non utilisé dans cette boutique"
 
-#: src/Modules/Privacy/ProcessingRecord.php:612
+#: src/Modules/Privacy/ProcessingRecord.php:614
 msgid "These activities are not part of the record while their feature is switched off. Data stored while it was on stays until its retention period ends."
 msgstr "Ces activités ne font pas partie du registre tant que leur fonctionnalité est désactivée. Les données enregistrées pendant qu'elle était activée sont conservées jusqu'à la fin de leur durée de conservation."
 
-#: src/Modules/Privacy/ProcessingRecord.php:622
+#: src/Modules/Privacy/ProcessingRecord.php:624
 msgid "Generated on %1$s by EuroB2B %2$s from the current settings. Changes to the settings change this draft; keep dated copies as the history of your record."
 msgstr "Généré le %1$s par EuroB2B %2$s à partir des réglages actuels. Les modifications des réglages modifient ce projet ; conservez des copies datées comme historique de votre registre."
 
-#: src/Modules/Privacy/ProcessingRecord.php:636
+#: src/Modules/Privacy/ProcessingRecord.php:638
 msgctxt "recipients"
 msgid "None"
 msgstr "Aucun"
 
-#: src/Modules/Privacy/ProcessingRecord.php:638
+#: src/Modules/Privacy/ProcessingRecord.php:640
 msgid "Purposes (Art. 30(1)(b))"
 msgstr "Finalités (Art. 30(1)(b))"
 
-#: src/Modules/Privacy/ProcessingRecord.php:639
+#: src/Modules/Privacy/ProcessingRecord.php:641
 msgid "Categories of data subjects (Art. 30(1)(c))"
 msgstr "Catégories de personnes concernées (Art. 30(1)(c))"
 
-#: src/Modules/Privacy/ProcessingRecord.php:640
+#: src/Modules/Privacy/ProcessingRecord.php:642
 msgid "Categories of personal data (Art. 30(1)(c))"
 msgstr "Catégories de données personnelles (Art. 30(1)(c))"
 
-#: src/Modules/Privacy/ProcessingRecord.php:641
+#: src/Modules/Privacy/ProcessingRecord.php:643
 msgid "Recipients inside the shop (persons with access)"
 msgstr "Destinataires au sein de la boutique (personnes ayant accès)"
 
-#: src/Modules/Privacy/ProcessingRecord.php:642
+#: src/Modules/Privacy/ProcessingRecord.php:644
 msgid "External recipients (Art. 30(1)(d))"
 msgstr "Destinataires externes (Art. 30(1)(d))"
 
-#: src/Modules/Privacy/ProcessingRecord.php:643
+#: src/Modules/Privacy/ProcessingRecord.php:645
 msgid "Time limits for erasure (Art. 30(1)(f))"
 msgstr "Délais d'effacement (Art. 30(1)(f))"
 
-#: src/Modules/Privacy/ProcessingRecord.php:644
+#: src/Modules/Privacy/ProcessingRecord.php:646
 msgid "Legal basis (candidates to review)"
 msgstr "Base juridique (propositions à examiner)"
 
-#: src/Modules/Privacy/ProcessingRecord.php:657
+#: src/Modules/Privacy/ProcessingRecord.php:659
 msgid "EuroB2B data inventory"
 msgstr "Inventaire des données EuroB2B"
 
-#: src/Modules/Privacy/ProcessingRecord.php:93
+#: src/Modules/Privacy/ProcessingRecord.php:95
 msgid "For the controller sheet of the record of processing activities (EuroB2B → Settings → Processing record); empty fields are marked \"please add\" there, write \"none\" where something does not apply. These details stay on this site: they are not part of the settings export and are deleted when EuroB2B is deleted."
 msgstr "Pour la page de garde du registre des activités de traitement (EuroB2B → Réglages → Registre des traitements) ; les champs vides y sont marqués « à compléter », saisissez « aucun » lorsqu'un point ne s'applique pas. Ces informations restent sur ce site : elles ne font pas partie de l'export des réglages et sont supprimées lorsque EuroB2B est supprimé."
 
-#: src/Modules/Privacy/ProcessingRecord.php:97
+#: src/Modules/Privacy/ProcessingRecord.php:99
 msgid "Name and contact details."
 msgstr "Nom et coordonnées."
 
@@ -10379,9 +10489,9 @@ msgstr "Somme"
 #: src/Modules/Tax/TaxDataProvider.php:76
 #: src/Modules/Tax/TaxDataProvider.php:80
 #: src/Modules/Tax/TaxDataProvider.php:93
-#: src/Modules/Tax/VatIdField.php:383
-#: src/Modules/Tax/VatIdField.php:676
-#: src/Modules/Tax/VatIdField.php:938
+#: src/Modules/Tax/VatIdField.php:1053
+#: src/Modules/Tax/VatIdField.php:399
+#: src/Modules/Tax/VatIdField.php:791
 msgid "VAT ID"
 msgstr "Numéro de TVA"
 
@@ -12617,75 +12727,83 @@ msgstr "[%1$s] Numéro de TVA à examiner : %2$s"
 msgid "The VAT ID %1$s could not be confirmed (status: %2$s, reason: %3$s).\n\nReview it here: %4$s"
 msgstr "Le numéro de TVA %1$s n'a pas pu être confirmé (statut : %2$s, motif : %3$s).\n\nExaminez-le ici : %4$s"
 
-#: src/Modules/Tax/VatIdField.php:230
-#: src/Modules/Tax/VatIdField.php:277
-#: src/Modules/Tax/VatIdField.php:321
-#: src/Modules/Tax/VatIdField.php:950
-msgid "Please enter your VAT ID."
-msgstr "Veuillez saisir votre numéro de TVA."
-
-#: src/Modules/Tax/VatIdField.php:384
-#: src/Modules/Tax/VatIdField.php:939
+#: src/Modules/Tax/VatIdField.php:1054
+#: src/Modules/Tax/VatIdField.php:400
 msgid "e.g. DE123456789"
 msgstr "p. ex. DE123456789"
 
-#: src/Modules/Tax/VatIdField.php:385
-#: src/Modules/Tax/VatIdField.php:940
+#: src/Modules/Tax/VatIdField.php:1055
+#: src/Modules/Tax/VatIdField.php:401
 msgid "With country prefix."
 msgstr "Avec le préfixe du pays."
 
-#: src/Modules/Tax/VatIdField.php:556
-msgid "VAT ID (with country prefix)"
-msgstr "Numéro de TVA (avec le préfixe du pays)"
+#: src/Modules/Tax/VatIdField.php:1065
+#: src/Modules/Tax/VatIdField.php:246
+#: src/Modules/Tax/VatIdField.php:293
+#: src/Modules/Tax/VatIdField.php:337
+msgid "Please enter your VAT ID."
+msgstr "Veuillez saisir votre numéro de TVA."
 
-#: src/Modules/Tax/VatIdField.php:557
-msgid "VAT ID (optional, with country prefix)"
-msgstr "Numéro de TVA (facultatif, avec le préfixe du pays)"
-
-#: src/Modules/Tax/VatIdField.php:679
-#: src/Modules/Tax/VatIdField.php:698
-msgid "VAT ID check"
-msgstr "Vérification du numéro de TVA"
-
-#: src/Modules/Tax/VatIdField.php:731
-msgid "The number is not an active Swiss VAT number. Businesses in Liechtenstein enter their five-digit Liechtenstein VAT number instead. Please check it or leave the field empty."
-msgstr "Ce numéro n'est pas un numéro de TVA suisse actif. Les entreprises du Liechtenstein saisissent à la place leur numéro de TVA liechtensteinois à cinq chiffres. Veuillez le vérifier ou laisser le champ vide."
-
-#: src/Modules/Tax/VatIdField.php:733
-msgid "The VAT ID could not be confirmed as registered. Please check it or leave the field empty."
-msgstr "Le numéro de TVA n'a pas pu être confirmé comme enregistré. Veuillez le vérifier ou laisser le champ vide."
-
-#: src/Modules/Tax/VatIdField.php:736
-msgid "The VAT ID could not be checked right now. Please try again in a few minutes."
-msgstr "Le numéro de TVA n'a pas pu être vérifié pour le moment. Veuillez réessayer dans quelques minutes."
-
-#: src/Modules/Tax/VatIdField.php:951
+#: src/Modules/Tax/VatIdField.php:1066
 msgid "Please enter the VAT ID with its country prefix, e.g. DE123456789."
 msgstr "Veuillez saisir le numéro de TVA avec son préfixe de pays, p. ex. DE123456789."
 
-#: src/Modules/Tax/VatIdField.php:952
+#: src/Modules/Tax/VatIdField.php:1067
 msgid "This does not look like a valid VAT ID. Please check it."
 msgstr "Ceci ne ressemble pas à un numéro de TVA valide. Veuillez le vérifier."
 
-#: src/Modules/Tax/VatIdField.php:966
+#: src/Modules/Tax/VatIdField.php:1081
 msgid "VAT ID format checked."
 msgstr "Format du numéro de TVA vérifié."
 
-#: src/Modules/Tax/VatIdField.php:969
+#: src/Modules/Tax/VatIdField.php:1084
 msgid "VAT ID confirmed."
 msgstr "Numéro de TVA confirmé."
 
-#: src/Modules/Tax/VatIdField.php:970
+#: src/Modules/Tax/VatIdField.php:1085
 msgid "The VAT ID could not be confirmed as registered."
 msgstr "Le numéro de TVA n'a pas pu être confirmé comme enregistré."
 
-#: src/Modules/Tax/VatIdField.php:972
+#: src/Modules/Tax/VatIdField.php:1087
 msgid "The VAT ID could not be checked right now."
 msgstr "Le numéro de TVA n'a pas pu être vérifié pour le moment."
 
-#: src/Modules/Tax/VatIdField.php:973
+#: src/Modules/Tax/VatIdField.php:1088
 msgid "The VAT ID could not be checked right now; your order will be processed with VAT and reviewed."
 msgstr "Le numéro de TVA n'a pas pu être vérifié pour le moment ; votre commande sera traitée avec TVA et examinée."
+
+#: src/Modules/Tax/VatIdField.php:572
+msgid "VAT ID (with country prefix)"
+msgstr "Numéro de TVA (avec le préfixe du pays)"
+
+#: src/Modules/Tax/VatIdField.php:573
+msgid "VAT ID (optional, with country prefix)"
+msgstr "Numéro de TVA (facultatif, avec le préfixe du pays)"
+
+#: src/Modules/Tax/VatIdField.php:735
+msgid "Result of the VAT ID check: valid, invalid, pending, unavailable, error (the order would be refused), or empty when nothing was checked."
+msgstr "Résultat de la vérification du numéro de TVA : valid, invalid, pending, unavailable, error (la commande serait refusée), ou vide si rien n'a été vérifié."
+
+#: src/Modules/Tax/VatIdField.php:741
+msgid "The result as a sentence for the customer, or empty."
+msgstr "Le résultat sous forme de phrase pour le client, ou vide."
+
+#: src/Modules/Tax/VatIdField.php:794
+#: src/Modules/Tax/VatIdField.php:813
+msgid "VAT ID check"
+msgstr "Vérification du numéro de TVA"
+
+#: src/Modules/Tax/VatIdField.php:846
+msgid "The number is not an active Swiss VAT number. Businesses in Liechtenstein enter their five-digit Liechtenstein VAT number instead. Please check it or leave the field empty."
+msgstr "Ce numéro n'est pas un numéro de TVA suisse actif. Les entreprises du Liechtenstein saisissent à la place leur numéro de TVA liechtensteinois à cinq chiffres. Veuillez le vérifier ou laisser le champ vide."
+
+#: src/Modules/Tax/VatIdField.php:848
+msgid "The VAT ID could not be confirmed as registered. Please check it or leave the field empty."
+msgstr "Le numéro de TVA n'a pas pu être confirmé comme enregistré. Veuillez le vérifier ou laisser le champ vide."
+
+#: src/Modules/Tax/VatIdField.php:851
+msgid "The VAT ID could not be checked right now. Please try again in a few minutes."
+msgstr "Le numéro de TVA n'a pas pu être vérifié pour le moment. Veuillez réessayer dans quelques minutes."
 
 #: src/Pro/BlocksDifferences.php:43
 msgid "For orders that need approval the place order button keeps its usual label; the order is still created as \"Pending approval\"."
@@ -12710,13 +12828,6 @@ msgstr "Une règle de remise affichée comme ligne de remise dans le panier appa
 #: src/Pro/BlocksDifferences.php:63
 msgid "A cart line whose quantity breaks a minimum, maximum or step is not refused: WooCommerce corrects the quantity without a message (with a step of 10, 7 becomes 10)."
 msgstr "Une ligne du panier dont la quantité ne respecte pas un minimum, un maximum ou un pas n'est pas refusée : WooCommerce corrige la quantité sans message (avec un pas de 10, 7 devient 10)."
-
-#: src/Pro/Licence/LicencePage.php:114
-#: src/Pro/Licence/LicencePage.php:127
-#: src/Pro/Licence/LicencePage.php:129
-#: src/Pro/Licence/LicencePage.php:82
-msgid "EuroB2B Pro licence"
-msgstr "Licence d'EuroB2B Pro"
 
 #: src/Pro/Licence/LicencePage.php:114
 msgid "Licence"
@@ -12761,10 +12872,6 @@ msgstr "Mises à jour et assistance jusqu'au"
 msgid "available: %s"
 msgstr "disponible : %s"
 
-#: src/Pro/Licence/LicencePage.php:152
-msgid "Installed version"
-msgstr "Version installée"
-
 #: src/Pro/Licence/LicencePage.php:159
 msgid "Renew licence (30 % off)"
 msgstr "Renouveler la licence (30 % de remise)"
@@ -12800,14 +12907,6 @@ msgstr "Désactiver sur ce site"
 #: src/Pro/Licence/LicencePage.php:214
 msgid "Deactivate the licence before you move the shop to another address or delete EuroB2B Pro, so the site is free for another installation."
 msgstr "Désactivez la licence avant de déplacer la boutique vers une autre adresse ou de supprimer EuroB2B Pro, afin que le site soit libre pour une autre installation."
-
-#: src/Pro/Licence/LicencePage.php:291
-msgid "You are not allowed to manage the licence of EuroB2B Pro."
-msgstr "Vous n'êtes pas autorisé à gérer la licence d'EuroB2B Pro."
-
-#: src/Pro/Licence/LicenceTexts.php:108
-msgid "The licence is activated for this site."
-msgstr "La licence est activée pour ce site."
 
 #: src/Pro/Licence/LicenceTexts.php:110
 msgid "The licence is activated. This address counts as a staging or development site, so it does not use one of the licence's sites."
@@ -13033,10 +13132,6 @@ msgstr "Peppol Directory"
 #: src/Pro/Privacy/PolicyText.php:291
 msgid "If you store a Peppol ID in your customer account, or we store it for you, we look it up in the public Peppol Directory (directory.peppol.eu) of OpenPeppol AISBL in Belgium when the ID is saved for the first time or changed, and when we check it again. This tells us whether our e-invoices can reach you through the Peppol network. We send only the Peppol ID. We store the result (listed, not listed or lookup failed), the ID checked, the time and, if the directory returns them, the name and country registered for the ID. The result is deleted when the Peppol ID changes or is removed, and with your account."
 msgstr "Si vous enregistrez un identifiant Peppol dans votre compte client, ou si nous l'enregistrons pour vous, nous le recherchons dans le Peppol Directory public (directory.peppol.eu) d'OpenPeppol AISBL en Belgique lorsque l'identifiant est enregistré pour la première fois ou modifié, et lorsque nous le vérifions à nouveau. Cela nous indique si nos factures électroniques peuvent vous parvenir via le réseau Peppol. Nous n'envoyons que l'identifiant Peppol. Nous enregistrons le résultat (répertorié, non répertorié ou échec de la recherche), l'identifiant vérifié, l'heure et, si le répertoire les renvoie, le nom et le pays enregistrés pour l'identifiant. Le résultat est supprimé lorsque l'identifiant Peppol est modifié ou supprimé, ainsi qu'avec votre compte."
-
-#: src/Pro/Privacy/PolicyText.php:304
-msgid "Updates of the shop software"
-msgstr "Mises à jour du logiciel de la boutique"
 
 #: src/Pro/Privacy/PolicyText.php:305
 msgid "Our shop uses the extension EuroB2B Pro by Storetown Media (storetown-media.de, Germany). To receive updates of this extension, the web server of our shop contacts Storetown Media at most twice a day and transmits the licence key, the address of this website and the installed version of the extension. No data of our visitors or customers is transmitted."
@@ -13512,10 +13607,6 @@ msgstr "Aucune clé de licence d'EuroB2B Pro n'est enregistrée."
 msgid "Activating the licence of EuroB2B Pro for this website and receiving updates of the plugin from its licensor."
 msgstr "Activation de la licence d'EuroB2B Pro pour ce site web et réception des mises à jour de l'extension auprès de son concédant."
 
-#: src/Pro/Privacy/ProcessingActivities.php:503
-msgid "The shop operator as the licensee (personal data only when the shop is run by a natural person, for example a sole trader)"
-msgstr "L'exploitant de la boutique en tant que licencié (données personnelles uniquement si la boutique est exploitée par une personne physique, par exemple un entrepreneur individuel)"
-
 #: src/Pro/Privacy/ProcessingActivities.php:506
 msgid "Sent to the licensor when the licence is activated or deactivated and at most twice a day for the update check: the licence key, the host name of this website, the installed version of EuroB2B Pro and, as with every connection, the IP address of the web server"
 msgstr "Transmis au concédant lors de l'activation ou de la désactivation de la licence et au plus deux fois par jour pour la recherche de mises à jour : la clé de licence, le nom d'hôte de ce site web, la version installée d'EuroB2B Pro et, comme pour toute connexion, l'adresse IP du serveur web"
@@ -13543,10 +13634,6 @@ msgstr "Chez le concédant : tant que le site web est activé ; la licence ell
 #: src/Pro/Privacy/ProcessingActivities.php:520
 msgid "Art. 6(1)(b) GDPR: licence agreement with the licensor"
 msgstr "Art. 6(1)(b) RGPD : contrat de licence avec le concédant"
-
-#: src/Pro/Privacy/ProcessingActivities.php:521
-msgid "Art. 6(1)(f) GDPR: legitimate interest in receiving security and maintenance updates"
-msgstr "Art. 6(1)(f) RGPD : intérêt légitime à recevoir des mises à jour de sécurité et de maintenance"
 
 #: src/Pro/Privacy/ProcessingActivities.php:552
 msgid "Shop staff with the capability to view reports (eurob2b_view_reports), through the export of tax-exempt sales"

@@ -4,7 +4,7 @@ Tags: b2b, wholesale, vat, reverse charge, customer groups
 Requires at least: 6.7
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.6.0
+Stable tag: 1.7.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -98,6 +98,9 @@ EuroB2B connects to one external service, and only when you use it:
 == Changelog ==
 
 The full changelog is in CHANGELOG.md in the plugin folder and on https://github.com/storetown-media/eurob2b.
+
+= 1.7.0 =
+* Checkout block: the result of the VAT ID check appears at the billing address as soon as the number changes.
 
 = 1.6.0 =
 * Confirm the review of orders whose tax treatment EuroB2B could not decide itself; the overview lists them.

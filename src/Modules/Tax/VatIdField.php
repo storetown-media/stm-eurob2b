@@ -23,6 +23,7 @@ use EuroB2B\Modules\Tax\VatId\ExternalServices;
 use EuroB2B\Modules\Tax\VatId\TraderDetails;
 use EuroB2B\Modules\Tax\VatId\ValidationStatus;
 use EuroB2B\Modules\Tax\VatId\VatId;
+use Automattic\WooCommerce\StoreApi\Schemas\V1\CartSchema;
 use WC_Order;
 use WP_Error;
 
@@ -47,6 +48,7 @@ final class VatIdField {
 	public const MODE_OFF              = 'off';
 	public const MODE_OPTIONAL         = 'optional';
 	public const MODE_REQUIRED_B2B     = 'required_b2b';
+	public const STORE_API_NAMESPACE   = 'eurob2b-vat-id';
 
 	/**
 	 * Service.
@@ -115,6 +117,13 @@ final class VatIdField {
 	private array $block_errors = array();
 
 	/**
+	 * Checks for the Checkout block feedback in this request, by country, number and user.
+	 *
+	 * @var array<string, array{status: string, message: string}>
+	 */
+	private array $block_feedback = array();
+
+	/**
 	 * Constructor.
 	 *
 	 * @param ValidationService          $service   Service.
@@ -160,6 +169,13 @@ final class VatIdField {
 		add_action( 'woocommerce_blocks_validate_location_address_fields', array( $this, 'validate_block_address' ), 10, 3 );
 		add_filter( 'woocommerce_get_default_value_for_' . self::BLOCK_FIELD_ID, array( $this, 'block_default_value' ), 10, 3 );
 		add_action( 'woocommerce_store_api_checkout_order_processed', array( $this, 'write_block_order' ), 20 );
+		// The result of the check next to the address, as the classic checkout shows it next to the order button.
+		if ( did_action( 'woocommerce_blocks_loaded' ) ) {
+			$this->register_store_api();
+		} else {
+			add_action( 'woocommerce_blocks_loaded', array( $this, 'register_store_api' ) );
+		}
+		add_action( 'woocommerce_blocks_checkout_block_registration', array( self::class, 'register_block_integration' ) );
 
 		// Order screen.
 		add_filter( 'eurob2b_order_attribute_rows', array( $this, 'order_rows' ), 10, 2 );
@@ -629,6 +645,105 @@ final class VatIdField {
 			$customer->delete_meta_data( self::BLOCK_META );
 			$customer->save();
 		}
+	}
+
+	/**
+	 * Registers the check result as Store API cart extension data for the Checkout block.
+	 */
+	public function register_store_api(): void {
+		if ( ! function_exists( 'woocommerce_store_api_register_endpoint_data' ) || ! class_exists( CartSchema::class ) ) {
+			return;
+		}
+		woocommerce_store_api_register_endpoint_data(
+			array(
+				'endpoint'        => CartSchema::IDENTIFIER,
+				'namespace'       => self::STORE_API_NAMESPACE,
+				'data_callback'   => array( $this, 'store_api_data' ),
+				'schema_callback' => array( $this, 'store_api_schema' ),
+				'schema_type'     => ARRAY_A,
+			)
+		);
+	}
+
+	/**
+	 * Loads `assets/js/block-vat-feedback.js` with the Checkout block.
+	 *
+	 * @param mixed $registry Integration registry of the Checkout block.
+	 */
+	public static function register_block_integration( $registry ): void {
+		if ( is_object( $registry ) && method_exists( $registry, 'register' ) && ( ! method_exists( $registry, 'is_registered' ) || ! $registry->is_registered( BlockVatFeedback::NAME ) ) ) {
+			$registry->register( new BlockVatFeedback() );
+		}
+	}
+
+	/**
+	 * Cart extension data: the result for the number that counts for the cart, as `CartTreatment`
+	 * reads it in the blocks (the billing address field, else the number saved on the account). The
+	 * service reuses fresh results, so this asks no service the tax decision has not asked already.
+	 * Empty status and message when there is nothing to report: no number, a billing country outside
+	 * the configured list, or no checking service switched on.
+	 *
+	 * @return array{status: string, message: string}
+	 */
+	public function store_api_data(): array {
+		$none     = array(
+			'status'  => '',
+			'message' => '',
+		);
+		$customer = function_exists( 'WC' ) ? WC()->customer : null;
+		if ( ! $customer instanceof \WC_Customer || ! $this->service->enabled() ) {
+			return $none;
+		}
+		$country = strtoupper( (string) $customer->get_billing_country() );
+		if ( ! $this->applies_to_country( $country ) ) {
+			return $none;
+		}
+		$user_id = $customer->get_id() > 0 ? $customer->get_id() : null;
+		if ( $customer->meta_exists( self::BLOCK_META ) ) {
+			$raw = $customer->get_meta( self::BLOCK_META, true );
+		} else {
+			$raw = null !== $user_id ? get_user_meta( $user_id, self::META_VAT_ID, true ) : '';
+		}
+		$raw = is_scalar( $raw ) ? trim( (string) $raw ) : '';
+		if ( '' === $raw ) {
+			return $none;
+		}
+		$key = $country . '|' . $raw . '|' . (string) $user_id;
+		if ( ! array_key_exists( $key, $this->block_feedback ) ) {
+			$outcome                      = $this->check_input( $raw, $country, $user_id, true );
+			$this->block_feedback[ $key ] = $outcome instanceof WP_Error
+				? array(
+					'status'  => 'error',
+					'message' => $outcome->get_error_message(),
+				)
+				: array(
+					'status'  => $outcome['record']->status->value,
+					'message' => self::feedback_message( $outcome['record'] ),
+				);
+		}
+		return $this->block_feedback[ $key ];
+	}
+
+	/**
+	 * Schema of the cart extension data.
+	 *
+	 * @return array<string, array<string, mixed>>
+	 */
+	public function store_api_schema(): array {
+		return array(
+			'status'  => array(
+				'description' => __( 'Result of the VAT ID check: valid, invalid, pending, unavailable, error (the order would be refused), or empty when nothing was checked.', 'eurob2b' ),
+				'type'        => 'string',
+				'context'     => array( 'view', 'edit' ),
+				'readonly'    => true,
+			),
+			'message' => array(
+				'description' => __( 'The result as a sentence for the customer, or empty.', 'eurob2b' ),
+				'type'        => 'string',
+				'context'     => array( 'view', 'edit' ),
+				'readonly'    => true,
+			),
+		);
 	}
 
 	/**

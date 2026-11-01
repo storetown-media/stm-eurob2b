@@ -211,6 +211,7 @@ class ComposerStaticInit95dd42046cc0e4279f8ebe4fd6b5b402
         'EuroB2B\\Modules\\Tax\\Admin\\TaxReports' => __DIR__ . '/../..' . '/src/Modules/Tax/Admin/TaxReports.php',
         'EuroB2B\\Modules\\Tax\\Admin\\TaxReviewAdmin' => __DIR__ . '/../..' . '/src/Modules/Tax/Admin/TaxReviewAdmin.php',
         'EuroB2B\\Modules\\Tax\\Admin\\ValidationsPage' => __DIR__ . '/../..' . '/src/Modules/Tax/Admin/ValidationsPage.php',
+        'EuroB2B\\Modules\\Tax\\BlockVatFeedback' => __DIR__ . '/../..' . '/src/Modules/Tax/BlockVatFeedback.php',
         'EuroB2B\\Modules\\Tax\\Export\\ExportEvidenceDataProvider' => __DIR__ . '/../..' . '/src/Modules/Tax/Export/ExportEvidenceDataProvider.php',
         'EuroB2B\\Modules\\Tax\\Export\\ExportEvidenceRecords' => __DIR__ . '/../..' . '/src/Modules/Tax/Export/ExportEvidenceRecords.php',
         'EuroB2B\\Modules\\Tax\\Export\\ExportEvidenceRetention' => __DIR__ . '/../..' . '/src/Modules/Tax/Export/ExportEvidenceRetention.php',

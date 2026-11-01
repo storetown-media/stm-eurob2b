@@ -3,7 +3,7 @@
         'name' => 'storetown-media/eurob2b',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '7c84f7ca47f5c27115a3f7fb63d44e33dca1f267',
+        'reference' => '9ad79227cde1e4dca6ca1dd159d651f46a804c89',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'storetown-media/eurob2b' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '7c84f7ca47f5c27115a3f7fb63d44e33dca1f267',
+            'reference' => '9ad79227cde1e4dca6ca1dd159d651f46a804c89',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
