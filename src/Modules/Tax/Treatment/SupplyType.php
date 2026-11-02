@@ -56,6 +56,19 @@ final class SupplyType {
 	}
 
 	/**
+	 * The kept supply type is internal: the order screen lists it under every line otherwise
+	 * (WooCommerce hides only the keys in this list, not every key with an underscore).
+	 *
+	 * @param mixed $keys Hidden order item meta keys.
+	 * @return array<int, mixed>
+	 */
+	public static function hide( $keys ): array {
+		$keys   = is_array( $keys ) ? $keys : array();
+		$keys[] = self::META;
+		return $keys;
+	}
+
+	/**
 	 * Supply type of an order line: the value kept at the time of the order, else the product's
 	 * current setting (orders from before RPT-006 or created without the checkout), null when neither
 	 * is known (the product was deleted).

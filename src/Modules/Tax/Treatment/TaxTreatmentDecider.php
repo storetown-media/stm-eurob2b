@@ -19,7 +19,7 @@ use EuroB2B\Modules\Tax\VatId\ValidationStatus;
  * supply in another member state, no self-collection, exemption enabled. Everything else is taxed,
  * and unresolved cases are flagged for review (EU-01..EU-05 in docs/country-matrix.md).
  *
- * Special cases (`SpecialTreatment`) are asked first. EuroB2B Pro adds two (PLT-015): with the
+ * Special cases (`SpecialTreatment`) are asked first. EU-B2B Pro adds two (PLT-015): with the
  * special territories setting (TAX-024) a place of supply in a verified territory outside the EU VAT
  * area is an export like a third country (`special_territory`); with the Northern Ireland setting
  * (TAX-034, § 30 UStG) goods to Northern Ireland are decided like goods to another member state. The
@@ -150,7 +150,7 @@ final class TaxTreatmentDecider {
 	 * Decision for an order with goods and services, from the decisions of each part. The goods decide
 	 * the customer-wide exemption; when only the services are exempt the result is MIXED and the exempt
 	 * service lines are untaxed on their own (CartTreatment). A special case may combine differently
-	 * (EuroB2B Pro: goods to Northern Ireland, TAX-034, NI-05).
+	 * (EU-B2B Pro: goods to Northern Ireland, TAX-034, NI-05).
 	 *
 	 * @param TreatmentDecision   $goods       Decision for the goods.
 	 * @param TreatmentDecision   $services    Decision for the services.

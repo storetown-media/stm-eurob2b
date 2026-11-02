@@ -23,12 +23,12 @@ use EuroB2B\Modules\Privacy\PrivateFiles;
 /**
  * M4.1/4.2 (core): payment gateways and shipping methods per audience and user (PAY-001…005,
  * SHP-001/002), with the method page, the user profile fields and their parts of the settings file.
- * The privacy handling of the data that EuroB2B Pro writes to orders stays here, so it works also
+ * The privacy handling of the data that EU-B2B Pro writes to orders stays here, so it works also
  * while Pro is inactive (PLT-015): the export, erasure answer, retention and deletion of the
  * purchase order documents (PAY-015, D-25) and the export and anonymisation of the dunning history
  * (PAY-023, D-28). The pay-later gateways, payment terms, purchase order number and documents,
  * payment windows, method surcharges, shipping costs per group, overdue orders and dunning are part
- * of EuroB2B Pro (`PaymentsProModule`).
+ * of EU-B2B Pro (`PaymentsProModule`).
  */
 final class PaymentsModule extends AbstractModule {
 

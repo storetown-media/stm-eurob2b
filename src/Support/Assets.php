@@ -30,7 +30,7 @@ final class Assets {
 	 *
 	 * @param string      $relative_path Asset path relative to the plugin root, e.g. "assets/js/registration.js".
 	 * @param string|null $plugin_dir    Root of the plugin that ships the asset; null for this plugin.
-	 *                                   EuroB2B Pro passes its own directory (EUROB2B_PRO_DIR).
+	 *                                   EU-B2B Pro passes its own directory (EUROB2B_PRO_DIR).
 	 */
 	public static function version( string $relative_path, ?string $plugin_dir = null ): string {
 		return self::version_for( EUROB2B_VERSION, $plugin_dir ?? EUROB2B_PLUGIN_DIR, $relative_path );

@@ -175,7 +175,7 @@ final class WooCommercePrices {
 		if ( ! $product instanceof WC_Product || ! $this->context->applies() || '' === $this->audiences->current()->currency() ) {
 			return $html;
 		}
-		return '<span class="eurob2b-no-price">' . esc_html__( 'Price on request', 'eurob2b' ) . '</span>';
+		return '<span class="eurob2b-no-price">' . esc_html__( 'Price on request', 'stm-eu-b2b' ) . '</span>';
 	}
 
 	/**

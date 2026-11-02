@@ -52,14 +52,14 @@ final class FieldDefinition {
 	 */
 	public static function mappable_billing_fields(): array {
 		return array(
-			'billing_company'   => __( 'Company', 'eurob2b' ),
-			'billing_address_1' => __( 'Address line 1', 'eurob2b' ),
-			'billing_address_2' => __( 'Address line 2', 'eurob2b' ),
-			'billing_postcode'  => __( 'Postcode', 'eurob2b' ),
-			'billing_city'      => __( 'City', 'eurob2b' ),
-			'billing_state'     => __( 'State / county', 'eurob2b' ),
-			'billing_country'   => __( 'Country', 'eurob2b' ),
-			'billing_phone'     => __( 'Phone', 'eurob2b' ),
+			'billing_company'   => __( 'Company', 'stm-eu-b2b' ),
+			'billing_address_1' => __( 'Address line 1', 'stm-eu-b2b' ),
+			'billing_address_2' => __( 'Address line 2', 'stm-eu-b2b' ),
+			'billing_postcode'  => __( 'Postcode', 'stm-eu-b2b' ),
+			'billing_city'      => __( 'City', 'stm-eu-b2b' ),
+			'billing_state'     => __( 'State / county', 'stm-eu-b2b' ),
+			'billing_country'   => __( 'Country', 'stm-eu-b2b' ),
+			'billing_phone'     => __( 'Phone', 'stm-eu-b2b' ),
 		);
 	}
 
@@ -111,16 +111,16 @@ final class FieldDefinition {
 		public readonly int $order = 10
 	) {
 		if ( ! preg_match( '/^[a-z][a-z0-9_]{0,39}$/', $key ) ) {
-			throw new InvalidArgumentException( sprintf( 'FieldDefinition: "%s" is not a valid key.', $key ) );
+			throw new InvalidArgumentException( sprintf( 'FieldDefinition: "%s" is not a valid key.', $key ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal, untranslated message for developers and logs; every sink escapes or decodes it (docs/architecture.md, "Exception messages").
 		}
 		if ( '' === trim( $label ) ) {
 			throw new InvalidArgumentException( 'FieldDefinition: label must not be empty.' );
 		}
 		if ( ! in_array( $type, self::types(), true ) ) {
-			throw new InvalidArgumentException( sprintf( 'FieldDefinition: unknown type "%s".', $type ) );
+			throw new InvalidArgumentException( sprintf( 'FieldDefinition: unknown type "%s".', $type ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal, untranslated message for developers and logs; every sink escapes or decodes it (docs/architecture.md, "Exception messages").
 		}
 		if ( '' !== $map_to && ! in_array( $map_to, self::mappable_billing_keys(), true ) ) {
-			throw new InvalidArgumentException( sprintf( 'FieldDefinition: cannot map to "%s".', $map_to ) );
+			throw new InvalidArgumentException( sprintf( 'FieldDefinition: cannot map to "%s".', $map_to ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal, untranslated message for developers and logs; every sink escapes or decodes it (docs/architecture.md, "Exception messages").
 		}
 		if ( self::TYPE_FILE === $type && ( $show_in_checkout || '' !== $map_to ) ) {
 			throw new InvalidArgumentException( 'FieldDefinition: a file field belongs to the registration form only.' );

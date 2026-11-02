@@ -58,7 +58,7 @@ final class ValidationRepository {
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
 		$ok = $wpdb->insert( $this->table(), $data );
 		if ( false === $ok ) {
-			throw new RuntimeException( 'Could not store the VAT validation: ' . $wpdb->last_error );
+			throw new RuntimeException( 'Could not store the VAT validation: ' . $wpdb->last_error ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal, untranslated message for developers and logs; every sink escapes or decodes it (docs/architecture.md, "Exception messages").
 		}
 		return (int) $wpdb->insert_id;
 	}
@@ -99,7 +99,7 @@ final class ValidationRepository {
 		);
 		$ok   = $wpdb->insert( $this->table(), $data );
 		if ( false === $ok ) {
-			throw new RuntimeException( 'Could not copy the VAT validation: ' . $wpdb->last_error );
+			throw new RuntimeException( 'Could not copy the VAT validation: ' . $wpdb->last_error ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal, untranslated message for developers and logs; every sink escapes or decodes it (docs/architecture.md, "Exception messages").
 		}
 		return (int) $wpdb->insert_id;
 	}
@@ -120,7 +120,7 @@ final class ValidationRepository {
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
 		$ok = $wpdb->update( $this->table(), $data, array( 'id' => $id ), null, array( '%d' ) );
 		if ( false === $ok ) {
-			throw new RuntimeException( 'Could not update the VAT validation: ' . $wpdb->last_error );
+			throw new RuntimeException( 'Could not update the VAT validation: ' . $wpdb->last_error ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal, untranslated message for developers and logs; every sink escapes or decodes it (docs/architecture.md, "Exception messages").
 		}
 	}
 
@@ -154,11 +154,11 @@ final class ValidationRepository {
 		$table    = $this->table();
 		// A self join, because MySQL cannot read the table it updates in a subquery. The column names
 		// come from row_from_result(), the values are prepared.
-		$sql = "UPDATE {$table} AS r LEFT JOIN {$table} AS d ON d.country_code = r.country_code AND d.vat_number = r.vat_number AND d.id > r.id AND d.decided_by IS NOT NULL SET " . implode( ', ', $set ) . ' WHERE r.id = %d AND r.decided_by IS NULL AND d.id IS NULL';
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.NotPrepared
-		$affected = $wpdb->query( $wpdb->prepare( $sql, $values ) );
+		$sql = 'UPDATE %i AS r LEFT JOIN %i AS d ON d.country_code = r.country_code AND d.vat_number = r.vat_number AND d.id > r.id AND d.decided_by IS NOT NULL SET ' . implode( ', ', $set ) . ' WHERE r.id = %d AND r.decided_by IS NULL AND d.id IS NULL';
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- the SET part names the fixed columns of row_from_result() with a placeholder each; the table and every value are prepare() arguments.
+		$affected = $wpdb->query( $wpdb->prepare( $sql, array_merge( array( $table, $table ), $values ) ) );
 		if ( false === $affected ) {
-			throw new RuntimeException( 'Could not update the VAT validation: ' . $wpdb->last_error );
+			throw new RuntimeException( 'Could not update the VAT validation: ' . $wpdb->last_error ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal, untranslated message for developers and logs; every sink escapes or decodes it (docs/architecture.md, "Exception messages").
 		}
 		return $affected > 0;
 	}
@@ -286,8 +286,8 @@ final class ValidationRepository {
 		[ $where, $args ] = self::where( $filters );
 		$args[]           = max( 1, $limit );
 		$args[]           = max( 0, $offset );
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
-		$rows = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$this->table()} WHERE {$where} ORDER BY checked_at DESC, id DESC LIMIT %d OFFSET %d", $args ), ARRAY_A ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- the placeholders of where() plus LIMIT and OFFSET, passed as one array.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber,PluginCheck.Security.DirectDB.UnescapedDBParameter -- $where is built by where() from a fixed column list with placeholders only; the table, the values, LIMIT and OFFSET are prepare() arguments.
+		$rows = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM %i WHERE {$where} ORDER BY checked_at DESC, id DESC LIMIT %d OFFSET %d", array_merge( array( $this->table() ), $args ) ), ARRAY_A );
 		return array_map( array( self::class, 'hydrate' ), is_array( $rows ) ? $rows : array() );
 	}
 
@@ -299,9 +299,8 @@ final class ValidationRepository {
 	public function count_matching( array $filters ): int {
 		global $wpdb;
 		[ $where, $args ] = self::where( $filters );
-		$sql              = "SELECT COUNT(*) FROM {$this->table()} WHERE {$where}";
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.NotPrepared
-		return (int) $wpdb->get_var( empty( $args ) ? $sql : $wpdb->prepare( $sql, $args ) ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber,PluginCheck.Security.DirectDB.UnescapedDBParameter -- $where is built by where() from a fixed column list with placeholders only; the table and the values are prepare() arguments.
+		return (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM %i WHERE {$where}", array_merge( array( $this->table() ), $args ) ) );
 	}
 
 	/**
@@ -365,7 +364,7 @@ final class ValidationRepository {
 			array( '%d' )
 		);
 		if ( false === $ok ) {
-			throw new RuntimeException( 'Could not store the decision: ' . $wpdb->last_error );
+			throw new RuntimeException( 'Could not store the decision: ' . $wpdb->last_error ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal, untranslated message for developers and logs; every sink escapes or decodes it (docs/architecture.md, "Exception messages").
 		}
 	}
 

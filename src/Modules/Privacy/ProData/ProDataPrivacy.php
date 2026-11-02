@@ -1,6 +1,6 @@
 <?php
 /**
- * Privacy handling of the data EuroB2B Pro stores.
+ * Privacy handling of the data EU-B2B Pro stores.
  *
  * @package EuroB2B
  */
@@ -15,11 +15,11 @@ use EuroB2B\Modules\Privacy\PersonalDataProviderInterface;
 use EuroB2B\Modules\Privacy\RetentionTaskInterface;
 
 /**
- * Wires the privacy handling of the data the features of EuroB2B Pro write into the shared schema
+ * Wires the privacy handling of the data the features of EU-B2B Pro write into the shared schema
  * (product owner decision of 2026-10-29, PLT-015): personal data export and erasure, the retention
  * jobs, the clean-up when a WordPress user is deleted, WooCommerce's order export and order
- * anonymisation. It runs in the core, so a shop that deactivates or deletes EuroB2B Pro can still
- * answer requests and the retention periods keep running. EuroB2B Pro registers no second copy.
+ * anonymisation. It runs in the core, so a shop that deactivates or deletes EU-B2B Pro can still
+ * answer requests and the retention periods keep running. EU-B2B Pro registers no second copy.
  *
  * Company accounts, order approval and acting as a member (D-04, D-05, D-14): `CompanyRecords`,
  * `CompanyDataProvider`. Quotes and offers (D-06): `QuoteRecords`, `QuotesDataProvider`,
@@ -34,12 +34,12 @@ final class ProDataPrivacy {
 
 	/**
 	 * Priority on `eurob2b_personal_data_providers` and `eurob2b_retention_tasks`: after the modules
-	 * (10), so the entries can take the place they had when EuroB2B Pro registered them.
+	 * (10), so the entries can take the place they had when EU-B2B Pro registered them.
 	 */
 	public const PRIORITY = 20;
 
 	/**
-	 * Order of the providers as the modules register them with EuroB2B Pro active (module boot order).
+	 * Order of the providers as the modules register them with EU-B2B Pro active (module boot order).
 	 * A provider of this class goes right after the nearest one before it in this list that is
 	 * registered, so the exporters, erasers and the export file keep their order.
 	 */

@@ -86,7 +86,7 @@ final class CustomerService {
 					self::write_meta( $user_id, $restore_key, $restore_value );
 				}
 				$this->resolver->flush( $user_id );
-				throw new RuntimeException( sprintf( 'Could not store %s for user %d; the previous assignment was restored.', $key, $user_id ) );
+				throw new RuntimeException( sprintf( 'Could not store %s for user %d; the previous assignment was restored.', $key, $user_id ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal, untranslated message for developers and logs; every sink escapes or decodes it (docs/architecture.md, "Exception messages").
 			}
 		}
 		if ( CustomerStatus::APPROVED === $status && ! $was_explicitly_approved ) {
@@ -134,17 +134,17 @@ final class CustomerService {
 		unset( $status );
 		// Every status is assignable; kept in the signature for symmetry with assign().
 		if ( CustomerType::GUEST === $type ) {
-			throw new InvalidArgumentException( esc_html__( 'Customers cannot be assigned the guest type.', 'eurob2b' ) );
+			throw new InvalidArgumentException( esc_html__( 'Customers cannot be assigned the guest type.', 'stm-eu-b2b' ) );
 		}
 		if ( ! get_userdata( $user_id ) ) {
-			throw new InvalidArgumentException( esc_html__( 'Unknown user.', 'eurob2b' ) );
+			throw new InvalidArgumentException( esc_html__( 'Unknown user.', 'stm-eu-b2b' ) );
 		}
 		$group = null !== $group_id && $group_id > 0 ? $this->groups->find( $group_id ) : $this->groups->default_for( $type );
 		if ( null !== $group_id && $group_id > 0 && null === $group ) {
-			throw new InvalidArgumentException( esc_html__( 'Unknown group.', 'eurob2b' ) );
+			throw new InvalidArgumentException( esc_html__( 'Unknown group.', 'stm-eu-b2b' ) );
 		}
 		if ( null !== $group && $group->customer_type !== $type ) {
-			throw new InvalidArgumentException( esc_html__( 'The group does not belong to the chosen customer type.', 'eurob2b' ) );
+			throw new InvalidArgumentException( esc_html__( 'The group does not belong to the chosen customer type.', 'stm-eu-b2b' ) );
 		}
 		return $group;
 	}

@@ -24,13 +24,13 @@ namespace EuroB2B\Support;
 final class Currency {
 
 	/**
-	 * Whether groups may have their own currency (CUR-001). Only EuroB2B Pro switches the storefront
+	 * Whether groups may have their own currency (CUR-001). Only EU-B2B Pro switches the storefront
 	 * to a group's currency (module Currency), so without it every group pays in the shop currency and
 	 * a stored group currency stays without effect (it is kept for a later activation of Pro).
 	 */
 	public static function group_currencies_enabled(): bool {
 		/**
-		 * Whether groups may have their own currency. EuroB2B Pro returns true.
+		 * Whether groups may have their own currency. EU-B2B Pro returns true.
 		 *
 		 * @param bool $enabled Default false.
 		 */

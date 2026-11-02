@@ -19,10 +19,10 @@ final class CustomerRejectedEmail extends AbstractEmail {
 	 */
 	public function __construct() {
 		$this->id             = 'eurob2b_customer_rejected';
-		$this->title          = __( 'EuroB2B: registration not approved', 'eurob2b' );
-		$this->description    = __( 'Sent to the customer when a pending registration is rejected. Off by default; the optional note is included when "Include note" is enabled.', 'eurob2b' );
-		$this->heading        = __( 'About your registration', 'eurob2b' );
-		$this->subject        = __( '[{site_title}] Your registration could not be approved', 'eurob2b' );
+		$this->title          = __( 'STM EU-B2B: registration not approved', 'stm-eu-b2b' );
+		$this->description    = __( 'Sent to the customer when a pending registration is rejected. Off by default; the optional note is included when "Include note" is enabled.', 'stm-eu-b2b' );
+		$this->heading        = __( 'About your registration', 'stm-eu-b2b' );
+		$this->subject        = __( '[{site_title}] Your registration could not be approved', 'stm-eu-b2b' );
 		$this->customer_email = true;
 		parent::__construct();
 		add_action( 'eurob2b_registration_rejected_notification', array( $this, 'trigger' ), 10, 2 );
@@ -42,9 +42,9 @@ final class CustomerRejectedEmail extends AbstractEmail {
 		parent::init_form_fields();
 		$this->form_fields['enabled']['default'] = 'no';
 		$this->form_fields['include_note']       = array(
-			'title'   => __( 'Include note', 'eurob2b' ),
+			'title'   => __( 'Include note', 'stm-eu-b2b' ),
 			'type'    => 'checkbox',
-			'label'   => __( 'Include the note entered on rejection in the e-mail', 'eurob2b' ),
+			'label'   => __( 'Include the note entered on rejection in the e-mail', 'stm-eu-b2b' ),
 			'default' => 'no',
 		);
 	}

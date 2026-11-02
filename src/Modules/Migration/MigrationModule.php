@@ -27,7 +27,7 @@ use EuroB2B\Modules\Rules\Admin\RulesPage;
 use EuroB2B\Modules\Rules\RuleRepository;
 
 /**
- * MIG-001 to MIG-003: moves a shop from another B2B plugin to EuroB2B (docs/migration.md). Reads the
+ * MIG-001 to MIG-003: moves a shop from another B2B plugin to EU-B2B (docs/migration.md). Reads the
  * other plugin's data, never changes it; test run first, journaled import, undo. Data inventory
  * D-22 (the journal), retention task `migration_journal`.
  */
@@ -103,9 +103,9 @@ final class MigrationModule extends AbstractModule {
 	}
 
 	/**
-	 * A target that EuroB2B Pro registers (company accounts, visibility, quantity limits, customer
+	 * A target that EU-B2B Pro registers (company accounts, visibility, quantity limits, customer
 	 * prices and tier sets), null without it: the import then leaves those parts out (PLT-015).
-	 * Rules of EuroB2B Pro's types and modes are refused by the rules form without it.
+	 * Rules of EU-B2B Pro's types and modes are refused by the rules form without it.
 	 *
 	 * @template T of object
 	 * @param Container $c  Service container.

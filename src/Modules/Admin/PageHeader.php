@@ -1,6 +1,6 @@
 <?php
 /**
- * Shared header of the EuroB2B admin pages.
+ * Shared header of the EU-B2B admin pages.
  *
  * @package EuroB2B
  */
@@ -12,12 +12,12 @@ namespace EuroB2B\Modules\Admin;
 use EuroB2B\Support\Assets;
 
 /**
- * Opens an EuroB2B admin page: the `wrap` element, a white header band with the product name and
+ * Opens an EU-B2B admin page: the `wrap` element, a white header band with the product name and
  * area, the page title and optional actions, the pages of the area as tabs (PLT-017), the page's own
  * tabs below them, and the `wp-header-end` marker so WordPress places admin notices below the band.
  * The page closes the `wrap` element itself, as before.
  *
- * The stylesheet assets/css/admin.css is loaded on every EuroB2B page (`?page=eurob2b-…`) and only
+ * The stylesheet assets/css/admin.css is loaded on every EU-B2B page (`?page=eurob2b-…`) and only
  * there; everything in it is scoped to `.eurob2b-admin`.
  */
 final class PageHeader {
@@ -39,7 +39,7 @@ final class PageHeader {
 		$nav  = null !== $area && count( $area['pages'] ) > 1;
 
 		echo '<div class="' . esc_attr( trim( 'wrap eurob2b-admin ' . $css_class ) ) . '">';
-		echo '<div class="eurob2b-head' . ( $nav || array() !== $tabs ? ' eurob2b-head--tabs' : '' ) . '"><p class="eurob2b-head__brand">EuroB2B';
+		echo '<div class="eurob2b-head' . ( $nav || array() !== $tabs ? ' eurob2b-head--tabs' : '' ) . '"><p class="eurob2b-head__brand">STM EU-B2B';
 		if ( null !== $area && ! str_starts_with( $area['key'], 'page:' ) ) {
 			echo ' <span aria-hidden="true">&rsaquo;</span> <span class="eurob2b-head__area">' . esc_html( $area['label'] ) . '</span>';
 		}
@@ -71,7 +71,7 @@ final class PageHeader {
 	}
 
 	/**
-	 * Slug of the EuroB2B page of the current request without the "eurob2b-" prefix, or ''.
+	 * Slug of the EU-B2B page of the current request without the "eurob2b-" prefix, or ''.
 	 */
 	public static function current_slug(): string {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only routing argument.
@@ -81,14 +81,14 @@ final class PageHeader {
 	}
 
 	/**
-	 * Whether the current admin request shows an EuroB2B page.
+	 * Whether the current admin request shows an EU-B2B page.
 	 */
 	public static function is_eurob2b_page(): bool {
 		return '' !== self::current_slug();
 	}
 
 	/**
-	 * Hooked to admin_enqueue_scripts: the stylesheet on EuroB2B pages only.
+	 * Hooked to admin_enqueue_scripts: the stylesheet on EU-B2B pages only.
 	 */
 	public static function enqueue(): void {
 		if ( ! self::is_eurob2b_page() ) {

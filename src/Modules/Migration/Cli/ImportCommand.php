@@ -13,10 +13,11 @@ use EuroB2B\Modules\Migration\Importer;
 use EuroB2B\Modules\Migration\Run;
 use RuntimeException;
 use WP_CLI;
+use EuroB2B\Support\ExceptionMessage;
 
 /**
- * Imports customer groups, customers, prices, rules and more of another B2B plugin into EuroB2B
- * (MIG-001), the same way as EuroB2B → Transfer settings, for shops too big for the browser. Run it
+ * Imports customer groups, customers, prices, rules and more of another B2B plugin into EU-B2B
+ * (MIG-001), the same way as STM EU-B2B → Transfer settings, for shops too big for the browser. Run it
  * with `--user=<admin>` so the audit log names who classified the customers.
  */
 final class ImportCommand {
@@ -88,7 +89,7 @@ final class ImportCommand {
 		try {
 			$this->importer->start_undo( get_current_user_id() );
 		} catch ( RuntimeException $e ) {
-			WP_CLI::error( $e->getMessage() );
+			WP_CLI::error( ExceptionMessage::plain( $e ) );
 			return;
 		}
 		$this->report( $this->importer->complete() );
@@ -101,10 +102,10 @@ final class ImportCommand {
 		try {
 			$this->importer->finish();
 		} catch ( RuntimeException $e ) {
-			WP_CLI::error( $e->getMessage() );
+			WP_CLI::error( ExceptionMessage::plain( $e ) );
 			return;
 		}
-		WP_CLI::success( __( 'The import is finished.', 'eurob2b' ) );
+		WP_CLI::success( __( 'The import is finished.', 'stm-eu-b2b' ) );
 	}
 
 	/**
@@ -113,7 +114,7 @@ final class ImportCommand {
 	public function status(): void {
 		$run = $this->importer->current();
 		if ( null === $run ) {
-			WP_CLI::log( __( 'There is no run.', 'eurob2b' ) );
+			WP_CLI::log( __( 'There is no run.', 'stm-eu-b2b' ) );
 			return;
 		}
 		$this->report( $run );
@@ -129,14 +130,14 @@ final class ImportCommand {
 	private function start( string $mode, array $args, array $assoc ): void {
 		$source = $this->importer->source( (string) ( $args[0] ?? '' ) );
 		if ( null === $source ) {
-			WP_CLI::error( __( 'Unknown plugin to import from.', 'eurob2b' ) );
+			WP_CLI::error( __( 'Unknown plugin to import from.', 'stm-eu-b2b' ) );
 			return;
 		}
 		$parts = isset( $assoc['parts'] ) ? array_map( 'trim', explode( ',', (string) $assoc['parts'] ) ) : array_keys( $source->parts() );
 		try {
 			$this->importer->start( $source->id(), $mode, $parts, get_current_user_id() );
 		} catch ( RuntimeException $e ) {
-			WP_CLI::error( $e->getMessage() );
+			WP_CLI::error( ExceptionMessage::plain( $e ) );
 			return;
 		}
 		$this->report( $this->importer->complete() );
@@ -153,10 +154,11 @@ final class ImportCommand {
 		}
 		foreach ( $run->counts as $part => $counts ) {
 			/* translators: 1: part, 2: new, 3: changed, 4: unchanged, 5: not imported */
-			WP_CLI::log( sprintf( __( '%1$s: %2$d new, %3$d changed, %4$d unchanged, %5$d not imported', 'eurob2b' ), $part, $counts['new'] ?? 0, $counts['changed'] ?? 0, $counts['unchanged'] ?? 0, $counts['skipped'] ?? 0 ) );
+			WP_CLI::log( sprintf( __( '%1$s: %2$d new, %3$d changed, %4$d unchanged, %5$d not imported', 'stm-eu-b2b' ), $part, $counts['new'] ?? 0, $counts['changed'] ?? 0, $counts['unchanged'] ?? 0, $counts['skipped'] ?? 0 ) );
 		}
 		foreach ( $run->messages as $message ) {
-			$line = ( '' !== $message['part'] ? $message['part'] . ': ' : '' ) . $message['text'];
+			// Run messages may hold escaped exception messages; the terminal shows plain text.
+			$line = wp_specialchars_decode( ( '' !== $message['part'] ? $message['part'] . ': ' : '' ) . $message['text'], ENT_QUOTES );
 			if ( Run::LEVEL_INFO === $message['level'] ) {
 				WP_CLI::log( $line );
 			} else {
@@ -164,9 +166,9 @@ final class ImportCommand {
 			}
 		}
 		if ( Run::STATUS_DONE === $run->status ) {
-			WP_CLI::success( Run::MODE_CHECK === $run->mode ? __( 'Test run finished; nothing was written.', 'eurob2b' ) : __( 'Finished.', 'eurob2b' ) );
+			WP_CLI::success( Run::MODE_CHECK === $run->mode ? __( 'Test run finished; nothing was written.', 'stm-eu-b2b' ) : __( 'Finished.', 'stm-eu-b2b' ) );
 		} else {
-			WP_CLI::error( __( 'The run stopped with an error.', 'eurob2b' ) );
+			WP_CLI::error( __( 'The run stopped with an error.', 'stm-eu-b2b' ) );
 		}
 	}
 }

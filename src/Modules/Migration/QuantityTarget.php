@@ -10,7 +10,7 @@ declare( strict_types=1 );
 namespace EuroB2B\Modules\Migration;
 
 /**
- * Quantity rules per product are a feature of EuroB2B Pro. Its ordering module registers this
+ * Quantity rules per product are a feature of EU-B2B Pro. Its ordering module registers this
  * target in the container; without it the import leaves quantity limits out and says so (PLT-015).
  */
 interface QuantityTarget {

@@ -12,10 +12,10 @@ namespace EuroB2B\Support;
 use WP_Post;
 
 /**
- * Class names for everything EuroB2B shows customers (forms and tables in My Account, on pages, on the
+ * Class names for everything EU-B2B shows customers (forms and tables in My Account, on pages, on the
  * product page and in the cart), and the stylesheet behind them.
  *
- * Theme first: EuroB2B gives its controls the classes WooCommerce and WordPress give their own
+ * Theme first: EU-B2B gives its controls the classes WooCommerce and WordPress give their own
  * (`woocommerce` scope, `button` plus the theme's button class, `input-text`, `shop_table`), so the
  * theme styles them like the rest of the shop. assets/css/frontend.css only fills in what a theme
  * leaves open, with selectors of zero specificity, and adds the layout (docs/frontend.md).
@@ -28,20 +28,20 @@ final class Ui {
 	public const STYLE = 'eurob2b-frontend';
 
 	/**
-	 * Class of every EuroB2B storefront root element (carries the design tokens).
+	 * Class of every EU-B2B storefront root element (carries the design tokens).
 	 */
 	public const ROOT = 'eurob2b-ui';
 
 	/**
-	 * Hooks: registers the stylesheet and loads it early where EuroB2B controls are usual.
+	 * Hooks: registers the stylesheet and loads it early where EU-B2B controls are usual.
 	 */
 	public static function hooks(): void {
 		add_action( 'wp_enqueue_scripts', array( self::class, 'register' ) );
 	}
 
 	/**
-	 * Registers the stylesheet and loads it in the head where EuroB2B controls are usual or present: My
-	 * Account, cart, checkout, product pages, and pages whose content holds an EuroB2B shortcode or
+	 * Registers the stylesheet and loads it in the head where EU-B2B controls are usual or present: My
+	 * Account, cart, checkout, product pages, and pages whose content holds an EU-B2B shortcode or
 	 * block. Elsewhere the component that renders loads it (enqueue()); WordPress then prints it late,
 	 * in the footer.
 	 */
@@ -54,7 +54,7 @@ final class Ui {
 	}
 
 	/**
-	 * Whether the current singular post holds an EuroB2B shortcode (`[eurob2b_…]`) or block.
+	 * Whether the current singular post holds an EU-B2B shortcode (`[eurob2b_…]`) or block.
 	 */
 	public static function page_has_components(): bool {
 		if ( ! is_singular() ) {
@@ -101,7 +101,7 @@ final class Ui {
 
 	/**
 	 * Secondary action: WooCommerce's button without the theme's primary style. Classic themes draw it
-	 * as their plain button; elsewhere EuroB2B draws a quiet outline.
+	 * as their plain button; elsewhere EU-B2B draws a quiet outline.
 	 *
 	 * @param string ...$classes Extra classes.
 	 */

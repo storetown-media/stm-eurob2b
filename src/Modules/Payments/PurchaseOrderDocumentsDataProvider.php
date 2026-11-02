@@ -17,7 +17,7 @@ use WC_Order;
  * purchase order documents with name, type, size, upload time and source. An erasure request deletes
  * nothing while the order is kept: the documents go with the order (its deletion or WooCommerce's
  * anonymisation), so they are reported as retained, like other order evidence. Part of the core: it
- * runs also while EuroB2B Pro, which takes the uploads, is inactive (PLT-015).
+ * runs also while EU-B2B Pro, which takes the uploads, is inactive (PLT-015).
  */
 final class PurchaseOrderDocumentsDataProvider implements PersonalDataProviderInterface {
 
@@ -53,7 +53,7 @@ final class PurchaseOrderDocumentsDataProvider implements PersonalDataProviderIn
 	 * Label.
 	 */
 	public function label(): string {
-		return __( 'EuroB2B purchase order documents', 'eurob2b' );
+		return __( 'EU-B2B purchase order documents', 'stm-eu-b2b' );
 	}
 
 	/**
@@ -70,7 +70,7 @@ final class PurchaseOrderDocumentsDataProvider implements PersonalDataProviderIn
 			$items = array();
 			foreach ( $this->documents->documents( $order ) as $document ) {
 				$items[] = array(
-					'name'  => __( 'Purchase order document', 'eurob2b' ),
+					'name'  => __( 'Purchase order document', 'stm-eu-b2b' ),
 					'value' => $document['file']['original_name'] . ' (' . $document['file']['mime'] . ', ' . size_format( $document['file']['size'] ) . '), ' . $document['at'] . ' UTC, ' . PurchaseOrderDocumentRecords::source_label( $document['source'] ),
 				);
 			}
@@ -80,13 +80,13 @@ final class PurchaseOrderDocumentsDataProvider implements PersonalDataProviderIn
 			array_unshift(
 				$items,
 				array(
-					'name'  => _x( 'Order', 'shop order', 'eurob2b' ),
+					'name'  => _x( 'Order', 'shop order', 'stm-eu-b2b' ),
 					'value' => $order->get_order_number(),
 				)
 			);
 			$groups[] = array(
 				'group_id'    => 'eurob2b-po-documents',
-				'group_label' => __( 'Purchase order documents', 'eurob2b' ),
+				'group_label' => __( 'Purchase order documents', 'stm-eu-b2b' ),
 				'item_id'     => 'eurob2b-po-documents-' . $order->get_id(),
 				'data'        => $items,
 			);
@@ -116,7 +116,7 @@ final class PurchaseOrderDocumentsDataProvider implements PersonalDataProviderIn
 		if ( $retained > 0 ) {
 			$messages[] = sprintf(
 				/* translators: %d: number of orders */
-				_n( 'The purchase order documents of %d order were kept with the order; they are deleted with the order or when WooCommerce anonymises it.', 'The purchase order documents of %d orders were kept with the orders; they are deleted with the order or when WooCommerce anonymises it.', $retained, 'eurob2b' ),
+				_n( 'The purchase order documents of %d order were kept with the order; they are deleted with the order or when WooCommerce anonymises it.', 'The purchase order documents of %d orders were kept with the orders; they are deleted with the order or when WooCommerce anonymises it.', $retained, 'stm-eu-b2b' ),
 				$retained
 			);
 		}

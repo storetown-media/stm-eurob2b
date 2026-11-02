@@ -45,7 +45,7 @@ final class CustomerPricesDataProvider implements PersonalDataProviderInterface 
 	 * Label.
 	 */
 	public function label(): string {
-		return __( 'EuroB2B customer prices', 'eurob2b' );
+		return __( 'EU-B2B customer prices', 'stm-eu-b2b' );
 	}
 
 	/**
@@ -71,23 +71,23 @@ final class CustomerPricesDataProvider implements PersonalDataProviderInterface 
 				$product = wc_get_product( $product_id );
 				$fields  = array(
 					array(
-						'name'  => __( 'Product', 'eurob2b' ),
+						'name'  => __( 'Product', 'stm-eu-b2b' ),
 						'value' => $product instanceof WC_Product ? $product->get_name() . ( '' !== $product->get_sku() ? ' (' . $product->get_sku() . ')' : '' ) : '#' . $product_id,
 					),
 					array(
-						'name'  => __( 'Currency', 'eurob2b' ),
+						'name'  => __( 'Currency', 'stm-eu-b2b' ),
 						'value' => '' === $suffix ? Currency::shop() : strtoupper( substr( $suffix, 1 ) ),
 					),
 				);
 				if ( '' !== $stored['regular'] ) {
 					$fields[] = array(
-						'name'  => __( 'Price', 'eurob2b' ),
+						'name'  => __( 'Price', 'stm-eu-b2b' ),
 						'value' => $stored['regular'],
 					);
 				}
 				if ( '' !== $stored['sale'] ) {
 					$fields[] = array(
-						'name'  => __( 'Sale price', 'eurob2b' ),
+						'name'  => __( 'Sale price', 'stm-eu-b2b' ),
 						'value' => $stored['sale'],
 					);
 				}
@@ -97,7 +97,7 @@ final class CustomerPricesDataProvider implements PersonalDataProviderInterface 
 				$tier_value = ! empty( $tiers ) ? (string) wp_json_encode( Tier::to_array( $tiers ) ) : $stored['tiers'];
 				if ( '' !== $tier_value ) {
 					$fields[] = array(
-						'name'  => __( 'Tier prices', 'eurob2b' ),
+						'name'  => __( 'Tier prices', 'stm-eu-b2b' ),
 						'value' => $tier_value,
 					);
 				}

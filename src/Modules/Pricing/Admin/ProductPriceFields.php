@@ -62,7 +62,7 @@ final class ProductPriceFields {
 	}
 
 	/**
-	 * Summary of the section "prices" of the EuroB2B product tab: how many groups have a price.
+	 * Summary of the section "prices" of the EU-B2B product tab: how many groups have a price.
 	 *
 	 * @param mixed  $parts   Parts.
 	 * @param string $key     Section key.
@@ -82,12 +82,12 @@ final class ProductPriceFields {
 			$own += '' !== (string) $this->prices->get( $product, $group->id, Currency::of_group( $group ) )['regular'] ? 1 : 0;
 		}
 		/* translators: 1: groups with a group price on this product, 2: all groups */
-		$parts[] = sprintf( _n( '%1$d of %2$d group with its own price', '%1$d of %2$d groups with their own price', count( $groups ), 'eurob2b' ), $own, count( $groups ) );
+		$parts[] = sprintf( _n( '%1$d of %2$d group with its own price', '%1$d of %2$d groups with their own price', count( $groups ), 'stm-eu-b2b' ), $own, count( $groups ) );
 		return $parts;
 	}
 
 	/**
-	 * Fields of the section "prices" of the EuroB2B product tab.
+	 * Fields of the section "prices" of the EU-B2B product tab.
 	 */
 	public function render_product_fields(): void {
 		if ( ! current_user_can( Capabilities::MANAGE_GROUPS ) ) {
@@ -100,7 +100,7 @@ final class ProductPriceFields {
 			return;
 		}
 		echo '<div class="options_group eurob2b-group-prices show_if_simple show_if_external">';
-		echo '<p class="form-field"><strong>' . esc_html__( 'Group prices (EuroB2B)', 'eurob2b' ) . '</strong><br /><span class="description">' . esc_html__( 'Members of a group pay the group price instead of the regular price. Leave empty to use the regular price.', 'eurob2b' ) . '</span></p>';
+		echo '<p class="form-field"><strong>' . esc_html__( 'Group prices (EU-B2B)', 'stm-eu-b2b' ) . '</strong><br /><span class="description">' . esc_html__( 'Members of a group pay the group price instead of the regular price. Leave empty to use the regular price.', 'stm-eu-b2b' ) . '</span></p>';
 		foreach ( $groups as $group ) {
 			$current = null !== $product ? $this->prices->get( $product, $group->id, Currency::of_group( $group ) ) : array(
 				'regular' => '',
@@ -156,7 +156,7 @@ final class ProductPriceFields {
 		}
 		$loop = (int) $loop;
 		echo '<div class="eurob2b-group-prices eurob2b-variation-group-prices" style="clear:both;">';
-		echo '<p class="form-row form-row-full"><strong>' . esc_html__( 'Group prices (EuroB2B)', 'eurob2b' ) . '</strong></p>';
+		echo '<p class="form-row form-row-full"><strong>' . esc_html__( 'Group prices (EU-B2B)', 'stm-eu-b2b' ) . '</strong></p>';
 		foreach ( $groups as $group ) {
 			$current = $this->prices->get( $product, $group->id, Currency::of_group( $group ) );
 			$this->variation_price_input( GroupPrices::regular_key( $group->id, Currency::of_group( $group ) ), $loop, $current['regular'], self::label( $group, false ), 'form-row-first' );
@@ -224,7 +224,7 @@ final class ProductPriceFields {
 	 */
 	private static function label( Group $group, bool $sale ): string {
 		/* translators: 1: group name, 2: currency symbol */
-		$pattern = $sale ? __( '%1$s – sale price (%2$s)', 'eurob2b' ) : __( '%1$s – price (%2$s)', 'eurob2b' );
+		$pattern = $sale ? __( '%1$s – sale price (%2$s)', 'stm-eu-b2b' ) : __( '%1$s – price (%2$s)', 'stm-eu-b2b' );
 		$code    = Currency::of_group( $group );
 		return sprintf( $pattern, $group->name, '' === $code ? get_woocommerce_currency_symbol() : $code );
 	}

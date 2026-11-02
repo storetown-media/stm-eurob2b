@@ -47,7 +47,7 @@ final class RegistrationType {
 		public readonly string $description = ''
 	) {
 		if ( ! preg_match( '/^[a-z0-9][a-z0-9_-]{0,63}$/', $slug ) ) {
-			throw new InvalidArgumentException( sprintf( 'RegistrationType: "%s" is not a valid slug.', $slug ) );
+			throw new InvalidArgumentException( sprintf( 'RegistrationType: "%s" is not a valid slug.', $slug ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal, untranslated message for developers and logs; every sink escapes or decodes it (docs/architecture.md, "Exception messages").
 		}
 		if ( '' === trim( $label ) ) {
 			throw new InvalidArgumentException( 'RegistrationType: label must not be empty.' );

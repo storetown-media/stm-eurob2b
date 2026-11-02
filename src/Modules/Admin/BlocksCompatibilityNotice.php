@@ -14,13 +14,13 @@ use EuroB2B\Infrastructure\Capabilities;
 /**
  * Every feature that touches the cart or the checkout works with the classic pages and with the
  * Cart/Checkout blocks; where a block behaves differently, docs/architecture.md §11 says so and
- * this notice on the EuroB2B settings page tells the shop manager (PLT-005). It appears only when
+ * this notice on the EU-B2B settings page tells the shop manager (PLT-005). It appears only when
  * the shop's cart or checkout page contains the block and a difference concerns that block, and
  * lists only the differences of the block that is in use.
  *
  * The differences come through the filter `eurob2b_blocks_differences`. The free plugin adds none:
  * its cart and checkout features (prices, percentage discounts, payment and shipping methods, the
- * VAT ID field and the tax treatment, registration fields) work alike in both checkouts. EuroB2B
+ * VAT ID field and the tax treatment, registration fields) work alike in both checkouts. EU-B2B
  * Pro adds the differences of its features (PLT-015).
  */
 final class BlocksCompatibilityNotice {
@@ -46,10 +46,10 @@ final class BlocksCompatibilityNotice {
 	 */
 	public static function differences(): array {
 		/**
-		 * Differences of the Cart and Checkout blocks listed on the EuroB2B settings page (PLT-005),
+		 * Differences of the Cart and Checkout blocks listed on the EU-B2B settings page (PLT-005),
 		 * keyed by id. Each entry has "block" ("cart", "checkout", or "any" for both) and "text"
-		 * (plain text, escaped on output); other entries are dropped. EuroB2B adds none of its own;
-		 * EuroB2B Pro adds the differences of its features. A module that adds a difference also
+		 * (plain text, escaped on output); other entries are dropped. EU-B2B adds none of its own;
+		 * EU-B2B Pro adds the differences of its features. A module that adds a difference also
 		 * adds it to the compatibility table in docs/architecture.md §11.
 		 *
 		 * @param array<string, array{block: string, text: string}> $differences Differences.
@@ -109,7 +109,7 @@ final class BlocksCompatibilityNotice {
 	}
 
 	/**
-	 * The notice on the EuroB2B settings page.
+	 * The notice on the EU-B2B settings page.
 	 */
 	public function render(): void {
 		$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
@@ -120,12 +120,12 @@ final class BlocksCompatibilityNotice {
 		if ( empty( $differences ) ) {
 			return;
 		}
-		echo '<div class="notice notice-info"><p><strong>' . esc_html__( 'EuroB2B with the Cart and Checkout blocks', 'eurob2b' ) . '</strong></p>';
-		echo '<p>' . esc_html__( 'Your shop uses the WooCommerce blocks for the cart or the checkout. These EuroB2B features work differently there:', 'eurob2b' ) . '</p>';
+		echo '<div class="notice notice-info"><p><strong>' . esc_html__( 'EU-B2B with the Cart and Checkout blocks', 'stm-eu-b2b' ) . '</strong></p>';
+		echo '<p>' . esc_html__( 'Your shop uses the WooCommerce blocks for the cart or the checkout. These EU-B2B features work differently there:', 'stm-eu-b2b' ) . '</p>';
 		echo '<ul style="list-style:disc;padding-left:2em;">';
 		foreach ( $differences as $text ) {
 			echo '<li>' . esc_html( $text ) . '</li>';
 		}
-		echo '</ul><p>' . esc_html__( 'The classic cart and checkout pages support every EuroB2B feature.', 'eurob2b' ) . '</p></div>';
+		echo '</ul><p>' . esc_html__( 'The classic cart and checkout pages support every EU-B2B feature.', 'stm-eu-b2b' ) . '</p></div>';
 	}
 }

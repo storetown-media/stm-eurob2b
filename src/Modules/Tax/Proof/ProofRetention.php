@@ -17,7 +17,7 @@ use EuroB2B\Modules\Privacy\RetentionTaskInterface;
  * (`tax_retention_years`, default 10) from the end of the calendar year of their latest entry
  * (`_eurob2b_proof_retain_until`, § 147 (4) AO). Afterwards the meta and the files of the order are
  * deleted; files whose order was deleted for good go in every run. Part of the core: it runs also
- * while EuroB2B Pro, which records the proofs, is inactive (PLT-015).
+ * while EU-B2B Pro, which records the proofs, is inactive (PLT-015).
  */
 final class ProofRetention implements RetentionTaskInterface {
 

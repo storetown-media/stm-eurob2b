@@ -14,12 +14,12 @@ use EuroB2B\Modules\Privacy\PersonalDataProviderInterface;
 /**
  * RPT-006: exports and erases the debtor account stored on a customer (data inventory D-31). The
  * DATEV file itself is generated on request and not stored. Part of the core: it reads the user
- * meta, also while EuroB2B Pro, which offers the accounting export, is inactive (PLT-015).
+ * meta, also while EU-B2B Pro, which offers the accounting export, is inactive (PLT-015).
  */
 final class DatevDataProvider implements PersonalDataProviderInterface {
 
 	/**
-	 * User meta: the customer's own debtor account (1 to 9 digits). EuroB2B Pro aliases it.
+	 * User meta: the customer's own debtor account (1 to 9 digits). EU-B2B Pro aliases it.
 	 */
 	public const META = '_eurob2b_datev_debtor';
 
@@ -34,7 +34,7 @@ final class DatevDataProvider implements PersonalDataProviderInterface {
 	 * Label.
 	 */
 	public function label(): string {
-		return __( 'EuroB2B accounting export', 'eurob2b' );
+		return __( 'EU-B2B accounting export', 'stm-eu-b2b' );
 	}
 
 	/**
@@ -66,7 +66,7 @@ final class DatevDataProvider implements PersonalDataProviderInterface {
 					'item_id'     => 'eurob2b-datev-' . $user->ID,
 					'data'        => array(
 						array(
-							'name'  => __( 'Debtor account (DATEV format)', 'eurob2b' ),
+							'name'  => __( 'Debtor account (DATEV format)', 'stm-eu-b2b' ),
 							'value' => $debtor,
 						),
 					),

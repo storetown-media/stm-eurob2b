@@ -12,6 +12,7 @@ namespace EuroB2B\Modules\Migration;
 use EuroB2B\Infrastructure\Schema;
 use RuntimeException;
 use Throwable;
+use EuroB2B\Support\ExceptionMessage;
 
 /**
  * MIG-001: starts a test run, an import or the undo of an import, and works through it in batches,
@@ -132,17 +133,17 @@ final class Importer {
 	public function start( string $source_id, string $mode, array $parts, int $user_id, string $related = '' ): Run {
 		$source = $this->source( $source_id );
 		if ( null === $source || ! in_array( $mode, array( Run::MODE_CHECK, Run::MODE_IMPORT ), true ) ) {
-			throw new RuntimeException( __( 'Unknown plugin to import from.', 'eurob2b' ) );
+			throw new RuntimeException( esc_html__( 'Unknown plugin to import from.', 'stm-eu-b2b' ) );
 		}
 		// Without data a run would only report the other plugin's defaults (and offer an import).
 		if ( ! $source->detected() ) {
 			/* translators: %s: plugin name */
-			throw new RuntimeException( sprintf( __( 'No data of %s was found in this shop\'s database.', 'eurob2b' ), $source->label() ) );
+			throw new RuntimeException( esc_html( sprintf( __( 'No data of %s was found in this shop\'s database.', 'stm-eu-b2b' ), $source->label() ) ) );
 		}
 		$this->assert_free();
 		$parts = array_values( array_intersect( array_keys( $source->parts() ), $parts ) );
 		if ( empty( $parts ) ) {
-			throw new RuntimeException( __( 'Choose at least one part to import.', 'eurob2b' ) );
+			throw new RuntimeException( esc_html__( 'Choose at least one part to import.', 'stm-eu-b2b' ) );
 		}
 		$run          = new Run( wp_generate_password( 20, false ), $source_id, $mode, $parts, $user_id );
 		$run->related = $related;
@@ -163,7 +164,7 @@ final class Importer {
 	public function start_undo( int $user_id ): Run {
 		$import = $this->current();
 		if ( null === $import || ! $this->can_undo( $import ) ) {
-			throw new RuntimeException( __( 'There is no import to undo.', 'eurob2b' ) );
+			throw new RuntimeException( esc_html__( 'There is no import to undo.', 'stm-eu-b2b' ) );
 		}
 		$run          = new Run( wp_generate_password( 20, false ), $import->source, Run::MODE_UNDO, array( 'undo' ), $user_id );
 		$run->related = $import->id;
@@ -183,7 +184,7 @@ final class Importer {
 			return;
 		}
 		if ( $run->running() ) {
-			throw new RuntimeException( __( 'The run is still working. Wait until it has finished.', 'eurob2b' ) );
+			throw new RuntimeException( esc_html__( 'The run is still working. Wait until it has finished.', 'stm-eu-b2b' ) );
 		}
 		if ( Run::MODE_IMPORT === $run->mode ) {
 			$this->journal->delete_run( $run->id );
@@ -216,7 +217,7 @@ final class Importer {
 			} catch ( Throwable $e ) {
 				$run->status = Run::STATUS_FAILED;
 				/* translators: %s: error message */
-				$run->message( Run::LEVEL_ERROR, sprintf( __( 'The run stopped: %s', 'eurob2b' ), $e->getMessage() ) );
+				$run->message( Run::LEVEL_ERROR, sprintf( __( 'The run stopped: %s', 'stm-eu-b2b' ), ExceptionMessage::plain( $e ) ) );
 			}
 			$this->clear_product_caches( $this->writer->touched_posts() );
 			if ( ! $run->running() ) {
@@ -257,7 +258,7 @@ final class Importer {
 	private function import_batch( Run $run, float $until ): void {
 		$source = $this->source( $run->source );
 		if ( null === $source ) {
-			throw new RuntimeException( __( 'Unknown plugin to import from.', 'eurob2b' ) );
+			throw new RuntimeException( esc_html__( 'Unknown plugin to import from.', 'stm-eu-b2b' ) );
 		}
 		while ( microtime( true ) < $until ) {
 			$part = $run->current_part();
@@ -294,7 +295,7 @@ final class Importer {
 				if ( '' !== $error ) {
 					$run->count( 'skipped' );
 					/* translators: 1: kind of object, 2: id or key, 3: error message */
-					$run->message( Run::LEVEL_ERROR, sprintf( __( 'Could not undo %1$s %2$s: %3$s', 'eurob2b' ), $row['object_type'], 0 !== $row['object_id'] ? '#' . $row['object_id'] : $row['ref'], $error ) );
+					$run->message( Run::LEVEL_ERROR, sprintf( __( 'Could not undo %1$s %2$s: %3$s', 'stm-eu-b2b' ), $row['object_type'], 0 !== $row['object_id'] ? '#' . $row['object_id'] : $row['ref'], $error ) );
 				} else {
 					$run->count( 'changed' );
 				}
@@ -317,10 +318,10 @@ final class Importer {
 			return;
 		}
 		if ( $run->running() ) {
-			throw new RuntimeException( __( 'Another run is working. Wait until it has finished.', 'eurob2b' ) );
+			throw new RuntimeException( esc_html__( 'Another run is working. Wait until it has finished.', 'stm-eu-b2b' ) );
 		}
 		if ( $this->can_undo( $run ) ) {
-			throw new RuntimeException( __( 'Finish or undo the last import first.', 'eurob2b' ) );
+			throw new RuntimeException( esc_html__( 'Finish or undo the last import first.', 'stm-eu-b2b' ) );
 		}
 	}
 

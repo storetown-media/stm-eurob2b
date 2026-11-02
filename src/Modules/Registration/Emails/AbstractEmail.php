@@ -1,6 +1,6 @@
 <?php
 /**
- * Base class for EuroB2B e-mails.
+ * Base class for EU-B2B e-mails.
  *
  * @package EuroB2B
  */

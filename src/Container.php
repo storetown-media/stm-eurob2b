@@ -66,7 +66,7 @@ final class Container {
 			return $this->instances[ $id ];
 		}
 		if ( ! isset( $this->factories[ $id ] ) ) {
-			throw new RuntimeException( sprintf( 'EuroB2B: service "%s" is not registered.', $id ) );
+			throw new RuntimeException( sprintf( 'STM EU-B2B: service "%s" is not registered.', $id ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal, untranslated message for developers and logs; every sink escapes or decodes it (docs/architecture.md, "Exception messages").
 		}
 		$this->instances[ $id ] = ( $this->factories[ $id ] )( $this );
 		return $this->instances[ $id ];

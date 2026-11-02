@@ -132,11 +132,20 @@ final class Plugin {
 	 * Loads translations. English is the source language, German the first translation.
 	 */
 	public function load_textdomain(): void {
-		load_plugin_textdomain( 'eurob2b', false, dirname( EUROB2B_PLUGIN_BASENAME ) . '/languages' );
+		self::register_language_folder();
 	}
 
 	/**
-	 * Hands the bundled JavaScript translations (languages/eurob2b-<locale>-<md5>.json) to the
+	 * Registers languages/ of this plugin as the folder of the text domain stm-eu-b2b. Since WordPress
+	 * 6.7 this only records the folder; the catalogue loads on the first translated string.
+	 */
+	public static function register_language_folder(): void {
+		// phpcs:ignore PluginCheck.CodeAnalysis.DiscouragedFunctions.load_plugin_textdomainFound -- EU-B2B Pro (separate plugin, not on WordPress.org) has the same text domain; WordPress registers each active plugin's folder from its header in load order, so this call keeps the catalogues of this plugin's languages/ folder, which hold the strings of both (LanguageFolderTest).
+		load_plugin_textdomain( 'stm-eu-b2b', false, dirname( EUROB2B_PLUGIN_BASENAME ) . '/languages' );
+	}
+
+	/**
+	 * Hands the bundled JavaScript translations (languages/stm-eu-b2b-<locale>-<md5>.json) to the
 	 * editor scripts of the plugin's blocks (PLT-010).
 	 */
 	public function load_script_translations(): void {
@@ -148,7 +157,7 @@ final class Plugin {
 				continue;
 			}
 			foreach ( $block->editor_script_handles as $handle ) {
-				wp_set_script_translations( $handle, 'eurob2b', EUROB2B_PLUGIN_DIR . 'languages' );
+				wp_set_script_translations( $handle, 'stm-eu-b2b', EUROB2B_PLUGIN_DIR . 'languages' );
 			}
 		}
 	}
@@ -168,7 +177,7 @@ final class Plugin {
 	}
 
 	/**
-	 * Modules shipped with the core plugin (the free edition), in boot order. EuroB2B Pro adds its
+	 * Modules shipped with the core plugin (the free edition), in boot order. EU-B2B Pro adds its
 	 * modules through "eurob2b_register_modules" (docs/architecture.md, section "Editions").
 	 *
 	 * @return ModuleInterface[]

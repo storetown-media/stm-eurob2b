@@ -170,7 +170,7 @@ final class CheckoutFields {
 			switch ( $field->type ) {
 				case FieldDefinition::TYPE_SELECT:
 					$definition['type']    = 'select';
-					$definition['options'] = array( '' => '' !== $field->placeholder ? $field->placeholder : __( 'Please choose', 'eurob2b' ) ) + $field->options;
+					$definition['options'] = array( '' => '' !== $field->placeholder ? $field->placeholder : __( 'Please choose', 'stm-eu-b2b' ) ) + $field->options;
 					break;
 				case FieldDefinition::TYPE_CHECKBOX:
 					$definition['type'] = 'checkbox';

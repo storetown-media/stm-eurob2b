@@ -44,10 +44,10 @@ use EuroB2B\Modules\Tax\VatId\VatIdNormalizer;
  * VAT ID normalisation and validation (VIES), evidence storage, manual decisions, the VAT ID field
  * in registration/account/checkouts, the tax treatment with the intra-Community exemption, the price
  * display per audience and the country profiles. The privacy export, erasure and retention of the
- * proofs of supply and the export evidence are here too, because EuroB2B Pro writes that data and it
+ * proofs of supply and the export evidence are here too, because EU-B2B Pro writes that data and it
  * must be handled also while Pro is inactive. Everything else of the tax features (BZSt, UID and
  * Brønnøysund checks, special territories, Northern Ireland, reports, proof of supply, export
- * evidence, OSS monitor, audit file) is added by `TaxProModule` of EuroB2B Pro (PLT-015).
+ * evidence, OSS monitor, audit file) is added by `TaxProModule` of EU-B2B Pro (PLT-015).
  */
 final class TaxModule extends AbstractModule {
 
@@ -86,7 +86,7 @@ final class TaxModule extends AbstractModule {
 		$c->set( TaxDisplay::class, static fn( Container $c ): TaxDisplay => new TaxDisplay( $c->get( Settings::class ), $c->get( AudienceResolver::class ), $c->get( PricingContext::class ) ) );
 		$c->set( TaxReports::class, static fn( Container $c ): TaxReports => new TaxReports( $c->get( Settings::class ) ) );
 		$c->set( ProductSupplyTypeField::class, static fn(): ProductSupplyTypeField => new ProductSupplyTypeField() );
-		// Proofs of supply (TAX-030) and export evidence (TAX-032) that EuroB2B Pro records: privacy
+		// Proofs of supply (TAX-030) and export evidence (TAX-032) that EU-B2B Pro records: privacy
 		// export, erasure and retention stay in the core (product owner decision of 2026-10-29).
 		$c->set( ProofRecords::class, static fn( Container $c ): ProofRecords => new ProofRecords( $c->get( PrivateFiles::class ) ) );
 		$c->set( ProofRetention::class, static fn( Container $c ): ProofRetention => new ProofRetention( $c->get( ProofRecords::class ) ) );
@@ -141,10 +141,11 @@ final class TaxModule extends AbstractModule {
 			$c->get( VatIdField::class )->hooks();
 			$c->get( CartTreatment::class )->hooks();
 			$c->get( TaxDisplay::class )->hooks();
-			// The meta queries of the posts store, for the privacy handling here and for EuroB2B Pro.
+			// The meta queries of the posts store, for the privacy handling here and for EU-B2B Pro.
 			$c->get( ProofRecords::class )->hooks();
 			// RPT-006: the supply type at the time of the order, kept on each line (classic and Store API checkout).
 			add_action( 'woocommerce_checkout_create_order_line_item', array( SupplyType::class, 'record' ) );
+			add_filter( 'woocommerce_hidden_order_itemmeta', array( SupplyType::class, 'hide' ) );
 		}
 
 		if ( is_admin() ) {
@@ -169,7 +170,7 @@ final class TaxModule extends AbstractModule {
 	public static function special_treatments(): array {
 		/**
 		 * Filters the special cases of the tax treatment decision, asked in this order before the
-		 * standard rules (`Treatment\SpecialTreatment`; EuroB2B Pro: the special territories, TAX-024,
+		 * standard rules (`Treatment\SpecialTreatment`; EU-B2B Pro: the special territories, TAX-024,
 		 * and Northern Ireland, TAX-034). Without them those addresses count as their country.
 		 *
 		 * @param array<int, SpecialTreatment> $cases Special cases (none in the core).
@@ -179,19 +180,19 @@ final class TaxModule extends AbstractModule {
 	}
 
 	/**
-	 * Settings section (EuroB2B Pro adds the fields of its tax features at the end of it).
+	 * Settings section (EU-B2B Pro adds the fields of its tax features at the end of it).
 	 *
 	 * @param SettingsSchema $schema Schema.
 	 */
 	public static function settings_schema( SettingsSchema $schema ): void {
-		$schema->add_section( 'tax', __( 'Tax and VAT IDs', 'eurob2b' ), 30 );
+		$schema->add_section( 'tax', __( 'Tax and VAT IDs', 'stm-eu-b2b' ), 30 );
 		$schema->add_field(
 			array(
 				'id'             => 'tax_vies_enabled',
 				'section'        => 'tax',
-				'label'          => __( 'Validate EU VAT IDs via VIES', 'eurob2b' ),
-				'checkbox_label' => __( 'Send VAT IDs to the European Commission\'s VIES service to confirm they are registered', 'eurob2b' ),
-				'description'    => __( 'External connection (see the privacy documentation). Off: numbers are only checked for syntax.', 'eurob2b' ),
+				'label'          => __( 'Validate EU VAT IDs via VIES', 'stm-eu-b2b' ),
+				'checkbox_label' => __( 'Send VAT IDs to the European Commission\'s VIES service to confirm they are registered', 'stm-eu-b2b' ),
+				'description'    => __( 'External connection (see the privacy documentation). Off: numbers are only checked for syntax.', 'stm-eu-b2b' ),
 				'type'           => SettingsSchema::TYPE_BOOLEAN,
 				'default'        => false,
 			)
@@ -200,8 +201,8 @@ final class TaxModule extends AbstractModule {
 			array(
 				'id'          => 'tax_shop_vat_id',
 				'section'     => 'tax',
-				'label'       => __( 'Your own VAT ID', 'eurob2b' ),
-				'description' => __( 'Sent along with each VIES check so the consultation number is returned as proof (recommended).', 'eurob2b' ),
+				'label'       => __( 'Your own VAT ID', 'stm-eu-b2b' ),
+				'description' => __( 'Sent along with each VIES check so the consultation number is returned as proof (recommended).', 'stm-eu-b2b' ),
 				'type'        => SettingsSchema::TYPE_TEXT,
 				'default'     => '',
 			)
@@ -210,14 +211,14 @@ final class TaxModule extends AbstractModule {
 			array(
 				'id'          => 'tax_vat_field_mode',
 				'section'     => 'tax',
-				'label'       => __( 'VAT ID field', 'eurob2b' ),
-				'description' => __( 'Shown at registration (business types), in My Account and at checkout for the countries below.', 'eurob2b' ),
+				'label'       => __( 'VAT ID field', 'stm-eu-b2b' ),
+				'description' => __( 'Shown at registration (business types), in My Account and at checkout for the countries below.', 'stm-eu-b2b' ),
 				'type'        => SettingsSchema::TYPE_SELECT,
 				'default'     => VatIdField::MODE_OPTIONAL,
 				'options'     => array(
-					VatIdField::MODE_OFF          => __( 'Off', 'eurob2b' ),
-					VatIdField::MODE_OPTIONAL     => __( 'Optional', 'eurob2b' ),
-					VatIdField::MODE_REQUIRED_B2B => __( 'Required for business customers', 'eurob2b' ),
+					VatIdField::MODE_OFF          => __( 'Off', 'stm-eu-b2b' ),
+					VatIdField::MODE_OPTIONAL     => __( 'Optional', 'stm-eu-b2b' ),
+					VatIdField::MODE_REQUIRED_B2B => __( 'Required for business customers', 'stm-eu-b2b' ),
 				),
 			)
 		);
@@ -225,8 +226,8 @@ final class TaxModule extends AbstractModule {
 			array(
 				'id'          => 'tax_vat_field_countries',
 				'section'     => 'tax',
-				'label'       => __( 'Countries whose VAT IDs are checked at checkout', 'eurob2b' ),
-				'description' => __( 'The field is shown at checkout for every billing country; a number is checked (and required, where the field is mandatory) only for these billing countries.', 'eurob2b' ),
+				'label'       => __( 'Countries whose VAT IDs are checked at checkout', 'stm-eu-b2b' ),
+				'description' => __( 'The field is shown at checkout for every billing country; a number is checked (and required, where the field is mandatory) only for these billing countries.', 'stm-eu-b2b' ),
 				'type'        => SettingsSchema::TYPE_MULTISELECT,
 				'default'     => self::default_countries(),
 				'options'     => array( self::class, 'country_options' ),
@@ -236,8 +237,8 @@ final class TaxModule extends AbstractModule {
 			array(
 				'id'             => 'tax_validate_at_registration',
 				'section'        => 'tax',
-				'label'          => __( 'Check at registration', 'eurob2b' ),
-				'checkbox_label' => __( 'Check the VAT ID online when a business customer registers', 'eurob2b' ),
+				'label'          => __( 'Check at registration', 'stm-eu-b2b' ),
+				'checkbox_label' => __( 'Check the VAT ID online when a business customer registers', 'stm-eu-b2b' ),
 				'type'           => SettingsSchema::TYPE_BOOLEAN,
 				'default'        => true,
 			)
@@ -246,8 +247,8 @@ final class TaxModule extends AbstractModule {
 			array(
 				'id'             => 'tax_block_invalid',
 				'section'        => 'tax',
-				'label'          => __( 'Invalid numbers', 'eurob2b' ),
-				'checkbox_label' => __( 'Block registration and checkout when the checking service reports the number as not registered', 'eurob2b' ),
+				'label'          => __( 'Invalid numbers', 'stm-eu-b2b' ),
+				'checkbox_label' => __( 'Block registration and checkout when the checking service reports the number as not registered', 'stm-eu-b2b' ),
 				'type'           => SettingsSchema::TYPE_BOOLEAN,
 				'default'        => true,
 			)
@@ -256,14 +257,14 @@ final class TaxModule extends AbstractModule {
 			array(
 				'id'          => 'tax_downtime_policy',
 				'section'     => 'tax',
-				'label'       => __( 'When the checking service is unavailable', 'eurob2b' ),
-				'description' => __( 'The number is retried in the background either way. This decides what happens with the action the customer is taking.', 'eurob2b' ),
+				'label'       => __( 'When the checking service is unavailable', 'stm-eu-b2b' ),
+				'description' => __( 'The number is retried in the background either way. This decides what happens with the action the customer is taking.', 'stm-eu-b2b' ),
 				'type'        => SettingsSchema::TYPE_SELECT,
 				'default'     => ValidationService::POLICY_REVIEW,
 				'options'     => array(
-					ValidationService::POLICY_REVIEW    => __( 'Proceed with VAT and add the number to the review list', 'eurob2b' ),
-					ValidationService::POLICY_BLOCK     => __( 'Block the action until the check succeeds', 'eurob2b' ),
-					ValidationService::POLICY_PROVISION => __( 'Provisionally accept approved customers with a recent valid result', 'eurob2b' ),
+					ValidationService::POLICY_REVIEW    => __( 'Proceed with VAT and add the number to the review list', 'stm-eu-b2b' ),
+					ValidationService::POLICY_BLOCK     => __( 'Block the action until the check succeeds', 'stm-eu-b2b' ),
+					ValidationService::POLICY_PROVISION => __( 'Provisionally accept approved customers with a recent valid result', 'stm-eu-b2b' ),
 				),
 			)
 		);
@@ -271,7 +272,7 @@ final class TaxModule extends AbstractModule {
 			array(
 				'id'      => 'tax_provisional_days',
 				'section' => 'tax',
-				'label'   => __( 'Provisional acceptance: max age of the last valid result (days)', 'eurob2b' ),
+				'label'   => __( 'Provisional acceptance: max age of the last valid result (days)', 'stm-eu-b2b' ),
 				'type'    => SettingsSchema::TYPE_NUMBER,
 				'default' => 90,
 				'min'     => 1,
@@ -282,7 +283,7 @@ final class TaxModule extends AbstractModule {
 			array(
 				'id'      => 'tax_revalidate_days',
 				'section' => 'tax',
-				'label'   => __( 'Re-check a valid number after (days)', 'eurob2b' ),
+				'label'   => __( 'Re-check a valid number after (days)', 'stm-eu-b2b' ),
 				'type'    => SettingsSchema::TYPE_NUMBER,
 				'default' => 30,
 				'min'     => 1,
@@ -293,7 +294,7 @@ final class TaxModule extends AbstractModule {
 			array(
 				'id'      => 'tax_max_attempts',
 				'section' => 'tax',
-				'label'   => __( 'Retries when the service is unavailable', 'eurob2b' ),
+				'label'   => __( 'Retries when the service is unavailable', 'stm-eu-b2b' ),
 				'type'    => SettingsSchema::TYPE_NUMBER,
 				'default' => 5,
 				'min'     => 1,
@@ -304,8 +305,8 @@ final class TaxModule extends AbstractModule {
 			array(
 				'id'          => 'tax_retention_years',
 				'section'     => 'tax',
-				'label'       => __( 'Keep validation evidence linked to orders (years)', 'eurob2b' ),
-				'description' => __( 'Invoice retention period of your country (Germany: 8 years from the end of the year; 10 is a safe default).', 'eurob2b' ),
+				'label'       => __( 'Keep validation evidence linked to orders (years)', 'stm-eu-b2b' ),
+				'description' => __( 'Invoice retention period of your country (Germany: 8 years from the end of the year; 10 is a safe default).', 'stm-eu-b2b' ),
 				'type'        => SettingsSchema::TYPE_NUMBER,
 				'default'     => 10,
 				'min'         => 1,
@@ -316,7 +317,7 @@ final class TaxModule extends AbstractModule {
 			array(
 				'id'      => 'tax_retention_orderless_days',
 				'section' => 'tax',
-				'label'   => __( 'Keep validation records without an order (days)', 'eurob2b' ),
+				'label'   => __( 'Keep validation records without an order (days)', 'stm-eu-b2b' ),
 				'type'    => SettingsSchema::TYPE_NUMBER,
 				'default' => 365,
 				'min'     => 1,
@@ -327,9 +328,9 @@ final class TaxModule extends AbstractModule {
 			array(
 				'id'             => 'tax_exemption_enabled',
 				'section'        => 'tax',
-				'label'          => __( 'Intra-Community exemption', 'eurob2b' ),
-				'checkbox_label' => __( 'Exempt business customers in other EU member states from VAT when all conditions hold (valid VAT ID from another member state, delivery or establishment outside the shop country, no self-collection)', 'eurob2b' ),
-				'description'    => __( 'Domestic customers, consumers, invalid or unchecked numbers and pick-up orders are always taxed. Have the rules reviewed by your tax adviser before enabling.', 'eurob2b' ),
+				'label'          => __( 'Intra-Community exemption', 'stm-eu-b2b' ),
+				'checkbox_label' => __( 'Exempt business customers in other EU member states from VAT when all conditions hold (valid VAT ID from another member state, delivery or establishment outside the shop country, no self-collection)', 'stm-eu-b2b' ),
+				'description'    => __( 'Domestic customers, consumers, invalid or unchecked numbers and pick-up orders are always taxed. Have the rules reviewed by your tax adviser before enabling.', 'stm-eu-b2b' ),
 				'type'           => SettingsSchema::TYPE_BOOLEAN,
 				'default'        => false,
 			)
@@ -338,9 +339,9 @@ final class TaxModule extends AbstractModule {
 			array(
 				'id'             => 'tax_exempt_with_unreviewed_rules',
 				'section'        => 'tax',
-				'label'          => __( 'Unreviewed country rules', 'eurob2b' ),
-				'checkbox_label' => __( 'Apply the exemption also for countries whose profile has not been signed off by a tax professional (your responsibility)', 'eurob2b' ),
-				'description'    => __( 'Off: such orders are taxed and flagged for review. The review state of every country is listed on the VAT IDs page.', 'eurob2b' ),
+				'label'          => __( 'Unreviewed country rules', 'stm-eu-b2b' ),
+				'checkbox_label' => __( 'Apply the exemption also for countries whose profile has not been signed off by a tax professional (your responsibility)', 'stm-eu-b2b' ),
+				'description'    => __( 'Off: such orders are taxed and flagged for review. The review state of every country is listed on the VAT IDs page.', 'stm-eu-b2b' ),
 				'type'           => SettingsSchema::TYPE_BOOLEAN,
 				'default'        => false,
 			)
@@ -349,8 +350,8 @@ final class TaxModule extends AbstractModule {
 			array(
 				'id'             => 'tax_display_per_audience',
 				'section'        => 'tax',
-				'label'          => __( 'Price display per audience', 'eurob2b' ),
-				'checkbox_label' => __( 'Show prices excluding tax to business customers and including tax to consumers (tax is added as a line in cart and checkout)', 'eurob2b' ),
+				'label'          => __( 'Price display per audience', 'stm-eu-b2b' ),
+				'checkbox_label' => __( 'Show prices excluding tax to business customers and including tax to consumers (tax is added as a line in cart and checkout)', 'stm-eu-b2b' ),
 				'type'           => SettingsSchema::TYPE_BOOLEAN,
 				'default'        => false,
 			)
@@ -359,26 +360,26 @@ final class TaxModule extends AbstractModule {
 			array(
 				'id'      => 'tax_suffix_b2b',
 				'section' => 'tax',
-				'label'   => __( 'Price suffix for business customers', 'eurob2b' ),
+				'label'   => __( 'Price suffix for business customers', 'stm-eu-b2b' ),
 				'type'    => SettingsSchema::TYPE_TEXT,
-				'default' => __( 'excl. VAT', 'eurob2b' ),
+				'default' => __( 'excl. VAT', 'stm-eu-b2b' ),
 			)
 		);
 		$schema->add_field(
 			array(
 				'id'      => 'tax_suffix_b2c',
 				'section' => 'tax',
-				'label'   => __( 'Price suffix for consumers', 'eurob2b' ),
+				'label'   => __( 'Price suffix for consumers', 'stm-eu-b2b' ),
 				'type'    => SettingsSchema::TYPE_TEXT,
-				'default' => __( 'incl. VAT', 'eurob2b' ),
+				'default' => __( 'incl. VAT', 'stm-eu-b2b' ),
 			)
 		);
 		$schema->add_field(
 			array(
 				'id'             => 'tax_notify_admin',
 				'section'        => 'tax',
-				'label'          => __( 'Notifications', 'eurob2b' ),
-				'checkbox_label' => __( 'E-mail the shop administrator when a check ends invalid or unavailable', 'eurob2b' ),
+				'label'          => __( 'Notifications', 'stm-eu-b2b' ),
+				'checkbox_label' => __( 'E-mail the shop administrator when a check ends invalid or unavailable', 'stm-eu-b2b' ),
 				'type'           => SettingsSchema::TYPE_BOOLEAN,
 				'default'        => true,
 			)
@@ -417,7 +418,7 @@ final class TaxModule extends AbstractModule {
 		foreach ( self::selectable_countries() as $iso ) {
 			$label = isset( $names[ $iso ] ) ? (string) $names[ $iso ] : $iso;
 			if ( 'GB' === $iso ) {
-				$label .= ' (' . __( 'Northern Ireland, XI', 'eurob2b' ) . ')';
+				$label .= ' (' . __( 'Northern Ireland, XI', 'stm-eu-b2b' ) . ')';
 			}
 			$options[ $iso ] = $label;
 		}

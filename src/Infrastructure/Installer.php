@@ -144,11 +144,11 @@ final class Installer {
 		if ( null === $error || ! current_user_can( 'activate_plugins' ) ) {
 			return;
 		}
-		echo '<div class="notice notice-error"><p><strong>EuroB2B</strong> ';
+		echo '<div class="notice notice-error"><p><strong>STM EU-B2B</strong> ';
 		echo esc_html(
 			sprintf(
 				/* translators: 1: schema version, 2: error message, 3: UTC timestamp */
-				__( 'Database migration %1$d failed and will be retried on the next request. Error: %2$s (at %3$s UTC). See the recovery steps in the plugin documentation.', 'eurob2b' ),
+				__( 'Database migration %1$d failed and will be retried on the next request. Error: %2$s (at %3$s UTC). See the recovery steps in the plugin documentation.', 'stm-eu-b2b' ),
 				$error['version'],
 				$error['message'],
 				$error['time']

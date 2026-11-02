@@ -15,7 +15,7 @@ use EuroB2B\Modules\Privacy\PersonalDataProviderInterface;
  * Exports a person's conversations (subject, type, status, order, times, read times per side, who
  * started it) with all their messages, and the messages they wrote in other conversations (D-07);
  * erases as `ConversationRecords::erase_user()` describes. Part of the core: it reads the shared
- * tables, also while EuroB2B Pro, which records the conversations, is inactive (PLT-015).
+ * tables, also while EU-B2B Pro, which records the conversations, is inactive (PLT-015).
  */
 final class ConversationsDataProvider implements PersonalDataProviderInterface {
 
@@ -46,7 +46,7 @@ final class ConversationsDataProvider implements PersonalDataProviderInterface {
 	 * Label.
 	 */
 	public function label(): string {
-		return __( 'EuroB2B conversations', 'eurob2b' );
+		return __( 'EU-B2B conversations', 'stm-eu-b2b' );
 	}
 
 	/**
@@ -73,45 +73,45 @@ final class ConversationsDataProvider implements PersonalDataProviderInterface {
 				$status = (string) $conversation['status'];
 				$fields = array(
 					array(
-						'name'  => __( 'Subject', 'eurob2b' ),
+						'name'  => __( 'Subject', 'stm-eu-b2b' ),
 						'value' => (string) $conversation['subject'],
 					),
 					array(
-						'name'  => __( 'Type', 'eurob2b' ),
+						'name'  => __( 'Type', 'stm-eu-b2b' ),
 						'value' => ConversationRecords::type_labels()[ $type ] ?? $type,
 					),
 					array(
-						'name'  => __( 'Status', 'eurob2b' ),
+						'name'  => __( 'Status', 'stm-eu-b2b' ),
 						'value' => ConversationRecords::status_labels()[ $status ] ?? $status,
 					),
 					array(
-						'name'  => __( 'Created', 'eurob2b' ),
+						'name'  => __( 'Created', 'stm-eu-b2b' ),
 						'value' => (string) $conversation['created_at'] . ' UTC',
 					),
 					array(
-						'name'  => __( 'Last message', 'eurob2b' ),
+						'name'  => __( 'Last message', 'stm-eu-b2b' ),
 						'value' => (string) $conversation['last_message_at'] . ' UTC',
 					),
 					array(
-						'name'  => __( 'Last read by the customer side', 'eurob2b' ),
+						'name'  => __( 'Last read by the customer side', 'stm-eu-b2b' ),
 						'value' => null !== $conversation['customer_read_at'] ? (string) $conversation['customer_read_at'] . ' UTC' : '—',
 					),
 					array(
-						'name'  => __( 'Last read by the shop', 'eurob2b' ),
+						'name'  => __( 'Last read by the shop', 'stm-eu-b2b' ),
 						'value' => null !== $conversation['staff_read_at'] ? (string) $conversation['staff_read_at'] . ' UTC' : '—',
 					),
 					array(
-						'name'  => __( 'Started by', 'eurob2b' ),
-						'value' => (int) $conversation['created_by'] === (int) $conversation['user_id'] ? __( 'You', 'eurob2b' ) : (string) get_bloginfo( 'name' ),
+						'name'  => __( 'Started by', 'stm-eu-b2b' ),
+						'value' => (int) $conversation['created_by'] === (int) $conversation['user_id'] ? __( 'You', 'stm-eu-b2b' ) : (string) get_bloginfo( 'name' ),
 					),
 					array(
-						'name'  => __( 'Messages', 'eurob2b' ),
+						'name'  => __( 'Messages', 'stm-eu-b2b' ),
 						'value' => implode( "\n\n", $lines ),
 					),
 				);
 				if ( (int) $conversation['order_id'] > 0 ) {
 					$fields[] = array(
-						'name'  => _x( 'Order', 'shop order', 'eurob2b' ),
+						'name'  => _x( 'Order', 'shop order', 'stm-eu-b2b' ),
 						'value' => (string) (int) $conversation['order_id'],
 					);
 				}
@@ -129,11 +129,11 @@ final class ConversationsDataProvider implements PersonalDataProviderInterface {
 					'item_id'     => 'eurob2b-message-' . (int) $message['id'],
 					'data'        => array(
 						array(
-							'name'  => __( 'Message', 'eurob2b' ),
+							'name'  => __( 'Message', 'stm-eu-b2b' ),
 							'value' => (string) $message['body'],
 						),
 						array(
-							'name'  => __( 'Created', 'eurob2b' ),
+							'name'  => __( 'Created', 'stm-eu-b2b' ),
 							'value' => (string) $message['created_at'] . ' UTC',
 						),
 					),

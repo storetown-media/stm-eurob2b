@@ -73,6 +73,6 @@ final class M0012AddLinkedProductToQuoteItems implements MigrationInterface {
 	public function verify( \wpdb $wpdb ): bool {
 		$items = Schema::table( 'eurob2b_quote_items' );
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- table name from Schema.
-		return $wpdb->get_var( $wpdb->prepare( "SHOW COLUMNS FROM {$items} LIKE %s", 'linked_product_id' ) ) === 'linked_product_id';
+		return $wpdb->get_var( $wpdb->prepare( 'SHOW COLUMNS FROM %i LIKE %s', $items, 'linked_product_id' ) ) === 'linked_product_id';
 	}
 }

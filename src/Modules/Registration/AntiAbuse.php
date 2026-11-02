@@ -71,7 +71,7 @@ final class AntiAbuse {
 	 */
 	public function honeypot_html(): string {
 		return '<p class="eurob2b-hp" style="position:absolute;left:-9999px;top:-9999px;height:0;overflow:hidden" aria-hidden="true">'
-			. '<label for="' . esc_attr( self::HONEYPOT_FIELD ) . '">' . esc_html__( 'Leave this field empty', 'eurob2b' ) . '</label>'
+			. '<label for="' . esc_attr( self::HONEYPOT_FIELD ) . '">' . esc_html__( 'Leave this field empty', 'stm-eu-b2b' ) . '</label>'
 			. '<input type="text" name="' . esc_attr( self::HONEYPOT_FIELD ) . '" id="' . esc_attr( self::HONEYPOT_FIELD ) . '" value="" tabindex="-1" autocomplete="off" />'
 			. '</p>';
 	}

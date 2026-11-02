@@ -25,7 +25,7 @@ use WP_Post;
  *
  * LGL-002: the withdrawal function of "EU Order Withdrawal Button for WooCommerce" (also shipped
  * inside Germanized) is a consumer right (§ 356a BGB, Art. 11a Directive 2011/83/EU). With the
- * setting on, orders EuroB2B recorded as placed by an approved business customer are not offered
+ * setting on, orders EU-B2B recorded as placed by an approved business customer are not offered
  * for withdrawal. Off by default: no official guidance on mixed shops was found (UNVERIFIED,
  * docs/country-matrix.md LG-03), so the shop owner decides.
  */
@@ -123,7 +123,7 @@ final class LegalTexts {
 	}
 
 	/**
-	 * Row of the EuroB2B box on the order screen.
+	 * Row of the EU-B2B box on the order screen.
 	 *
 	 * @param mixed $rows  Rows.
 	 * @param mixed $order Order.
@@ -141,7 +141,7 @@ final class LegalTexts {
 		$modified = (string) $order->get_meta( self::META_TERMS_VERSION, true );
 		$version  = '' !== $modified ? wp_date( (string) get_option( 'date_format' ), (int) strtotime( $modified . ' UTC' ) ) : '';
 		/* translators: 1: page title, 2: date of the page's last change */
-		$rows[ __( 'Terms and conditions', 'eurob2b' ) ] = '' !== $version ? sprintf( __( '%1$s (as of %2$s)', 'eurob2b' ), '' !== $title ? $title : '#' . $page_id, $version ) : $title;
+		$rows[ __( 'Terms and conditions', 'stm-eu-b2b' ) ] = '' !== $version ? sprintf( __( '%1$s (as of %2$s)', 'stm-eu-b2b' ), '' !== $title ? $title : '#' . $page_id, $version ) : $title;
 		return $rows;
 	}
 

@@ -51,24 +51,24 @@ final class UsersListFilters {
 		$group  = isset( $_GET['eurob2b_group'] ) ? absint( $_GET['eurob2b_group'] ) : 0;
 		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
-		echo '<select name="eurob2b_type"><option value="">' . esc_html__( 'All customer types', 'eurob2b' ) . '</option>';
+		echo '<select name="eurob2b_type"><option value="">' . esc_html__( 'All customer types', 'stm-eu-b2b' ) . '</option>';
 		foreach ( array( CustomerType::B2B, CustomerType::B2C ) as $option ) {
 			echo '<option value="' . esc_attr( $option->value ) . '" ' . selected( $type, $option->value, false ) . '>' . esc_html( GroupsPage::type_label( $option ) ) . '</option>';
 		}
 		echo '</select> ';
 
-		echo '<select name="eurob2b_status"><option value="">' . esc_html__( 'All statuses', 'eurob2b' ) . '</option>';
+		echo '<select name="eurob2b_status"><option value="">' . esc_html__( 'All statuses', 'stm-eu-b2b' ) . '</option>';
 		foreach ( CustomerStatus::cases() as $option ) {
 			echo '<option value="' . esc_attr( $option->value ) . '" ' . selected( $status, $option->value, false ) . '>' . esc_html( $option->label() ) . '</option>';
 		}
 		echo '</select> ';
 
-		echo '<select name="eurob2b_group"><option value="0">' . esc_html__( 'All groups', 'eurob2b' ) . '</option>';
+		echo '<select name="eurob2b_group"><option value="0">' . esc_html__( 'All groups', 'stm-eu-b2b' ) . '</option>';
 		foreach ( $this->groups->all() as $option ) {
 			echo '<option value="' . esc_attr( (string) $option->id ) . '" ' . selected( $group, $option->id, false ) . '>' . esc_html( $option->name ) . '</option>';
 		}
 		echo '</select> ';
-		submit_button( __( 'Filter', 'eurob2b' ), '', 'eurob2b_filter', false );
+		submit_button( __( 'Filter', 'stm-eu-b2b' ), '', 'eurob2b_filter', false );
 	}
 
 	/**
@@ -228,7 +228,7 @@ final class UsersListFilters {
 	 */
 	public function columns( array $columns ): array {
 		if ( current_user_can( Capabilities::MANAGE_CUSTOMERS ) ) {
-			$columns['eurob2b'] = __( 'B2B', 'eurob2b' );
+			$columns['eurob2b'] = __( 'B2B', 'stm-eu-b2b' );
 		}
 		return $columns;
 	}
@@ -251,7 +251,7 @@ final class UsersListFilters {
 
 		$parts = array();
 		if ( CustomerType::B2B->value === $type ) {
-			$parts[] = __( 'B2B', 'eurob2b' );
+			$parts[] = __( 'B2B', 'stm-eu-b2b' );
 		}
 		if ( CustomerStatus::APPROVED !== $status ) {
 			$parts[] = $status->label();

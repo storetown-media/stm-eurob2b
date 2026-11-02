@@ -157,11 +157,13 @@ final class FieldRepository {
 		if ( null !== $owner ) {
 			// Two fields writing one billing field would overwrite each other on every save.
 			throw new InvalidArgumentException(
-				sprintf(
+				esc_html(
+					sprintf(
 					/* translators: 1: WooCommerce billing field key, e.g. billing_company, 2: label of the field that already fills it */
-					__( 'The billing field %1$s is already filled from the field "%2$s". A billing field takes its value from one field only.', 'eurob2b' ),
-					$field->map_to,
-					$owner->label
+						__( 'The billing field %1$s is already filled from the field "%2$s". A billing field takes its value from one field only.', 'stm-eu-b2b' ),
+						$field->map_to,
+						$owner->label
+					)
 				)
 			);
 		}

@@ -2,11 +2,11 @@
 
 ## Reporting a vulnerability
 
-Please report security problems in EuroB2B by e-mail to **info@storetown-media.de**. Do not open a public GitHub issue, pull request or discussion for them.
+Please report security problems in EU-B2B by e-mail to **info@storetown-media.de**. Do not open a public GitHub issue, pull request or discussion for them.
 
 A useful report contains:
 
-- the EuroB2B version (or commit) and the WordPress, WooCommerce and PHP versions;
+- the EU-B2B version (or commit) and the WordPress, WooCommerce and PHP versions;
 - the affected feature, route or screen;
 - the steps to reproduce it and what an attacker gains;
 - whether the classic checkout, the Checkout block or both are affected, where that applies.
@@ -21,4 +21,4 @@ Security fixes are made on the main branch and shipped with the next release. Be
 
 ## Scope
 
-How EuroB2B handles capabilities, nonces, input, output, money and personal data is described in [docs/security.md](docs/security.md) and [docs/privacy-and-data-flows.md](docs/privacy-and-data-flows.md).
+How EU-B2B handles capabilities, nonces, input, output, money and personal data is described in [docs/security.md](docs/security.md) and [docs/privacy-and-data-flows.md](docs/privacy-and-data-flows.md).

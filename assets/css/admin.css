@@ -1,7 +1,7 @@
 /*
- * EuroB2B admin pages (PLT-017). Loaded only on ?page=eurob2b-… screens; every rule is scoped to
+ * EU-B2B admin pages (PLT-017). Loaded only on ?page=eurob2b-… screens; every rule is scoped to
  * .eurob2b-admin so WordPress and other plugins are not affected. Colours and type follow the
- * WordPress admin; EuroB2B adds a white header band, underlined tabs, white cards for tables and forms,
+ * WordPress admin; EU-B2B adds a white header band, underlined tabs, white cards for tables and forms,
  * one blue accent for the current tab, buttons and numbers, and coloured status labels (product owner
  * decision of 2026-10-30: colours as in the approved reference screens; no gradients, small radii).
  * Contrast of text colours against their backgrounds meets WCAG 2.2 AA (4.5:1).
@@ -412,7 +412,7 @@
 	outline: 2px solid transparent;
 }
 
-/* Status labels: colour and text together, never colour alone. Also in the EuroB2B box of the
+/* Status labels: colour and text together, never colour alone. Also in the EU-B2B box of the
    WooCommerce order screen, where this stylesheet is loaded too (OrderAttributes::enqueue_style()). */
 .eurob2b-admin .eurob2b-status,
 .eurob2b-order-attributes .eurob2b-status {

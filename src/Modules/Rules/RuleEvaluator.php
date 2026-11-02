@@ -17,7 +17,7 @@ use WC_Product;
 /**
  * The single place that decides which rules apply to a product for an audience. Order: priority
  * descending, then id ascending (older rule wins a tie). Checks, in this order: whether the rule
- * needs EuroB2B Pro while it is missing (`RuleSupport`, PLT-015), enabled and date window, audience
+ * needs EU-B2B Pro while it is missing (`RuleSupport`, PLT-015), enabled and date window, audience
  * token (OR), currency (a rule with amounts only for audiences that pay in its currency, CUR-001),
  * scope, conditions (AND, or ANY when the rule says so; without a condition checker a rule with
  * conditions never applies).
@@ -32,7 +32,7 @@ final class RuleEvaluator {
 	private RuleRepository $rules;
 
 	/**
-	 * Decides conditions (EuroB2B Pro); null without it.
+	 * Decides conditions (EU-B2B Pro); null without it.
 	 *
 	 * @var ConditionChecker|null
 	 */
@@ -42,7 +42,7 @@ final class RuleEvaluator {
 	 * Constructor.
 	 *
 	 * @param RuleRepository        $rules      Repository.
-	 * @param ConditionChecker|null $conditions Condition checker, when EuroB2B Pro is active.
+	 * @param ConditionChecker|null $conditions Condition checker, when EU-B2B Pro is active.
 	 */
 	public function __construct( RuleRepository $rules, ?ConditionChecker $conditions = null ) {
 		$this->rules      = $rules;

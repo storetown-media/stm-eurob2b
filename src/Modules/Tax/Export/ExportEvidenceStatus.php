@@ -33,10 +33,10 @@ enum ExportEvidenceStatus: string {
 	 */
 	public function label(): string {
 		return match ( $this ) {
-			self::MISSING    => __( 'Missing', 'eurob2b' ),
-			self::RECEIVED   => __( 'Received', 'eurob2b' ),
-			self::ACCEPTED   => __( 'Accepted', 'eurob2b' ),
-			self::NOT_NEEDED => __( 'Not needed', 'eurob2b' ),
+			self::MISSING    => __( 'Missing', 'stm-eu-b2b' ),
+			self::RECEIVED   => __( 'Received', 'stm-eu-b2b' ),
+			self::ACCEPTED   => __( 'Accepted', 'stm-eu-b2b' ),
+			self::NOT_NEEDED => __( 'Not needed', 'stm-eu-b2b' ),
 		};
 	}
 }

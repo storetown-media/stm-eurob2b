@@ -89,8 +89,8 @@ final class Journal {
 		$table = self::table();
 		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- table name from Schema.
 		$rows = $before > 0
-			? $wpdb->get_results( $wpdb->prepare( "SELECT id, object_type, object_id, ref, old_value FROM {$table} WHERE run_id = %s AND id < %d ORDER BY id DESC LIMIT %d", $run_id, $before, self::PAGE ), ARRAY_A )
-			: $wpdb->get_results( $wpdb->prepare( "SELECT id, object_type, object_id, ref, old_value FROM {$table} WHERE run_id = %s ORDER BY id DESC LIMIT %d", $run_id, self::PAGE ), ARRAY_A );
+			? $wpdb->get_results( $wpdb->prepare( 'SELECT id, object_type, object_id, ref, old_value FROM %i WHERE run_id = %s AND id < %d ORDER BY id DESC LIMIT %d', $table, $run_id, $before, self::PAGE ), ARRAY_A )
+			: $wpdb->get_results( $wpdb->prepare( 'SELECT id, object_type, object_id, ref, old_value FROM %i WHERE run_id = %s ORDER BY id DESC LIMIT %d', $table, $run_id, self::PAGE ), ARRAY_A );
 		// phpcs:enable WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$out = array();
 		foreach ( is_array( $rows ) ? $rows : array() as $row ) {
@@ -114,7 +114,7 @@ final class Journal {
 		global $wpdb;
 		$table = self::table();
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- table name from Schema.
-		return (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$table} WHERE run_id = %s", $run_id ) );
+		return (int) $wpdb->get_var( $wpdb->prepare( 'SELECT COUNT(*) FROM %i WHERE run_id = %s', $table, $run_id ) );
 	}
 
 	/**
@@ -138,7 +138,7 @@ final class Journal {
 		global $wpdb;
 		$table = self::table();
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- table name from Schema.
-		return (int) $wpdb->query( $wpdb->prepare( "DELETE FROM {$table} WHERE created_at < %s ORDER BY id ASC LIMIT %d", $cutoff, max( 1, $limit ) ) );
+		return (int) $wpdb->query( $wpdb->prepare( 'DELETE FROM %i WHERE created_at < %s ORDER BY id ASC LIMIT %d', $table, $cutoff, max( 1, $limit ) ) );
 	}
 
 	/**
@@ -156,8 +156,8 @@ final class Journal {
 		}
 		$table                = self::table();
 		list( $where, $args ) = self::person_filter( $user_id );
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber,WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare -- table name from Schema; $where is built from placeholders.
-		$rows = $wpdb->get_results( $wpdb->prepare( "SELECT object_type, object_id, ref, old_value, created_at FROM {$table} WHERE {$where} ORDER BY id ASC", $args ), ARRAY_A );
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber,WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare,PluginCheck.Security.DirectDB.UnescapedDBParameter -- $where is built by person_filter() from fixed clauses with placeholders only; the table and every value are prepare() arguments.
+		$rows = $wpdb->get_results( $wpdb->prepare( "SELECT object_type, object_id, ref, old_value, created_at FROM %i WHERE {$where} ORDER BY id ASC", array_merge( array( $table ), $args ) ), ARRAY_A );
 		$out  = array();
 		foreach ( is_array( $rows ) ? $rows : array() as $row ) {
 			$out[] = array(
@@ -184,8 +184,8 @@ final class Journal {
 		}
 		$table                = self::table();
 		list( $where, $args ) = self::person_filter( $user_id );
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber,WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare -- table name from Schema; $where is built from placeholders.
-		return (int) $wpdb->query( $wpdb->prepare( "DELETE FROM {$table} WHERE {$where}", $args ) );
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber,WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare,PluginCheck.Security.DirectDB.UnescapedDBParameter -- $where is built by person_filter() from fixed clauses with placeholders only; the table and every value are prepare() arguments.
+		return (int) $wpdb->query( $wpdb->prepare( "DELETE FROM %i WHERE {$where}", array_merge( array( $table ), $args ) ) );
 	}
 
 	/**

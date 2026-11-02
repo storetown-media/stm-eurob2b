@@ -195,13 +195,13 @@ final class RegistrationModule extends AbstractModule {
 	 * @param SettingsSchema $schema Schema.
 	 */
 	public static function settings_schema( SettingsSchema $schema ): void {
-		$schema->add_section( 'registration', __( 'Registration', 'eurob2b' ), 10 );
+		$schema->add_section( 'registration', __( 'Registration', 'stm-eu-b2b' ), 10 );
 		$schema->add_field(
 			array(
 				'id'          => 'registration_throttle_limit',
 				'section'     => 'registration',
-				'label'       => __( 'Registrations per hour and connection', 'eurob2b' ),
-				'description' => __( 'Blocks further registrations from the same connection within an hour. 0 disables the limit. The connection is stored as a salted hash for one hour only.', 'eurob2b' ),
+				'label'       => __( 'Registrations per hour and connection', 'stm-eu-b2b' ),
+				'description' => __( 'Blocks further registrations from the same connection within an hour. 0 disables the limit. The connection is stored as a salted hash for one hour only.', 'stm-eu-b2b' ),
 				'type'        => SettingsSchema::TYPE_NUMBER,
 				'default'     => 5,
 				'min'         => 0,
@@ -212,8 +212,8 @@ final class RegistrationModule extends AbstractModule {
 			array(
 				'id'          => 'registration_file_max_mb',
 				'section'     => 'registration',
-				'label'       => __( 'Size limit of uploaded documents (MB)', 'eurob2b' ),
-				'description' => __( 'For fields of the type "file" in the registration form: PDF, JPG or PNG up to this size. The server may set a lower limit (upload_max_filesize, post_max_size).', 'eurob2b' ),
+				'label'       => __( 'Size limit of uploaded documents (MB)', 'stm-eu-b2b' ),
+				'description' => __( 'For fields of the type "file" in the registration form: PDF, JPG or PNG up to this size. The server may set a lower limit (upload_max_filesize, post_max_size).', 'stm-eu-b2b' ),
 				'type'        => SettingsSchema::TYPE_NUMBER,
 				'default'     => 5,
 				'min'         => 1,
@@ -224,8 +224,8 @@ final class RegistrationModule extends AbstractModule {
 			array(
 				'id'             => 'registration_terms_required',
 				'section'        => 'registration',
-				'label'          => __( 'Terms checkbox', 'eurob2b' ),
-				'checkbox_label' => __( 'Require customers to tick a terms checkbox when registering (the time of acceptance is stored)', 'eurob2b' ),
+				'label'          => __( 'Terms checkbox', 'stm-eu-b2b' ),
+				'checkbox_label' => __( 'Require customers to tick a terms checkbox when registering (the time of acceptance is stored)', 'stm-eu-b2b' ),
 				'type'           => SettingsSchema::TYPE_BOOLEAN,
 				'default'        => false,
 			)
@@ -234,9 +234,9 @@ final class RegistrationModule extends AbstractModule {
 			array(
 				'id'             => 'registration_suppress_pending_welcome',
 				'section'        => 'registration',
-				'label'          => __( 'Welcome e-mail for pending accounts', 'eurob2b' ),
-				'checkbox_label' => __( 'Do not send the WooCommerce new-account e-mail while a registration waits for approval', 'eurob2b' ),
-				'description'    => __( 'Recommended when WooCommerce generates passwords: the approval e-mail contains a link to set the password instead.', 'eurob2b' ),
+				'label'          => __( 'Welcome e-mail for pending accounts', 'stm-eu-b2b' ),
+				'checkbox_label' => __( 'Do not send the WooCommerce new-account e-mail while a registration waits for approval', 'stm-eu-b2b' ),
+				'description'    => __( 'Recommended when WooCommerce generates passwords: the approval e-mail contains a link to set the password instead.', 'stm-eu-b2b' ),
 				'type'           => SettingsSchema::TYPE_BOOLEAN,
 				'default'        => true,
 			)
@@ -245,8 +245,8 @@ final class RegistrationModule extends AbstractModule {
 			array(
 				'id'                => 'registration_terms_text',
 				'section'           => 'registration',
-				'label'             => __( 'Terms checkbox text', 'eurob2b' ),
-				'description'       => __( 'Shown next to the checkbox. Links are allowed.', 'eurob2b' ),
+				'label'             => __( 'Terms checkbox text', 'stm-eu-b2b' ),
+				'description'       => __( 'Shown next to the checkbox. Links are allowed.', 'stm-eu-b2b' ),
 				'type'              => SettingsSchema::TYPE_TEXTAREA,
 				'default'           => '',
 				'sanitize_callback' => array( self::class, 'sanitize_terms_text' ),
@@ -256,8 +256,8 @@ final class RegistrationModule extends AbstractModule {
 			array(
 				'id'          => 'registration_file_retention_days',
 				'section'     => 'privacy',
-				'label'       => __( 'Delete documents uploaded with the registration after (days)', 'eurob2b' ),
-				'description' => __( 'Counted from the approval or rejection of the application (default 30). 0 keeps them as long as the customer account exists. They are always deleted with the account and on an erasure request.', 'eurob2b' ),
+				'label'       => __( 'Delete documents uploaded with the registration after (days)', 'stm-eu-b2b' ),
+				'description' => __( 'Counted from the approval or rejection of the application (default 30). 0 keeps them as long as the customer account exists. They are always deleted with the account and on an erasure request.', 'stm-eu-b2b' ),
 				'type'        => SettingsSchema::TYPE_NUMBER,
 				'default'     => 30,
 				'min'         => 0,
@@ -268,8 +268,8 @@ final class RegistrationModule extends AbstractModule {
 			array(
 				'id'          => 'privacy_rejected_days',
 				'section'     => 'privacy',
-				'label'       => __( 'Delete rejected registrations after (days)', 'eurob2b' ),
-				'description' => __( 'Accounts of applications you rejected are deleted this many days after the rejection by a daily job. Only accounts that were never approved, have no orders and have no role besides customer or subscriber are deleted; deactivated customers are never touched. 0 keeps them until you delete them by hand.', 'eurob2b' ),
+				'label'       => __( 'Delete rejected registrations after (days)', 'stm-eu-b2b' ),
+				'description' => __( 'Accounts of applications you rejected are deleted this many days after the rejection by a daily job. Only accounts that were never approved, have no orders and have no role besides customer or subscriber are deleted; deactivated customers are never touched. 0 keeps them until you delete them by hand.', 'stm-eu-b2b' ),
 				'type'        => SettingsSchema::TYPE_NUMBER,
 				'default'     => 180,
 				'min'         => 0,

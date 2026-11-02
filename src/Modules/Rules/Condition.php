@@ -14,7 +14,7 @@ use InvalidArgumentException;
 /**
  * One condition over the cart or checkout, as data: numeric conditions compare an amount or
  * quantity, list conditions test membership (country, payment method, shipping method). The core
- * stores and validates them; EuroB2B Pro decides them against the cart (`ConditionChecker`, PLT-015).
+ * stores and validates them; EU-B2B Pro decides them against the cart (`ConditionChecker`, PLT-015).
  */
 final class Condition {
 
@@ -62,17 +62,17 @@ final class Condition {
 	) {
 		if ( in_array( $type, self::NUMERIC_TYPES, true ) ) {
 			if ( ! in_array( $operator, self::NUMERIC_OPERATORS, true ) ) {
-				throw new InvalidArgumentException( sprintf( 'Operator "%s" does not fit a numeric condition.', $operator ) );
+				throw new InvalidArgumentException( sprintf( 'Operator "%s" does not fit a numeric condition.', $operator ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal, untranslated message for developers and logs; every sink escapes or decodes it (docs/architecture.md, "Exception messages").
 			}
 			if ( 1 !== preg_match( '/^\d+(\.\d+)?$/', $value ) ) {
-				throw new InvalidArgumentException( sprintf( 'Malformed condition value "%s".', $value ) );
+				throw new InvalidArgumentException( sprintf( 'Malformed condition value "%s".', $value ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal, untranslated message for developers and logs; every sink escapes or decodes it (docs/architecture.md, "Exception messages").
 			}
 		} elseif ( in_array( $type, self::LIST_TYPES, true ) ) {
 			if ( ! in_array( $operator, self::LIST_OPERATORS, true ) ) {
-				throw new InvalidArgumentException( sprintf( 'Operator "%s" does not fit a list condition.', $operator ) );
+				throw new InvalidArgumentException( sprintf( 'Operator "%s" does not fit a list condition.', $operator ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal, untranslated message for developers and logs; every sink escapes or decodes it (docs/architecture.md, "Exception messages").
 			}
 		} else {
-			throw new InvalidArgumentException( sprintf( 'Unknown condition "%s".', $type ) );
+			throw new InvalidArgumentException( sprintf( 'Unknown condition "%s".', $type ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal, untranslated message for developers and logs; every sink escapes or decodes it (docs/architecture.md, "Exception messages").
 		}
 	}
 

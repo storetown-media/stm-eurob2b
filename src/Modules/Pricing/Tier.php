@@ -32,7 +32,7 @@ final class Tier {
 			throw new InvalidArgumentException( 'A tier starts at quantity 1 or more.' );
 		}
 		if ( 1 !== preg_match( '/^\d+(\.\d+)?$/', $price ) ) {
-			throw new InvalidArgumentException( sprintf( 'Malformed tier price "%s".', $price ) );
+			throw new InvalidArgumentException( sprintf( 'Malformed tier price "%s".', $price ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal, untranslated message for developers and logs; every sink escapes or decodes it (docs/architecture.md, "Exception messages").
 		}
 	}
 

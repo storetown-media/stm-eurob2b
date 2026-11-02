@@ -27,7 +27,7 @@ final class ProductSupplyTypeField {
 	}
 
 	/**
-	 * Summary of the section "tax" of the EuroB2B product tab: goods or service.
+	 * Summary of the section "tax" of the EU-B2B product tab: goods or service.
 	 *
 	 * @param mixed  $parts   Parts.
 	 * @param string $key     Section key.
@@ -38,7 +38,7 @@ final class ProductSupplyTypeField {
 		if ( 'tax' !== $key || ! is_array( $parts ) || ! $product instanceof WC_Product ) {
 			return $parts;
 		}
-		$parts[] = SupplyType::SERVICES === SupplyType::of( $product ) ? __( 'Service', 'eurob2b' ) : __( 'Goods', 'eurob2b' );
+		$parts[] = SupplyType::SERVICES === SupplyType::of( $product ) ? __( 'Service', 'stm-eu-b2b' ) : __( 'Goods', 'stm-eu-b2b' );
 		return $parts;
 	}
 
@@ -52,13 +52,13 @@ final class ProductSupplyTypeField {
 		woocommerce_wp_select(
 			array(
 				'id'          => SupplyType::META,
-				'label'       => __( 'Supply type (EuroB2B)', 'eurob2b' ),
-				'description' => __( 'Services are taxed where the business customer is established (Art. 44); goods where they are delivered.', 'eurob2b' ),
+				'label'       => __( 'Supply type (EU-B2B)', 'stm-eu-b2b' ),
+				'description' => __( 'Services are taxed where the business customer is established (Art. 44); goods where they are delivered.', 'stm-eu-b2b' ),
 				'desc_tip'    => true,
 				'value'       => $value,
 				'options'     => array(
-					SupplyType::GOODS    => __( 'Goods', 'eurob2b' ),
-					SupplyType::SERVICES => __( 'Service', 'eurob2b' ),
+					SupplyType::GOODS    => __( 'Goods', 'stm-eu-b2b' ),
+					SupplyType::SERVICES => __( 'Service', 'stm-eu-b2b' ),
 				),
 			)
 		);

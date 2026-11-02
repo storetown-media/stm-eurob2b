@@ -25,9 +25,9 @@ enum ExportEvidenceType: string {
 	 */
 	public function label(): string {
 		return match ( $this ) {
-			self::EXIT_NOTICE      => __( 'Electronic exit notice (Ausgangsvermerk, ATLAS)', 'eurob2b' ),
-			self::CARRIER_DOCUMENT => __( 'Carrier or courier document (Versendungsbeleg)', 'eurob2b' ),
-			self::OTHER            => __( 'Other evidence', 'eurob2b' ),
+			self::EXIT_NOTICE      => __( 'Electronic exit notice (Ausgangsvermerk, ATLAS)', 'stm-eu-b2b' ),
+			self::CARRIER_DOCUMENT => __( 'Carrier or courier document (Versendungsbeleg)', 'stm-eu-b2b' ),
+			self::OTHER            => __( 'Other evidence', 'stm-eu-b2b' ),
 		};
 	}
 

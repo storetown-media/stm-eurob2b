@@ -101,7 +101,7 @@ final class Money {
 		$amount = trim( (string) $amount );
 
 		if ( ! preg_match( '/^(-)?(\d+)(?:\.(\d+))?$/', $amount, $m ) ) {
-			throw new InvalidArgumentException( sprintf( 'Money: "%s" is not a decimal amount.', $amount ) );
+			throw new InvalidArgumentException( sprintf( 'Money: "%s" is not a decimal amount.', $amount ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal, untranslated message for developers and logs; every sink escapes or decodes it (docs/architecture.md, "Exception messages").
 		}
 
 		$negative = '-' === $m[1];
@@ -109,14 +109,14 @@ final class Money {
 		$fraction = $m[3] ?? '';
 
 		if ( strlen( $fraction ) > $scale ) {
-			throw new InvalidArgumentException( sprintf( 'Money: "%s" has more than %d decimals.', $amount, $scale ) );
+			throw new InvalidArgumentException( sprintf( 'Money: "%s" has more than %d decimals.', $amount, $scale ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal, untranslated message for developers and logs; every sink escapes or decodes it (docs/architecture.md, "Exception messages").
 		}
 
 		$fraction = str_pad( $fraction, $scale, '0' );
 		$digits   = ltrim( $integer . $fraction, '0' );
 
 		if ( strlen( $digits ) > self::MAX_DIGITS ) {
-			throw new OverflowException( sprintf( 'Money: "%s" exceeds %d digits in minor units.', $amount, self::MAX_DIGITS ) );
+			throw new OverflowException( sprintf( 'Money: "%s" exceeds %d digits in minor units.', $amount, self::MAX_DIGITS ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal, untranslated message for developers and logs; every sink escapes or decodes it (docs/architecture.md, "Exception messages").
 		}
 
 		$minor = (int) ( $integer . $fraction );
@@ -140,7 +140,7 @@ final class Money {
 
 		// Casting a float beyond the integer range is undefined; refuse it instead.
 		if ( ! is_finite( $scaled ) || abs( $scaled ) >= 10 ** self::MAX_DIGITS ) {
-			throw new OverflowException( sprintf( 'Money: float %s exceeds the supported range.', (string) $amount ) );
+			throw new OverflowException( sprintf( 'Money: float %s exceeds the supported range.', (string) $amount ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal, untranslated message for developers and logs; every sink escapes or decodes it (docs/architecture.md, "Exception messages").
 		}
 
 		return new self( (int) $scaled, self::normalise_currency( $currency ), $scale );
@@ -217,16 +217,16 @@ final class Money {
 	public function percentage( string|int $percent, int $mode = self::ROUND_HALF_UP ): self {
 		$percent = trim( (string) $percent );
 		if ( ! preg_match( '/^(-)?(\d+)(?:\.(\d+))?$/', $percent, $m ) ) {
-			throw new InvalidArgumentException( sprintf( 'Money: "%s" is not a percentage.', $percent ) );
+			throw new InvalidArgumentException( sprintf( 'Money: "%s" is not a percentage.', $percent ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal, untranslated message for developers and logs; every sink escapes or decodes it (docs/architecture.md, "Exception messages").
 		}
 		$fraction = rtrim( $m[3] ?? '', '0' );
 		$digits   = strlen( $fraction );
 
 		if ( $digits > self::MAX_PERCENT_DECIMALS ) {
-			throw new InvalidArgumentException( sprintf( 'Money: percentage "%s" has more than %d significant decimals.', $percent, self::MAX_PERCENT_DECIMALS ) );
+			throw new InvalidArgumentException( sprintf( 'Money: percentage "%s" has more than %d significant decimals.', $percent, self::MAX_PERCENT_DECIMALS ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal, untranslated message for developers and logs; every sink escapes or decodes it (docs/architecture.md, "Exception messages").
 		}
 		if ( strlen( ltrim( $m[2], '0' ) ) + $digits > self::MAX_DIGITS ) {
-			throw new OverflowException( sprintf( 'Money: percentage "%s" is too large.', $percent ) );
+			throw new OverflowException( sprintf( 'Money: percentage "%s" is too large.', $percent ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal, untranslated message for developers and logs; every sink escapes or decodes it (docs/architecture.md, "Exception messages").
 		}
 
 		$factor = (int) ( $m[2] . $fraction );
@@ -438,7 +438,7 @@ final class Money {
 	 */
 	private function assert_same_currency( Money $other ): void {
 		if ( $this->currency !== $other->currency || $this->scale !== $other->scale ) {
-			throw new InvalidArgumentException( sprintf( 'Money: cannot combine %s with %s.', $this->currency, $other->currency ) );
+			throw new InvalidArgumentException( sprintf( 'Money: cannot combine %s with %s.', $this->currency, $other->currency ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal, untranslated message for developers and logs; every sink escapes or decodes it (docs/architecture.md, "Exception messages").
 		}
 	}
 
@@ -451,7 +451,7 @@ final class Money {
 	private static function normalise_currency( string $currency ): string {
 		$currency = strtoupper( trim( $currency ) );
 		if ( ! preg_match( '/^[A-Z]{3}$/', $currency ) ) {
-			throw new InvalidArgumentException( sprintf( 'Money: "%s" is not an ISO 4217 currency code.', $currency ) );
+			throw new InvalidArgumentException( sprintf( 'Money: "%s" is not an ISO 4217 currency code.', $currency ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal, untranslated message for developers and logs; every sink escapes or decodes it (docs/architecture.md, "Exception messages").
 		}
 		return $currency;
 	}

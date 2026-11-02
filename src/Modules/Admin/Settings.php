@@ -12,13 +12,14 @@ namespace EuroB2B\Modules\Admin;
 use Closure;
 use RuntimeException;
 use EuroB2B\Infrastructure\Schema;
+use EuroB2B\Support\I18n;
 
 /**
  * Typed access to the plugin settings stored in one option.
  *
  * Reads are cached per request. Writes go through the schema sanitiser, so
  * the stored array never contains unknown keys or wrong types; only the stored
- * values of EuroB2B Pro's settings stay while Pro is inactive (KeptSettings). The uninstall
+ * values of EU-B2B Pro's settings stay while Pro is inactive (KeptSettings). The uninstall
  * opt-in is mirrored into its own option because uninstall.php runs without
  * the plugin being loaded.
  */
@@ -30,6 +31,13 @@ final class Settings {
 	 * @var SettingsSchema
 	 */
 	private ?SettingsSchema $schema = null;
+
+	/**
+	 * Schema with untranslated labels, used until translations may load (PLT-020).
+	 *
+	 * @var SettingsSchema|null
+	 */
+	private ?SettingsSchema $early = null;
 
 	/**
 	 * Builds the schema on first use, so every module had the chance to add its fields.
@@ -60,12 +68,20 @@ final class Settings {
 	}
 
 	/**
-	 * Schema (built lazily, after all modules booted and registered their fields).
+	 * Schema (built lazily, after all modules booted and registered their fields). A schema built
+	 * before translations may load has untranslated labels (I18n::untranslated()) and is not kept;
+	 * the values read from it are the same.
 	 */
 	public function schema(): SettingsSchema {
-		if ( null === $this->schema ) {
-			$this->schema = ( $this->schema_factory )();
+		if ( null !== $this->schema ) {
+			return $this->schema;
 		}
+		if ( ! I18n::ready() ) {
+			$this->early ??= ( $this->schema_factory )();
+			return $this->early;
+		}
+		$this->early  = null;
+		$this->schema = ( $this->schema_factory )();
 		return $this->schema;
 	}
 
@@ -85,7 +101,7 @@ final class Settings {
 
 	/**
 	 * The stored value of a setting, also when no module registered its field: the privacy handling
-	 * of data written by EuroB2B Pro reads its retention periods with it while Pro is inactive
+	 * of data written by EU-B2B Pro reads its retention periods with it while Pro is inactive
 	 * (PLT-015). The value is as it was stored (sanitised by the schema that saved it).
 	 *
 	 * @param string $id       Field id.
@@ -106,12 +122,17 @@ final class Settings {
 	 * @return array<string, mixed>
 	 */
 	public function all(): array {
-		if ( null === $this->values ) {
-			$stored       = get_option( Schema::OPTION_SETTINGS, array() );
-			$stored       = is_array( $stored ) ? $stored : array();
-			$this->values = array_merge( $this->schema()->defaults(), array_intersect_key( $stored, $this->schema()->fields() ) );
+		if ( null !== $this->values ) {
+			return $this->values;
 		}
-		return $this->values;
+		$stored = get_option( Schema::OPTION_SETTINGS, array() );
+		$stored = is_array( $stored ) ? $stored : array();
+		$values = array_merge( $this->schema()->defaults(), array_intersect_key( $stored, $this->schema()->fields() ) );
+		// Kept only once the full schema exists (see schema()); an early read is computed again.
+		if ( I18n::ready() ) {
+			$this->values = $values;
+		}
+		return $values;
 	}
 
 	/**
@@ -126,7 +147,7 @@ final class Settings {
 		// plugin loaded). Both writes are verified; if either fails, both are restored so the page
 		// never shows one value while the uninstaller would act on another.
 		$previous_settings = get_option( Schema::OPTION_SETTINGS, array() );
-		// Without EuroB2B Pro its fields are not in the schema; their stored values stay (PLT-015).
+		// Without EU-B2B Pro its fields are not in the schema; their stored values stay (PLT-015).
 		$clean         = KeptSettings::merge( $this->schema()->sanitize( $input ), $previous_settings );
 		$previous_flag = (bool) get_option( Schema::OPTION_REMOVE_DATA, false );
 		$mirror        = array_key_exists( 'remove_data_on_uninstall', $clean );
@@ -141,7 +162,7 @@ final class Settings {
 			update_option( Schema::OPTION_SETTINGS, $previous_settings, true );
 			update_option( Schema::OPTION_REMOVE_DATA, $previous_flag, false );
 			$this->values = null;
-			throw new RuntimeException( esc_html__( 'The settings could not be saved completely; nothing was changed.', 'eurob2b' ) );
+			throw new RuntimeException( esc_html__( 'The settings could not be saved completely; nothing was changed.', 'stm-eu-b2b' ) );
 		}
 
 		$this->values = null;

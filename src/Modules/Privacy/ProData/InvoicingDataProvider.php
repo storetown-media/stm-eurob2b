@@ -16,7 +16,7 @@ use EuroB2B\Modules\Privacy\PersonalDataProviderInterface;
  * the result of the Peppol Directory lookup (EIN-006, D-30). The copies on orders follow
  * WooCommerce's order export and anonymisation (`InvoicingRecords::export_props()`,
  * `InvoicingRecords::anonymise_order()`). Part of the core: it reads the user meta, also while
- * EuroB2B Pro, which collects the data, is inactive (PLT-015).
+ * EU-B2B Pro, which collects the data, is inactive (PLT-015).
  */
 final class InvoicingDataProvider implements PersonalDataProviderInterface {
 
@@ -31,7 +31,7 @@ final class InvoicingDataProvider implements PersonalDataProviderInterface {
 	 * Label.
 	 */
 	public function label(): string {
-		return __( 'EuroB2B e-invoicing data', 'eurob2b' );
+		return __( 'EU-B2B e-invoicing data', 'stm-eu-b2b' );
 	}
 
 	/**
@@ -48,10 +48,10 @@ final class InvoicingDataProvider implements PersonalDataProviderInterface {
 			$data     = InvoicingRecords::get( $user->ID );
 			$register = is_array( $data['register'] ) ? InvoicingRecords::register_display( $data['register'] ) : '';
 			foreach ( array(
-				'buyer_reference' => array( __( 'Reference on invoices', 'eurob2b' ), $data['buyer_reference'] ),
-				'leitweg_id'      => array( __( 'Leitweg-ID', 'eurob2b' ), $data['leitweg_id'] ),
-				'peppol_id'       => array( __( 'Peppol ID', 'eurob2b' ), $data['peppol_id'] ),
-				'register'        => array( __( 'Company register', 'eurob2b' ), $register ),
+				'buyer_reference' => array( __( 'Reference on invoices', 'stm-eu-b2b' ), $data['buyer_reference'] ),
+				'leitweg_id'      => array( __( 'Leitweg-ID', 'stm-eu-b2b' ), $data['leitweg_id'] ),
+				'peppol_id'       => array( __( 'Peppol ID', 'stm-eu-b2b' ), $data['peppol_id'] ),
+				'register'        => array( __( 'Company register', 'stm-eu-b2b' ), $register ),
 			) as [ $label, $value ] ) {
 				if ( '' !== $value ) {
 					$items[] = array(
@@ -110,16 +110,16 @@ final class InvoicingDataProvider implements PersonalDataProviderInterface {
 			return array();
 		}
 		$status = array(
-			InvoicingRecords::LOOKUP_FOUND      => __( 'listed', 'eurob2b' ),
-			InvoicingRecords::LOOKUP_NOT_LISTED => __( 'not listed', 'eurob2b' ),
-			InvoicingRecords::LOOKUP_FAILED     => __( 'lookup failed', 'eurob2b' ),
+			InvoicingRecords::LOOKUP_FOUND      => __( 'listed', 'stm-eu-b2b' ),
+			InvoicingRecords::LOOKUP_NOT_LISTED => __( 'not listed', 'stm-eu-b2b' ),
+			InvoicingRecords::LOOKUP_FAILED     => __( 'lookup failed', 'stm-eu-b2b' ),
 		);
 		$items  = array(
 			array(
-				'name'  => __( 'Peppol Directory lookup', 'eurob2b' ),
+				'name'  => __( 'Peppol Directory lookup', 'stm-eu-b2b' ),
 				'value' => sprintf(
 					/* translators: 1: result (listed, not listed, lookup failed), 2: Peppol ID, 3: date and time */
-					__( '%1$s (ID %2$s, checked on %3$s)', 'eurob2b' ),
+					__( '%1$s (ID %2$s, checked on %3$s)', 'stm-eu-b2b' ),
 					$status[ $result['status'] ] ?? $status[ InvoicingRecords::LOOKUP_FAILED ],
 					$result['peppol_id'],
 					wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $result['checked_at'] )
@@ -128,13 +128,13 @@ final class InvoicingDataProvider implements PersonalDataProviderInterface {
 		);
 		if ( '' !== $result['name'] ) {
 			$items[] = array(
-				'name'  => __( 'Name in the Peppol Directory', 'eurob2b' ),
+				'name'  => __( 'Name in the Peppol Directory', 'stm-eu-b2b' ),
 				'value' => $result['name'],
 			);
 		}
 		if ( '' !== $result['country'] ) {
 			$items[] = array(
-				'name'  => __( 'Country in the Peppol Directory', 'eurob2b' ),
+				'name'  => __( 'Country in the Peppol Directory', 'stm-eu-b2b' ),
 				'value' => $result['country'],
 			);
 		}

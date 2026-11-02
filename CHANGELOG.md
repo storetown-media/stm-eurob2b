@@ -1,8 +1,36 @@
 # Changelog
 
-All notable changes to EuroB2B are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follow [Semantic Versioning](https://semver.org/).
+All notable changes to STM EU-B2B (called EuroB2B up to 1.7.0) are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follow [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
+
+## [1.8.0] – 2026-11-02
+
+EuroB2B is now STM EU-B2B: the free plugin moves to the folder `stm-eu-b2b/` and its own text domain for the WordPress.org plugin directory, whose Plugin Check the free archive now passes in CI; settings and data stay, the upgrade steps are below. Two display fixes on the order and report screens. No database migration (database version stays 12). No new personal data and no new external connection.
+
+### Changed
+- **EuroB2B is now called STM EU-B2B** (PLT-019; in running text EU-B2B), its final name for the WordPress.org plugin directory; EuroB2B Pro is now STM EU-B2B Pro. WordPress.org derives the slug from the name and needs the text domain to equal it, so the free plugin moves to the folder `stm-eu-b2b/` with the main file `stm-eu-b2b.php` (archive `stm-eu-b2b-<version>.zip`) and the text domain `stm-eu-b2b` (language files `languages/stm-eu-b2b-<locale>.po/.mo/.json`, all seven catalogues updated). The admin menu, menu paths in texts, e-mail titles (*STM EU-B2B: offer* …) and the privacy texts use the full name. No data moves: options, tables, meta keys, hooks and filters, capabilities, the REST namespace `eurob2b/v1`, the Store API namespaces, block names, shortcodes, CSS classes, rule coupon codes, the PHP namespace `EuroB2B\` and the constants `EUROB2B_*` stay as they are, so do the folder `eurob2b-pro/`, the archive names, the update source and the licence of STM EU-B2B Pro, which now has `Requires Plugins: stm-eu-b2b`. Theme overrides stay in the theme folder `eurob2b/`.
+- Two copies of the plugin can be loaded in one request without a fatal error: the main file no longer declares global functions (`eurob2b_bootstrap()` and its two helpers moved to `EuroB2B\Infrastructure\Bootstrap`), and the Composer autoloader of the free plugin has its own class name (`config.autoloader-suffix`). While the old plugin "EuroB2B" is active it loads first and keeps running; STM EU-B2B waits and says so in a notice.
+- While the old folder `eurob2b/` is installed, the admin shows a notice: the plugin was renamed, all settings and data stay, delete the old plugin "EuroB2B" while EU-B2B stays active. When *Remove all data on uninstall* is on, the notice warns to switch it off first. Deleting the old plugin runs its uninstall routine; while EU-B2B runs in that request, EU-B2B's uninstaller is used and keeps everything, also the scheduled tasks and the controller details of the record of processing activities.
+- The language folder is registered again when the plugin boots, so the folder of EU-B2B Pro, which has the same text domain, cannot replace it.
+- WordPress.org Plugin Check (PLT-020): a CI job runs the official Plugin Check on the free release archive; its findings are fixed:
+  - Exception messages are escaped where they are thrown (translated messages) and escaped or decoded wherever they are shown, logged or returned (REST, WP-CLI, WooCommerce log), so no message reaches a page unescaped and none shows an entity such as `&#039;`.
+  - No translation runs before WordPress allows it: the notice "Translation loading for the stm-eu-b2b domain was triggered too early" (WordPress 6.7+) is gone. Settings read while the plugin starts come from untranslated labels that nobody sees.
+  - Uploaded documents (registration, proof of supply, export evidence, purchase orders) are stored through WordPress's upload handling (`wp_handle_upload()`) instead of `move_uploaded_file()`, in the same private folder, with the same random names, checks and permissions.
+  - Database queries pass table names through the `%i` placeholder of `$wpdb->prepare()`.
+  - The e-mail templates of the registration name their loop variables with the plugin prefix; theme overrides receive the same variables as before.
+  - `readme.txt`: the title is the plugin name "STM EU-B2B"; a release archive is refused when its Stable tag is not the version.
+
+**Upgrade from EuroB2B 1.7.0** (the update does not arrive by itself, because the folder changes):
+1. Under *Plugins → Add New Plugin → Upload Plugin*, upload `stm-eu-b2b-1.8.0.zip`. You can activate it now; it waits while the old plugin is active.
+2. With EuroB2B Pro: update it to 1.8.0 first (it stays off until STM EU-B2B 1.8.0 runs; licence and updates keep working).
+3. Deactivate the old plugin "EuroB2B": STM EU-B2B takes over with all settings and data (activate it now if you did not in step 1).
+4. Delete the old plugin while STM EU-B2B stays active. If you delete it while STM EU-B2B is not active, switch off *Remove all data on uninstall* (*STM EU-B2B → Settings → Privacy and data*) first, otherwise the old uninstall routine removes the shared data.
+In a network, activate STM EU-B2B the way EuroB2B was activated (network-wide or per site): network-active plugins load before the plugins of a site.
+
+### Fixed
+- Reports: the figures of the "Total" row were left-aligned, so they stood under the wrong columns. WordPress' own table style won over the plugin's; the totals are right-aligned again like the other rows.
+- Order screen: every product line listed the internal field `_eurob2b_supply_type: goods` (the supply type kept for reports since 1.3.0). It is now hidden like WooCommerce's own internal fields.
 
 ## [1.7.0] – 2026-11-01
 

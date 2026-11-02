@@ -21,7 +21,7 @@ use WC_Shipping_Zones;
 /**
  * Two matrices (gateways × audiences, shipping methods × audiences) with the default policy for
  * methods that appear later. Audiences are the groups plus guests; a customer without a group
- * falls back to the customer-type column. Below them EuroB2B Pro adds, through the hooks of this
+ * falls back to the customer-type column. Below them EU-B2B Pro adds, through the hooks of this
  * page, the shipping cost change per audience (SHP-004), payment terms and the surcharges and
  * discounts per payment method (PAY-018/PAY-019). Capability: `eurob2b_manage_settings`.
  */
@@ -62,7 +62,7 @@ final class MethodsPage {
 	 * @param Menu $menu Menu.
 	 */
 	public function register_page( Menu $menu ): void {
-		$menu->add_page( self::SLUG, __( 'Payment and shipping methods', 'eurob2b' ), __( 'Payment & shipping', 'eurob2b' ), Capabilities::MANAGE_SETTINGS, array( $this, 'render' ), 40 );
+		$menu->add_page( self::SLUG, __( 'Payment and shipping methods', 'stm-eu-b2b' ), __( 'Payment & shipping', 'stm-eu-b2b' ), Capabilities::MANAGE_SETTINGS, array( $this, 'render' ), 40 );
 	}
 
 	/**
@@ -70,7 +70,7 @@ final class MethodsPage {
 	 */
 	public function handle_save(): void {
 		if ( ! current_user_can( Capabilities::MANAGE_SETTINGS ) ) {
-			wp_die( esc_html__( 'You are not allowed to change these settings.', 'eurob2b' ), '', array( 'response' => 403 ) );
+			wp_die( esc_html__( 'You are not allowed to change these settings.', 'stm-eu-b2b' ), '', array( 'response' => 403 ) );
 		}
 		check_admin_referer( self::NONCE_SAVE );
 		// phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- verified above; every value is validated in policy_from_request() / MethodPolicy::normalise().
@@ -81,7 +81,7 @@ final class MethodsPage {
 		}
 		/**
 		 * Saves the further tables of the payment and shipping methods page after the method matrices
-		 * were saved (capability and nonce are checked). EuroB2B Pro saves the payment terms, the
+		 * were saved (capability and nonce are checked). EU-B2B Pro saves the payment terms, the
 		 * shipping costs per group and the surcharges and discounts here (PLT-015). A table that cannot
 		 * be saved keeps its previous values and adds an entry; the page then shows the messages.
 		 *
@@ -137,40 +137,40 @@ final class MethodsPage {
 	 */
 	public function render(): void {
 		if ( ! current_user_can( Capabilities::MANAGE_SETTINGS ) ) {
-			wp_die( esc_html__( 'You are not allowed to view this page.', 'eurob2b' ), '', array( 'response' => 403 ) );
+			wp_die( esc_html__( 'You are not allowed to view this page.', 'stm-eu-b2b' ), '', array( 'response' => 403 ) );
 		}
-		PageHeader::open( 'eurob2b-methods', __( 'Payment and shipping methods', 'eurob2b' ) );
+		PageHeader::open( 'eurob2b-methods', __( 'Payment and shipping methods', 'stm-eu-b2b' ) );
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only notice flag.
 		if ( isset( $_GET['saved'] ) ) {
-			echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'Settings saved.', 'eurob2b' ) . '</p></div>';
+			echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'Settings saved.', 'stm-eu-b2b' ) . '</p></div>';
 		}
 		/**
 		 * Fires below the heading of the payment and shipping methods page, for notices about the last
-		 * save (query arguments `error` and `failed` of eurob2b_methods_page_save). EuroB2B Pro shows
+		 * save (query arguments `error` and `failed` of eurob2b_methods_page_save). EU-B2B Pro shows
 		 * which of its tables kept their previous values (PLT-015).
 		 */
 		do_action( 'eurob2b_methods_page_notices' );
-		echo '<p class="description">' . esc_html__( 'Tick the methods each audience may use at checkout. An audience without any configuration (a column that was never saved) sees every method; once you save, only the ticked methods remain for it. Customers without a group fall back to their customer type. Individual customers can override this on their profile. The admin order editor is never restricted.', 'eurob2b' ) . '</p>';
+		echo '<p class="description">' . esc_html__( 'Tick the methods each audience may use at checkout. An audience without any configuration (a column that was never saved) sees every method; once you save, only the ticked methods remain for it. Customers without a group fall back to their customer type. Individual customers can override this on their profile. The admin order editor is never restricted.', 'stm-eu-b2b' ) . '</p>';
 		echo '<form method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '">';
 		wp_nonce_field( self::NONCE_SAVE );
 		echo '<input type="hidden" name="action" value="' . esc_attr( self::ACTION_SAVE ) . '" />';
 
-		$this->matrix( MethodPolicy::KIND_PAYMENT, __( 'Payment gateways', 'eurob2b' ), $this->payment_rows() );
-		echo '<p class="description">' . esc_html__( 'Shipping zones stay geographic: WooCommerce picks the zone from the address, EuroB2B then shows each audience only its ticked methods within that zone.', 'eurob2b' ) . '</p>';
-		$this->matrix( MethodPolicy::KIND_SHIPPING, __( 'Shipping methods', 'eurob2b' ), $this->shipping_rows() );
+		$this->matrix( MethodPolicy::KIND_PAYMENT, __( 'Payment gateways', 'stm-eu-b2b' ), $this->payment_rows() );
+		echo '<p class="description">' . esc_html__( 'Shipping zones stay geographic: WooCommerce picks the zone from the address, EU-B2B then shows each audience only its ticked methods within that zone.', 'stm-eu-b2b' ) . '</p>';
+		$this->matrix( MethodPolicy::KIND_SHIPPING, __( 'Shipping methods', 'stm-eu-b2b' ), $this->shipping_rows() );
 		$shipping = $this->policy->load( MethodPolicy::KIND_SHIPPING );
-		echo '<p><label><input type="checkbox" name="shipping_non_zone" value="1" ' . checked( $shipping['non_zone'], true, false ) . ' /> ' . esc_html__( 'Also control shipping methods that are not part of a zone (legacy methods and some plugins)', 'eurob2b' ) . '</label></p>';
+		echo '<p><label><input type="checkbox" name="shipping_non_zone" value="1" ' . checked( $shipping['non_zone'], true, false ) . ' /> ' . esc_html__( 'Also control shipping methods that are not part of a zone (legacy methods and some plugins)', 'stm-eu-b2b' ) . '</label></p>';
 
 		/**
 		 * Fires inside the form of the payment and shipping methods page, after the method matrices and
-		 * before the save button; the fields are saved through eurob2b_methods_page_save. EuroB2B Pro
+		 * before the save button; the fields are saved through eurob2b_methods_page_save. EU-B2B Pro
 		 * adds the shipping costs per group, the payment terms and the surcharges and discounts per
 		 * payment method (PLT-015).
 		 *
 		 * @param MethodsPage $page The page (audience columns, payment and shipping method rows).
 		 */
 		do_action( 'eurob2b_methods_page_sections', $this );
-		submit_button( __( 'Save methods', 'eurob2b' ) );
+		submit_button( __( 'Save methods', 'stm-eu-b2b' ) );
 		echo '</form></div>';
 	}
 
@@ -190,15 +190,15 @@ final class MethodsPage {
 				echo '<input type="hidden" name="' . esc_attr( $kind . '_previous[' . $key . ']' ) . '" value="' . esc_attr( (string) wp_json_encode( $list ) ) . '" />';
 			}
 		}
-		echo '<p><label>' . esc_html__( 'Methods that appear later (new gateway, new zone method):', 'eurob2b' ) . ' <select name="' . esc_attr( $kind . '_default_new' ) . '">';
-		echo '<option value="allowed" ' . selected( $policy['default_new'], MethodPolicy::DEFAULT_ALLOWED, false ) . '>' . esc_html__( 'allowed for everyone until you decide', 'eurob2b' ) . '</option>';
-		echo '<option value="blocked" ' . selected( $policy['default_new'], MethodPolicy::DEFAULT_BLOCKED, false ) . '>' . esc_html__( 'blocked for configured audiences until you tick them', 'eurob2b' ) . '</option>';
+		echo '<p><label>' . esc_html__( 'Methods that appear later (new gateway, new zone method):', 'stm-eu-b2b' ) . ' <select name="' . esc_attr( $kind . '_default_new' ) . '">';
+		echo '<option value="allowed" ' . selected( $policy['default_new'], MethodPolicy::DEFAULT_ALLOWED, false ) . '>' . esc_html__( 'allowed for everyone until you decide', 'stm-eu-b2b' ) . '</option>';
+		echo '<option value="blocked" ' . selected( $policy['default_new'], MethodPolicy::DEFAULT_BLOCKED, false ) . '>' . esc_html__( 'blocked for configured audiences until you tick them', 'stm-eu-b2b' ) . '</option>';
 		echo '</select></label></p>';
 		if ( empty( $rows ) ) {
-			echo '<p>' . esc_html__( 'No methods are enabled in WooCommerce.', 'eurob2b' ) . '</p>';
+			echo '<p>' . esc_html__( 'No methods are enabled in WooCommerce.', 'stm-eu-b2b' ) . '</p>';
 			return;
 		}
-		echo '<table class="widefat striped eurob2b-method-matrix"><thead><tr><th>' . esc_html__( 'Method', 'eurob2b' ) . '</th>';
+		echo '<table class="widefat striped eurob2b-method-matrix"><thead><tr><th>' . esc_html__( 'Method', 'stm-eu-b2b' ) . '</th>';
 		foreach ( $audiences as $label ) {
 			echo '<th>' . esc_html( $label ) . '</th>';
 		}
@@ -239,7 +239,7 @@ final class MethodsPage {
 		foreach ( $groups as $group ) {
 			$out[ 'group:' . $group->id ] = $group->name;
 		}
-		$out['guest'] = __( 'Guests', 'eurob2b' );
+		$out['guest'] = __( 'Guests', 'stm-eu-b2b' );
 		return $out;
 	}
 

@@ -45,7 +45,7 @@ final class GroupRepository {
 		global $wpdb;
 		$table = $this->table();
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		$rows        = $wpdb->get_results( "SELECT * FROM {$table} ORDER BY customer_type ASC, priority DESC, name ASC", ARRAY_A );
+		$rows        = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %i ORDER BY customer_type ASC, priority DESC, name ASC', $table ), ARRAY_A );
 		$this->cache = array();
 		foreach ( is_array( $rows ) ? $rows : array() as $row ) {
 			$group                     = $this->hydrate( $row );
@@ -116,22 +116,22 @@ final class GroupRepository {
 
 		$existing = $this->find_by_slug( $group->slug );
 		if ( null !== $existing && $existing->id !== $group->id ) {
-			throw new RuntimeException( sprintf( 'A group with the slug "%s" already exists.', $group->slug ) );
+			throw new RuntimeException( sprintf( 'A group with the slug "%s" already exists.', $group->slug ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal, untranslated message for developers and logs; every sink escapes or decodes it (docs/architecture.md, "Exception messages").
 		}
 
 		$current = $group->exists() ? $this->find( $group->id ) : null;
 		if ( $group->exists() && null === $current ) {
 			/* translators: %d: group id */
-			throw new RuntimeException( esc_html( sprintf( __( 'Group %d does not exist.', 'eurob2b' ), $group->id ) ) );
+			throw new RuntimeException( esc_html( sprintf( __( 'Group %d does not exist.', 'stm-eu-b2b' ), $group->id ) ) );
 		}
 		if ( ! $group->exists() && ! $group->is_default && empty( $this->of_type( $group->customer_type ) ) ) {
 			$group = $group->with( array( 'is_default' => true ) );
 		}
 		if ( null !== $current && $current->is_default && ! $group->is_default ) {
-			throw new RuntimeException( esc_html__( 'The default group of a customer type cannot be unset; make another group the default instead.', 'eurob2b' ) );
+			throw new RuntimeException( esc_html__( 'The default group of a customer type cannot be unset; make another group the default instead.', 'stm-eu-b2b' ) );
 		}
 		if ( null !== $current && $current->customer_type !== $group->customer_type ) {
-			throw new RuntimeException( esc_html__( 'The customer type of an existing group cannot be changed.', 'eurob2b' ) );
+			throw new RuntimeException( esc_html__( 'The customer type of an existing group cannot be changed.', 'stm-eu-b2b' ) );
 		}
 
 		$now    = current_time( 'mysql', true );
@@ -150,7 +150,7 @@ final class GroupRepository {
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
 			$result = $wpdb->update( $this->table(), $data, array( 'id' => $group->id ), $format, array( '%d' ) );
 			if ( false === $result ) {
-				throw new RuntimeException( esc_html__( 'Could not update the group:', 'eurob2b' ) . ' ' . esc_html( $wpdb->last_error ) );
+				throw new RuntimeException( esc_html__( 'Could not update the group:', 'stm-eu-b2b' ) . ' ' . esc_html( $wpdb->last_error ) );
 			}
 			$saved = $group;
 		} else {
@@ -161,7 +161,7 @@ final class GroupRepository {
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
 			$result = $wpdb->insert( $this->table(), $data, $format );
 			if ( false === $result ) {
-				throw new RuntimeException( esc_html__( 'Could not create the group:', 'eurob2b' ) . ' ' . esc_html( $wpdb->last_error ) );
+				throw new RuntimeException( esc_html__( 'Could not create the group:', 'stm-eu-b2b' ) . ' ' . esc_html( $wpdb->last_error ) );
 			}
 			$saved = $group->with_id( (int) $wpdb->insert_id );
 		}
@@ -178,7 +178,7 @@ final class GroupRepository {
 				)
 			);
 			if ( false === $result ) {
-				throw new RuntimeException( esc_html__( 'Could not set the default group:', 'eurob2b' ) . ' ' . esc_html( $wpdb->last_error ) );
+				throw new RuntimeException( esc_html__( 'Could not set the default group:', 'stm-eu-b2b' ) . ' ' . esc_html( $wpdb->last_error ) );
 			}
 		}
 
@@ -207,13 +207,13 @@ final class GroupRepository {
 		$group  = $this->find( $id );
 		$target = $this->find( $target_id );
 		if ( null === $group ) {
-			throw new RuntimeException( esc_html__( 'The group does not exist.', 'eurob2b' ) );
+			throw new RuntimeException( esc_html__( 'The group does not exist.', 'stm-eu-b2b' ) );
 		}
 		if ( $group->is_default ) {
-			throw new RuntimeException( esc_html__( 'The default group of a customer type cannot be deleted. Make another group the default first.', 'eurob2b' ) );
+			throw new RuntimeException( esc_html__( 'The default group of a customer type cannot be deleted. Make another group the default first.', 'stm-eu-b2b' ) );
 		}
 		if ( null === $target || $target->id === $group->id || $target->customer_type !== $group->customer_type ) {
-			throw new RuntimeException( esc_html__( 'Members must be moved to another group of the same customer type.', 'eurob2b' ) );
+			throw new RuntimeException( esc_html__( 'Members must be moved to another group of the same customer type.', 'stm-eu-b2b' ) );
 		}
 
 		// Members first, then the group: whichever statement fails, no user ends up pointing at a
@@ -229,13 +229,13 @@ final class GroupRepository {
 		);
 		wp_cache_flush_group( 'user_meta' );
 		if ( false === $moved ) {
-			throw new RuntimeException( esc_html__( 'Could not move the members, the group was not deleted:', 'eurob2b' ) . ' ' . esc_html( $wpdb->last_error ) );
+			throw new RuntimeException( esc_html__( 'Could not move the members, the group was not deleted:', 'stm-eu-b2b' ) . ' ' . esc_html( $wpdb->last_error ) );
 		}
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
 		$result = $wpdb->delete( $this->table(), array( 'id' => $group->id ), array( '%d' ) );
 		if ( false === $result ) {
-			throw new RuntimeException( esc_html__( 'Could not delete the group:', 'eurob2b' ) . ' ' . esc_html( $wpdb->last_error ) );
+			throw new RuntimeException( esc_html__( 'Could not delete the group:', 'stm-eu-b2b' ) . ' ' . esc_html( $wpdb->last_error ) );
 		}
 
 		$this->cache = null;
@@ -319,8 +319,8 @@ final class GroupRepository {
 	public function ensure_defaults(): bool {
 		$changed = false;
 		$seed    = array(
-			CustomerType::B2B->value => array( 'business', __( 'Business customers', 'eurob2b' ) ),
-			CustomerType::B2C->value => array( 'retail', __( 'Private customers', 'eurob2b' ) ),
+			CustomerType::B2B->value => array( 'business', __( 'Business customers', 'stm-eu-b2b' ) ),
+			CustomerType::B2C->value => array( 'retail', __( 'Private customers', 'stm-eu-b2b' ) ),
 		);
 		foreach ( $seed as $type_value => [ $slug, $name ] ) {
 			$type = CustomerType::from( $type_value );

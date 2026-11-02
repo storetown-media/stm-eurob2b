@@ -143,7 +143,7 @@ final class PriceResolver {
 		$providers = $this->tier_providers();
 		if ( ! empty( $providers ) ) {
 			/**
-			 * Filters the quantity the tier providers look up their tiers with (EuroB2B Pro: the tier
+			 * Filters the quantity the tier providers look up their tiers with (EU-B2B Pro: the tier
 			 * quantity basis, PRC-015, counts all variations of a product in the cart together).
 			 *
 			 * @param int        $quantity Quantity being priced.

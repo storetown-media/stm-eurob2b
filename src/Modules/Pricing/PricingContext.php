@@ -59,7 +59,7 @@ final class PricingContext {
 				self::storefront_ajax_actions()
 			);
 			/**
-			 * Filters whether EuroB2B pricing applies to the current request.
+			 * Filters whether EU-B2B pricing applies to the current request.
 			 *
 			 * @param bool $applies Default decision.
 			 */

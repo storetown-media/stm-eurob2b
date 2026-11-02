@@ -1,8 +1,8 @@
 <?php
 /**
- * B2BKing's dynamic rules as EuroB2B rules.
+ * B2BKing's dynamic rules as EU-B2B rules.
  *
- * @package EuroB2B
+ * @package EU-B2B'
  */
 
 declare( strict_types=1 );
@@ -15,9 +15,9 @@ use EuroB2B\Modules\Rules\Rule;
 use EuroB2B\Modules\Rules\Scope;
 
 /**
- * Maps one B2BKing rule (post type `b2bking_rule`) to EuroB2B rules in the shape of the rules
+ * Maps one B2BKing rule (post type `b2bking_rule`) to EU-B2B rules in the shape of the rules
  * screen's form (MIG-002, table in docs/migration.md). A rule whose products mix kinds (categories,
- * products, variations, tags) becomes one EuroB2B rule per kind. What EuroB2B cannot express
+ * products, variations, tags) becomes one EU-B2B rule per kind. What EU-B2B cannot express
  * ("all except", value conditions per product or category) is imported switched off with a note;
  * tax, currency, buy-x-get-y and payment discount rules are not imported.
  */
@@ -47,7 +47,7 @@ final class B2BKingRules {
 	 */
 	public function import( array $post, array $meta, ImportWriter $writer ): void {
 		/* translators: %d: B2BKing rule id */
-		$name = '' !== trim( $post['title'] ) ? trim( wp_strip_all_tags( $post['title'] ) ) : sprintf( __( 'B2BKing rule %d', 'eurob2b' ), $post['id'] );
+		$name = '' !== trim( $post['title'] ) ? trim( wp_strip_all_tags( $post['title'] ) ) : sprintf( __( 'B2BKing rule %d', 'stm-eu-b2b' ), $post['id'] );
 		$what = (string) ( $meta['b2bking_rule_what'] ?? '' );
 		if ( isset( self::NOT_IMPORTED[ $what ] ) ) {
 			$writer->skip( self::reason( $name, self::NOT_IMPORTED[ $what ] ) );
@@ -56,20 +56,20 @@ final class B2BKingRules {
 		$action = $this->action( $what, $meta );
 		if ( null === $action ) {
 			/* translators: 1: rule name, 2: B2BKing rule type */
-			$writer->skip( sprintf( __( 'Rule "%1$s": the B2BKing rule type "%2$s" has no counterpart in EuroB2B.', 'eurob2b' ), $name, $what ) );
+			$writer->skip( sprintf( __( 'Rule "%1$s": the B2BKing rule type "%2$s" has no counterpart in EU-B2B.', 'stm-eu-b2b' ), $name, $what ) );
 			return;
 		}
 		$audience = $this->audience( $meta, $writer );
 		if ( empty( $audience['audience_tokens'] ) && empty( $audience['audience_groups'] ) && empty( $audience['audience_users'] ) ) {
 			/* translators: %s: rule name */
-			$writer->skip( sprintf( __( 'Rule "%s": none of the customers or groups it applies to were imported.', 'eurob2b' ), $name ) );
+			$writer->skip( sprintf( __( 'Rule "%s": none of the customers or groups it applies to were imported.', 'stm-eu-b2b' ), $name ) );
 			return;
 		}
 		$enabled = 'publish' === $post['status'];
 		$scopes  = $this->scopes( $meta );
 		if ( null === $scopes ) {
 			/* translators: %s: rule name */
-			$writer->note( Run::LEVEL_WARNING, sprintf( __( 'Rule "%s" applies to all products except some; EuroB2B cannot exclude products, so the rule is imported switched off for all products.', 'eurob2b' ), $name ) );
+			$writer->note( Run::LEVEL_WARNING, sprintf( __( 'Rule "%s" applies to all products except some; EU-B2B cannot exclude products, so the rule is imported switched off for all products.', 'stm-eu-b2b' ), $name ) );
 			$enabled = false;
 			$scopes  = array( Scope::ALL => array() );
 		}
@@ -79,7 +79,7 @@ final class B2BKingRules {
 			$on         = $enabled;
 			if ( null === $conditions ) {
 				/* translators: %s: rule name */
-				$writer->note( Run::LEVEL_WARNING, sprintf( __( 'Rule "%s" has a condition EuroB2B cannot check (a value per product or category, or a category quantity without categories); it is imported switched off without conditions.', 'eurob2b' ), $name ) );
+				$writer->note( Run::LEVEL_WARNING, sprintf( __( 'Rule "%s" has a condition EU-B2B cannot check (a value per product or category, or a category quantity without categories); it is imported switched off without conditions.', 'stm-eu-b2b' ), $name ) );
 				$conditions = array();
 				$on         = false;
 			}
@@ -102,7 +102,7 @@ final class B2BKingRules {
 	}
 
 	/**
-	 * EuroB2B type and form fields of a B2BKing rule type, or null when there is none.
+	 * EU-B2B type and form fields of a B2BKing rule type, or null when there is none.
 	 *
 	 * @param string                $what B2BKing type.
 	 * @param array<string, string> $meta Rule meta.
@@ -286,10 +286,10 @@ final class B2BKingRules {
 	 */
 	private static function kind_label( string $kind ): string {
 		$labels = array(
-			Scope::PRODUCTS   => __( 'products', 'eurob2b' ),
-			Scope::VARIATIONS => __( 'variations', 'eurob2b' ),
-			Scope::CATEGORIES => __( 'categories', 'eurob2b' ),
-			Scope::TAGS       => __( 'tags', 'eurob2b' ),
+			Scope::PRODUCTS   => __( 'products', 'stm-eu-b2b' ),
+			Scope::VARIATIONS => __( 'variations', 'stm-eu-b2b' ),
+			Scope::CATEGORIES => __( 'categories', 'stm-eu-b2b' ),
+			Scope::TAGS       => __( 'tags', 'stm-eu-b2b' ),
 		);
 		return $labels[ $kind ] ?? $kind;
 	}
@@ -304,21 +304,21 @@ final class B2BKingRules {
 		switch ( $reason ) {
 			case 'tax':
 				/* translators: %s: rule name */
-				return sprintf( __( 'Rule "%s" is a tax rule; tax is not imported (EuroB2B decides on VAT in its tax module).', 'eurob2b' ), $name );
+				return sprintf( __( 'Rule "%s" is a tax rule; tax is not imported (EU-B2B decides on VAT in its tax module).', 'stm-eu-b2b' ), $name );
 			case 'currency':
 				/* translators: %s: rule name */
-				return sprintf( __( 'Rule "%s" sets a currency; currencies are not imported.', 'eurob2b' ), $name );
+				return sprintf( __( 'Rule "%s" sets a currency; currencies are not imported.', 'stm-eu-b2b' ), $name );
 			case 'bogo':
 				/* translators: %s: rule name */
-				return sprintf( __( 'Rule "%s" is a "buy X, get Y" rule, which EuroB2B does not offer.', 'eurob2b' ), $name );
+				return sprintf( __( 'Rule "%s" is a "buy X, get Y" rule, which EU-B2B does not offer.', 'stm-eu-b2b' ), $name );
 			case 'payment':
 				/* translators: %s: rule name */
-				return sprintf( __( 'Rule "%s" gives a discount for a payment method; set it up under EuroB2B\'s surcharges and discounts per payment method, which respect the limits for SEPA payments.', 'eurob2b' ), $name );
+				return sprintf( __( 'Rule "%s" gives a discount for a payment method; set it up under EU-B2B\'s surcharges and discounts per payment method, which respect the limits for SEPA payments.', 'stm-eu-b2b' ), $name );
 			case 'format':
 				/* translators: %s: rule name */
-				return sprintf( __( 'Rule "%s" limits a payment method by order value in a form EuroB2B cannot read; set up a payment window by hand.', 'eurob2b' ), $name );
+				return sprintf( __( 'Rule "%s" limits a payment method by order value in a form EU-B2B cannot read; set up a payment window by hand.', 'stm-eu-b2b' ), $name );
 		}
 		/* translators: %s: rule name */
-		return sprintf( __( 'Rule "%s" has no counterpart in EuroB2B.', 'eurob2b' ), $name );
+		return sprintf( __( 'Rule "%s" has no counterpart in EU-B2B.', 'stm-eu-b2b' ), $name );
 	}
 }

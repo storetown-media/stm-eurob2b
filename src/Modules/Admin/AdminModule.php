@@ -14,9 +14,10 @@ use EuroB2B\Module\AbstractModule;
 use EuroB2B\Modules\Customers\GroupRepository;
 use EuroB2B\Modules\Registration\FieldRepository;
 use EuroB2B\Modules\Registration\RegistrationTypeRepository;
+use EuroB2B\Support\I18n;
 
 /**
- * Settings framework and the EuroB2B admin menu.
+ * Settings framework and the EU-B2B admin menu.
  */
 final class AdminModule extends AbstractModule {
 
@@ -33,25 +34,17 @@ final class AdminModule extends AbstractModule {
 	 * @param Container $container Service container.
 	 */
 	public function register( Container $container ): void {
-		$container->set(
-			SettingsSchema::class,
-			static function (): SettingsSchema {
-				$schema = new SettingsSchema( 'sanitize_text_field' );
-				self::core_schema( $schema );
-
-				/**
-				 * Lets modules add sections and fields.
-				 *
-				 * @param SettingsSchema $schema Schema.
-				 */
-				do_action( 'eurob2b_settings_schema', $schema );
-
-				return $schema;
-			}
-		);
+		$container->set( SettingsSchema::class, static fn(): SettingsSchema => self::build_schema() );
 		// The schema is built on first use, not when Settings is resolved, so modules that add fields
-		// in boot() are not missed even if Settings is resolved early.
-		$container->set( Settings::class, static fn( Container $c ): Settings => new Settings( static fn(): SettingsSchema => $c->get( SettingsSchema::class ) ) );
+		// in boot() are not missed even if Settings is resolved early. A module that reads a setting
+		// while the plugin boots (plugins_loaded) gets the values from a schema built with untranslated
+		// labels: WordPress may not load translations before after_setup_theme (PLT-020).
+		$container->set(
+			Settings::class,
+			static fn( Container $c ): Settings => new Settings(
+				static fn(): SettingsSchema => I18n::ready() ? $c->get( SettingsSchema::class ) : I18n::untranslated( static fn(): SettingsSchema => self::build_schema() )
+			)
+		);
 		$container->set( Menu::class, static fn(): Menu => new Menu() );
 		$container->set( OverviewPage::class, static fn(): OverviewPage => new OverviewPage() );
 		$container->set( SettingsPage::class, static fn( Container $c ): SettingsPage => new SettingsPage( $c->get( Settings::class ) ) );
@@ -85,20 +78,37 @@ final class AdminModule extends AbstractModule {
 	}
 
 	/**
+	 * The settings schema: the core's fields and those the modules add.
+	 */
+	private static function build_schema(): SettingsSchema {
+		$schema = new SettingsSchema( 'sanitize_text_field' );
+		self::core_schema( $schema );
+
+		/**
+		 * Lets modules add sections and fields.
+		 *
+		 * @param SettingsSchema $schema Schema.
+		 */
+		do_action( 'eurob2b_settings_schema', $schema );
+
+		return $schema;
+	}
+
+	/**
 	 * Sections and fields owned by the core.
 	 *
 	 * @param SettingsSchema $schema Schema.
 	 */
 	private static function core_schema( SettingsSchema $schema ): void {
-		$schema->add_section( 'privacy', __( 'Privacy and data', 'eurob2b' ), 900 );
+		$schema->add_section( 'privacy', __( 'Privacy and data', 'stm-eu-b2b' ), 900 );
 
 		$schema->add_field(
 			array(
 				'id'             => 'remove_data_on_uninstall',
 				'section'        => 'privacy',
-				'label'          => __( 'Remove all data on uninstall', 'eurob2b' ),
-				'checkbox_label' => __( 'Delete groups, rules, validation records and plugin settings when the plugin is deleted', 'eurob2b' ),
-				'description'    => __( 'Off by default. Business records such as VAT validation evidence may be subject to statutory retention duties; check with your accountant before enabling this.', 'eurob2b' ),
+				'label'          => __( 'Remove all data on uninstall', 'stm-eu-b2b' ),
+				'checkbox_label' => __( 'Delete groups, rules, validation records and plugin settings when the plugin is deleted', 'stm-eu-b2b' ),
+				'description'    => __( 'Off by default. Business records such as VAT validation evidence may be subject to statutory retention duties; check with your accountant before enabling this.', 'stm-eu-b2b' ),
 				'type'           => SettingsSchema::TYPE_BOOLEAN,
 				'default'        => false,
 			)

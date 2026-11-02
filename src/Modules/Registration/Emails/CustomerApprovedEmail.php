@@ -19,10 +19,10 @@ final class CustomerApprovedEmail extends AbstractEmail {
 	 */
 	public function __construct() {
 		$this->id             = 'eurob2b_customer_approved';
-		$this->title          = __( 'EuroB2B: account approved', 'eurob2b' );
-		$this->description    = __( 'Sent to the customer when a pending registration is approved.', 'eurob2b' );
-		$this->heading        = __( 'Your account is now active', 'eurob2b' );
-		$this->subject        = __( '[{site_title}] Your account has been approved', 'eurob2b' );
+		$this->title          = __( 'STM EU-B2B: account approved', 'stm-eu-b2b' );
+		$this->description    = __( 'Sent to the customer when a pending registration is approved.', 'stm-eu-b2b' );
+		$this->heading        = __( 'Your account is now active', 'stm-eu-b2b' );
+		$this->subject        = __( '[{site_title}] Your account has been approved', 'stm-eu-b2b' );
 		$this->customer_email = true;
 		parent::__construct();
 		add_action( 'eurob2b_registration_approved_notification', array( $this, 'trigger' ), 10, 1 );

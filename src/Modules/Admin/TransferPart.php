@@ -13,7 +13,7 @@ use Closure;
 
 /**
  * One part of the configuration file of PLT-012 that belongs to a module, e.g. the quote request
- * fields (EuroB2B Pro) or the payment method policies. Modules add their parts through the filter
+ * fields (EU-B2B Pro) or the payment method policies. Modules add their parts through the filter
  * `eurob2b_settings_transfer_parts`; the settings, groups and registration types and fields are the
  * core's own parts (PLT-015).
  *

@@ -35,9 +35,9 @@ enum CustomerStatus: string {
 	 */
 	public function label(): string {
 		return match ( $this ) {
-			self::PENDING => __( 'Pending approval', 'eurob2b' ),
-			self::APPROVED => __( 'Approved', 'eurob2b' ),
-			self::REJECTED => __( 'Rejected', 'eurob2b' ),
+			self::PENDING => __( 'Pending approval', 'stm-eu-b2b' ),
+			self::APPROVED => __( 'Approved', 'stm-eu-b2b' ),
+			self::REJECTED => __( 'Rejected', 'stm-eu-b2b' ),
 		};
 	}
 }

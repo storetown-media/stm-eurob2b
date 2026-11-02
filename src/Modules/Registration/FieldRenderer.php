@@ -66,7 +66,7 @@ final class FieldRenderer {
 			case FieldDefinition::TYPE_SELECT:
 				$html .= '<label for="' . esc_attr( $id ) . '">' . $label . '</label>';
 				$html .= '<select class="select" id="' . esc_attr( $id ) . '" name="' . esc_attr( $name ) . '"' . $req_attr . $described . '>';
-				$html .= '<option value="">' . esc_html( '' !== $field->placeholder ? $field->placeholder : __( 'Please choose', 'eurob2b' ) ) . '</option>';
+				$html .= '<option value="">' . esc_html( '' !== $field->placeholder ? $field->placeholder : __( 'Please choose', 'stm-eu-b2b' ) ) . '</option>';
 				foreach ( $field->options as $option_value => $option_label ) {
 					$html .= '<option value="' . esc_attr( (string) $option_value ) . '" ' . selected( (string) $option_value, $value, false ) . '>' . esc_html( (string) $option_label ) . '</option>';
 				}
@@ -75,7 +75,7 @@ final class FieldRenderer {
 
 			case FieldDefinition::TYPE_FILE:
 				// The limits are part of the description, so they are read out with the field.
-				$limits    = sprintf( /* translators: %d: size limit in megabytes */ __( 'PDF, JPG or PNG, at most %d MB.', 'eurob2b' ), $this->file_max_mb );
+				$limits    = sprintf( /* translators: %d: size limit in megabytes */ __( 'PDF, JPG or PNG, at most %d MB.', 'stm-eu-b2b' ), $this->file_max_mb );
 				$limits_id = $id . '-limits';
 				$html     .= '<label for="' . esc_attr( $id ) . '">' . $label . '</label>';
 				$html     .= '<input type="file" class="input-text" id="' . esc_attr( $id ) . '" name="' . esc_attr( $name ) . '" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png"' . $req_attr . ' aria-describedby="' . esc_attr( trim( $limits_id . ( '' !== $field->help ? ' ' . $help_id : '' ) ) ) . '" />';
@@ -109,34 +109,34 @@ final class FieldRenderer {
 		switch ( $code ) {
 			case 'required':
 				/* translators: %s: field label */
-				return sprintf( __( '%s is a required field.', 'eurob2b' ), $field->label );
+				return sprintf( __( '%s is a required field.', 'stm-eu-b2b' ), $field->label );
 			case 'email':
 				/* translators: %s: field label */
-				return sprintf( __( '%s must be a valid e-mail address.', 'eurob2b' ), $field->label );
+				return sprintf( __( '%s must be a valid e-mail address.', 'stm-eu-b2b' ), $field->label );
 			case 'number':
 				/* translators: %s: field label */
-				return sprintf( __( '%s must be a number.', 'eurob2b' ), $field->label );
+				return sprintf( __( '%s must be a number.', 'stm-eu-b2b' ), $field->label );
 			case 'date':
 				/* translators: %s: field label */
-				return sprintf( __( '%s must be a date (YYYY-MM-DD).', 'eurob2b' ), $field->label );
+				return sprintf( __( '%s must be a date (YYYY-MM-DD).', 'stm-eu-b2b' ), $field->label );
 			case 'tel':
 				/* translators: %s: field label */
-				return sprintf( __( '%s must be a phone number.', 'eurob2b' ), $field->label );
+				return sprintf( __( '%s must be a phone number.', 'stm-eu-b2b' ), $field->label );
 			case 'option':
 				/* translators: %s: field label */
-				return sprintf( __( 'Please choose a valid option for %s.', 'eurob2b' ), $field->label );
+				return sprintf( __( 'Please choose a valid option for %s.', 'stm-eu-b2b' ), $field->label );
 			case 'file_type':
 				/* translators: %s: field label */
-				return sprintf( __( '%s: only PDF, JPG and PNG files can be uploaded.', 'eurob2b' ), $field->label );
+				return sprintf( __( '%s: only PDF, JPG and PNG files can be uploaded.', 'stm-eu-b2b' ), $field->label );
 			case 'file_size':
 				/* translators: %s: field label */
-				return sprintf( __( '%s: the file is too large.', 'eurob2b' ), $field->label );
+				return sprintf( __( '%s: the file is too large.', 'stm-eu-b2b' ), $field->label );
 			case 'file_failed':
 				/* translators: %s: field label */
-				return sprintf( __( '%s: the file could not be uploaded. Please try again.', 'eurob2b' ), $field->label );
+				return sprintf( __( '%s: the file could not be uploaded. Please try again.', 'stm-eu-b2b' ), $field->label );
 			default:
 				/* translators: %s: field label */
-				return sprintf( __( '%s is too long.', 'eurob2b' ), $field->label );
+				return sprintf( __( '%s is too long.', 'stm-eu-b2b' ), $field->label );
 		}//end switch
 	}
 }

@@ -16,7 +16,7 @@ use EuroB2B\Modules\Privacy\RetentionTaskInterface;
 /**
  * Deletes quote requests from guests that were not changed for the configured number of days
  * (QUO-015, D-06; setting `quotes_guest_retention_days`, default 180 days, product owner decision of
- * 2026-10-25). It always runs, also while guest requests are switched off or EuroB2B Pro is inactive
+ * 2026-10-25). It always runs, also while guest requests are switched off or EU-B2B Pro is inactive
  * (PLT-015), so stored requests do not stay. A request assigned to a customer account is no longer
  * a guest request and follows `quotes_retention_days`.
  */

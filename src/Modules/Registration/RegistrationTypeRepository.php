@@ -124,7 +124,7 @@ final class RegistrationTypeRepository {
 	 */
 	private static function assert_one_enabled( array $types ): void {
 		if ( empty( array_filter( $types, static fn( RegistrationType $t ): bool => $t->enabled ) ) ) {
-			throw new RuntimeException( esc_html__( 'At least one enabled registration type is required.', 'eurob2b' ) );
+			throw new RuntimeException( esc_html__( 'At least one enabled registration type is required.', 'stm-eu-b2b' ) );
 		}
 	}
 
@@ -161,8 +161,8 @@ final class RegistrationTypeRepository {
 	 */
 	public static function defaults(): array {
 		return array(
-			new RegistrationType( 'private', __( 'Private customer', 'eurob2b' ), CustomerType::B2C, RegistrationType::APPROVAL_AUTOMATIC, null, true, 10 ),
-			new RegistrationType( 'business', __( 'Business customer', 'eurob2b' ), CustomerType::B2B, RegistrationType::APPROVAL_MANUAL, null, true, 20, __( 'Your account is activated after we have checked your company details.', 'eurob2b' ) ),
+			new RegistrationType( 'private', __( 'Private customer', 'stm-eu-b2b' ), CustomerType::B2C, RegistrationType::APPROVAL_AUTOMATIC, null, true, 10 ),
+			new RegistrationType( 'business', __( 'Business customer', 'stm-eu-b2b' ), CustomerType::B2B, RegistrationType::APPROVAL_MANUAL, null, true, 20, __( 'Your account is activated after we have checked your company details.', 'stm-eu-b2b' ) ),
 		);
 	}
 

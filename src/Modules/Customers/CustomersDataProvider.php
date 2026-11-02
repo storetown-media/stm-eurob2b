@@ -81,7 +81,7 @@ final class CustomersDataProvider implements PersonalDataProviderInterface {
 	 * Label.
 	 */
 	public function label(): string {
-		return __( 'EuroB2B customer data', 'eurob2b' );
+		return __( 'EU-B2B customer data', 'stm-eu-b2b' );
 	}
 
 	/**
@@ -128,18 +128,18 @@ final class CustomersDataProvider implements PersonalDataProviderInterface {
 		$group  = $this->groups->find( (int) get_user_meta( $user->ID, CustomersModule::META_GROUP_ID, true ) );
 		$type   = is_string( $type ) ? CustomerType::tryFrom( $type ) : null;
 		$rows   = array(
-			__( 'Customer type', 'eurob2b' )           => null !== $type ? GroupsPage::type_label( $type ) : '',
-			__( 'Status', 'eurob2b' )                  => is_string( $status ) && '' !== $status ? CustomerStatus::from_meta( $status )->label() : '',
-			__( 'Group', 'eurob2b' )                   => null !== $group ? $group->name : '',
-			__( 'Registration type', 'eurob2b' )       => $this->registration_type_label( (string) get_user_meta( $user->ID, RegistrationService::META_REGISTRATION_TYPE, true ) ),
-			__( 'Registered at', 'eurob2b' )           => (string) get_user_meta( $user->ID, RegistrationService::META_REGISTERED_AT, true ),
-			__( 'Approved at', 'eurob2b' )             => (string) get_user_meta( $user->ID, CustomersModule::META_APPROVED_AT, true ),
-			__( 'Approved by (user id)', 'eurob2b' )   => (string) get_user_meta( $user->ID, CustomersModule::META_APPROVED_BY, true ),
-			__( 'Status note', 'eurob2b' )             => (string) get_user_meta( $user->ID, CustomersModule::META_STATUS . '_note', true ),
-			__( 'Rejected at', 'eurob2b' )             => (string) get_user_meta( $user->ID, CustomersModule::META_REJECTED_AT, true ),
-			__( 'Rejected by (user id)', 'eurob2b' )   => (string) get_user_meta( $user->ID, CustomersModule::META_REJECTED_BY, true ),
-			__( 'Kept in the group since', 'eurob2b' ) => (string) get_user_meta( $user->ID, CustomersModule::META_GROUP_HOLD, true ),
-			__( 'Terms accepted at', 'eurob2b' )       => (string) get_user_meta( $user->ID, RegistrationService::META_TERMS_ACCEPTED_AT, true ),
+			__( 'Customer type', 'stm-eu-b2b' )           => null !== $type ? GroupsPage::type_label( $type ) : '',
+			__( 'Status', 'stm-eu-b2b' )                  => is_string( $status ) && '' !== $status ? CustomerStatus::from_meta( $status )->label() : '',
+			__( 'Group', 'stm-eu-b2b' )                   => null !== $group ? $group->name : '',
+			__( 'Registration type', 'stm-eu-b2b' )       => $this->registration_type_label( (string) get_user_meta( $user->ID, RegistrationService::META_REGISTRATION_TYPE, true ) ),
+			__( 'Registered at', 'stm-eu-b2b' )           => (string) get_user_meta( $user->ID, RegistrationService::META_REGISTERED_AT, true ),
+			__( 'Approved at', 'stm-eu-b2b' )             => (string) get_user_meta( $user->ID, CustomersModule::META_APPROVED_AT, true ),
+			__( 'Approved by (user id)', 'stm-eu-b2b' )   => (string) get_user_meta( $user->ID, CustomersModule::META_APPROVED_BY, true ),
+			__( 'Status note', 'stm-eu-b2b' )             => (string) get_user_meta( $user->ID, CustomersModule::META_STATUS . '_note', true ),
+			__( 'Rejected at', 'stm-eu-b2b' )             => (string) get_user_meta( $user->ID, CustomersModule::META_REJECTED_AT, true ),
+			__( 'Rejected by (user id)', 'stm-eu-b2b' )   => (string) get_user_meta( $user->ID, CustomersModule::META_REJECTED_BY, true ),
+			__( 'Kept in the group since', 'stm-eu-b2b' ) => (string) get_user_meta( $user->ID, CustomersModule::META_GROUP_HOLD, true ),
+			__( 'Terms accepted at', 'stm-eu-b2b' )       => (string) get_user_meta( $user->ID, RegistrationService::META_TERMS_ACCEPTED_AT, true ),
 		);
 		foreach ( $this->storage->all_including_orphans( $user->ID ) as $key => $value ) {
 			$field = $this->fields->find( $key );
@@ -213,7 +213,7 @@ final class CustomersDataProvider implements PersonalDataProviderInterface {
 		$messages = array();
 		if ( $blocked ) {
 			update_user_meta( $user->ID, CustomersModule::META_STATUS, CustomerStatus::REJECTED->value );
-			$messages[] = __( 'The account stays blocked for login: the status marker "rejected" was retained. It contains no personal data.', 'eurob2b' );
+			$messages[] = __( 'The account stays blocked for login: the status marker "rejected" was retained. It contains no personal data.', 'stm-eu-b2b' );
 		}
 
 		return array(

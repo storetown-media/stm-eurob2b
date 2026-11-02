@@ -18,10 +18,10 @@ use WC_Order;
  * meta `_eurob2b_po_documents` (JSON list of file id, uploading user, source and time), the files in
  * the private file storage (context `purchase_order`, owner 0 = the shop, key = order id; pending
  * checkout uploads in context `purchase_order_pending`) and their deletion with the order. The
- * uploads themselves (checkout, My Account, order screen, the setting) are part of EuroB2B Pro
+ * uploads themselves (checkout, My Account, order screen, the setting) are part of EU-B2B Pro
  * (`PurchaseOrderDocuments`, PLT-015); the privacy export, the erasure answer, the retention task and
  * the deletion with the order or WooCommerce's anonymisation are part of the core and use this class,
- * so documents handed in with EuroB2B Pro are exported and deleted also while Pro is inactive
+ * so documents handed in with EU-B2B Pro are exported and deleted also while Pro is inactive
  * (product owner decision of 2026-10-29). All order access through the CRUD API (HPOS-safe).
  */
 final class PurchaseOrderDocumentRecords {
@@ -123,9 +123,9 @@ final class PurchaseOrderDocumentRecords {
 	 */
 	public static function source_label( string $source ): string {
 		return match ( $source ) {
-			self::SOURCE_CHECKOUT => __( 'uploaded at checkout', 'eurob2b' ),
-			self::SOURCE_ACCOUNT  => __( 'uploaded by the customer in My Account', 'eurob2b' ),
-			default               => __( 'uploaded by shop staff', 'eurob2b' ),
+			self::SOURCE_CHECKOUT => __( 'uploaded at checkout', 'stm-eu-b2b' ),
+			self::SOURCE_ACCOUNT  => __( 'uploaded by the customer in My Account', 'stm-eu-b2b' ),
+			default               => __( 'uploaded by shop staff', 'stm-eu-b2b' ),
 		};
 	}
 

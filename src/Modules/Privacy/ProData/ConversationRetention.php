@@ -17,7 +17,7 @@ use EuroB2B\Modules\Privacy\RetentionTaskInterface;
  * Deletes conversations whose last message is older than the configured number of months (D-07;
  * setting `conversations_retention_months`, 24 months by product owner decision of 2026-10-23;
  * 0 keeps them). Part of the core: the period is read as stored, so the job keeps running while
- * EuroB2B Pro, which offers the setting, is inactive (PLT-015).
+ * EU-B2B Pro, which offers the setting, is inactive (PLT-015).
  */
 final class ConversationRetention implements RetentionTaskInterface {
 

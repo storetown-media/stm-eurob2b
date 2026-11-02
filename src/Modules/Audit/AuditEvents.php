@@ -28,7 +28,7 @@ use WC_Order;
  * - `eurob2b_export_evidence_changed`: every change of the export evidence of an order (TAX-032).
  *
  * Decisions on orders waiting for approval and acting as a member belong to company accounts of
- * EuroB2B Pro, whose CompanyAuditEvents writes them into the same log (PLT-015).
+ * EU-B2B Pro, whose CompanyAuditEvents writes them into the same log (PLT-015).
  */
 final class AuditEvents {
 
@@ -59,7 +59,7 @@ final class AuditEvents {
 	}
 
 	/**
-	 * A staff member confirmed the review of an order whose tax treatment EuroB2B flagged. Old value:
+	 * A staff member confirmed the review of an order whose tax treatment EU-B2B flagged. Old value:
 	 * empty; new value: `reviewed`. The concerned person is the order's customer (0 for guests).
 	 *
 	 * @param mixed $order    Order.

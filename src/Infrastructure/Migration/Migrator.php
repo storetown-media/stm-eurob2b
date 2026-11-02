@@ -11,6 +11,7 @@ namespace EuroB2B\Infrastructure\Migration;
 
 use EuroB2B\Infrastructure\Schema;
 use Throwable;
+use EuroB2B\Support\ExceptionMessage;
 
 /**
  * Applies all migrations above the stored schema version, in order.
@@ -144,7 +145,7 @@ final class Migrator {
 			}
 			delete_option( Schema::OPTION_MIGRATION_ERROR );
 		} catch ( MigrationFailedException $e ) {
-			$this->record_failure( $e->version(), $e->getMessage() );
+			$this->record_failure( $e->version(), ExceptionMessage::plain( $e ) );
 		} finally {
 			$this->lock->release();
 		}
@@ -167,15 +168,15 @@ final class Migrator {
 		} catch ( MigrationFailedException $e ) {
 			throw $e;
 		} catch ( Throwable $t ) {
-			throw new MigrationFailedException( $migration->version(), $t->getMessage() );
+			throw new MigrationFailedException( $migration->version(), ExceptionMessage::plain( $t ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal, untranslated message for developers and logs; every sink escapes or decodes it (docs/architecture.md, "Exception messages").
 		}
 
 		if ( '' !== $wpdb->last_error ) {
-			throw new MigrationFailedException( $migration->version(), $wpdb->last_error );
+			throw new MigrationFailedException( $migration->version(), $wpdb->last_error ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal, untranslated message for developers and logs; every sink escapes or decodes it (docs/architecture.md, "Exception messages").
 		}
 
 		if ( ! $migration->verify( $wpdb ) ) {
-			throw new MigrationFailedException( $migration->version(), 'verification failed: ' . $migration->description() );
+			throw new MigrationFailedException( $migration->version(), 'verification failed: ' . $migration->description() ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal, untranslated message for developers and logs; every sink escapes or decodes it (docs/architecture.md, "Exception messages").
 		}
 	}
 

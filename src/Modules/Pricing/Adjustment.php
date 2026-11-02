@@ -43,15 +43,15 @@ final class Adjustment {
 		public readonly string $key = ''
 	) {
 		if ( ! in_array( $type, array( self::TYPE_PERCENT, self::TYPE_FIXED ), true ) ) {
-			throw new InvalidArgumentException( sprintf( 'Unknown adjustment type "%s".', $type ) );
+			throw new InvalidArgumentException( sprintf( 'Unknown adjustment type "%s".', $type ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal, untranslated message for developers and logs; every sink escapes or decodes it (docs/architecture.md, "Exception messages").
 		}
 		if ( 1 !== preg_match( '/^-?\d+(\.(\d+))?$/', $amount, $m ) ) {
-			throw new InvalidArgumentException( sprintf( 'Malformed adjustment amount "%s".', $amount ) );
+			throw new InvalidArgumentException( sprintf( 'Malformed adjustment amount "%s".', $amount ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal, untranslated message for developers and logs; every sink escapes or decodes it (docs/architecture.md, "Exception messages").
 		}
 		// A percentage beyond Money's precision would fail at resolution time for every affected
 		// product; refuse it when the provider builds the adjustment instead.
 		if ( self::TYPE_PERCENT === $type && strlen( rtrim( $m[2] ?? '', '0' ) ) > Money::MAX_PERCENT_DECIMALS ) {
-			throw new InvalidArgumentException( sprintf( 'Percentage "%s" has more than %d decimals.', $amount, Money::MAX_PERCENT_DECIMALS ) );
+			throw new InvalidArgumentException( sprintf( 'Percentage "%s" has more than %d decimals.', $amount, Money::MAX_PERCENT_DECIMALS ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal, untranslated message for developers and logs; every sink escapes or decodes it (docs/architecture.md, "Exception messages").
 		}
 	}
 

@@ -17,7 +17,7 @@ use EuroB2B\Modules\Privacy\PersonalDataProviderInterface;
  * a business record: when its owner is erased, the owner reference is cleared and the company stays
  * with its name and billing address (reported). The company e-mail address is removed when it is the
  * erased address (CMP-012), for members and non-members alike. Part of the core: it reads the shared
- * tables, also while EuroB2B Pro, which manages the company accounts, is inactive (PLT-015).
+ * tables, also while EU-B2B Pro, which manages the company accounts, is inactive (PLT-015).
  */
 final class CompanyDataProvider implements PersonalDataProviderInterface {
 
@@ -48,7 +48,7 @@ final class CompanyDataProvider implements PersonalDataProviderInterface {
 	 * Label.
 	 */
 	public function label(): string {
-		return __( 'EuroB2B company membership', 'eurob2b' );
+		return __( 'EU-B2B company membership', 'stm-eu-b2b' );
 	}
 
 	/**
@@ -73,12 +73,12 @@ final class CompanyDataProvider implements PersonalDataProviderInterface {
 					'item_id'     => 'eurob2b-company-contact-' . $contact_company['id'],
 					'data'        => array(
 						array(
-							'name'  => __( 'Company using this e-mail address', 'eurob2b' ),
+							'name'  => __( 'Company using this e-mail address', 'stm-eu-b2b' ),
 							'value' => $contact_company['name'],
 						),
 						array(
-							'name'  => __( 'Order e-mails copied to the company e-mail', 'eurob2b' ),
-							'value' => CompanyRecords::copies_order_emails( $contact_company ) ? __( 'Yes', 'eurob2b' ) : __( 'No', 'eurob2b' ),
+							'name'  => __( 'Order e-mails copied to the company e-mail', 'stm-eu-b2b' ),
+							'value' => CompanyRecords::copies_order_emails( $contact_company ) ? __( 'Yes', 'stm-eu-b2b' ) : __( 'No', 'stm-eu-b2b' ),
 						),
 					),
 				);
@@ -91,7 +91,7 @@ final class CompanyDataProvider implements PersonalDataProviderInterface {
 				'item_id'     => 'eurob2b-company-created-by-' . $user->ID,
 				'data'        => array(
 					array(
-						'name'  => __( 'Members added by you', 'eurob2b' ),
+						'name'  => __( 'Members added by you', 'stm-eu-b2b' ),
 						'value' => (string) $created,
 					),
 				),
@@ -112,36 +112,36 @@ final class CompanyDataProvider implements PersonalDataProviderInterface {
 				'item_id'     => 'eurob2b-company-membership-' . $membership['id'],
 				'data'        => array(
 					array(
-						'name'  => __( 'Company', 'eurob2b' ),
+						'name'  => __( 'Company', 'stm-eu-b2b' ),
 						'value' => $company['name'],
 					),
 					array(
-						'name'  => __( 'Role', 'eurob2b' ),
+						'name'  => __( 'Role', 'stm-eu-b2b' ),
 						'value' => CompanyRecords::role_labels()[ $membership['role'] ] ?? $membership['role'],
 					),
 					array(
-						'name'  => __( 'Permissions', 'eurob2b' ),
+						'name'  => __( 'Permissions', 'stm-eu-b2b' ),
 						'value' => implode( ', ', array_map( static fn( string $p ): string => $labels[ $p ] ?? $p, CompanyRecords::effective_permissions( $membership ) ) ),
 					),
 					array(
-						'name'  => __( 'Orders need approval', 'eurob2b' ),
-						'value' => $membership['requires_approval'] ? __( 'Yes', 'eurob2b' ) : __( 'No', 'eurob2b' ),
+						'name'  => __( 'Orders need approval', 'stm-eu-b2b' ),
+						'value' => $membership['requires_approval'] ? __( 'Yes', 'stm-eu-b2b' ) : __( 'No', 'stm-eu-b2b' ),
 					),
 					array(
-						'name'  => __( 'Member since (UTC)', 'eurob2b' ),
+						'name'  => __( 'Member since (UTC)', 'stm-eu-b2b' ),
 						'value' => $membership['created_at'],
 					),
 					array(
-						'name'  => __( 'Company billing address', 'eurob2b' ),
+						'name'  => __( 'Company billing address', 'stm-eu-b2b' ),
 						'value' => CompanyRecords::has_billing_address( $company ) ? wp_strip_all_tags( WC()->countries->get_formatted_address( array_merge( CompanyRecords::billing( $company ), array( 'company' => $company['name'] ) ), ', ' ) ) : '',
 					),
 					array(
-						'name'  => __( 'Company e-mail address', 'eurob2b' ),
+						'name'  => __( 'Company e-mail address', 'stm-eu-b2b' ),
 						'value' => CompanyRecords::email( $company ),
 					),
 					array(
-						'name'  => __( 'Order e-mails copied to the company e-mail', 'eurob2b' ),
-						'value' => CompanyRecords::copies_order_emails( $company ) ? __( 'Yes', 'eurob2b' ) : __( 'No', 'eurob2b' ),
+						'name'  => __( 'Order e-mails copied to the company e-mail', 'stm-eu-b2b' ),
+						'value' => CompanyRecords::copies_order_emails( $company ) ? __( 'Yes', 'stm-eu-b2b' ) : __( 'No', 'stm-eu-b2b' ),
 					),
 				),
 			)
@@ -175,12 +175,12 @@ final class CompanyDataProvider implements PersonalDataProviderInterface {
 		}
 		if ( $contacts > 0 ) {
 			/* translators: %d: number of companies */
-			$messages[] = sprintf( __( 'This e-mail address was removed as the contact address of %d company/companies; order e-mail copies to it are off.', 'eurob2b' ), $contacts );
+			$messages[] = sprintf( __( 'This e-mail address was removed as the contact address of %d company/companies; order e-mail copies to it are off.', 'stm-eu-b2b' ), $contacts );
 		}
 		$cleared = $user ? $this->records->anonymise_creator( $user->ID ) : 0;
 		if ( $cleared > 0 ) {
 			/* translators: %d: number of memberships */
-			$messages[] = sprintf( __( 'The reference to this user as the creator of %d memberships was removed.', 'eurob2b' ), $cleared );
+			$messages[] = sprintf( __( 'The reference to this user as the creator of %d memberships was removed.', 'stm-eu-b2b' ), $cleared );
 		}
 		if ( $user ) {
 			delete_user_meta( $user->ID, CompanyRecords::META_PREVIOUS );
@@ -191,9 +191,9 @@ final class CompanyDataProvider implements PersonalDataProviderInterface {
 				$this->records->clear_owner( $company['id'] );
 				$messages[] = CompanyRecords::has_billing_address( $company )
 					/* translators: %s: company name */
-					? sprintf( __( 'The company "%s" stays as a business record with its name and billing address (contract and accounting records); its owner reference was removed.', 'eurob2b' ), $company['name'] )
+					? sprintf( __( 'The company "%s" stays as a business record with its name and billing address (contract and accounting records); its owner reference was removed.', 'stm-eu-b2b' ), $company['name'] )
 					/* translators: %s: company name */
-					: sprintf( __( 'The company "%s" stays as a business record without personal data; its owner reference was removed.', 'eurob2b' ), $company['name'] );
+					: sprintf( __( 'The company "%s" stays as a business record without personal data; its owner reference was removed.', 'stm-eu-b2b' ), $company['name'] );
 				$retained = true;
 			}
 			$this->records->remove_membership( $membership['user_id'] );

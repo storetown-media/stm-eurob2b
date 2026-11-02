@@ -46,7 +46,7 @@ final class PaymentsDataProvider implements PersonalDataProviderInterface {
 	 * Label.
 	 */
 	public function label(): string {
-		return __( 'EuroB2B payment and shipping methods', 'eurob2b' );
+		return __( 'EU-B2B payment and shipping methods', 'stm-eu-b2b' );
 	}
 
 	/**
@@ -61,15 +61,15 @@ final class PaymentsDataProvider implements PersonalDataProviderInterface {
 		$items = array();
 		if ( $user ) {
 			$labels = array(
-				MethodPolicy::KIND_PAYMENT  => __( 'Payment methods set for this customer', 'eurob2b' ),
-				MethodPolicy::KIND_SHIPPING => __( 'Shipping methods set for this customer', 'eurob2b' ),
+				MethodPolicy::KIND_PAYMENT  => __( 'Payment methods set for this customer', 'stm-eu-b2b' ),
+				MethodPolicy::KIND_SHIPPING => __( 'Shipping methods set for this customer', 'stm-eu-b2b' ),
 			);
 			foreach ( $labels as $kind => $label ) {
 				$list = $this->policy->user_override( $user->ID, $kind );
 				if ( null !== $list ) {
 					$items[] = array(
 						'name'  => $label,
-						'value' => array() === $list ? __( 'none', 'eurob2b' ) : implode( ', ', $list ),
+						'value' => array() === $list ? __( 'none', 'stm-eu-b2b' ) : implode( ', ', $list ),
 					);
 				}
 			}

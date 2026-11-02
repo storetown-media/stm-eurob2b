@@ -12,8 +12,8 @@ namespace EuroB2B\Modules\Migration;
 use RuntimeException;
 
 /**
- * Company accounts are a feature of EuroB2B Pro. The import (free) links the sub-accounts of
- * another plugin to companies only through this target, which the company module of EuroB2B Pro
+ * Company accounts are a feature of EU-B2B Pro. The import (free) links the sub-accounts of
+ * another plugin to companies only through this target, which the company module of EU-B2B Pro
  * registers in the container; without it the import reports the sub-accounts as not imported
  * (PLT-015, docs/architecture.md section "Editions").
  */

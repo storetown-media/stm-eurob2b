@@ -76,9 +76,9 @@ enum DunningLevel: string {
 	 */
 	public function label(): string {
 		return match ( $this ) {
-			self::REMINDER => __( 'Payment reminder', 'eurob2b' ),
-			self::FIRST    => __( 'First dunning letter', 'eurob2b' ),
-			self::FINAL    => __( 'Final dunning letter', 'eurob2b' ),
+			self::REMINDER => __( 'Payment reminder', 'stm-eu-b2b' ),
+			self::FIRST    => __( 'First dunning letter', 'stm-eu-b2b' ),
+			self::FINAL    => __( 'Final dunning letter', 'stm-eu-b2b' ),
 		};
 	}
 }

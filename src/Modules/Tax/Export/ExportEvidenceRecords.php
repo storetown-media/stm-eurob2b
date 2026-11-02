@@ -17,10 +17,10 @@ use WC_Order;
 /**
  * The data model of the export evidence (TAX-032, D-29) as the core keeps it: the order meta keys,
  * the scope and event values, the reading of an evidence, the queries by person and by retention end,
- * and the deletion with its files. Recording the evidence is part of EuroB2B Pro (`ExportEvidence`,
+ * and the deletion with its files. Recording the evidence is part of EU-B2B Pro (`ExportEvidence`,
  * PLT-015); the privacy export, the erasure answer, the retention task (`ExportEvidenceDataProvider`,
  * `ExportEvidenceRetention`) and the audit log labels are part of the core and use this class, so
- * data written with EuroB2B Pro is exported and deleted also while Pro is inactive (product owner
+ * data written with EU-B2B Pro is exported and deleted also while Pro is inactive (product owner
  * decision of 2026-10-29). All order access through the CRUD API (HPOS-safe).
  */
 final class ExportEvidenceRecords {
@@ -125,7 +125,7 @@ final class ExportEvidenceRecords {
 		}
 		$order->update_meta_data( self::META_SCOPE, self::SCOPE_EXPIRED );
 		$order->save();
-		$order->add_order_note( __( 'Export evidence: details and documents were deleted at the end of the retention period.', 'eurob2b' ) );
+		$order->add_order_note( __( 'Export evidence: details and documents were deleted at the end of the retention period.', 'stm-eu-b2b' ) );
 		return $removed;
 	}
 

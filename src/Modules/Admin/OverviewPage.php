@@ -12,7 +12,7 @@ namespace EuroB2B\Modules\Admin;
 use EuroB2B\Infrastructure\Capabilities;
 
 /**
- * EuroB2B → Overview: one line per kind of open work (registrations to approve, VAT ID checks to look
+ * STM EU-B2B → Overview: one line per kind of open work (registrations to approve, VAT ID checks to look
  * at, proofs of supply missing, overdue invoices …), each with its number and a button to the page
  * where it is decided. The modules add their lines through the filter `eurob2b_overview_items`; a
  * line is shown only when its number is above zero and the user has its capability. Nothing is stored.
@@ -23,7 +23,7 @@ final class OverviewPage {
 
 	/**
 	 * Capabilities that open the page; the page takes the first the user has, so every member of
-	 * staff with an EuroB2B capability lands on it (the lines are filtered per capability).
+	 * staff with an EU-B2B capability lands on it (the lines are filtered per capability).
 	 */
 	private const CAPABILITIES = array(
 		Capabilities::MANAGE_CUSTOMERS,
@@ -42,7 +42,7 @@ final class OverviewPage {
 	 * @param Menu $menu Menu.
 	 */
 	public function register_page( Menu $menu ): void {
-		$menu->add_page( self::SLUG, __( 'Overview', 'eurob2b' ), __( 'Overview', 'eurob2b' ), self::capability(), array( $this, 'render' ), 1 );
+		$menu->add_page( self::SLUG, __( 'Overview', 'stm-eu-b2b' ), __( 'Overview', 'stm-eu-b2b' ), self::capability(), array( $this, 'render' ), 1 );
 	}
 
 	/**
@@ -80,7 +80,7 @@ final class OverviewPage {
 				'title'  => (string) ( $item['title'] ?? '' ),
 				'text'   => (string) ( $item['text'] ?? '' ),
 				'url'    => (string) ( $item['url'] ?? '' ),
-				'action' => (string) ( $item['action'] ?? _x( 'Open', 'button on the overview page', 'eurob2b' ) ),
+				'action' => (string) ( $item['action'] ?? _x( 'Open', 'button on the overview page', 'stm-eu-b2b' ) ),
 			);
 		}
 		return $lines;
@@ -91,16 +91,16 @@ final class OverviewPage {
 	 */
 	public function render(): void {
 		if ( ! current_user_can( self::capability() ) ) {
-			wp_die( esc_html__( 'You are not allowed to view this page.', 'eurob2b' ), '', array( 'response' => 403 ) );
+			wp_die( esc_html__( 'You are not allowed to view this page.', 'stm-eu-b2b' ), '', array( 'response' => 403 ) );
 		}
 		$lines = self::items();
-		PageHeader::open( 'eurob2b-overview', __( 'Overview', 'eurob2b' ) );
-		echo '<p class="description">' . esc_html__( 'What is waiting for you. Each line leads to the page where you decide.', 'eurob2b' ) . '</p>';
-		echo '<section class="eurob2b-panel" aria-labelledby="eurob2b-overview-todo"><header class="eurob2b-panel__head"><h2 id="eurob2b-overview-todo">' . esc_html__( 'To do', 'eurob2b' ) . '</h2>';
+		PageHeader::open( 'eurob2b-overview', __( 'Overview', 'stm-eu-b2b' ) );
+		echo '<p class="description">' . esc_html__( 'What is waiting for you. Each line leads to the page where you decide.', 'stm-eu-b2b' ) . '</p>';
+		echo '<section class="eurob2b-panel" aria-labelledby="eurob2b-overview-todo"><header class="eurob2b-panel__head"><h2 id="eurob2b-overview-todo">' . esc_html__( 'To do', 'stm-eu-b2b' ) . '</h2>';
 		/* translators: %s: date and time */
-		echo '<span class="eurob2b-panel__note">' . esc_html( sprintf( __( 'As of %s', 'eurob2b' ), wp_date( (string) get_option( 'date_format' ) . ' ' . (string) get_option( 'time_format' ) ) ) ) . '</span></header>';
+		echo '<span class="eurob2b-panel__note">' . esc_html( sprintf( __( 'As of %s', 'stm-eu-b2b' ), wp_date( (string) get_option( 'date_format' ) . ' ' . (string) get_option( 'time_format' ) ) ) ) . '</span></header>';
 		if ( array() === $lines ) {
-			echo '<p class="eurob2b-panel__empty">' . esc_html__( 'Nothing is waiting. New registrations, checks to look at and overdue invoices appear here.', 'eurob2b' ) . '</p>';
+			echo '<p class="eurob2b-panel__empty">' . esc_html__( 'Nothing is waiting. New registrations, checks to look at and overdue invoices appear here.', 'stm-eu-b2b' ) . '</p>';
 		} else {
 			echo '<ul class="eurob2b-tasks">';
 			foreach ( $lines as $line ) {

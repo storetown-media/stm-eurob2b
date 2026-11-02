@@ -14,7 +14,7 @@ use WC_Product;
 
 /**
  * Exports a customer's purchase lists and deletes them on erasure (LST-008, D-08). Part of the core:
- * it reads the shared tables, also while EuroB2B Pro, which offers the lists, is inactive (PLT-015).
+ * it reads the shared tables, also while EU-B2B Pro, which offers the lists, is inactive (PLT-015).
  */
 final class PurchaseListsDataProvider implements PersonalDataProviderInterface {
 
@@ -45,7 +45,7 @@ final class PurchaseListsDataProvider implements PersonalDataProviderInterface {
 	 * Label.
 	 */
 	public function label(): string {
-		return __( 'EuroB2B purchase lists', 'eurob2b' );
+		return __( 'EU-B2B purchase lists', 'stm-eu-b2b' );
 	}
 
 	/**
@@ -74,24 +74,24 @@ final class PurchaseListsDataProvider implements PersonalDataProviderInterface {
 					'item_id'     => 'eurob2b-purchase-list-' . (int) $list['id'],
 					'data'        => array(
 						array(
-							'name'  => __( 'Name', 'eurob2b' ),
+							'name'  => __( 'Name', 'stm-eu-b2b' ),
 							'value' => (string) $list['name'],
 						),
 						array(
-							'name'  => __( 'Created (UTC)', 'eurob2b' ),
+							'name'  => __( 'Created (UTC)', 'stm-eu-b2b' ),
 							'value' => (string) $list['created_at'],
 						),
 						array(
-							'name'  => __( 'Last change (UTC)', 'eurob2b' ),
+							'name'  => __( 'Last change (UTC)', 'stm-eu-b2b' ),
 							'value' => (string) $list['updated_at'],
 						),
 						array(
-							'name'  => __( 'Items', 'eurob2b' ),
+							'name'  => __( 'Items', 'stm-eu-b2b' ),
 							'value' => implode( "\n", $rows ),
 						),
 						array(
-							'name'  => __( 'Shared with your company', 'eurob2b' ),
-							'value' => isset( $list['company_id'] ) ? __( 'Yes', 'eurob2b' ) : __( 'No', 'eurob2b' ),
+							'name'  => __( 'Shared with your company', 'stm-eu-b2b' ),
+							'value' => isset( $list['company_id'] ) ? __( 'Yes', 'stm-eu-b2b' ) : __( 'No', 'stm-eu-b2b' ),
 						),
 					),
 				);

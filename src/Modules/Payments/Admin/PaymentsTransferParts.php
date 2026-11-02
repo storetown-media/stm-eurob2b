@@ -17,7 +17,7 @@ use EuroB2B\Modules\Payments\MethodPolicy;
  * Parts of the settings file of PLT-012 that belong to this module: the payment and shipping
  * method policies. They were part of SettingsTransfer until the edition split (PLT-015); file
  * format and import report are unchanged. The payment terms and the options of the payment and
- * shipping adjustments follow them as parts of EuroB2B Pro (PaymentsProTransferParts).
+ * shipping adjustments follow them as parts of EU-B2B Pro (PaymentsProTransferParts).
  */
 final class PaymentsTransferParts {
 
@@ -34,7 +34,7 @@ final class PaymentsTransferParts {
 		}
 		$parts[] = new TransferPart(
 			'payment_policy',
-			__( 'Payment methods per audience', 'eurob2b' ),
+			__( 'Payment methods per audience', 'stm-eu-b2b' ),
 			50,
 			static fn() => $c->get( MethodPolicy::class )->load( MethodPolicy::KIND_PAYMENT ),
 			static function ( array $incoming, array &$report ) use ( $c ): void { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed -- the part's signature.
@@ -43,7 +43,7 @@ final class PaymentsTransferParts {
 		);
 		$parts[] = new TransferPart(
 			'shipping_policy',
-			__( 'Shipping methods per audience', 'eurob2b' ),
+			__( 'Shipping methods per audience', 'stm-eu-b2b' ),
 			60,
 			static fn() => $c->get( MethodPolicy::class )->load( MethodPolicy::KIND_SHIPPING ),
 			static function ( array $incoming, array &$report ) use ( $c ): void { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed -- the part's signature.

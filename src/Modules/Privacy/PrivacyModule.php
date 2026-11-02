@@ -23,9 +23,9 @@ use EuroB2B\Modules\Privacy\ProData\ProDataPrivacy;
  * into WordPress. Modules with a retention period register a RetentionTaskInterface
  * through "eurob2b_retention_tasks"; this module runs them once a day. The inventory
  * lives in docs/privacy-and-data-flows.md; ProcessingRecord turns it into a draft of the
- * record of processing activities (Art. 30 GDPR). The data that the features of EuroB2B Pro
+ * record of processing activities (Art. 30 GDPR). The data that the features of EU-B2B Pro
  * store in the shared schema is handled here as well (ProDataPrivacy), so export, erasure, order
- * anonymisation and retention keep working while EuroB2B Pro is inactive or deleted (PLT-015).
+ * anonymisation and retention keep working while EU-B2B Pro is inactive or deleted (PLT-015).
  */
 final class PrivacyModule extends AbstractModule {
 
@@ -63,7 +63,7 @@ final class PrivacyModule extends AbstractModule {
 	 */
 	public function boot( Container $container ): void {
 		// Late, so a plugin that replaces the whole list instead of adding to it (Germanized 4.1.5 with
-		// its EU order withdrawal button package does) cannot drop EuroB2B's exporters and erasers.
+		// its EU order withdrawal button package does) cannot drop EU-B2B's exporters and erasers.
 		add_filter( 'wp_privacy_personal_data_exporters', array( $this, 'register_exporters' ), self::PRIORITY );
 		add_filter( 'wp_privacy_personal_data_erasers', array( $this, 'register_erasers' ), self::PRIORITY );
 
@@ -72,7 +72,7 @@ final class PrivacyModule extends AbstractModule {
 		add_action( 'eurob2b_deactivated', array( RetentionRunner::class, 'unschedule' ) );
 		RetentionRunner::schedule();
 
-		// Export, erasure, retention, user deletion and order anonymisation of the data of EuroB2B Pro.
+		// Export, erasure, retention, user deletion and order anonymisation of the data of EU-B2B Pro.
 		ProDataPrivacy::hooks( $container );
 
 		add_action( 'admin_init', static fn() => $container->get( PrivacyPolicyText::class )->register() );

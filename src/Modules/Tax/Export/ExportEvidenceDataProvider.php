@@ -17,7 +17,7 @@ use EuroB2B\Modules\Privacy\PersonalDataProviderInterface;
  * request removes nothing while the retention period runs (tax evidence, Art. 17(3)(b) GDPR) and
  * reports the evidence as retained, like the proof of supply (D-23) and the purchase order documents
  * (D-25). Part of the core: it reads the stored evidence through `ExportEvidenceRecords`, also while
- * EuroB2B Pro, which records it, is inactive (PLT-015).
+ * EU-B2B Pro, which records it, is inactive (PLT-015).
  */
 final class ExportEvidenceDataProvider implements PersonalDataProviderInterface {
 
@@ -53,7 +53,7 @@ final class ExportEvidenceDataProvider implements PersonalDataProviderInterface 
 	 * Label.
 	 */
 	public function label(): string {
-		return __( 'EuroB2B export evidence', 'eurob2b' );
+		return __( 'EU-B2B export evidence', 'stm-eu-b2b' );
 	}
 
 	/**
@@ -71,34 +71,34 @@ final class ExportEvidenceDataProvider implements PersonalDataProviderInterface 
 			$state = ExportEvidenceRecords::state( $order );
 			$items = array(
 				array(
-					'name'  => _x( 'Order', 'shop order', 'eurob2b' ),
+					'name'  => _x( 'Order', 'shop order', 'stm-eu-b2b' ),
 					'value' => $order->get_order_number(),
 				),
 				array(
-					'name'  => __( 'Export evidence', 'eurob2b' ),
+					'name'  => __( 'Export evidence', 'stm-eu-b2b' ),
 					'value' => $state->status()->label(),
 				),
 			);
 			if ( null !== $state->details ) {
 				$type    = ExportEvidenceType::tryFrom( $state->details['type'] ) ?? ExportEvidenceType::OTHER;
 				$items[] = array(
-					'name'  => __( 'Type of evidence', 'eurob2b' ),
+					'name'  => __( 'Type of evidence', 'stm-eu-b2b' ),
 					'value' => $type->label(),
 				);
 				if ( '' !== $state->details['mrn'] ) {
 					$items[] = array(
-						'name'  => __( 'MRN', 'eurob2b' ),
+						'name'  => __( 'MRN', 'stm-eu-b2b' ),
 						'value' => $state->details['mrn'],
 					);
 				}
 				$items[] = array(
-					'name'  => __( 'Date of exit', 'eurob2b' ),
+					'name'  => __( 'Date of exit', 'stm-eu-b2b' ),
 					'value' => $state->details['exit_date'],
 				);
 			}
 			if ( null !== $state->not_needed ) {
 				$items[] = array(
-					'name'  => __( 'Reason why no evidence is needed', 'eurob2b' ),
+					'name'  => __( 'Reason why no evidence is needed', 'stm-eu-b2b' ),
 					'value' => $state->not_needed['reason'],
 				);
 			}
@@ -106,13 +106,13 @@ final class ExportEvidenceDataProvider implements PersonalDataProviderInterface 
 				$file    = $this->evidence->document_file( $order, $document['file_id'] );
 				$type    = ExportEvidenceType::tryFrom( $document['type'] ) ?? ExportEvidenceType::OTHER;
 				$items[] = array(
-					'name'  => __( 'Document', 'eurob2b' ),
+					'name'  => __( 'Document', 'stm-eu-b2b' ),
 					'value' => $type->label() . ( null !== $file ? ': ' . $file['original_name'] . ' (' . size_format( $file['size'] ) . ')' : '' ) . ', ' . $document['uploaded_at'] . ' UTC',
 				);
 			}
 			$groups[] = array(
 				'group_id'    => 'eurob2b-export-evidence',
-				'group_label' => __( 'Export evidence', 'eurob2b' ),
+				'group_label' => __( 'Export evidence', 'stm-eu-b2b' ),
 				'item_id'     => 'eurob2b-export-' . $order->get_id(),
 				'data'        => $items,
 			);
@@ -138,7 +138,7 @@ final class ExportEvidenceDataProvider implements PersonalDataProviderInterface 
 		if ( $retained > 0 ) {
 			$messages[] = sprintf(
 				/* translators: %d: number of orders */
-				_n( 'The export evidence of %d order (details and documents) was kept as tax evidence until its retention period ends (Art. 17(3)(b) GDPR).', 'The export evidence of %d orders (details and documents) was kept as tax evidence until its retention period ends (Art. 17(3)(b) GDPR).', $retained, 'eurob2b' ),
+				_n( 'The export evidence of %d order (details and documents) was kept as tax evidence until its retention period ends (Art. 17(3)(b) GDPR).', 'The export evidence of %d orders (details and documents) was kept as tax evidence until its retention period ends (Art. 17(3)(b) GDPR).', $retained, 'stm-eu-b2b' ),
 				$retained
 			);
 		}

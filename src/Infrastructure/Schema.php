@@ -31,7 +31,7 @@ final class Schema {
 	/**
 	 * Settings with the controller details of the record of processing activities (PRV-010): contact
 	 * details and names of people, so they never travel with a settings export and are removed whenever
-	 * EuroB2B is deleted, also without the opt-in to remove all data (product owner decision of 2026-10-31).
+	 * EU-B2B is deleted, also without the opt-in to remove all data (product owner decision of 2026-10-31).
 	 */
 	public const RECORD_CONTROLLER_SETTINGS = array( 'record_contact', 'record_contact_person', 'record_joint_controllers', 'record_eu_representative', 'record_dpo' );
 
@@ -114,13 +114,13 @@ final class Schema {
 			'eurob2b_northern_ireland_notice_dismissed',
 			// Privacy module: counts of the last retention run.
 			'eurob2b_retention_last_run',
-			// Migration module: state and report of the current import, source-to-EuroB2B id map, step lock.
+			// Migration module: state and report of the current import, source-to-EU-B2B id map, step lock.
 			'eurob2b_migration_run',
 			'eurob2b_migration_map',
 			'eurob2b_migration_lock',
 			// Reports module: accounts and tax keys of the DATEV export (RPT-006).
 			'eurob2b_datev_mapping',
-			// EuroB2B Pro: licence key and the last licence check (PLT-016; pro/uninstall.php removes them too).
+			// EU-B2B Pro: licence key and the last licence check (PLT-016; pro/uninstall.php removes them too).
 			'eurob2b_pro_licence_key',
 			'eurob2b_pro_licence_state',
 		);

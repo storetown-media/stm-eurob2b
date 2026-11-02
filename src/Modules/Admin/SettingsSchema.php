@@ -83,11 +83,11 @@ final class SettingsSchema {
 	public function add_field( array $field ): self {
 		foreach ( array( 'id', 'section', 'label', 'type' ) as $key ) {
 			if ( empty( $field[ $key ] ) || ! is_string( $field[ $key ] ) ) {
-				throw new InvalidArgumentException( sprintf( 'SettingsSchema: field is missing "%s".', $key ) );
+				throw new InvalidArgumentException( sprintf( 'SettingsSchema: field is missing "%s".', $key ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal, untranslated message for developers and logs; every sink escapes or decodes it (docs/architecture.md, "Exception messages").
 			}
 		}
 		if ( ! in_array( $field['type'], self::types(), true ) ) {
-			throw new InvalidArgumentException( sprintf( 'SettingsSchema: unknown type "%s".', $field['type'] ) );
+			throw new InvalidArgumentException( sprintf( 'SettingsSchema: unknown type "%s".', $field['type'] ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal, untranslated message for developers and logs; every sink escapes or decodes it (docs/architecture.md, "Exception messages").
 		}
 		if ( ! array_key_exists( 'default', $field ) ) {
 			$field['default'] = self::TYPE_MULTISELECT === $field['type'] ? array() : ( self::TYPE_BOOLEAN === $field['type'] ? false : '' );

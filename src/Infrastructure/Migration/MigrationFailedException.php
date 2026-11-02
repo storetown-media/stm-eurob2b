@@ -30,7 +30,7 @@ final class MigrationFailedException extends RuntimeException {
 	 * @param string $message Reason.
 	 */
 	public function __construct( int $version, string $message ) {
-		parent::__construct( sprintf( 'EuroB2B migration %d failed: %s', $version, $message ) );
+		parent::__construct( sprintf( 'EU-B2B migration %d failed: %s', $version, $message ) );
 		$this->version = $version;
 	}
 

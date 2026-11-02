@@ -18,7 +18,7 @@ use EuroB2B\Modules\Rules\Condition;
 final class B2BKingFormat {
 
 	/**
-	 * Condition names of B2BKing → EuroB2B condition types. The "value" conditions per category or
+	 * Condition names of B2BKing → EU-B2B condition types. The "value" conditions per category or
 	 * product have no counterpart.
 	 */
 	private const CONDITIONS = array(
@@ -29,7 +29,7 @@ final class B2BKingFormat {
 	);
 
 	/**
-	 * Operators of B2BKing → EuroB2B.
+	 * Operators of B2BKing → EU-B2B.
 	 */
 	private const OPERATORS = array(
 		'greater' => Condition::OP_GT,
@@ -78,7 +78,7 @@ final class B2BKingFormat {
 
 	/**
 	 * Conditions stored as `name;operator;value|…`, in the shape of the rules screen's form rows.
-	 * Returns null when a condition has no EuroB2B counterpart.
+	 * Returns null when a condition has no EU-B2B counterpart.
 	 *
 	 * @param string $raw          Stored value.
 	 * @param int[]  $category_ids Categories of the rule's scope (a category condition counts those).
@@ -177,10 +177,10 @@ final class B2BKingFormat {
 
 	/**
 	 * Splits B2BKing's shipping key (method id and instance id without a separator, e.g.
-	 * `flat_rate3`) with the known zone methods into EuroB2B's rate key (`flat_rate:3`).
+	 * `flat_rate3`) with the known zone methods into EU-B2B's rate key (`flat_rate:3`).
 	 *
 	 * @param string   $suffix  Key suffix after `…_shipping_method_`.
-	 * @param string[] $methods EuroB2B rate keys of the shop (method_id:instance_id or method_id).
+	 * @param string[] $methods EU-B2B rate keys of the shop (method_id:instance_id or method_id).
 	 */
 	public static function shipping_key( string $suffix, array $methods ): string {
 		foreach ( $methods as $method ) {

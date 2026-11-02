@@ -15,6 +15,9 @@ use EuroB2B\Modules\Customers\CustomerStatus;
 use EuroB2B\Modules\Customers\GroupRepository;
 use EuroB2B\Modules\Registration\ExternalRegistration;
 use EuroB2B\Plugin;
+use EuroB2B\Support\ExceptionMessage;
+
+defined( 'ABSPATH' ) || exit;
 
 if ( ! function_exists( 'eurob2b' ) ) {
 	/**
@@ -62,7 +65,7 @@ if ( ! function_exists( 'eurob2b_set_customer_group' ) ) {
 		try {
 			$container->get( CustomerService::class )->assign( $user_id, $group->customer_type, $status, $group->id, $actor_id );
 		} catch ( Throwable $e ) {
-			return new WP_Error( 'eurob2b_assignment_failed', $e->getMessage() );
+			return new WP_Error( 'eurob2b_assignment_failed', ExceptionMessage::plain( $e ) );
 		}
 		return true;
 	}
@@ -71,7 +74,7 @@ if ( ! function_exists( 'eurob2b_set_customer_group' ) ) {
 if ( ! function_exists( 'eurob2b_validate_business_registration' ) ) {
 	/**
 	 * Checks the data of a business registration made by another form (REG-011), with the rules of
-	 * the EuroB2B registration form: custom fields of the registration type, terms checkbox, VAT ID.
+	 * the EU-B2B registration form: custom fields of the registration type, terms checkbox, VAT ID.
 	 * Call it from the form builder's validation, before it creates the user, to show the messages
 	 * to the visitor. See docs/form-builders.md for the data.
 	 *
@@ -86,10 +89,10 @@ if ( ! function_exists( 'eurob2b_validate_business_registration' ) ) {
 
 if ( ! function_exists( 'eurob2b_register_business_customer' ) ) {
 	/**
-	 * Turns a user another form just created into an EuroB2B business customer (REG-011): pending
+	 * Turns a user another form just created into an EU-B2B business customer (REG-011): pending
 	 * or approved as the registration type says, with its field values, terms acceptance and VAT ID,
 	 * and the usual e-mails. Only accounts with no role besides customer or subscriber that are not
-	 * EuroB2B customers yet are accepted. There is no capability check: the caller is trusted code.
+	 * EU-B2B customers yet are accepted. There is no capability check: the caller is trusted code.
 	 * The action `eurob2b_register_business_customer` with the same arguments does the same.
 	 *
 	 * @param int                  $user_id User created by the form builder.

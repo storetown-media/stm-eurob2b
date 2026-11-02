@@ -19,7 +19,7 @@ use EuroB2B\Modules\Audit\AuditRetention;
 use WC_Order;
 
 /**
- * EuroB2B → Audit log (PRV-011): read-only list of administrative decisions with filters by action
+ * STM EU-B2B → Audit log (PRV-011): read-only list of administrative decisions with filters by action
  * and user. Capability `eurob2b_manage_settings`. There is no way to edit or delete entries here;
  * they go with the retention period, and an erasure request removes a person's references.
  */
@@ -68,7 +68,7 @@ final class AuditLogPage {
 	 * @param Menu $menu Menu.
 	 */
 	public function register_page( Menu $menu ): void {
-		$menu->add_page( self::SLUG, __( 'Audit log', 'eurob2b' ), __( 'Audit log', 'eurob2b' ), Capabilities::MANAGE_SETTINGS, array( $this, 'render' ), 95 );
+		$menu->add_page( self::SLUG, __( 'Audit log', 'stm-eu-b2b' ), __( 'Audit log', 'stm-eu-b2b' ), Capabilities::MANAGE_SETTINGS, array( $this, 'render' ), 95 );
 	}
 
 	/**
@@ -76,7 +76,7 @@ final class AuditLogPage {
 	 */
 	public function render(): void {
 		if ( ! current_user_can( Capabilities::MANAGE_SETTINGS ) ) {
-			wp_die( esc_html__( 'You are not allowed to view the audit log.', 'eurob2b' ), '', array( 'response' => 403 ) );
+			wp_die( esc_html__( 'You are not allowed to view the audit log.', 'stm-eu-b2b' ), '', array( 'response' => 403 ) );
 		}
 		// phpcs:disable WordPress.Security.NonceVerification.Recommended -- read-only filters.
 		$action = isset( $_GET['audit_action'] ) ? sanitize_key( (string) wp_unslash( $_GET['audit_action'] ) ) : '';
@@ -91,31 +91,31 @@ final class AuditLogPage {
 		$total   = $this->log->count( $filters );
 		$entries = $this->log->search( $filters, self::PER_PAGE, ( $paged - 1 ) * self::PER_PAGE );
 
-		PageHeader::open( 'eurob2b-audit-log', __( 'Audit log', 'eurob2b' ) );
+		PageHeader::open( 'eurob2b-audit-log', __( 'Audit log', 'stm-eu-b2b' ) );
 		echo '<p>' . esc_html(
 			sprintf(
 				/* translators: %d: number of days */
-				_n( 'Decisions on registrations, customer status, type and group, VAT ID checks and orders waiting for approval, with the deciding user. Entries are deleted %d day after they were written (setting under Settings → Privacy and data); an erasure request removes the person from them.', 'Decisions on registrations, customer status, type and group, VAT ID checks and orders waiting for approval, with the deciding user. Entries are deleted %d days after they were written (setting under Settings → Privacy and data); an erasure request removes the person from them.', $this->retention->days(), 'eurob2b' ),
+				_n( 'Decisions on registrations, customer status, type and group, VAT ID checks and orders waiting for approval, with the deciding user. Entries are deleted %d day after they were written (setting under Settings → Privacy and data); an erasure request removes the person from them.', 'Decisions on registrations, customer status, type and group, VAT ID checks and orders waiting for approval, with the deciding user. Entries are deleted %d days after they were written (setting under Settings → Privacy and data); an erasure request removes the person from them.', $this->retention->days(), 'stm-eu-b2b' ),
 				$this->retention->days()
 			)
 		) . '</p>';
 
 		echo '<form method="get" class="eurob2b-audit-log__filters"><input type="hidden" name="page" value="' . esc_attr( Menu::page_slug( self::SLUG ) ) . '" />';
-		echo '<label for="eurob2b-audit-action">' . esc_html__( 'Action', 'eurob2b' ) . '</label> <select id="eurob2b-audit-action" name="audit_action"><option value="">' . esc_html__( 'All actions', 'eurob2b' ) . '</option>';
+		echo '<label for="eurob2b-audit-action">' . esc_html__( 'Action', 'stm-eu-b2b' ) . '</label> <select id="eurob2b-audit-action" name="audit_action"><option value="">' . esc_html__( 'All actions', 'stm-eu-b2b' ) . '</option>';
 		foreach ( AuditFormatter::action_labels() as $key => $label ) {
 			echo '<option value="' . esc_attr( $key ) . '"' . selected( $action, $key, false ) . '>' . esc_html( $label ) . '</option>';
 		}
-		echo '</select> <label for="eurob2b-audit-user">' . esc_html__( 'User ID', 'eurob2b' ) . '</label> <input type="number" min="1" class="small-text" id="eurob2b-audit-user" name="audit_user" value="' . esc_attr( $user > 0 ? (string) $user : '' ) . '" /> ';
-		echo '<button type="submit" class="button">' . esc_html__( 'Filter', 'eurob2b' ) . '</button></form>';
+		echo '</select> <label for="eurob2b-audit-user">' . esc_html__( 'User ID', 'stm-eu-b2b' ) . '</label> <input type="number" min="1" class="small-text" id="eurob2b-audit-user" name="audit_user" value="' . esc_attr( $user > 0 ? (string) $user : '' ) . '" /> ';
+		echo '<button type="submit" class="button">' . esc_html__( 'Filter', 'stm-eu-b2b' ) . '</button></form>';
 
 		// On narrow screens each entry becomes a block of labelled lines instead of a wide row.
 		echo '<style>@media (max-width:782px){.eurob2b-audit-log__table thead{display:none}.eurob2b-audit-log__table tr{display:block}.eurob2b-audit-log__table td{display:block;padding:.3em .75em}.eurob2b-audit-log__table td[data-label]::before{content:attr(data-label);display:block;font-weight:600}}</style>';
 		$headings = array(
-			'time'    => __( 'Time', 'eurob2b' ),
-			'action'  => __( 'Action', 'eurob2b' ),
-			'actor'   => __( 'Decided by', 'eurob2b' ),
-			'subject' => __( 'Concerns', 'eurob2b' ),
-			'change'  => __( 'Change', 'eurob2b' ),
+			'time'    => __( 'Time', 'stm-eu-b2b' ),
+			'action'  => __( 'Action', 'stm-eu-b2b' ),
+			'actor'   => __( 'Decided by', 'stm-eu-b2b' ),
+			'subject' => __( 'Concerns', 'stm-eu-b2b' ),
+			'change'  => __( 'Change', 'stm-eu-b2b' ),
 		);
 		echo '<table class="widefat striped eurob2b-audit-log__table"><thead><tr>';
 		foreach ( $headings as $heading ) {
@@ -123,7 +123,7 @@ final class AuditLogPage {
 		}
 		echo '</tr></thead><tbody>';
 		if ( array() === $entries ) {
-			echo '<tr><td colspan="5">' . esc_html__( 'No entries.', 'eurob2b' ) . '</td></tr>';
+			echo '<tr><td colspan="5">' . esc_html__( 'No entries.', 'stm-eu-b2b' ) . '</td></tr>';
 		}
 		foreach ( $entries as $entry ) {
 			$cells = array(
@@ -173,12 +173,12 @@ final class AuditLogPage {
 	 */
 	private static function user( int $user_id ): string {
 		if ( $user_id <= 0 ) {
-			return '<em>' . esc_html__( 'removed', 'eurob2b' ) . '</em>';
+			return '<em>' . esc_html__( 'removed', 'stm-eu-b2b' ) . '</em>';
 		}
 		$user = get_userdata( $user_id );
 		if ( ! $user ) {
 			/* translators: %d: user id */
-			return esc_html( sprintf( __( 'Deleted user #%d', 'eurob2b' ), $user_id ) );
+			return esc_html( sprintf( __( 'Deleted user #%d', 'stm-eu-b2b' ), $user_id ) );
 		}
 		$label = esc_html( $user->display_name . ' (#' . $user_id . ')' );
 		return current_user_can( 'edit_user', $user_id ) ? '<a href="' . esc_url( get_edit_user_link( $user_id ) ) . '">' . $label . '</a>' : $label;
@@ -194,11 +194,11 @@ final class AuditLogPage {
 		if ( AuditLog::OBJECT_ORDER === $entry->object_type && $entry->object_id > 0 ) {
 			$order = wc_get_order( $entry->object_id );
 			/* translators: %s: order number */
-			$label = esc_html( sprintf( __( 'Order #%s', 'eurob2b' ), $order instanceof WC_Order ? $order->get_order_number() : (string) $entry->object_id ) );
+			$label = esc_html( sprintf( __( 'Order #%s', 'stm-eu-b2b' ), $order instanceof WC_Order ? $order->get_order_number() : (string) $entry->object_id ) );
 			$html .= '<br>' . ( $order instanceof WC_Order ? '<a href="' . esc_url( $order->get_edit_order_url() ) . '">' . $label . '</a>' : $label );
 		} elseif ( AuditLog::OBJECT_VAT === $entry->object_type && $entry->object_id > 0 ) {
 			/* translators: %d: VAT ID check id */
-			$html .= '<br>' . esc_html( sprintf( __( 'VAT ID check #%d', 'eurob2b' ), $entry->object_id ) );
+			$html .= '<br>' . esc_html( sprintf( __( 'VAT ID check #%d', 'stm-eu-b2b' ), $entry->object_id ) );
 		}
 		return $html;
 	}

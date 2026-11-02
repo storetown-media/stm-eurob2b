@@ -124,7 +124,7 @@ final class Run {
 	public string $related = '';
 
 	/**
-	 * Targets resolved in this run: kind => source key => EuroB2B id or slug (negative ids stand for
+	 * Targets resolved in this run: kind => source key => EU-B2B id or slug (negative ids stand for
 	 * groups a test run would create).
 	 *
 	 * @var array<string, array<string, int|string>>
@@ -222,7 +222,7 @@ final class Run {
 	 *
 	 * @param string     $kind   Kind (group, registration_type, field, rule).
 	 * @param string     $key    Source key.
-	 * @param int|string $target EuroB2B id or slug.
+	 * @param int|string $target EU-B2B id or slug.
 	 */
 	public function remember( string $kind, string $key, $target ): void {
 		$this->map[ $kind ][ $key ] = $target;

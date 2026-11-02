@@ -16,7 +16,7 @@ use EuroB2B\Modules\Privacy\PersonalDataProviderInterface;
  * status, the confirmation snapshot and the document metadata. An erasure request removes nothing
  * while the retention period runs (tax evidence, Art. 17(3)(b) GDPR) and reports the proofs as
  * retained, like the order-linked VAT evidence of the tax provider. Part of the core: it reads the
- * stored proofs through `ProofRecords`, also while EuroB2B Pro, which records them, is inactive.
+ * stored proofs through `ProofRecords`, also while EU-B2B Pro, which records them, is inactive.
  */
 final class ProofDataProvider implements PersonalDataProviderInterface {
 
@@ -52,7 +52,7 @@ final class ProofDataProvider implements PersonalDataProviderInterface {
 	 * Label.
 	 */
 	public function label(): string {
-		return __( 'EuroB2B proof of intra-Community supply', 'eurob2b' );
+		return __( 'EU-B2B proof of intra-Community supply', 'stm-eu-b2b' );
 	}
 
 	/**
@@ -70,11 +70,11 @@ final class ProofDataProvider implements PersonalDataProviderInterface {
 			$state    = ProofRecords::state( $order );
 			$items    = array(
 				array(
-					'name'  => _x( 'Order', 'shop order', 'eurob2b' ),
+					'name'  => _x( 'Order', 'shop order', 'stm-eu-b2b' ),
 					'value' => $order->get_order_number(),
 				),
 				array(
-					'name'  => __( 'Proof of supply', 'eurob2b' ),
+					'name'  => __( 'Proof of supply', 'stm-eu-b2b' ),
 					'value' => $state->status()->label(),
 				),
 			);
@@ -87,13 +87,13 @@ final class ProofDataProvider implements PersonalDataProviderInterface {
 					$goods[] = (string) ( $line['quantity'] ?? '' ) . ' × ' . (string) ( $line['name'] ?? '' );
 				}
 				foreach ( array(
-					__( 'Customer in the confirmation', 'eurob2b' ) => implode( ', ', array_filter( array_map( 'strval', $buyer ) ) ),
-					__( 'Goods', 'eurob2b' )              => implode( '; ', $goods ),
-					__( 'Place of receipt', 'eurob2b' )   => ProofRecords::place_label( (string) ( $snapshot['place'] ?? '' ), (string) ( $snapshot['country'] ?? '' ), (string) ( $snapshot['country_name'] ?? '' ) ),
-					__( 'Month of receipt', 'eurob2b' )   => (string) ( $snapshot['month_label'] ?? '' ),
-					__( 'Confirmed at (UTC)', 'eurob2b' ) => (string) ( $snapshot['issued_at'] ?? '' ),
-					__( 'Confirmed by', 'eurob2b' )       => (string) ( $by['name'] ?? '' ),
-					__( 'Statement', 'eurob2b' )          => (string) ( $snapshot['statement'] ?? '' ),
+					__( 'Customer in the confirmation', 'stm-eu-b2b' ) => implode( ', ', array_filter( array_map( 'strval', $buyer ) ) ),
+					__( 'Goods', 'stm-eu-b2b' )            => implode( '; ', $goods ),
+					__( 'Place of receipt', 'stm-eu-b2b' ) => ProofRecords::place_label( (string) ( $snapshot['place'] ?? '' ), (string) ( $snapshot['country'] ?? '' ), (string) ( $snapshot['country_name'] ?? '' ) ),
+					__( 'Month of receipt', 'stm-eu-b2b' ) => (string) ( $snapshot['month_label'] ?? '' ),
+					__( 'Confirmed at (UTC)', 'stm-eu-b2b' ) => (string) ( $snapshot['issued_at'] ?? '' ),
+					__( 'Confirmed by', 'stm-eu-b2b' )     => (string) ( $by['name'] ?? '' ),
+					__( 'Statement', 'stm-eu-b2b' )        => (string) ( $snapshot['statement'] ?? '' ),
 				) as $name => $value ) {
 					$items[] = array(
 						'name'  => $name,
@@ -105,13 +105,13 @@ final class ProofDataProvider implements PersonalDataProviderInterface {
 				$file    = $this->proof->document_file( $order, $document['file_id'] );
 				$type    = DocumentType::tryFrom( $document['type'] ) ?? DocumentType::OTHER;
 				$items[] = array(
-					'name'  => __( 'Document', 'eurob2b' ),
+					'name'  => __( 'Document', 'stm-eu-b2b' ),
 					'value' => $type->label() . ( null !== $file ? ': ' . $file['original_name'] . ' (' . size_format( $file['size'] ) . ')' : '' ) . ', ' . $document['uploaded_at'] . ' UTC',
 				);
 			}
 			$groups[] = array(
 				'group_id'    => 'eurob2b-proof-of-supply',
-				'group_label' => __( 'Proof of intra-Community supply', 'eurob2b' ),
+				'group_label' => __( 'Proof of intra-Community supply', 'stm-eu-b2b' ),
 				'item_id'     => 'eurob2b-proof-' . $order->get_id(),
 				'data'        => $items,
 			);
@@ -137,7 +137,7 @@ final class ProofDataProvider implements PersonalDataProviderInterface {
 		if ( $retained > 0 ) {
 			$messages[] = sprintf(
 				/* translators: %d: number of orders */
-				_n( 'The proof of supply of %d order (confirmation of receipt and documents) was kept as tax evidence until its retention period ends (Art. 17(3)(b) GDPR).', 'The proofs of supply of %d orders (confirmations of receipt and documents) were kept as tax evidence until their retention period ends (Art. 17(3)(b) GDPR).', $retained, 'eurob2b' ),
+				_n( 'The proof of supply of %d order (confirmation of receipt and documents) was kept as tax evidence until its retention period ends (Art. 17(3)(b) GDPR).', 'The proofs of supply of %d orders (confirmations of receipt and documents) were kept as tax evidence until their retention period ends (Art. 17(3)(b) GDPR).', $retained, 'stm-eu-b2b' ),
 				$retained
 			);
 		}

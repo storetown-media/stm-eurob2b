@@ -16,7 +16,7 @@ use EuroB2B\Modules\Admin\SettingsPage;
 use EuroB2B\Modules\Privacy\ProcessingRecord;
 
 /**
- * EuroB2B → Processing record (PRV-010): shows the draft of the record of processing activities
+ * STM EU-B2B → Processing record (PRV-010): shows the draft of the record of processing activities
  * and serves it as a standalone HTML document for printing (or saving as PDF) and as a download
  * that opens in a word processor. Capability `eurob2b_manage_settings`; the document handler is an
  * admin_post action with a nonce.
@@ -65,7 +65,7 @@ final class ProcessingRecordPage {
 	 * @param Menu $menu Menu.
 	 */
 	public function register_page( Menu $menu ): void {
-		$menu->add_page( self::SLUG, __( 'Record of processing activities', 'eurob2b' ), __( 'Processing record', 'eurob2b' ), Capabilities::MANAGE_SETTINGS, array( $this, 'render' ), 90 );
+		$menu->add_page( self::SLUG, __( 'Record of processing activities', 'stm-eu-b2b' ), __( 'Processing record', 'stm-eu-b2b' ), Capabilities::MANAGE_SETTINGS, array( $this, 'render' ), 90 );
 	}
 
 	/**
@@ -86,13 +86,13 @@ final class ProcessingRecordPage {
 	 */
 	public function render(): void {
 		$this->check_capability();
-		PageHeader::open( 'eurob2b-processing-record', __( 'Record of processing activities', 'eurob2b' ) );
-		echo '<p>' . esc_html__( 'A draft for your record of processing activities under Art. 30 GDPR, built from the current EuroB2B settings. Print it or save it as a PDF from the print view, or download it as an HTML file that you can edit in a word processor.', 'eurob2b' ) . '</p>';
-		$settings = '<a href="' . esc_url( Menu::url( SettingsPage::SLUG, array( 'tab' => 'privacy' ) ) ) . '">' . esc_html__( 'EuroB2B → Settings → Privacy and data', 'eurob2b' ) . '</a>';
+		PageHeader::open( 'eurob2b-processing-record', __( 'Record of processing activities', 'stm-eu-b2b' ) );
+		echo '<p>' . esc_html__( 'A draft for your record of processing activities under Art. 30 GDPR, built from the current EU-B2B settings. Print it or save it as a PDF from the print view, or download it as an HTML file that you can edit in a word processor.', 'stm-eu-b2b' ) . '</p>';
+		$settings = '<a href="' . esc_url( Menu::url( SettingsPage::SLUG, array( 'tab' => 'privacy' ) ) ) . '">' . esc_html__( 'STM EU-B2B → Settings → Privacy and data', 'stm-eu-b2b' ) . '</a>';
 		/* translators: %s: link to the privacy settings */
-		echo '<p>' . sprintf( esc_html__( 'Phone and e-mail address, contact person, joint controllers, the representative in the EU and the data protection officer are entered under %s; until then the record says "please add".', 'eurob2b' ), $settings ) . '</p>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- the link is built from escaped parts above.
-		echo '<p><a class="button button-primary" href="' . esc_url( self::document_url() ) . '" target="_blank" rel="noopener">' . esc_html__( 'Print view', 'eurob2b' ) . '</a> ';
-		echo '<a class="button" href="' . esc_url( self::document_url( true ) ) . '">' . esc_html__( 'Download as HTML file', 'eurob2b' ) . '</a></p>';
+		echo '<p>' . sprintf( esc_html__( 'Phone and e-mail address, contact person, joint controllers, the representative in the EU and the data protection officer are entered under %s; until then the record says "please add".', 'stm-eu-b2b' ), $settings ) . '</p>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- the link is built from escaped parts above.
+		echo '<p><a class="button button-primary" href="' . esc_url( self::document_url() ) . '" target="_blank" rel="noopener">' . esc_html__( 'Print view', 'stm-eu-b2b' ) . '</a> ';
+		echo '<a class="button" href="' . esc_url( self::document_url( true ) ) . '">' . esc_html__( 'Download as HTML file', 'stm-eu-b2b' ) . '</a></p>';
 		echo '<style>' . self::CSS . '</style>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- constant stylesheet.
 		echo $this->record->html(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- the record escapes its output.
 		echo '</div>';
@@ -127,7 +127,7 @@ final class ProcessingRecordPage {
 	 */
 	private function check_capability(): void {
 		if ( ! current_user_can( Capabilities::MANAGE_SETTINGS ) ) {
-			wp_die( esc_html__( 'You are not allowed to view the record of processing activities.', 'eurob2b' ), '', array( 'response' => 403 ) );
+			wp_die( esc_html__( 'You are not allowed to view the record of processing activities.', 'stm-eu-b2b' ), '', array( 'response' => 403 ) );
 		}
 	}
 
@@ -135,7 +135,7 @@ final class ProcessingRecordPage {
 	 * File name of the download, e.g. "processing-record-2026-10-23.html".
 	 */
 	public static function filename(): string {
-		$name = sanitize_file_name( _x( 'processing-record', 'file name', 'eurob2b' ) );
+		$name = sanitize_file_name( _x( 'processing-record', 'file name', 'stm-eu-b2b' ) );
 		return ( '' !== $name ? $name : 'processing-record' ) . '-' . wp_date( 'Y-m-d' ) . '.html';
 	}
 
@@ -145,7 +145,7 @@ final class ProcessingRecordPage {
 	 * @param bool $print_button Show a print button (the print view; a download goes without).
 	 */
 	public function document( bool $print_button = true ): string {
-		$title = __( 'Record of processing activities', 'eurob2b' );
+		$title = __( 'Record of processing activities', 'stm-eu-b2b' );
 		$css   = 'body{font:11pt/1.5 Georgia,"Times New Roman",serif;color:#1d2327;margin:2.5em auto;max-width:60rem;padding:0 1em}'
 			. 'h1{font-size:1.6em;font-weight:normal;margin:0 0 .25em}'
 			. '.eurob2b-record__print{font:inherit;padding:.3em .9em;margin:0 0 1.5em;cursor:pointer}'
@@ -156,7 +156,7 @@ final class ProcessingRecordPage {
 			. '<title>' . esc_html( $title . ' – ' . get_bloginfo( 'name' ) ) . '</title>'
 			. '<style>' . self::CSS . $css . '</style></head><body>'
 			. '<h1>' . esc_html( $title ) . '</h1>'
-			. ( $print_button ? '<button type="button" class="eurob2b-record__print" onclick="window.print()">' . esc_html__( 'Print', 'eurob2b' ) . '</button>' : '' )
+			. ( $print_button ? '<button type="button" class="eurob2b-record__print" onclick="window.print()">' . esc_html__( 'Print', 'stm-eu-b2b' ) . '</button>' : '' )
 			. $this->record->html()
 			. '</body></html>';
 	}

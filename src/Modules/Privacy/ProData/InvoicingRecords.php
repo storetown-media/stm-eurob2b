@@ -14,7 +14,7 @@ use WC_Order;
 /**
  * The e-invoicing data on customers and orders (D-21) and the result of the Peppol Directory lookup
  * (D-30), read and removed for the privacy export and erasure, WooCommerce's order export and its
- * order anonymisation. EuroB2B Pro collects the data; this part of the core handles it also while
+ * order anonymisation. EU-B2B Pro collects the data; this part of the core handles it also while
  * Pro is inactive or deleted (PLT-015). Pro uses the same keys: its classes alias the constants
  * below and read the register entry with the helpers below.
  */
@@ -195,10 +195,10 @@ final class InvoicingRecords {
 	 */
 	private static function order_labels(): array {
 		return array(
-			self::META_REFERENCE => __( 'Buyer reference', 'eurob2b' ),
-			self::META_LEITWEG   => __( 'Leitweg-ID', 'eurob2b' ),
-			self::META_PEPPOL    => __( 'Peppol ID', 'eurob2b' ),
-			self::META_REGISTER  => __( 'Company register', 'eurob2b' ),
+			self::META_REFERENCE => __( 'Buyer reference', 'stm-eu-b2b' ),
+			self::META_LEITWEG   => __( 'Leitweg-ID', 'stm-eu-b2b' ),
+			self::META_PEPPOL    => __( 'Peppol ID', 'stm-eu-b2b' ),
+			self::META_REGISTER  => __( 'Company register', 'stm-eu-b2b' ),
 		);
 	}
 

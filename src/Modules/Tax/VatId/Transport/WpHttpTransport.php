@@ -116,6 +116,6 @@ final class WpHttpTransport implements TransportInterface {
 	 * Identifies the plugin, not the shop, towards the service (data minimisation).
 	 */
 	private static function user_agent(): string {
-		return 'EuroB2B/' . ( defined( 'EUROB2B_VERSION' ) ? EUROB2B_VERSION : 'dev' ) . ' (WordPress; +https://wordpress.org/)';
+		return 'STM-EU-B2B/' . ( defined( 'EUROB2B_VERSION' ) ? EUROB2B_VERSION : 'dev' ) . ' (WordPress; +https://wordpress.org/)';
 	}
 }

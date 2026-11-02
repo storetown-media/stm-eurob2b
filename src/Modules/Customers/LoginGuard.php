@@ -97,7 +97,7 @@ final class LoginGuard {
 		 *
 		 * @param string $message Message.
 		 */
-		return (string) apply_filters( 'eurob2b_pending_login_message', __( 'Your account is waiting for approval. We will e-mail you as soon as it is activated.', 'eurob2b' ) );
+		return (string) apply_filters( 'eurob2b_pending_login_message', __( 'Your account is waiting for approval. We will e-mail you as soon as it is activated.', 'stm-eu-b2b' ) );
 	}
 
 	/**
@@ -109,7 +109,7 @@ final class LoginGuard {
 		 *
 		 * @param string $message Message.
 		 */
-		return (string) apply_filters( 'eurob2b_rejected_login_message', __( 'This account has not been activated. Please contact us if you think this is a mistake.', 'eurob2b' ) );
+		return (string) apply_filters( 'eurob2b_rejected_login_message', __( 'This account has not been activated. Please contact us if you think this is a mistake.', 'stm-eu-b2b' ) );
 	}
 
 	/**

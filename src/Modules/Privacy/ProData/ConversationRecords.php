@@ -14,7 +14,7 @@ use EuroB2B\Infrastructure\Schema;
 /**
  * Conversations and messages of the shared schema (tables `eurob2b_conversations` and
  * `eurob2b_messages`, migration 7; D-07), read and changed for the privacy export and erasure, user
- * deletion and the retention job. EuroB2B Pro writes them; this part of the core handles them also
+ * deletion and the retention job. EU-B2B Pro writes them; this part of the core handles them also
  * while Pro is inactive or deleted (PLT-015). Pro uses the same keys: its classes alias the
  * constants and labels below. Conversations have no attachments.
  */
@@ -52,9 +52,9 @@ final class ConversationRecords {
 	 */
 	public static function status_labels(): array {
 		return array(
-			self::STATUS_OPEN     => __( 'Waiting for the shop', 'eurob2b' ),
-			self::STATUS_ANSWERED => __( 'Answered', 'eurob2b' ),
-			self::STATUS_CLOSED   => __( 'Closed', 'eurob2b' ),
+			self::STATUS_OPEN     => __( 'Waiting for the shop', 'stm-eu-b2b' ),
+			self::STATUS_ANSWERED => __( 'Answered', 'stm-eu-b2b' ),
+			self::STATUS_CLOSED   => __( 'Closed', 'stm-eu-b2b' ),
 		);
 	}
 
@@ -65,8 +65,8 @@ final class ConversationRecords {
 	 */
 	public static function type_labels(): array {
 		return array(
-			self::TYPE_MESSAGE => __( 'Message', 'eurob2b' ),
-			self::TYPE_INQUIRY => __( 'Inquiry', 'eurob2b' ),
+			self::TYPE_MESSAGE => __( 'Message', 'stm-eu-b2b' ),
+			self::TYPE_INQUIRY => __( 'Inquiry', 'stm-eu-b2b' ),
 		);
 	}
 
@@ -81,7 +81,7 @@ final class ConversationRecords {
 		}
 		$author = (int) $message['author_id'];
 		$user   = $author > 0 ? get_userdata( $author ) : false;
-		return $user ? $user->display_name : __( 'Deleted user', 'eurob2b' );
+		return $user ? $user->display_name : __( 'Deleted user', 'stm-eu-b2b' );
 	}
 
 	/**
@@ -94,7 +94,7 @@ final class ConversationRecords {
 		global $wpdb;
 		$table = Schema::table( self::TABLE_CONVERSATIONS );
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		$row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$table} WHERE id = %d", $id ), ARRAY_A );
+		$row = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM %i WHERE id = %d', $table, $id ), ARRAY_A );
 		return is_array( $row ) ? $row : null;
 	}
 
@@ -108,7 +108,7 @@ final class ConversationRecords {
 		global $wpdb;
 		$table = Schema::table( self::TABLE_MESSAGES );
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		$rows = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$table} WHERE conversation_id = %d ORDER BY created_at ASC, id ASC", $conversation_id ), ARRAY_A );
+		$rows = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %i WHERE conversation_id = %d ORDER BY created_at ASC, id ASC', $table, $conversation_id ), ARRAY_A );
 		return is_array( $rows ) ? $rows : array();
 	}
 
@@ -122,7 +122,7 @@ final class ConversationRecords {
 		global $wpdb;
 		$table = Schema::table( self::TABLE_CONVERSATIONS );
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		return array_map( 'intval', (array) $wpdb->get_col( $wpdb->prepare( "SELECT id FROM {$table} WHERE user_id = %d", $user_id ) ) );
+		return array_map( 'intval', (array) $wpdb->get_col( $wpdb->prepare( 'SELECT id FROM %i WHERE user_id = %d', $table, $user_id ) ) );
 	}
 
 	/**
@@ -136,7 +136,7 @@ final class ConversationRecords {
 		$messages      = Schema::table( self::TABLE_MESSAGES );
 		$conversations = Schema::table( self::TABLE_CONVERSATIONS );
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		$rows = $wpdb->get_results( $wpdb->prepare( "SELECT m.* FROM {$messages} m JOIN {$conversations} c ON c.id = m.conversation_id WHERE m.author_id = %d AND c.user_id <> %d ORDER BY m.id ASC", $user_id, $user_id ), ARRAY_A );
+		$rows = $wpdb->get_results( $wpdb->prepare( 'SELECT m.* FROM %i m JOIN %i c ON c.id = m.conversation_id WHERE m.author_id = %d AND c.user_id <> %d ORDER BY m.id ASC', $messages, $conversations, $user_id, $user_id ), ARRAY_A );
 		return is_array( $rows ) ? $rows : array();
 	}
 
@@ -194,7 +194,7 @@ final class ConversationRecords {
 		global $wpdb;
 		$table = Schema::table( self::TABLE_CONVERSATIONS );
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		$ids = $wpdb->get_col( $wpdb->prepare( "SELECT id FROM {$table} WHERE last_message_at < %s ORDER BY id ASC LIMIT %d", $cutoff, max( 1, $limit ) ) );
+		$ids = $wpdb->get_col( $wpdb->prepare( 'SELECT id FROM %i WHERE last_message_at < %s ORDER BY id ASC LIMIT %d', $table, $cutoff, max( 1, $limit ) ) );
 		return array_map( 'intval', (array) $ids );
 	}
 
@@ -222,7 +222,7 @@ final class ConversationRecords {
 		global $wpdb;
 		$table = Schema::table( self::TABLE_MESSAGES );
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		$ids = array_map( 'intval', (array) $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT conversation_id FROM {$table} WHERE author_id = %d AND author_role = %s", $user_id, $role ) ) );
+		$ids = array_map( 'intval', (array) $wpdb->get_col( $wpdb->prepare( 'SELECT DISTINCT conversation_id FROM %i WHERE author_id = %d AND author_role = %s', $table, $user_id, $role ) ) );
 		$out = array();
 		foreach ( $ids as $id ) {
 			$last = $this->last_message( $id );
@@ -243,7 +243,7 @@ final class ConversationRecords {
 		global $wpdb;
 		$table = Schema::table( self::TABLE_MESSAGES );
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		$row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$table} WHERE conversation_id = %d ORDER BY created_at DESC, id DESC LIMIT 1", $conversation_id ), ARRAY_A );
+		$row = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM %i WHERE conversation_id = %d ORDER BY created_at DESC, id DESC LIMIT 1', $table, $conversation_id ), ARRAY_A );
 		return is_array( $row ) ? $row : null;
 	}
 

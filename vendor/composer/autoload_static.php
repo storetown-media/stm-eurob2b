@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit95dd42046cc0e4279f8ebe4fd6b5b402
+class ComposerStaticInitStmEuB2b
 {
     public static $prefixLengthsPsr4 = array (
         'E' =>
@@ -23,6 +23,7 @@ class ComposerStaticInit95dd42046cc0e4279f8ebe4fd6b5b402
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'EuroB2B\\Container' => __DIR__ . '/../..' . '/src/Container.php',
+        'EuroB2B\\Infrastructure\\Bootstrap' => __DIR__ . '/../..' . '/src/Infrastructure/Bootstrap.php',
         'EuroB2B\\Infrastructure\\Capabilities' => __DIR__ . '/../..' . '/src/Infrastructure/Capabilities.php',
         'EuroB2B\\Infrastructure\\Compatibility\\WooCommerceFeatures' => __DIR__ . '/../..' . '/src/Infrastructure/Compatibility/WooCommerceFeatures.php',
         'EuroB2B\\Infrastructure\\Installer' => __DIR__ . '/../..' . '/src/Infrastructure/Installer.php',
@@ -42,6 +43,7 @@ class ComposerStaticInit95dd42046cc0e4279f8ebe4fd6b5b402
         'EuroB2B\\Infrastructure\\Migration\\Migrations\\M0011CreateMigrationLogTable' => __DIR__ . '/../..' . '/src/Infrastructure/Migration/Migrations/M0011CreateMigrationLogTable.php',
         'EuroB2B\\Infrastructure\\Migration\\Migrations\\M0012AddLinkedProductToQuoteItems' => __DIR__ . '/../..' . '/src/Infrastructure/Migration/Migrations/M0012AddLinkedProductToQuoteItems.php',
         'EuroB2B\\Infrastructure\\Migration\\Migrator' => __DIR__ . '/../..' . '/src/Infrastructure/Migration/Migrator.php',
+        'EuroB2B\\Infrastructure\\RenamedPluginNotice' => __DIR__ . '/../..' . '/src/Infrastructure/RenamedPluginNotice.php',
         'EuroB2B\\Infrastructure\\Schema' => __DIR__ . '/../..' . '/src/Infrastructure/Schema.php',
         'EuroB2B\\Infrastructure\\Uninstaller' => __DIR__ . '/../..' . '/src/Infrastructure/Uninstaller.php',
         'EuroB2B\\Module\\AbstractModule' => __DIR__ . '/../..' . '/src/Module/AbstractModule.php',
@@ -255,9 +257,11 @@ class ComposerStaticInit95dd42046cc0e4279f8ebe4fd6b5b402
         'EuroB2B\\Support\\Assets' => __DIR__ . '/../..' . '/src/Support/Assets.php',
         'EuroB2B\\Support\\Currency' => __DIR__ . '/../..' . '/src/Support/Currency.php',
         'EuroB2B\\Support\\Decimal' => __DIR__ . '/../..' . '/src/Support/Decimal.php',
+        'EuroB2B\\Support\\ExceptionMessage' => __DIR__ . '/../..' . '/src/Support/ExceptionMessage.php',
         'EuroB2B\\Support\\FormDraft' => __DIR__ . '/../..' . '/src/Support/FormDraft.php',
         'EuroB2B\\Support\\HiddenPrice' => __DIR__ . '/../..' . '/src/Support/HiddenPrice.php',
         'EuroB2B\\Support\\Hpos' => __DIR__ . '/../..' . '/src/Support/Hpos.php',
+        'EuroB2B\\Support\\I18n' => __DIR__ . '/../..' . '/src/Support/I18n.php',
         'EuroB2B\\Support\\Money' => __DIR__ . '/../..' . '/src/Support/Money.php',
         'EuroB2B\\Support\\Pages' => __DIR__ . '/../..' . '/src/Support/Pages.php',
         'EuroB2B\\Support\\ProductMeta' => __DIR__ . '/../..' . '/src/Support/ProductMeta.php',
@@ -269,9 +273,9 @@ class ComposerStaticInit95dd42046cc0e4279f8ebe4fd6b5b402
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit95dd42046cc0e4279f8ebe4fd6b5b402::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit95dd42046cc0e4279f8ebe4fd6b5b402::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit95dd42046cc0e4279f8ebe4fd6b5b402::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitStmEuB2b::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitStmEuB2b::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitStmEuB2b::$classMap;
 
         }, null, ClassLoader::class);
     }

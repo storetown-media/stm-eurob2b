@@ -18,7 +18,7 @@ use EuroB2B\Modules\Rules\Admin\RulesPage;
 /**
  * Rules engine core (M3.1): storage, evaluation, percentage discount rules in the price pipeline
  * and the admin page. Every other rule type and mode, the conditions and the discount lines in the
- * cart (PRC-018) are added by EuroB2B Pro (`RulesProModule`, PLT-015); `RuleSupport` keeps rules
+ * cart (PRC-018) are added by EU-B2B Pro (`RulesProModule`, PLT-015); `RuleSupport` keeps rules
  * that need it from applying without it.
  */
 final class RulesModule extends AbstractModule {
@@ -45,7 +45,7 @@ final class RulesModule extends AbstractModule {
 		$c->set(
 			RuleEvaluator::class,
 			static function ( Container $c ): RuleEvaluator {
-				// Conditions are decided by EuroB2B Pro (PLT-015).
+				// Conditions are decided by EU-B2B Pro (PLT-015).
 				$checker = $c->has( ConditionChecker::class ) ? $c->get( ConditionChecker::class ) : null;
 				return new RuleEvaluator( $c->get( RuleRepository::class ), $checker instanceof ConditionChecker ? $checker : null );
 			}

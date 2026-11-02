@@ -1,6 +1,6 @@
 <?php
 /**
- * Confirming the review of orders whose tax treatment EuroB2B could not decide.
+ * Confirming the review of orders whose tax treatment EU-B2B could not decide.
  *
  * @package EuroB2B
  */
@@ -20,7 +20,7 @@ use WP_Query;
 /**
  * Orders flagged with `CartTreatment::META_NEEDS_REVIEW` (VAT ID check unavailable or pending,
  * pickup, a country rule not reviewed yet) wait for a person. Staff confirm the review on the order
- * screen (product owner decision of 2026-10-31); EuroB2B stores who and when and writes the audit
+ * screen (product owner decision of 2026-10-31); EU-B2B stores who and when and writes the audit
  * log, the flag itself stays as evidence. The overview counts flagged orders without a review and
  * links to the order list filtered to them.
  */
@@ -178,17 +178,17 @@ final class TaxReviewAdmin {
 		}
 		$items[] = array(
 			'count'      => self::open_count(),
-			'title'      => __( 'Orders whose tax treatment needs a review', 'eurob2b' ),
-			'text'       => __( 'EuroB2B could not decide the tax itself: the VAT ID check was unavailable or pending, the customer picks the goods up, or the country rule is not reviewed yet.', 'eurob2b' ),
+			'title'      => __( 'Orders whose tax treatment needs a review', 'stm-eu-b2b' ),
+			'text'       => __( 'EU-B2B could not decide the tax itself: the VAT ID check was unavailable or pending, the customer picks the goods up, or the country rule is not reviewed yet.', 'stm-eu-b2b' ),
 			'url'        => self::list_url(),
-			'action'     => _x( 'Review', 'button on the overview page', 'eurob2b' ),
+			'action'     => _x( 'Review', 'button on the overview page', 'stm-eu-b2b' ),
 			'capability' => Capabilities::DECIDE_VALIDATION,
 		);
 		return $items;
 	}
 
 	/**
-	 * The review state on the order screen, below the EuroB2B box.
+	 * The review state on the order screen, below the EU-B2B box.
 	 *
 	 * @param mixed $order Order.
 	 */
@@ -201,7 +201,7 @@ final class TaxReviewAdmin {
 			$by   = get_userdata( (int) $order->get_meta( self::META_REVIEWED_BY, true ) );
 			$when = (int) strtotime( (string) $order->get_meta( self::META_REVIEWED_AT, true ) . ' UTC' );
 			/* translators: 1: date and time, 2: name of the staff member */
-			$text = sprintf( __( 'Tax treatment reviewed on %1$s by %2$s.', 'eurob2b' ), wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $when ), $by ? $by->display_name : '#' . (int) $order->get_meta( self::META_REVIEWED_BY, true ) );
+			$text = sprintf( __( 'Tax treatment reviewed on %1$s by %2$s.', 'stm-eu-b2b' ), wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $when ), $by ? $by->display_name : '#' . (int) $order->get_meta( self::META_REVIEWED_BY, true ) );
 			echo '<p class="form-field form-field-wide" style="margin:0;">' . StatusLabel::html( $text, StatusLabel::OK ) . '</p>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in StatusLabel::html().
 		} elseif ( current_user_can( Capabilities::DECIDE_VALIDATION ) ) {
 			$args = array(
@@ -209,8 +209,8 @@ final class TaxReviewAdmin {
 				'order_id' => $order->get_id(),
 			);
 			$url  = wp_nonce_url( add_query_arg( $args, admin_url( 'admin-post.php' ) ), self::NONCE_PREFIX . $order->get_id() );
-			echo '<p class="form-field form-field-wide" style="margin:0 0 6px;"><span class="description">' . esc_html__( 'EuroB2B could not decide the tax of this order itself. Check the VAT ID, the delivery and the taxes of the order and correct them if needed, then confirm the review.', 'eurob2b' ) . '</span></p>';
-			echo '<p class="form-field form-field-wide" style="margin:0;"><a class="button" href="' . esc_url( $url ) . '">' . esc_html__( 'Mark the tax treatment as reviewed', 'eurob2b' ) . '</a></p>';
+			echo '<p class="form-field form-field-wide" style="margin:0 0 6px;"><span class="description">' . esc_html__( 'EU-B2B could not decide the tax of this order itself. Check the VAT ID, the delivery and the taxes of the order and correct them if needed, then confirm the review.', 'stm-eu-b2b' ) . '</span></p>';
+			echo '<p class="form-field form-field-wide" style="margin:0;"><a class="button" href="' . esc_url( $url ) . '">' . esc_html__( 'Mark the tax treatment as reviewed', 'stm-eu-b2b' ) . '</a></p>';
 		}
 		echo '</div>';
 	}
@@ -220,14 +220,14 @@ final class TaxReviewAdmin {
 	 */
 	public function handle(): void {
 		if ( ! current_user_can( Capabilities::DECIDE_VALIDATION ) ) {
-			wp_die( esc_html__( 'You are not allowed to review tax treatments.', 'eurob2b' ), '', array( 'response' => 403 ) );
+			wp_die( esc_html__( 'You are not allowed to review tax treatments.', 'stm-eu-b2b' ), '', array( 'response' => 403 ) );
 		}
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- verified right below with the order id.
 		$order_id = isset( $_REQUEST['order_id'] ) ? absint( $_REQUEST['order_id'] ) : 0;
 		check_admin_referer( self::NONCE_PREFIX . $order_id );
 		$order = $order_id > 0 ? wc_get_order( $order_id ) : null;
 		if ( ! $order instanceof WC_Order || ! self::flagged( $order ) ) {
-			wp_die( esc_html__( 'This order is not flagged for a tax review.', 'eurob2b' ), '', array( 'response' => 400 ) );
+			wp_die( esc_html__( 'This order is not flagged for a tax review.', 'stm-eu-b2b' ), '', array( 'response' => 400 ) );
 		}
 		if ( ! self::reviewed( $order ) ) {
 			self::confirm( $order, get_current_user_id() );
@@ -248,7 +248,7 @@ final class TaxReviewAdmin {
 		$order->update_meta_data( self::META_REVIEWED_BY, (string) $actor_id );
 		$order->save();
 		/**
-		 * A staff member confirmed the review of an order whose tax treatment EuroB2B flagged (the
+		 * A staff member confirmed the review of an order whose tax treatment EU-B2B flagged (the
 		 * audit log records it).
 		 *
 		 * @param WC_Order $order    Order.

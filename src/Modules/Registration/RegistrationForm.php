@@ -177,9 +177,9 @@ final class RegistrationForm {
 		$current = isset( $_POST['eurob2b_registration_type'] ) ? sanitize_key( (string) wp_unslash( $_POST['eurob2b_registration_type'] ) ) : '';
 
 		echo '<p class="form-row form-row-wide eurob2b-registration-type">';
-		echo '<label for="eurob2b_registration_type">' . esc_html__( 'I am registering as', 'eurob2b' ) . ' <span class="required" aria-hidden="true">*</span></label>';
+		echo '<label for="eurob2b_registration_type">' . esc_html__( 'I am registering as', 'stm-eu-b2b' ) . ' <span class="required" aria-hidden="true">*</span></label>';
 		echo '<select class="select" id="eurob2b_registration_type" name="eurob2b_registration_type" required>';
-		echo '<option value="">' . esc_html__( 'Please choose', 'eurob2b' ) . '</option>';
+		echo '<option value="">' . esc_html__( 'Please choose', 'stm-eu-b2b' ) . '</option>';
 		foreach ( $types as $type ) {
 			echo '<option value="' . esc_attr( $type->slug ) . '" ' . selected( $current, $type->slug, false ) . '>' . esc_html( $type->label ) . '</option>';
 		}
@@ -222,7 +222,7 @@ final class RegistrationForm {
 			$attr = null !== $this->locked ? ' required' : ' data-eurob2b-required="1"';
 			echo '<p class="form-row form-row-wide eurob2b-terms" data-eurob2b-types="' . esc_attr( null !== $this->locked ? '' : implode( ',', $business ) ) . '"><label class="checkbox" for="eurob2b_terms">';
 			echo '<input type="checkbox" class="input-checkbox" id="eurob2b_terms" name="eurob2b_terms" value="1"' . $attr . ' /> '; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static attribute.
-			echo wp_kses( '' !== $text ? $text : __( 'I accept the terms and conditions.', 'eurob2b' ), RegistrationModule::terms_allowed_html() );
+			echo wp_kses( '' !== $text ? $text : __( 'I accept the terms and conditions.', 'stm-eu-b2b' ), RegistrationModule::terms_allowed_html() );
 			echo ' <span class="required" aria-hidden="true">*</span></label></p>';
 		}
 	}
@@ -242,7 +242,7 @@ final class RegistrationForm {
 	}
 
 	/**
-	 * Validates the EuroB2B part of the registration (woocommerce_registration_errors).
+	 * Validates the EU-B2B part of the registration (woocommerce_registration_errors).
 	 *
 	 * @param WP_Error $errors Errors so far.
 	 */
@@ -264,7 +264,7 @@ final class RegistrationForm {
 
 		$abuse = $this->anti_abuse->check( $post );
 		if ( null !== $abuse ) {
-			$errors->add( 'eurob2b_' . $abuse, 'throttled' === $abuse ? __( 'Too many registrations from your connection. Please try again later.', 'eurob2b' ) : __( 'Your registration could not be processed. Please try again.', 'eurob2b' ) );
+			$errors->add( 'eurob2b_' . $abuse, 'throttled' === $abuse ? __( 'Too many registrations from your connection. Please try again later.', 'stm-eu-b2b' ) : __( 'Your registration could not be processed. Please try again.', 'stm-eu-b2b' ) );
 			$this->pending = null;
 			return $errors;
 		}
@@ -275,7 +275,7 @@ final class RegistrationForm {
 		if ( null !== $locked ) {
 			$signature = isset( $post['eurob2b_locked_sig'] ) && is_scalar( $post['eurob2b_locked_sig'] ) ? (string) $post['eurob2b_locked_sig'] : '';
 			if ( ! hash_equals( self::locked_signature( $locked ), $signature ) ) {
-				$errors->add( 'eurob2b_registration_type', __( 'The registration form could not be verified. Please reload the page and try again.', 'eurob2b' ) );
+				$errors->add( 'eurob2b_registration_type', __( 'The registration form could not be verified. Please reload the page and try again.', 'stm-eu-b2b' ) );
 				$this->pending = null;
 				return $errors;
 			}
@@ -291,7 +291,7 @@ final class RegistrationForm {
 	 * Whether the posted data comes from a registration form this plugin renders (My Account form,
 	 * shortcode or block), as opposed to checkout account creation or an API call. A request
 	 * WooCommerce's My Account registration handler processes always is one: a visitor who posts the
-	 * nonce as `_wpnonce` without EuroB2B's fields, or adds a checkout key, must not skip the type
+	 * nonce as `_wpnonce` without EU-B2B's fields, or adds a checkout key, must not skip the type
 	 * choice, the required fields, the terms, the spam checks and the approval.
 	 *
 	 * @param array<string, mixed> $post         Posted data.
@@ -315,7 +315,7 @@ final class RegistrationForm {
 	public function on_created_customer( int $customer_id ): void {
 		if ( null === $this->pending || null === $this->pending['type'] ) {
 			return;
-			// Not an EuroB2B registration (e.g. checkout account creation handled elsewhere).
+			// Not an EU-B2B registration (e.g. checkout account creation handled elsewhere).
 		}
 		$this->anti_abuse->record();
 		$this->service->complete( $customer_id, $this->pending['type'], $this->pending['values'], (bool) ( $this->pending['terms'] ?? false ), $this->pending['uploads'] ?? array() );
@@ -445,9 +445,9 @@ final class RegistrationForm {
 		$type    = $this->types->find( $type_slug );
 		$problem = null;
 		if ( null === $type || ! $this->types->is_offered( $type ) ) {
-			$problem = __( 'EuroB2B: unknown or disabled registration type in the form.', 'eurob2b' );
+			$problem = __( 'STM EU-B2B: unknown or disabled registration type in the form.', 'stm-eu-b2b' );
 		} elseif ( 'yes' !== get_option( 'woocommerce_enable_myaccount_registration' ) ) {
-			$problem = __( 'EuroB2B: enable "Allow customers to create an account on the My account page" in WooCommerce → Settings → Accounts.', 'eurob2b' );
+			$problem = __( 'STM EU-B2B: enable "Allow customers to create an account on the My account page" in WooCommerce → Settings → Accounts.', 'stm-eu-b2b' );
 		}
 		// The administrator who looks at the page is logged in, so a set-up hint comes before
 		// "already logged in"; every other visitor never sees it.
@@ -455,7 +455,7 @@ final class RegistrationForm {
 			return '<p class="eurob2b-registration-missing">' . esc_html( $problem ) . '</p>';
 		}
 		if ( is_user_logged_in() ) {
-			return '<p class="eurob2b-registration-logged-in">' . esc_html__( 'You are already logged in.', 'eurob2b' ) . '</p>';
+			return '<p class="eurob2b-registration-logged-in">' . esc_html__( 'You are already logged in.', 'stm-eu-b2b' ) . '</p>';
 		}
 		if ( null !== $problem || null === $type ) {
 			return '';

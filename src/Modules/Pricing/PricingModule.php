@@ -20,10 +20,10 @@ use EuroB2B\Modules\Pricing\Admin\ProductPriceFields;
 
 /**
  * Group prices, the pricing pipeline, WooCommerce integration and checkout re-validation. Tiers,
- * customer prices, price lists and the recommended retail price are added by EuroB2B Pro
+ * customer prices, price lists and the recommended retail price are added by EU-B2B Pro
  * (`PricingProModule`, PLT-015). The core keeps their storage (`TierStorage`, `CustomerPrices`),
  * because the import, the group cleanup and the privacy export and erasure of customer prices work
- * without EuroB2B Pro.
+ * without EU-B2B Pro.
  */
 final class PricingModule extends AbstractModule {
 
@@ -69,7 +69,7 @@ final class PricingModule extends AbstractModule {
 	 * @param Container $c Service container.
 	 */
 	public function boot( Container $c ): void {
-		// Privacy export and erasure of customer prices (D-18), also of those EuroB2B Pro wrote while it
+		// Privacy export and erasure of customer prices (D-18), also of those EU-B2B Pro wrote while it
 		// was active; a deleted account takes its prices along.
 		add_filter(
 			'eurob2b_personal_data_providers',
@@ -126,18 +126,18 @@ final class PricingModule extends AbstractModule {
 	 * @param SettingsSchema $schema Schema.
 	 */
 	public static function settings_schema( SettingsSchema $schema ): void {
-		$schema->add_section( 'pricing', __( 'Prices', 'eurob2b' ), 20 );
+		$schema->add_section( 'pricing', __( 'Prices', 'stm-eu-b2b' ), 20 );
 		$schema->add_field(
 			array(
 				'id'          => 'pricing_stacking',
 				'section'     => 'pricing',
-				'label'       => __( 'Discounts and markups', 'eurob2b' ),
-				'description' => __( 'When several discount or markup rules match the same product: apply only the rule with the highest priority (default), or apply all of them one after another in priority order.', 'eurob2b' ),
+				'label'       => __( 'Discounts and markups', 'stm-eu-b2b' ),
+				'description' => __( 'When several discount or markup rules match the same product: apply only the rule with the highest priority (default), or apply all of them one after another in priority order.', 'stm-eu-b2b' ),
 				'type'        => SettingsSchema::TYPE_SELECT,
 				'default'     => 'highest',
 				'options'     => array(
-					'highest' => __( 'Highest priority only', 'eurob2b' ),
-					'stack'   => __( 'Stack in priority order', 'eurob2b' ),
+					'highest' => __( 'Highest priority only', 'stm-eu-b2b' ),
+					'stack'   => __( 'Stack in priority order', 'stm-eu-b2b' ),
 				),
 			)
 		);

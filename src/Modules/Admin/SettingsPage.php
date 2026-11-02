@@ -10,6 +10,7 @@ declare( strict_types=1 );
 namespace EuroB2B\Modules\Admin;
 
 use EuroB2B\Infrastructure\Capabilities;
+use EuroB2B\Support\ExceptionMessage;
 
 /**
  * Renders the settings sections and handles the save request.
@@ -62,7 +63,7 @@ final class SettingsPage {
 	 * @param Menu $menu Menu.
 	 */
 	public function register_page( Menu $menu ): void {
-		$menu->add_page( self::SLUG, __( 'EuroB2B settings', 'eurob2b' ), __( 'Settings', 'eurob2b' ), Capabilities::MANAGE_SETTINGS, array( $this, 'render' ), 100 );
+		$menu->add_page( self::SLUG, __( 'EU-B2B settings', 'stm-eu-b2b' ), __( 'Settings', 'stm-eu-b2b' ), Capabilities::MANAGE_SETTINGS, array( $this, 'render' ), 100 );
 	}
 
 	/**
@@ -70,7 +71,7 @@ final class SettingsPage {
 	 */
 	public function handle_save(): void {
 		if ( ! current_user_can( Capabilities::MANAGE_SETTINGS ) ) {
-			wp_die( esc_html__( 'You are not allowed to change these settings.', 'eurob2b' ), '', array( 'response' => 403 ) );
+			wp_die( esc_html__( 'You are not allowed to change these settings.', 'stm-eu-b2b' ), '', array( 'response' => 403 ) );
 		}
 		check_admin_referer( self::NONCE );
 
@@ -88,12 +89,12 @@ final class SettingsPage {
 		}
 		$args = array( 'updated' => '1' );
 		if ( empty( $fields ) ) {
-			$args = array( 'error' => __( 'Unknown settings tab; nothing was saved.', 'eurob2b' ) );
+			$args = array( 'error' => __( 'Unknown settings tab; nothing was saved.', 'stm-eu-b2b' ) );
 		} else {
 			try {
 				$this->settings->patch( $input );
 			} catch ( \RuntimeException $e ) {
-				$args = array( 'error' => $e->getMessage() );
+				$args = array( 'error' => ExceptionMessage::plain( $e ) );
 			}
 		}
 
@@ -109,7 +110,7 @@ final class SettingsPage {
 	 */
 	public function render(): void {
 		if ( ! current_user_can( Capabilities::MANAGE_SETTINGS ) ) {
-			wp_die( esc_html__( 'You are not allowed to view this page.', 'eurob2b' ), '', array( 'response' => 403 ) );
+			wp_die( esc_html__( 'You are not allowed to view this page.', 'stm-eu-b2b' ), '', array( 'response' => 403 ) );
 		}
 
 		$schema   = $this->settings->schema();
@@ -127,10 +128,10 @@ final class SettingsPage {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- status flag only.
 		$updated = isset( $_GET['updated'] );
 
-		PageHeader::open( 'eurob2b-settings', __( 'EuroB2B settings', 'eurob2b' ) );
+		PageHeader::open( 'eurob2b-settings', __( 'EU-B2B settings', 'stm-eu-b2b' ) );
 
 		if ( $updated ) {
-			echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'Settings saved.', 'eurob2b' ) . '</p></div>';
+			echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'Settings saved.', 'stm-eu-b2b' ) . '</p></div>';
 		}
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only notice after a redirect.
 		$error = isset( $_GET['error'] ) ? sanitize_text_field( (string) wp_unslash( $_GET['error'] ) ) : '';
@@ -138,7 +139,7 @@ final class SettingsPage {
 			echo '<div class="notice notice-error"><p>' . esc_html( $error ) . '</p></div>';
 		}
 
-		echo '<div class="eurob2b-settings-layout"><nav class="eurob2b-sidenav" aria-label="' . esc_attr__( 'Settings sections', 'eurob2b' ) . '">';
+		echo '<div class="eurob2b-settings-layout"><nav class="eurob2b-sidenav" aria-label="' . esc_attr__( 'Settings sections', 'stm-eu-b2b' ) . '">';
 		foreach ( $nav as $key => $group ) {
 			echo '<p class="eurob2b-sidenav__group" id="eurob2b-sidenav-' . esc_attr( $key ) . '">' . esc_html( $group['label'] ) . '</p>';
 			echo '<ul aria-labelledby="eurob2b-sidenav-' . esc_attr( $key ) . '">';
@@ -163,7 +164,7 @@ final class SettingsPage {
 		}
 		echo '</tbody></table>';
 
-		submit_button( __( 'Save settings', 'eurob2b' ) );
+		submit_button( __( 'Save settings', 'stm-eu-b2b' ) );
 		echo '</form></div></div></div>';
 	}
 
@@ -177,11 +178,11 @@ final class SettingsPage {
 	 */
 	public static function nav( array $sections ): array {
 		$labels = array(
-			'customers' => __( 'Customers & access', 'eurob2b' ),
-			'selling'   => __( 'Selling', 'eurob2b' ),
-			'tax'       => __( 'Tax & legal', 'eurob2b' ),
-			'reports'   => __( 'Reports', 'eurob2b' ),
-			'other'     => __( 'More', 'eurob2b' ),
+			'customers' => __( 'Customers & access', 'stm-eu-b2b' ),
+			'selling'   => __( 'Selling', 'stm-eu-b2b' ),
+			'tax'       => __( 'Tax & legal', 'stm-eu-b2b' ),
+			'reports'   => __( 'Reports', 'stm-eu-b2b' ),
+			'other'     => __( 'More', 'stm-eu-b2b' ),
 		);
 		$nav    = array();
 		$rest   = $sections;

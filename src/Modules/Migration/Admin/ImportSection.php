@@ -17,9 +17,10 @@ use EuroB2B\Modules\Migration\JournalRetention;
 use EuroB2B\Modules\Migration\Run;
 use EuroB2B\Modules\Migration\SourceInterface;
 use RuntimeException;
+use EuroB2B\Support\ExceptionMessage;
 
 /**
- * MIG-001: section of *EuroB2B → Transfer settings*. Shows the plugins whose data was found, lets
+ * MIG-001: section of *STM EU-B2B → Transfer settings*. Shows the plugins whose data was found, lets
  * the shop pick the parts, runs the test run, the import, the undo and the finish. Needs
  * `eurob2b_manage_settings` and `eurob2b_manage_customers` (the import classifies customers), and
  * every action carries a nonce. While a run works, each view of the page does a short batch and
@@ -90,7 +91,7 @@ final class ImportSection {
 			$this->importer->start( $source, Run::MODE_CHECK, $parts, get_current_user_id() );
 			$this->importer->step( self::BUDGET );
 		} catch ( RuntimeException $e ) {
-			$this->redirect( array( 'error' => $e->getMessage() ) );
+			$this->redirect( array( 'error' => ExceptionMessage::plain( $e ) ) );
 			return;
 		}
 		$this->redirect( array() );
@@ -105,14 +106,14 @@ final class ImportSection {
 		$token = isset( $_POST['run'] ) ? sanitize_text_field( wp_unslash( (string) $_POST['run'] ) ) : '';
 		$check = $this->importer->current();
 		if ( null === $check || Run::MODE_CHECK !== $check->mode || Run::STATUS_DONE !== $check->status || ! hash_equals( $check->id, $token ) || get_current_user_id() !== $check->user_id || time() - (int) strtotime( $check->finished_at . ' UTC' ) > self::CHECK_VALID ) {
-			$this->redirect( array( 'error' => __( 'The test run has expired. Please run it again.', 'eurob2b' ) ) );
+			$this->redirect( array( 'error' => __( 'The test run has expired. Please run it again.', 'stm-eu-b2b' ) ) );
 			return;
 		}
 		try {
 			$this->importer->start( $check->source, Run::MODE_IMPORT, $check->parts, get_current_user_id(), $check->id );
 			$this->importer->step( self::BUDGET );
 		} catch ( RuntimeException $e ) {
-			$this->redirect( array( 'error' => $e->getMessage() ) );
+			$this->redirect( array( 'error' => ExceptionMessage::plain( $e ) ) );
 			return;
 		}
 		$this->redirect( array() );
@@ -127,7 +128,7 @@ final class ImportSection {
 			$this->importer->start_undo( get_current_user_id() );
 			$this->importer->step( self::BUDGET );
 		} catch ( RuntimeException $e ) {
-			$this->redirect( array( 'error' => $e->getMessage() ) );
+			$this->redirect( array( 'error' => ExceptionMessage::plain( $e ) ) );
 			return;
 		}
 		$this->redirect( array() );
@@ -141,7 +142,7 @@ final class ImportSection {
 		try {
 			$this->importer->finish();
 		} catch ( RuntimeException $e ) {
-			$this->redirect( array( 'error' => $e->getMessage() ) );
+			$this->redirect( array( 'error' => ExceptionMessage::plain( $e ) ) );
 			return;
 		}
 		$this->redirect( array() );
@@ -165,14 +166,14 @@ final class ImportSection {
 	 * The section.
 	 */
 	public function render(): void {
-		echo '<h2 id="eurob2b-import">' . esc_html__( 'Import from another plugin', 'eurob2b' ) . '</h2>';
+		echo '<h2 id="eurob2b-import">' . esc_html__( 'Import from another plugin', 'stm-eu-b2b' ) . '</h2>';
 		if ( ! self::allowed() ) {
-			echo '<p>' . esc_html__( 'Importing needs the permissions to manage the settings and the customers.', 'eurob2b' ) . '</p>';
+			echo '<p>' . esc_html__( 'Importing needs the permissions to manage the settings and the customers.', 'stm-eu-b2b' ) . '</p>';
 			return;
 		}
 		$names = implode( ', ', array_map( static fn( SourceInterface $s ): string => $s->label(), $this->importer->sources() ) );
 		/* translators: 1: names of the supported plugins, 2: number of days */
-		echo '<p>' . esc_html( sprintf( __( 'Takes over customer groups, customers, prices, rules and more from another B2B plugin (%1$s). The other plugin\'s data is only read, never changed. A test run shows first what would change. The import keeps every value it replaces, so you can undo it for %2$d days or until you finish it. Tax settings, VAT IDs, offers, conversations and purchase lists are not imported.', 'eurob2b' ), $names, JournalRetention::DAYS ) ) . '</p>';
+		echo '<p>' . esc_html( sprintf( __( 'Takes over customer groups, customers, prices, rules and more from another B2B plugin (%1$s). The other plugin\'s data is only read, never changed. A test run shows first what would change. The import keeps every value it replaces, so you can undo it for %2$d days or until you finish it. Tax settings, VAT IDs, offers, conversations and purchase lists are not imported.', 'stm-eu-b2b' ), $names, JournalRetention::DAYS ) ) . '</p>';
 
 		$run = $this->importer->current();
 		if ( null !== $run && $run->running() ) {
@@ -191,7 +192,7 @@ final class ImportSection {
 		}
 		if ( ! $found ) {
 			/* translators: %s: names of the supported plugins */
-			echo '<p>' . esc_html( sprintf( __( 'No data of a supported plugin (%s) was found in this shop\'s database.', 'eurob2b' ), $names ) ) . '</p>';
+			echo '<p>' . esc_html( sprintf( __( 'No data of a supported plugin (%s) was found in this shop\'s database.', 'stm-eu-b2b' ), $names ) ) . '</p>';
 		}
 	}
 
@@ -204,7 +205,7 @@ final class ImportSection {
 		echo '<h3>' . esc_html( $source->label() ) . '</h3>';
 		if ( $source->active() ) {
 			/* translators: %s: plugin name */
-			echo '<div class="notice notice-warning inline"><p>' . esc_html( sprintf( __( '%s is still active. Run the test run now if you like, but deactivate it before the import: otherwise both plugins apply their prices and rules.', 'eurob2b' ), $source->label() ) ) . '</p></div>';
+			echo '<div class="notice notice-warning inline"><p>' . esc_html( sprintf( __( '%s is still active. Run the test run now if you like, but deactivate it before the import: otherwise both plugins apply their prices and rules.', 'stm-eu-b2b' ), $source->label() ) ) . '</p></div>';
 		}
 		echo '<table class="widefat striped" style="max-width:40em"><tbody>';
 		foreach ( $source->summary() as $label => $count ) {
@@ -214,13 +215,13 @@ final class ImportSection {
 		echo '<form method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '">';
 		wp_nonce_field( self::ACTION_CHECK );
 		echo '<input type="hidden" name="action" value="' . esc_attr( self::ACTION_CHECK ) . '" /><input type="hidden" name="source" value="' . esc_attr( $source->id() ) . '" />';
-		echo '<fieldset><legend class="screen-reader-text">' . esc_html__( 'Parts to import', 'eurob2b' ) . '</legend>';
+		echo '<fieldset><legend class="screen-reader-text">' . esc_html__( 'Parts to import', 'stm-eu-b2b' ) . '</legend>';
 		foreach ( $source->parts() as $part => $label ) {
 			echo '<p><label><input type="checkbox" name="parts[]" value="' . esc_attr( $part ) . '" checked="checked" /> ' . esc_html( $label ) . '</label></p>';
 		}
 		echo '</fieldset>';
-		echo '<p class="description">' . esc_html__( 'Customer groups are needed by most other parts: without them, prices, rules and customers of a group are left out.', 'eurob2b' ) . '</p>';
-		submit_button( __( 'Check (test run)', 'eurob2b' ), 'secondary', 'submit', false );
+		echo '<p class="description">' . esc_html__( 'Customer groups are needed by most other parts: without them, prices, rules and customers of a group are left out.', 'stm-eu-b2b' ) . '</p>';
+		submit_button( __( 'Check (test run)', 'stm-eu-b2b' ), 'secondary', 'submit', false );
 		echo '</form>';
 	}
 
@@ -233,21 +234,21 @@ final class ImportSection {
 		$source = $this->importer->source( $run->source );
 		$parts  = null !== $source ? $source->parts() : array();
 		$titles = array(
-			Run::MODE_CHECK  => __( 'Test run', 'eurob2b' ),
-			Run::MODE_IMPORT => __( 'Import', 'eurob2b' ),
-			Run::MODE_UNDO   => __( 'Undo of the import', 'eurob2b' ),
+			Run::MODE_CHECK  => __( 'Test run', 'stm-eu-b2b' ),
+			Run::MODE_IMPORT => __( 'Import', 'stm-eu-b2b' ),
+			Run::MODE_UNDO   => __( 'Undo of the import', 'stm-eu-b2b' ),
 		);
 		$states = array(
-			Run::STATUS_RUNNING => __( 'working', 'eurob2b' ),
-			Run::STATUS_DONE    => __( 'finished', 'eurob2b' ),
-			Run::STATUS_FAILED  => __( 'stopped with an error', 'eurob2b' ),
+			Run::STATUS_RUNNING => __( 'working', 'stm-eu-b2b' ),
+			Run::STATUS_DONE    => __( 'finished', 'stm-eu-b2b' ),
+			Run::STATUS_FAILED  => __( 'stopped with an error', 'stm-eu-b2b' ),
 		);
 		/* translators: 1: kind of run, 2: plugin name, 3: state */
-		echo '<h3>' . esc_html( sprintf( __( '%1$s from %2$s: %3$s', 'eurob2b' ), $titles[ $run->mode ] ?? $run->mode, null !== $source ? $source->label() : $run->source, $states[ $run->status ] ?? $run->status ) ) . '</h3>';
+		echo '<h3>' . esc_html( sprintf( __( '%1$s from %2$s: %3$s', 'stm-eu-b2b' ), $titles[ $run->mode ] ?? $run->mode, null !== $source ? $source->label() : $run->source, $states[ $run->status ] ?? $run->status ) ) . '</h3>';
 		if ( $run->running() ) {
 			$label = Run::MODE_UNDO === $run->mode ? $titles[ Run::MODE_UNDO ] : ( $parts[ $run->current_part() ] ?? $run->current_part() );
 			/* translators: 1: number of the part, 2: number of parts, 3: name of the part */
-			echo '<p>' . esc_html( sprintf( __( 'Part %1$d of %2$d: %3$s. This page reloads by itself; you may also leave it, the run goes on in the background.', 'eurob2b' ), $run->part + 1, count( $run->parts ), $label ) ) . '</p>';
+			echo '<p>' . esc_html( sprintf( __( 'Part %1$d of %2$d: %3$s. This page reloads by itself; you may also leave it, the run goes on in the background.', 'stm-eu-b2b' ), $run->part + 1, count( $run->parts ), $label ) ) . '</p>';
 		}
 		$this->render_counts( $run, $parts );
 		$this->render_messages( $run, $parts );
@@ -255,19 +256,19 @@ final class ImportSection {
 			return;
 		}
 		if ( Run::MODE_CHECK === $run->mode && Run::STATUS_DONE === $run->status ) {
-			echo '<p>' . esc_html__( 'Nothing was written yet. "Import now" writes the values above and keeps the replaced ones for the undo.', 'eurob2b' ) . '</p>';
-			$this->button( self::ACTION_IMPORT, __( 'Import now', 'eurob2b' ), 'primary', array( 'run' => $run->id ) );
-			$this->button( self::ACTION_FINISH, __( 'Discard the test run', 'eurob2b' ) );
+			echo '<p>' . esc_html__( 'Nothing was written yet. "Import now" writes the values above and keeps the replaced ones for the undo.', 'stm-eu-b2b' ) . '</p>';
+			$this->button( self::ACTION_IMPORT, __( 'Import now', 'stm-eu-b2b' ), 'primary', array( 'run' => $run->id ) );
+			$this->button( self::ACTION_FINISH, __( 'Discard the test run', 'stm-eu-b2b' ) );
 			return;
 		}
 		if ( $this->importer->can_undo( $run ) ) {
 			/* translators: %d: number of days */
-			echo '<p>' . esc_html( sprintf( __( 'Check the shop now. "Undo the import" puts back every value as it was. "Finish the import" deletes the record of the replaced values; after that, and at the latest after %d days, the import can no longer be undone.', 'eurob2b' ), JournalRetention::DAYS ) ) . '</p>';
-			$this->button( self::ACTION_UNDO, __( 'Undo the import', 'eurob2b' ) );
-			$this->button( self::ACTION_FINISH, __( 'Finish the import', 'eurob2b' ), 'primary' );
+			echo '<p>' . esc_html( sprintf( __( 'Check the shop now. "Undo the import" puts back every value as it was. "Finish the import" deletes the record of the replaced values; after that, and at the latest after %d days, the import can no longer be undone.', 'stm-eu-b2b' ), JournalRetention::DAYS ) ) . '</p>';
+			$this->button( self::ACTION_UNDO, __( 'Undo the import', 'stm-eu-b2b' ) );
+			$this->button( self::ACTION_FINISH, __( 'Finish the import', 'stm-eu-b2b' ), 'primary' );
 			return;
 		}
-		$this->button( self::ACTION_FINISH, __( 'Close the report', 'eurob2b' ) );
+		$this->button( self::ACTION_FINISH, __( 'Close the report', 'stm-eu-b2b' ) );
 	}
 
 	/**
@@ -281,15 +282,15 @@ final class ImportSection {
 			return;
 		}
 		$undo = Run::MODE_UNDO === $run->mode;
-		echo '<table class="widefat striped" style="max-width:60em"><thead><tr><th>' . esc_html__( 'Part', 'eurob2b' ) . '</th>';
+		echo '<table class="widefat striped" style="max-width:60em"><thead><tr><th>' . esc_html__( 'Part', 'stm-eu-b2b' ) . '</th>';
 		if ( $undo ) {
-			echo '<th>' . esc_html__( 'Put back', 'eurob2b' ) . '</th><th>' . esc_html__( 'Failed', 'eurob2b' ) . '</th>';
+			echo '<th>' . esc_html__( 'Put back', 'stm-eu-b2b' ) . '</th><th>' . esc_html__( 'Failed', 'stm-eu-b2b' ) . '</th>';
 		} else {
-			echo '<th>' . esc_html__( 'New', 'eurob2b' ) . '</th><th>' . esc_html__( 'Changed', 'eurob2b' ) . '</th><th>' . esc_html__( 'Unchanged', 'eurob2b' ) . '</th><th>' . esc_html__( 'Not imported', 'eurob2b' ) . '</th>';
+			echo '<th>' . esc_html__( 'New', 'stm-eu-b2b' ) . '</th><th>' . esc_html__( 'Changed', 'stm-eu-b2b' ) . '</th><th>' . esc_html__( 'Unchanged', 'stm-eu-b2b' ) . '</th><th>' . esc_html__( 'Not imported', 'stm-eu-b2b' ) . '</th>';
 		}
 		echo '</tr></thead><tbody>';
 		foreach ( $run->counts as $part => $counts ) {
-			echo '<tr><td>' . esc_html( $undo ? __( 'All parts', 'eurob2b' ) : ( $parts[ $part ] ?? $part ) ) . '</td>';
+			echo '<tr><td>' . esc_html( $undo ? __( 'All parts', 'stm-eu-b2b' ) : ( $parts[ $part ] ?? $part ) ) . '</td>';
 			foreach ( $undo ? array( 'changed', 'skipped' ) : Run::COUNTS as $key ) {
 				echo '<td>' . esc_html( number_format_i18n( (int) ( $counts[ $key ] ?? 0 ) ) ) . '</td>';
 			}
@@ -297,7 +298,7 @@ final class ImportSection {
 		}
 		echo '</tbody></table>';
 		if ( Run::MODE_CHECK === $run->mode ) {
-			echo '<p class="description">' . esc_html__( 'Counted are single values: a product with prices for three groups counts three times.', 'eurob2b' ) . '</p>';
+			echo '<p class="description">' . esc_html__( 'Counted are single values: a product with prices for three groups counts three times.', 'stm-eu-b2b' ) . '</p>';
 		}
 	}
 
@@ -309,9 +310,9 @@ final class ImportSection {
 	 */
 	private function render_messages( Run $run, array $parts ): void {
 		$headings = array(
-			Run::LEVEL_ERROR   => __( 'Errors', 'eurob2b' ),
-			Run::LEVEL_WARNING => __( 'Please check', 'eurob2b' ),
-			Run::LEVEL_INFO    => __( 'Notes', 'eurob2b' ),
+			Run::LEVEL_ERROR   => __( 'Errors', 'stm-eu-b2b' ),
+			Run::LEVEL_WARNING => __( 'Please check', 'stm-eu-b2b' ),
+			Run::LEVEL_INFO    => __( 'Notes', 'stm-eu-b2b' ),
 		);
 		foreach ( $headings as $level => $heading ) {
 			$items = array_filter( $run->messages, static fn( array $m ): bool => $level === $m['level'] );
@@ -327,7 +328,7 @@ final class ImportSection {
 		}
 		if ( $run->more_messages > 0 ) {
 			/* translators: %d: number of messages */
-			echo '<p>' . esc_html( sprintf( _n( '%d more message is not shown.', '%d more messages are not shown.', $run->more_messages, 'eurob2b' ), $run->more_messages ) ) . '</p>';
+			echo '<p>' . esc_html( sprintf( _n( '%d more message is not shown.', '%d more messages are not shown.', $run->more_messages, 'stm-eu-b2b' ), $run->more_messages ) ) . '</p>';
 		}
 	}
 
@@ -357,7 +358,7 @@ final class ImportSection {
 	 */
 	private function authorise( string $nonce ): void {
 		if ( ! self::allowed() ) {
-			wp_die( esc_html__( 'You are not allowed to import data.', 'eurob2b' ), '', array( 'response' => 403 ) );
+			wp_die( esc_html__( 'You are not allowed to import data.', 'stm-eu-b2b' ), '', array( 'response' => 403 ) );
 		}
 		check_admin_referer( $nonce );
 	}

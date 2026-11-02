@@ -60,13 +60,13 @@ final class OrdersModule extends AbstractModule {
 	 * @param SettingsSchema $schema Schema.
 	 */
 	public static function settings_schema( SettingsSchema $schema ): void {
-		$schema->add_section( 'legal', __( 'Legal texts', 'eurob2b' ), 34 );
+		$schema->add_section( 'legal', __( 'Legal texts', 'stm-eu-b2b' ), 34 );
 		$schema->add_field(
 			array(
 				'id'          => 'legal_terms_page_b2b',
 				'section'     => 'legal',
-				'label'       => __( 'Terms and conditions for business customers', 'eurob2b' ),
-				'description' => __( 'Approved business customers see this page wherever the shop links the terms and conditions (checkout, Checkout block, legal checkboxes of other plugins). Everyone else keeps the page set in WooCommerce. The order records which page applied and when it was last changed.', 'eurob2b' ),
+				'label'       => __( 'Terms and conditions for business customers', 'stm-eu-b2b' ),
+				'description' => __( 'Approved business customers see this page wherever the shop links the terms and conditions (checkout, Checkout block, legal checkboxes of other plugins). Everyone else keeps the page set in WooCommerce. The order records which page applied and when it was last changed.', 'stm-eu-b2b' ),
 				'type'        => SettingsSchema::TYPE_SELECT,
 				'options'     => array( self::class, 'terms_page_options' ),
 				'default'     => '',
@@ -76,9 +76,9 @@ final class OrdersModule extends AbstractModule {
 			array(
 				'id'             => 'legal_withdrawal_consumers_only',
 				'section'        => 'legal',
-				'label'          => __( 'Withdrawal function only for consumers', 'eurob2b' ),
-				'checkbox_label' => __( 'Do not offer the withdrawal button for orders placed by approved business customers', 'eurob2b' ),
-				'description'    => __( 'For the plugin "EU Order Withdrawal Button" (also part of Germanized). The right of withdrawal and its electronic function (§ 356a BGB) are for consumers. No official guidance on shops that sell to both was found; decide with your legal adviser before you switch this on.', 'eurob2b' ),
+				'label'          => __( 'Withdrawal function only for consumers', 'stm-eu-b2b' ),
+				'checkbox_label' => __( 'Do not offer the withdrawal button for orders placed by approved business customers', 'stm-eu-b2b' ),
+				'description'    => __( 'For the plugin "EU Order Withdrawal Button" (also part of Germanized). The right of withdrawal and its electronic function (§ 356a BGB) are for consumers. No official guidance on shops that sell to both was found; decide with your legal adviser before you switch this on.', 'stm-eu-b2b' ),
 				'type'           => SettingsSchema::TYPE_BOOLEAN,
 				'default'        => false,
 			)
@@ -91,6 +91,6 @@ final class OrdersModule extends AbstractModule {
 	 * @return array<string, string>
 	 */
 	public static function terms_page_options(): array {
-		return array( '' => __( 'Same page as for everyone (WooCommerce setting)', 'eurob2b' ) ) + Pages::options();
+		return array( '' => __( 'Same page as for everyone (WooCommerce setting)', 'stm-eu-b2b' ) ) + Pages::options();
 	}
 }

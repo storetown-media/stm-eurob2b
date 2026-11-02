@@ -22,10 +22,10 @@ final class AdminApprovalRequiredEmail extends AbstractEmail {
 	 */
 	public function __construct() {
 		$this->id             = 'eurob2b_admin_approval_required';
-		$this->title          = __( 'EuroB2B: registration needs approval', 'eurob2b' );
-		$this->description    = __( 'Sent to the shop manager when a customer registered through a type that requires manual approval.', 'eurob2b' );
-		$this->heading        = __( 'A registration needs your approval', 'eurob2b' );
-		$this->subject        = __( '[{site_title}] Approval needed: {customer} ({type})', 'eurob2b' );
+		$this->title          = __( 'STM EU-B2B: registration needs approval', 'stm-eu-b2b' );
+		$this->description    = __( 'Sent to the shop manager when a customer registered through a type that requires manual approval.', 'stm-eu-b2b' );
+		$this->heading        = __( 'A registration needs your approval', 'stm-eu-b2b' );
+		$this->subject        = __( '[{site_title}] Approval needed: {customer} ({type})', 'stm-eu-b2b' );
 		$this->customer_email = false;
 		parent::__construct();
 		$this->recipient = $this->get_option( 'recipient', get_option( 'admin_email' ) );
@@ -73,10 +73,10 @@ final class AdminApprovalRequiredEmail extends AbstractEmail {
 		$this->form_fields = array_merge(
 			array(
 				'recipient' => array(
-					'title'       => __( 'Recipient(s)', 'eurob2b' ),
+					'title'       => __( 'Recipient(s)', 'stm-eu-b2b' ),
 					'type'        => 'text',
 					/* translators: %s: admin e-mail */
-					'description' => sprintf( __( 'Comma-separated. Defaults to %s.', 'eurob2b' ), '<code>' . esc_html( (string) get_option( 'admin_email' ) ) . '</code>' ),
+					'description' => sprintf( __( 'Comma-separated. Defaults to %s.', 'stm-eu-b2b' ), '<code>' . esc_html( (string) get_option( 'admin_email' ) ) . '</code>' ),
 					'default'     => '',
 					'desc_tip'    => true,
 				),

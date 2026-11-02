@@ -65,7 +65,7 @@ final class TreatmentInput {
 
 	/**
 	 * The same facts with the switches of the special cases (special territories, Northern Ireland)
-	 * and the rules review gate replaced. The core decides without the special cases; EuroB2B Pro
+	 * and the rules review gate replaced. The core decides without the special cases; EU-B2B Pro
 	 * switches them on by its settings through `eurob2b_tax_treatment_input` (PLT-015).
 	 *
 	 * @param bool $special_territories Recognise special territories (TAX-024).

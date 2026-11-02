@@ -1,7 +1,7 @@
 /*
- * EuroB2B storefront UI (docs/frontend.md).
+ * EU-B2B storefront UI (docs/frontend.md).
  *
- * Theme first: EuroB2B's controls carry WooCommerce's and WordPress's own classes, so the theme styles
+ * Theme first: EU-B2B's controls carry WooCommerce's and WordPress's own classes, so the theme styles
  * them. The defaults below use :where() and therefore have zero specificity: any rule of the theme or
  * of WooCommerce wins. Layout rules (grids, alignment, the small-screen layout) keep their specificity.
  * Themes tune the defaults through the --eurob2b-* custom properties on .eurob2b-ui.

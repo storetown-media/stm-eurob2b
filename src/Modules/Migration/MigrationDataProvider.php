@@ -45,7 +45,7 @@ final class MigrationDataProvider implements PersonalDataProviderInterface {
 	 * Label.
 	 */
 	public function label(): string {
-		return __( 'EuroB2B import journal', 'eurob2b' );
+		return __( 'EU-B2B import journal', 'stm-eu-b2b' );
 	}
 
 	/**
@@ -66,16 +66,16 @@ final class MigrationDataProvider implements PersonalDataProviderInterface {
 					'item_id'     => 'eurob2b-migration-' . $user->ID . '-' . $i,
 					'data'        => array(
 						array(
-							'name'  => __( 'Imported on', 'eurob2b' ),
+							'name'  => __( 'Imported on', 'stm-eu-b2b' ),
 							'value' => $row['created_at'] . ' UTC',
 						),
 						array(
-							'name'  => __( 'Value', 'eurob2b' ),
+							'name'  => __( 'Value', 'stm-eu-b2b' ),
 							'value' => self::describe( $row ),
 						),
 						array(
-							'name'  => __( 'Before the import', 'eurob2b' ),
-							'value' => null === $row['old_value'] ? __( 'none', 'eurob2b' ) : $row['old_value'],
+							'name'  => __( 'Before the import', 'stm-eu-b2b' ),
+							'value' => null === $row['old_value'] ? __( 'none', 'stm-eu-b2b' ) : $row['old_value'],
 						),
 					),
 				);
@@ -95,19 +95,19 @@ final class MigrationDataProvider implements PersonalDataProviderInterface {
 	private static function describe( array $row ): string {
 		switch ( $row['object_type'] ) {
 			case Journal::TYPE_CUSTOMER:
-				return __( 'Customer type, approval status and group', 'eurob2b' );
+				return __( 'Customer type, approval status and group', 'stm-eu-b2b' );
 			case Journal::TYPE_MEMBER:
 				/* translators: %s: company id */
-				return sprintf( __( 'Member of company #%s', 'eurob2b' ), $row['ref'] );
+				return sprintf( __( 'Member of company #%s', 'stm-eu-b2b' ), $row['ref'] );
 			case Journal::TYPE_POST_META:
 				/* translators: 1: product id, 2: meta key */
-				return sprintf( __( 'Product #%1$d: %2$s', 'eurob2b' ), $row['object_id'], $row['ref'] );
+				return sprintf( __( 'Product #%1$d: %2$s', 'stm-eu-b2b' ), $row['object_id'], $row['ref'] );
 			case Journal::TYPE_TERM_META:
 				/* translators: 1: category id, 2: meta key */
-				return sprintf( __( 'Category #%1$d: %2$s', 'eurob2b' ), $row['object_id'], $row['ref'] );
+				return sprintf( __( 'Category #%1$d: %2$s', 'stm-eu-b2b' ), $row['object_id'], $row['ref'] );
 			case Journal::TYPE_RULE:
 				/* translators: %d: rule id */
-				return sprintf( __( 'Rule #%d', 'eurob2b' ), $row['object_id'] );
+				return sprintf( __( 'Rule #%d', 'stm-eu-b2b' ), $row['object_id'] );
 		}
 		return $row['ref'];
 	}

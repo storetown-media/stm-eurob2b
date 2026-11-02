@@ -10,8 +10,8 @@ declare( strict_types=1 );
 namespace EuroB2B\Modules\Rules;
 
 /**
- * Conditions are a feature of EuroB2B Pro (PLT-015): the core stores them (`Condition` is data),
- * EuroB2B Pro registers this checker in the container and decides them against the cart. Without a
+ * Conditions are a feature of EU-B2B Pro (PLT-015): the core stores them (`Condition` is data),
+ * EU-B2B Pro registers this checker in the container and decides them against the cart. Without a
  * checker the evaluator cannot decide a condition, so a rule with conditions never applies.
  */
 interface ConditionChecker {

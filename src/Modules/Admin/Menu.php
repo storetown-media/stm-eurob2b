@@ -12,7 +12,7 @@ namespace EuroB2B\Modules\Admin;
 use EuroB2B\Infrastructure\Capabilities;
 
 /**
- * One top-level "EuroB2B" menu; modules register their pages here.
+ * One top-level "EU-B2B" menu; modules register their pages here.
  *
  * Pages are registered with the capability they require, so WordPress hides
  * them for users without it and the page callbacks re-check it anyway.
@@ -103,13 +103,13 @@ final class Menu {
 	 */
 	public static function area_label( string $area ): string {
 		$labels = array(
-			'overview'   => __( 'Overview', 'eurob2b' ),
-			'customers'  => __( 'Customers', 'eurob2b' ),
-			'prices'     => __( 'Prices & rules', 'eurob2b' ),
-			'quotes'     => __( 'Quotes', 'eurob2b' ),
-			'tax'        => __( 'Tax & evidence', 'eurob2b' ),
-			'accounting' => __( 'Accounting', 'eurob2b' ),
-			'settings'   => __( 'Settings', 'eurob2b' ),
+			'overview'   => __( 'Overview', 'stm-eu-b2b' ),
+			'customers'  => __( 'Customers', 'stm-eu-b2b' ),
+			'prices'     => __( 'Prices & rules', 'stm-eu-b2b' ),
+			'quotes'     => __( 'Quotes', 'stm-eu-b2b' ),
+			'tax'        => __( 'Tax & evidence', 'stm-eu-b2b' ),
+			'accounting' => __( 'Accounting', 'stm-eu-b2b' ),
+			'settings'   => __( 'Settings', 'stm-eu-b2b' ),
 		);
 		return $labels[ $area ] ?? '';
 	}
@@ -215,8 +215,8 @@ final class Menu {
 		}
 
 		add_menu_page(
-			__( 'EuroB2B', 'eurob2b' ),
-			__( 'EuroB2B', 'eurob2b' ),
+			__( 'STM EU-B2B', 'stm-eu-b2b' ),
+			__( 'STM EU-B2B', 'stm-eu-b2b' ),
 			$this->pages[ $parent ]['capability'],
 			self::page_slug( $parent ),
 			$this->pages[ $parent ]['callback'],
@@ -245,7 +245,7 @@ final class Menu {
 				}
 				// A page without menu entry has the parent '' in $submenu. WordPress recomputes the parent
 				// (get_admin_page_parent(), after the parent_file filter) for the menu highlight and the
-				// <title>; mapping '' to the EuroB2B menu, only on EuroB2B requests and after admin_menu
+				// <title>; mapping '' to the EU-B2B menu, only on EU-B2B requests and after admin_menu
 				// (so no later add_submenu_page( '' … ) of another plugin moves into this menu), makes both
 				// work. Other plugins' pages without parent are not the current page then.
 				$GLOBALS['_wp_real_parent_file'][''] = $top; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- see above.

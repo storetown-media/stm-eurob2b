@@ -18,7 +18,7 @@ use WC_Order;
 /**
  * The company accounts of the shared schema (tables `eurob2b_companies` and `eurob2b_company_members`,
  * migration 4) and their traces on users and orders (D-04, D-05, D-14), read and changed for the
- * privacy export and erasure, user deletion and WooCommerce's order anonymisation. EuroB2B Pro
+ * privacy export and erasure, user deletion and WooCommerce's order anonymisation. EU-B2B Pro
  * writes the data (company accounts, order approval, acting as a member); this part of the core
  * handles it also while Pro is inactive or deleted (PLT-015). Pro uses the same keys: its classes
  * alias the constants and labels below.
@@ -90,13 +90,13 @@ final class CompanyRecords {
 	 */
 	public static function permission_labels(): array {
 		return array(
-			self::PERMISSION_PLACE_ORDERS       => __( 'Place orders', 'eurob2b' ),
-			self::PERMISSION_VIEW_ORDERS        => __( 'View company orders', 'eurob2b' ),
-			self::PERMISSION_VIEW_OFFERS        => __( 'View company offers', 'eurob2b' ),
-			self::PERMISSION_VIEW_CONVERSATIONS => __( 'View company conversations', 'eurob2b' ),
-			self::PERMISSION_VIEW_LISTS         => __( 'View company purchase lists', 'eurob2b' ),
-			self::PERMISSION_MANAGE_MEMBERS     => __( 'Manage members', 'eurob2b' ),
-			self::PERMISSION_APPROVE_ORDERS     => __( 'Approve orders', 'eurob2b' ),
+			self::PERMISSION_PLACE_ORDERS       => __( 'Place orders', 'stm-eu-b2b' ),
+			self::PERMISSION_VIEW_ORDERS        => __( 'View company orders', 'stm-eu-b2b' ),
+			self::PERMISSION_VIEW_OFFERS        => __( 'View company offers', 'stm-eu-b2b' ),
+			self::PERMISSION_VIEW_CONVERSATIONS => __( 'View company conversations', 'stm-eu-b2b' ),
+			self::PERMISSION_VIEW_LISTS         => __( 'View company purchase lists', 'stm-eu-b2b' ),
+			self::PERMISSION_MANAGE_MEMBERS     => __( 'Manage members', 'stm-eu-b2b' ),
+			self::PERMISSION_APPROVE_ORDERS     => __( 'Approve orders', 'stm-eu-b2b' ),
 		);
 	}
 
@@ -107,9 +107,9 @@ final class CompanyRecords {
 	 */
 	public static function role_labels(): array {
 		return array(
-			self::ROLE_OWNER  => __( 'Owner', 'eurob2b' ),
-			self::ROLE_ADMIN  => __( 'Administrator', 'eurob2b' ),
-			self::ROLE_MEMBER => __( 'Member', 'eurob2b' ),
+			self::ROLE_OWNER  => __( 'Owner', 'stm-eu-b2b' ),
+			self::ROLE_ADMIN  => __( 'Administrator', 'stm-eu-b2b' ),
+			self::ROLE_MEMBER => __( 'Member', 'stm-eu-b2b' ),
 		);
 	}
 
@@ -138,7 +138,7 @@ final class CompanyRecords {
 		global $wpdb;
 		$table = Schema::table( self::TABLE_MEMBERS );
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		$row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$table} WHERE user_id = %d", $user_id ), ARRAY_A );
+		$row = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM %i WHERE user_id = %d', $table, $user_id ), ARRAY_A );
 		if ( ! is_array( $row ) ) {
 			return null;
 		}
@@ -175,7 +175,7 @@ final class CompanyRecords {
 		global $wpdb;
 		$table = Schema::table( self::TABLE_COMPANIES );
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		$row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$table} WHERE id = %d", $id ), ARRAY_A );
+		$row = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM %i WHERE id = %d', $table, $id ), ARRAY_A );
 		return is_array( $row ) ? self::hydrate( $row ) : null;
 	}
 
@@ -188,7 +188,7 @@ final class CompanyRecords {
 		global $wpdb;
 		$table = Schema::table( self::TABLE_COMPANIES );
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		$rows = (array) $wpdb->get_results( "SELECT * FROM {$table} ORDER BY name ASC, id ASC", ARRAY_A );
+		$rows = (array) $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %i ORDER BY name ASC, id ASC', $table ), ARRAY_A );
 		return array_map( array( self::class, 'hydrate' ), $rows );
 	}
 
@@ -270,7 +270,7 @@ final class CompanyRecords {
 		global $wpdb;
 		$table = Schema::table( self::TABLE_MEMBERS );
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		return (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$table} WHERE created_by = %d", $user_id ) );
+		return (int) $wpdb->get_var( $wpdb->prepare( 'SELECT COUNT(*) FROM %i WHERE created_by = %d', $table, $user_id ) );
 	}
 
 	/**
@@ -286,7 +286,7 @@ final class CompanyRecords {
 		}
 		$table = Schema::table( self::TABLE_MEMBERS );
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		return (int) $wpdb->query( $wpdb->prepare( "UPDATE {$table} SET created_by = 0 WHERE created_by = %d", $user_id ) );
+		return (int) $wpdb->query( $wpdb->prepare( 'UPDATE %i SET created_by = 0 WHERE created_by = %d', $table, $user_id ) );
 	}
 
 	/**

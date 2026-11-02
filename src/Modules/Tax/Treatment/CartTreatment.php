@@ -29,7 +29,7 @@ use WC_Product;
  * TAX-019: decides for the current cart before totals are calculated and sets WooCommerce's
  * customer VAT exemption (shipping included); records treatment, reason and invoice text on the
  * order through the order-attributes filter; prints the exemption text on order pages and e-mails.
- * The addresses' states and postcodes are passed on to the decision; EuroB2B Pro switches on the
+ * The addresses' states and postcodes are passed on to the decision; EU-B2B Pro switches on the
  * special territories (TAX-024, the resolved territory is stored as `_eurob2b_tax_territory`) and
  * Northern Ireland (TAX-034) through `eurob2b_tax_treatment_input` (PLT-015).
  */
@@ -174,7 +174,7 @@ final class CartTreatment {
 
 	/**
 	 * Facts for the decider. The rules review gate (CTY-004) asks for the billing country's profile.
-	 * The special cases are off here; EuroB2B Pro switches them on by their settings (for goods to
+	 * The special cases are off here; EU-B2B Pro switches them on by their settings (for goods to
 	 * Northern Ireland the gate then asks for a profile `XI`, NI-02).
 	 *
 	 * @param bool                                   $services_only Every line is a service.
@@ -208,7 +208,7 @@ final class CartTreatment {
 			false
 		);
 		/**
-		 * Filters the facts of a tax treatment decision for a cart or an order (EuroB2B Pro switches on
+		 * Filters the facts of a tax treatment decision for a cart or an order (EU-B2B Pro switches on
 		 * the special territories and Northern Ireland by their settings, TAX-024 and TAX-034, see
 		 * `TreatmentInput::with_special_cases()`). The special cases themselves come through
 		 * `eurob2b_tax_special_treatments`.
@@ -405,7 +405,7 @@ final class CartTreatment {
 	}
 
 	/**
-	 * Colour of a tax treatment that needs review (red) in the EuroB2B box of the order screen (PLT-017).
+	 * Colour of a tax treatment that needs review (red) in the EU-B2B box of the order screen (PLT-017).
 	 *
 	 * @param mixed $tones Label => tone (StatusLabel constants).
 	 * @param mixed $rows  Rows of the box (label => text).
@@ -417,13 +417,13 @@ final class CartTreatment {
 			return $tones;
 		}
 		if ( TaxReviewAdmin::flagged( $order ) ) {
-			$tones[ __( 'Tax treatment', 'eurob2b' ) ] = TaxReviewAdmin::reviewed( $order ) ? StatusLabel::OK : StatusLabel::BAD;
+			$tones[ __( 'Tax treatment', 'stm-eu-b2b' ) ] = TaxReviewAdmin::reviewed( $order ) ? StatusLabel::OK : StatusLabel::BAD;
 		}
 		return $tones;
 	}
 
 	/**
-	 * Rows for the EuroB2B box on the order screen.
+	 * Rows for the EU-B2B box on the order screen.
 	 *
 	 * @param mixed $rows  Rows.
 	 * @param mixed $order Order.
@@ -437,11 +437,11 @@ final class CartTreatment {
 		if ( null === $treatment ) {
 			return $rows;
 		}
-		$review                                   = TaxReviewAdmin::reviewed( $order ) ? __( 'reviewed', 'eurob2b' ) : __( 'needs review', 'eurob2b' );
-		$rows[ __( 'Tax treatment', 'eurob2b' ) ] = self::treatment_label( $treatment ) . ( TaxReviewAdmin::flagged( $order ) ? ' – ' . $review : '' );
-		$reason                                   = (string) $order->get_meta( self::META_REASON_CODE, true );
+		$review                                      = TaxReviewAdmin::reviewed( $order ) ? __( 'reviewed', 'stm-eu-b2b' ) : __( 'needs review', 'stm-eu-b2b' );
+		$rows[ __( 'Tax treatment', 'stm-eu-b2b' ) ] = self::treatment_label( $treatment ) . ( TaxReviewAdmin::flagged( $order ) ? ' – ' . $review : '' );
+		$reason                                      = (string) $order->get_meta( self::META_REASON_CODE, true );
 		if ( '' !== $reason ) {
-			$rows[ __( 'Reason', 'eurob2b' ) ] = self::reason_label( $reason );
+			$rows[ __( 'Reason', 'stm-eu-b2b' ) ] = self::reason_label( $reason );
 		}
 		return $rows;
 	}
@@ -473,7 +473,7 @@ final class CartTreatment {
 	public static function invoice_text( TreatmentDecision $decision ): string {
 		/**
 		 * Filters the invoice text of a decision a special case made, before the exemption texts
-		 * (EuroB2B Pro: the supply to a special territory outside the EU VAT area, TAX-024). An empty
+		 * (EU-B2B Pro: the supply to a special territory outside the EU VAT area, TAX-024). An empty
 		 * text leaves the decision to the core, which writes a text only for exempt and mixed orders.
 		 *
 		 * @param string            $text     ''.
@@ -486,8 +486,8 @@ final class CartTreatment {
 			return '';
 		} else {
 			$text = TaxTreatmentDecider::REASON_INTRA_EU_SERVICE === $decision->reason_code
-				? __( 'Reverse charge: VAT to be accounted for by the recipient (Art. 196 VAT Directive 2006/112/EC).', 'eurob2b' )
-				: __( 'VAT-exempt intra-Community supply (Art. 138 VAT Directive 2006/112/EC); reverse charge, VAT to be accounted for by the recipient.', 'eurob2b' );
+				? __( 'Reverse charge: VAT to be accounted for by the recipient (Art. 196 VAT Directive 2006/112/EC).', 'stm-eu-b2b' )
+				: __( 'VAT-exempt intra-Community supply (Art. 138 VAT Directive 2006/112/EC); reverse charge, VAT to be accounted for by the recipient.', 'stm-eu-b2b' );
 		}
 		/**
 		 * Filters the exemption text written to the order for invoices.
@@ -506,14 +506,14 @@ final class CartTreatment {
 	 */
 	public static function treatment_label( TaxTreatment $treatment ): string {
 		return match ( $treatment ) {
-			TaxTreatment::DOMESTIC                => __( 'Domestic, taxed', 'eurob2b' ),
-			TaxTreatment::INTRA_EU_TAXED          => __( 'EU customer, taxed', 'eurob2b' ),
-			TaxTreatment::INTRA_EU_REVERSE_CHARGE => __( 'Intra-Community B2B, exempt (reverse charge)', 'eurob2b' ),
-			TaxTreatment::SWISS_AREA              => __( 'Swiss VAT area', 'eurob2b' ),
-			TaxTreatment::EXPORT                  => __( 'Export / third country', 'eurob2b' ),
-			TaxTreatment::MANUAL                  => __( 'Taxed, manual review', 'eurob2b' ),
-			TaxTreatment::MIXED => __( 'Mixed: goods taxed, services reverse charge', 'eurob2b' ),
-			TaxTreatment::OUT_OF_SCOPE            => __( 'No automatic decision (shop outside the EU)', 'eurob2b' ),
+			TaxTreatment::DOMESTIC                => __( 'Domestic, taxed', 'stm-eu-b2b' ),
+			TaxTreatment::INTRA_EU_TAXED          => __( 'EU customer, taxed', 'stm-eu-b2b' ),
+			TaxTreatment::INTRA_EU_REVERSE_CHARGE => __( 'Intra-Community B2B, exempt (reverse charge)', 'stm-eu-b2b' ),
+			TaxTreatment::SWISS_AREA              => __( 'Swiss VAT area', 'stm-eu-b2b' ),
+			TaxTreatment::EXPORT                  => __( 'Export / third country', 'stm-eu-b2b' ),
+			TaxTreatment::MANUAL                  => __( 'Taxed, manual review', 'stm-eu-b2b' ),
+			TaxTreatment::MIXED => __( 'Mixed: goods taxed, services reverse charge', 'stm-eu-b2b' ),
+			TaxTreatment::OUT_OF_SCOPE            => __( 'No automatic decision (shop outside the EU)', 'stm-eu-b2b' ),
 		};
 	}
 
@@ -524,29 +524,29 @@ final class CartTreatment {
 	 */
 	public static function reason_label( string $code ): string {
 		return match ( $code ) {
-			TaxTreatmentDecider::REASON_SHOP_OUTSIDE_EU     => __( 'The shop is not in the EU', 'eurob2b' ),
-			TaxTreatmentDecider::REASON_COUNTRY_UNKNOWN     => __( 'Billing country unknown', 'eurob2b' ),
-			TaxTreatmentDecider::REASON_DOMESTIC            => __( "Customer in the shop's country", 'eurob2b' ),
-			TaxTreatmentDecider::REASON_HOME_COUNTRY_VAT_ID => __( "VAT ID from the shop's country", 'eurob2b' ),
-			TaxTreatmentDecider::REASON_CONSUMER            => __( 'Private customer in another EU country', 'eurob2b' ),
-			TaxTreatmentDecider::REASON_NO_VAT_ID           => __( 'No VAT ID', 'eurob2b' ),
-			TaxTreatmentDecider::REASON_VAT_ID_INVALID      => __( 'VAT ID invalid', 'eurob2b' ),
-			TaxTreatmentDecider::REASON_VAT_ID_UNAVAILABLE  => __( 'VAT ID check service unavailable', 'eurob2b' ),
-			TaxTreatmentDecider::REASON_VAT_ID_PENDING      => __( 'VAT ID check still pending', 'eurob2b' ),
-			TaxTreatmentDecider::REASON_DELIVERY_IN_SHOP    => __( "Delivery to the shop's country", 'eurob2b' ),
-			TaxTreatmentDecider::REASON_EXPORT_DESTINATION  => __( 'Delivery outside the EU', 'eurob2b' ),
-			TaxTreatmentDecider::REASON_PICKUP              => __( 'Pickup: proof of transport needed', 'eurob2b' ),
-			TaxTreatmentDecider::REASON_EXEMPTION_DISABLED  => __( 'Exemption switched off in the settings', 'eurob2b' ),
-			TaxTreatmentDecider::REASON_INTRA_EU_SUPPLY     => __( 'Goods to a business in another EU country', 'eurob2b' ),
-			TaxTreatmentDecider::REASON_INTRA_EU_SERVICE    => __( 'Services to a business in another EU country', 'eurob2b' ),
-			TaxTreatmentDecider::REASON_SWISS_AREA          => __( 'Customer in the Swiss VAT area', 'eurob2b' ),
-			TaxTreatmentDecider::REASON_THIRD_COUNTRY       => __( 'Customer outside the EU', 'eurob2b' ),
-			TaxTreatmentDecider::REASON_RULES_NOT_REVIEWED  => __( 'Country rules not reviewed yet', 'eurob2b' ),
-			TaxTreatmentDecider::REASON_SPECIAL_TERRITORY   => __( 'Territory outside the EU VAT area', 'eurob2b' ),
-			TaxTreatmentDecider::REASON_SHOP_IN_TERRITORY   => __( 'The shop is in a territory outside the EU VAT area', 'eurob2b' ),
-			TaxTreatmentDecider::REASON_NI_CONSUMER         => __( 'Private customer in Northern Ireland (goods under EU VAT rules)', 'eurob2b' ),
-			TaxTreatmentDecider::REASON_NI_NEEDS_XI_VAT_ID  => __( 'Northern Ireland: only a valid XI VAT ID exempts goods', 'eurob2b' ),
-			TaxTreatmentDecider::REASON_NI_MIXED            => __( 'Northern Ireland: goods under EU rules, services under UK rules; check the service lines', 'eurob2b' ),
+			TaxTreatmentDecider::REASON_SHOP_OUTSIDE_EU     => __( 'The shop is not in the EU', 'stm-eu-b2b' ),
+			TaxTreatmentDecider::REASON_COUNTRY_UNKNOWN     => __( 'Billing country unknown', 'stm-eu-b2b' ),
+			TaxTreatmentDecider::REASON_DOMESTIC            => __( "Customer in the shop's country", 'stm-eu-b2b' ),
+			TaxTreatmentDecider::REASON_HOME_COUNTRY_VAT_ID => __( "VAT ID from the shop's country", 'stm-eu-b2b' ),
+			TaxTreatmentDecider::REASON_CONSUMER            => __( 'Private customer in another EU country', 'stm-eu-b2b' ),
+			TaxTreatmentDecider::REASON_NO_VAT_ID           => __( 'No VAT ID', 'stm-eu-b2b' ),
+			TaxTreatmentDecider::REASON_VAT_ID_INVALID      => __( 'VAT ID invalid', 'stm-eu-b2b' ),
+			TaxTreatmentDecider::REASON_VAT_ID_UNAVAILABLE  => __( 'VAT ID check service unavailable', 'stm-eu-b2b' ),
+			TaxTreatmentDecider::REASON_VAT_ID_PENDING      => __( 'VAT ID check still pending', 'stm-eu-b2b' ),
+			TaxTreatmentDecider::REASON_DELIVERY_IN_SHOP    => __( "Delivery to the shop's country", 'stm-eu-b2b' ),
+			TaxTreatmentDecider::REASON_EXPORT_DESTINATION  => __( 'Delivery outside the EU', 'stm-eu-b2b' ),
+			TaxTreatmentDecider::REASON_PICKUP              => __( 'Pickup: proof of transport needed', 'stm-eu-b2b' ),
+			TaxTreatmentDecider::REASON_EXEMPTION_DISABLED  => __( 'Exemption switched off in the settings', 'stm-eu-b2b' ),
+			TaxTreatmentDecider::REASON_INTRA_EU_SUPPLY     => __( 'Goods to a business in another EU country', 'stm-eu-b2b' ),
+			TaxTreatmentDecider::REASON_INTRA_EU_SERVICE    => __( 'Services to a business in another EU country', 'stm-eu-b2b' ),
+			TaxTreatmentDecider::REASON_SWISS_AREA          => __( 'Customer in the Swiss VAT area', 'stm-eu-b2b' ),
+			TaxTreatmentDecider::REASON_THIRD_COUNTRY       => __( 'Customer outside the EU', 'stm-eu-b2b' ),
+			TaxTreatmentDecider::REASON_RULES_NOT_REVIEWED  => __( 'Country rules not reviewed yet', 'stm-eu-b2b' ),
+			TaxTreatmentDecider::REASON_SPECIAL_TERRITORY   => __( 'Territory outside the EU VAT area', 'stm-eu-b2b' ),
+			TaxTreatmentDecider::REASON_SHOP_IN_TERRITORY   => __( 'The shop is in a territory outside the EU VAT area', 'stm-eu-b2b' ),
+			TaxTreatmentDecider::REASON_NI_CONSUMER         => __( 'Private customer in Northern Ireland (goods under EU VAT rules)', 'stm-eu-b2b' ),
+			TaxTreatmentDecider::REASON_NI_NEEDS_XI_VAT_ID  => __( 'Northern Ireland: only a valid XI VAT ID exempts goods', 'stm-eu-b2b' ),
+			TaxTreatmentDecider::REASON_NI_MIXED            => __( 'Northern Ireland: goods under EU rules, services under UK rules; check the service lines', 'stm-eu-b2b' ),
 			default                                         => $code,
 		};//end match
 	}

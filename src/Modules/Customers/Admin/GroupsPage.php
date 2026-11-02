@@ -19,6 +19,7 @@ use EuroB2B\Modules\Customers\Upgrades\UpgradeRule;
 use EuroB2B\Support\Currency;
 use EuroB2B\Support\Decimal;
 use RuntimeException;
+use EuroB2B\Support\ExceptionMessage;
 
 /**
  * List, create, edit and delete customer groups.
@@ -56,7 +57,7 @@ final class GroupsPage {
 	 * @param Menu $menu Menu.
 	 */
 	public function register_page( Menu $menu ): void {
-		$menu->add_page( self::SLUG, __( 'Customer groups', 'eurob2b' ), __( 'Groups', 'eurob2b' ), Capabilities::MANAGE_GROUPS, array( $this, 'render' ), 20 );
+		$menu->add_page( self::SLUG, __( 'Customer groups', 'stm-eu-b2b' ), __( 'Groups', 'stm-eu-b2b' ), Capabilities::MANAGE_GROUPS, array( $this, 'render' ), 20 );
 	}
 
 	/**
@@ -85,29 +86,29 @@ final class GroupsPage {
 
 		try {
 			if ( '' === $name ) {
-				throw new RuntimeException( __( 'The group needs a name.', 'eurob2b' ) );
+				throw new RuntimeException( __( 'The group needs a name.', 'stm-eu-b2b' ) );
 			}
 			if ( null === $customer_type || CustomerType::GUEST === $customer_type ) {
-				throw new RuntimeException( __( 'Choose whether the group is for business or private customers.', 'eurob2b' ) );
+				throw new RuntimeException( __( 'Choose whether the group is for business or private customers.', 'stm-eu-b2b' ) );
 			}
 			if ( $id > 0 && null === $existing ) {
-				throw new RuntimeException( __( 'The group does not exist.', 'eurob2b' ) );
+				throw new RuntimeException( __( 'The group does not exist.', 'stm-eu-b2b' ) );
 			}
 			if ( null !== $existing && $existing->customer_type !== $customer_type ) {
-				throw new RuntimeException( __( 'The customer type of an existing group cannot be changed; create a new group instead.', 'eurob2b' ) );
+				throw new RuntimeException( __( 'The customer type of an existing group cannot be changed; create a new group instead.', 'stm-eu-b2b' ) );
 			}
 			if ( null !== $existing && $existing->is_default && ! $is_default ) {
-				throw new RuntimeException( __( 'Make another group the default first; every customer type needs one default group.', 'eurob2b' ) );
+				throw new RuntimeException( __( 'Make another group the default first; every customer type needs one default group.', 'stm-eu-b2b' ) );
 			}
 			if ( '' === $slug ) {
 				$slug = Group::slugify( $name );
 			}
 			if ( ! Currency::group_currencies_enabled() ) {
-				// Without EuroB2B Pro the field is not shown: keep a currency stored while Pro was active.
+				// Without EU-B2B Pro the field is not shown: keep a currency stored while Pro was active.
 				$currency = null !== $existing ? $existing->currency() : '';
 			}
 			if ( '' !== $currency && ! Currency::known( $currency ) ) {
-				throw new RuntimeException( __( 'Choose a currency WooCommerce knows.', 'eurob2b' ) );
+				throw new RuntimeException( __( 'Choose a currency WooCommerce knows.', 'stm-eu-b2b' ) );
 			}
 			$rule = $this->upgrade_rule( $id, $customer_type, $upgrade_to, $threshold, $period );
 
@@ -128,7 +129,7 @@ final class GroupsPage {
 		} catch ( \Throwable $e ) {
 			$this->redirect(
 				array(
-					'error' => $e->getMessage(),
+					'error' => ExceptionMessage::plain( $e ),
 					'edit'  => $id,
 				)
 			);
@@ -150,7 +151,7 @@ final class GroupsPage {
 			$this->groups->delete( $id, $target );
 			$this->redirect( array( 'deleted' => '1' ) );
 		} catch ( \Throwable $e ) {
-			$this->redirect( array( 'error' => $e->getMessage() ) );
+			$this->redirect( array( 'error' => ExceptionMessage::plain( $e ) ) );
 		}
 	}
 
@@ -159,7 +160,7 @@ final class GroupsPage {
 	 */
 	public function render(): void {
 		if ( ! current_user_can( Capabilities::MANAGE_GROUPS ) ) {
-			wp_die( esc_html__( 'You are not allowed to manage customer groups.', 'eurob2b' ), '', array( 'response' => 403 ) );
+			wp_die( esc_html__( 'You are not allowed to manage customer groups.', 'stm-eu-b2b' ), '', array( 'response' => 403 ) );
 		}
 
 		// phpcs:disable WordPress.Security.NonceVerification.Recommended -- read-only view state.
@@ -171,18 +172,18 @@ final class GroupsPage {
 
 		PageHeader::open(
 			'eurob2b-groups',
-			__( 'Customer groups', 'eurob2b' ),
-			null === $edit_id ? '<a class="button" href="' . esc_url( Menu::url( self::SLUG, array( 'edit' => 0 ) ) ) . '">' . esc_html__( 'Add group', 'eurob2b' ) . '</a>' : ''
+			__( 'Customer groups', 'stm-eu-b2b' ),
+			null === $edit_id ? '<a class="button" href="' . esc_url( Menu::url( self::SLUG, array( 'edit' => 0 ) ) ) . '">' . esc_html__( 'Add group', 'stm-eu-b2b' ) . '</a>' : ''
 		);
 
 		if ( '' !== $error ) {
 			echo '<div class="notice notice-error"><p>' . esc_html( $error ) . '</p></div>';
 		}
 		if ( $saved ) {
-			echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'Group saved.', 'eurob2b' ) . '</p></div>';
+			echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'Group saved.', 'stm-eu-b2b' ) . '</p></div>';
 		}
 		if ( $deleted ) {
-			echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'Group deleted; its members were moved.', 'eurob2b' ) . '</p></div>';
+			echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'Group deleted; its members were moved.', 'stm-eu-b2b' ) . '</p></div>';
 		}
 
 		if ( null !== $edit_id ) {
@@ -200,13 +201,13 @@ final class GroupsPage {
 		$counts = $this->groups->member_counts();
 		$all    = $this->groups->all();
 
-		echo '<p class="description">' . esc_html__( 'Groups are private: customers never see group names. Prices, rules, visibility and payment methods attach to groups. Each customer type has exactly one default group for newly approved customers.', 'eurob2b' ) . '</p>';
+		echo '<p class="description">' . esc_html__( 'Groups are private: customers never see group names. Prices, rules, visibility and payment methods attach to groups. Each customer type has exactly one default group for newly approved customers.', 'stm-eu-b2b' ) . '</p>';
 		echo '<table class="wp-list-table widefat striped"><thead><tr>';
-		echo '<th>' . esc_html__( 'Name', 'eurob2b' ) . '</th><th>' . esc_html__( 'Slug', 'eurob2b' ) . '</th><th>' . esc_html__( 'Customer type', 'eurob2b' ) . '</th><th>' . esc_html__( 'Default', 'eurob2b' ) . '</th><th>' . esc_html__( 'Priority', 'eurob2b' ) . '</th><th>' . esc_html__( 'Currency', 'eurob2b' ) . '</th><th>' . esc_html__( 'Members', 'eurob2b' ) . '</th>';
+		echo '<th>' . esc_html__( 'Name', 'stm-eu-b2b' ) . '</th><th>' . esc_html__( 'Slug', 'stm-eu-b2b' ) . '</th><th>' . esc_html__( 'Customer type', 'stm-eu-b2b' ) . '</th><th>' . esc_html__( 'Default', 'stm-eu-b2b' ) . '</th><th>' . esc_html__( 'Priority', 'stm-eu-b2b' ) . '</th><th>' . esc_html__( 'Currency', 'stm-eu-b2b' ) . '</th><th>' . esc_html__( 'Members', 'stm-eu-b2b' ) . '</th>';
 		echo '</tr></thead><tbody>';
 
 		if ( empty( $all ) ) {
-			echo '<tr><td colspan="7">' . esc_html__( 'No groups yet.', 'eurob2b' ) . '</td></tr>';
+			echo '<tr><td colspan="7">' . esc_html__( 'No groups yet.', 'stm-eu-b2b' ) . '</td></tr>';
 		}
 
 		foreach ( $all as $group ) {
@@ -214,7 +215,7 @@ final class GroupsPage {
 			echo '<td><strong><a href="' . esc_url( Menu::url( self::SLUG, array( 'edit' => $group->id ) ) ) . '">' . esc_html( $group->name ) . '</a></strong></td>';
 			echo '<td><code>' . esc_html( $group->slug ) . '</code></td>';
 			echo '<td>' . esc_html( self::type_label( $group->customer_type ) ) . '</td>';
-			echo '<td>' . ( $group->is_default ? esc_html__( 'Yes', 'eurob2b' ) : '—' ) . '</td>';
+			echo '<td>' . ( $group->is_default ? esc_html__( 'Yes', 'stm-eu-b2b' ) : '—' ) . '</td>';
 			echo '<td>' . esc_html( (string) $group->priority ) . '</td>';
 			echo '<td>' . esc_html( Currency::code( Currency::of_group( $group ) ) ) . '</td>';
 			echo '<td>' . esc_html( (string) ( $counts[ $group->id ] ?? 0 ) ) . '</td>';
@@ -229,21 +230,21 @@ final class GroupsPage {
 	 * @param Group|null $group Group to edit, null for a new one.
 	 */
 	private function render_form( ?Group $group ): void {
-		echo '<h2>' . ( null === $group ? esc_html__( 'Add group', 'eurob2b' ) : esc_html__( 'Edit group', 'eurob2b' ) ) . '</h2>';
+		echo '<h2>' . ( null === $group ? esc_html__( 'Add group', 'stm-eu-b2b' ) : esc_html__( 'Edit group', 'stm-eu-b2b' ) ) . '</h2>';
 		echo '<form method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '">';
 		wp_nonce_field( self::NONCE_SAVE );
 		echo '<input type="hidden" name="action" value="' . esc_attr( self::ACTION_SAVE ) . '" />';
 		echo '<input type="hidden" name="group_id" value="' . esc_attr( (string) ( $group->id ?? 0 ) ) . '" />';
 		echo '<table class="form-table" role="presentation"><tbody>';
 
-		echo '<tr><th scope="row"><label for="eurob2b-group-name">' . esc_html__( 'Name', 'eurob2b' ) . '</label></th><td>';
+		echo '<tr><th scope="row"><label for="eurob2b-group-name">' . esc_html__( 'Name', 'stm-eu-b2b' ) . '</label></th><td>';
 		echo '<input type="text" class="regular-text" id="eurob2b-group-name" name="name" required value="' . esc_attr( $group->name ?? '' ) . '" /></td></tr>';
 
-		echo '<tr><th scope="row"><label for="eurob2b-group-slug">' . esc_html__( 'Slug', 'eurob2b' ) . '</label></th><td>';
+		echo '<tr><th scope="row"><label for="eurob2b-group-slug">' . esc_html__( 'Slug', 'stm-eu-b2b' ) . '</label></th><td>';
 		echo '<input type="text" class="regular-text" id="eurob2b-group-slug" name="slug" value="' . esc_attr( $group->slug ?? '' ) . '" />';
-		echo '<p class="description">' . esc_html__( 'Lower-case identifier used in imports and code. Leave empty to derive it from the name.', 'eurob2b' ) . '</p></td></tr>';
+		echo '<p class="description">' . esc_html__( 'Lower-case identifier used in imports and code. Leave empty to derive it from the name.', 'stm-eu-b2b' ) . '</p></td></tr>';
 
-		echo '<tr><th scope="row"><label for="eurob2b-group-type">' . esc_html__( 'Customer type', 'eurob2b' ) . '</label></th><td>';
+		echo '<tr><th scope="row"><label for="eurob2b-group-type">' . esc_html__( 'Customer type', 'stm-eu-b2b' ) . '</label></th><td>';
 		if ( null === $group ) {
 			echo '<select id="eurob2b-group-type" name="customer_type">';
 			foreach ( array( CustomerType::B2B, CustomerType::B2C ) as $type ) {
@@ -253,40 +254,40 @@ final class GroupsPage {
 		} else {
 			echo '<input type="hidden" name="customer_type" value="' . esc_attr( $group->customer_type->value ) . '" />';
 			echo '<strong>' . esc_html( self::type_label( $group->customer_type ) ) . '</strong>';
-			echo '<p class="description">' . esc_html__( 'The customer type of an existing group cannot be changed.', 'eurob2b' ) . '</p>';
+			echo '<p class="description">' . esc_html__( 'The customer type of an existing group cannot be changed.', 'stm-eu-b2b' ) . '</p>';
 		}
 		echo '</td></tr>';
 
-		echo '<tr><th scope="row">' . esc_html__( 'Default group', 'eurob2b' ) . '</th><td>';
-		echo '<label><input type="checkbox" name="is_default" value="1" ' . checked( (bool) ( $group->is_default ?? false ), true, false ) . ' /> ' . esc_html__( 'Newly approved customers of this type land in this group', 'eurob2b' ) . '</label></td></tr>';
+		echo '<tr><th scope="row">' . esc_html__( 'Default group', 'stm-eu-b2b' ) . '</th><td>';
+		echo '<label><input type="checkbox" name="is_default" value="1" ' . checked( (bool) ( $group->is_default ?? false ), true, false ) . ' /> ' . esc_html__( 'Newly approved customers of this type land in this group', 'stm-eu-b2b' ) . '</label></td></tr>';
 
-		echo '<tr><th scope="row"><label for="eurob2b-group-priority">' . esc_html__( 'Priority', 'eurob2b' ) . '</label></th><td>';
+		echo '<tr><th scope="row"><label for="eurob2b-group-priority">' . esc_html__( 'Priority', 'stm-eu-b2b' ) . '</label></th><td>';
 		echo '<input type="number" class="small-text" id="eurob2b-group-priority" name="priority" value="' . esc_attr( (string) ( $group->priority ?? 10 ) ) . '" />';
-		echo '<p class="description">' . esc_html__( 'Higher wins when settings of several groups could apply.', 'eurob2b' ) . '</p></td></tr>';
+		echo '<p class="description">' . esc_html__( 'Higher wins when settings of several groups could apply.', 'stm-eu-b2b' ) . '</p></td></tr>';
 
 		$this->render_currency_field( $group );
 		$this->render_upgrade_fields( $group );
 
 		echo '</tbody></table>';
-		submit_button( null === $group ? __( 'Create group', 'eurob2b' ) : __( 'Save group', 'eurob2b' ) );
-		echo ' <a class="button" href="' . esc_url( Menu::url( self::SLUG ) ) . '">' . esc_html__( 'Back to the list', 'eurob2b' ) . '</a>';
+		submit_button( null === $group ? __( 'Create group', 'stm-eu-b2b' ) : __( 'Save group', 'stm-eu-b2b' ) );
+		echo ' <a class="button" href="' . esc_url( Menu::url( self::SLUG ) ) . '">' . esc_html__( 'Back to the list', 'stm-eu-b2b' ) . '</a>';
 		echo '</form>';
 
 		if ( null !== $group && ! $group->is_default ) {
 			$targets = array_filter( $this->groups->of_type( $group->customer_type ), static fn( Group $g ): bool => $g->id !== $group->id );
-			echo '<h2>' . esc_html__( 'Delete group', 'eurob2b' ) . '</h2>';
-			echo '<form method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '" onsubmit="return window.confirm(' . esc_attr( wp_json_encode( __( 'Delete this group and move its members?', 'eurob2b' ) ) ) . ');">';
+			echo '<h2>' . esc_html__( 'Delete group', 'stm-eu-b2b' ) . '</h2>';
+			echo '<form method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '" onsubmit="return window.confirm(' . esc_attr( wp_json_encode( __( 'Delete this group and move its members?', 'stm-eu-b2b' ) ) ) . ');">';
 			wp_nonce_field( self::NONCE_DELETE );
 			echo '<input type="hidden" name="action" value="' . esc_attr( self::ACTION_DELETE ) . '" />';
 			echo '<input type="hidden" name="group_id" value="' . esc_attr( (string) $group->id ) . '" />';
-			echo '<p class="description">' . esc_html__( 'The group prices, tier prices and quantity limits of this group are removed from all products.', 'eurob2b' ) . '</p>';
-			echo '<p><label for="eurob2b-group-target">' . esc_html__( 'Move members to', 'eurob2b' ) . '</label> ';
+			echo '<p class="description">' . esc_html__( 'The group prices, tier prices and quantity limits of this group are removed from all products.', 'stm-eu-b2b' ) . '</p>';
+			echo '<p><label for="eurob2b-group-target">' . esc_html__( 'Move members to', 'stm-eu-b2b' ) . '</label> ';
 			echo '<select id="eurob2b-group-target" name="target_group_id">';
 			foreach ( $targets as $target ) {
 				echo '<option value="' . esc_attr( (string) $target->id ) . '">' . esc_html( $target->name ) . '</option>';
 			}
 			echo '</select> ';
-			submit_button( __( 'Delete group', 'eurob2b' ), 'delete', 'submit', false );
+			submit_button( __( 'Delete group', 'stm-eu-b2b' ), 'delete', 'submit', false );
 			echo '</p></form>';
 		}
 	}
@@ -301,10 +302,10 @@ final class GroupsPage {
 			return;
 		}
 		$current = null !== $group ? $group->currency() : '';
-		echo '<tr><th scope="row"><label for="eurob2b-group-currency">' . esc_html__( 'Currency', 'eurob2b' ) . '</label></th><td>';
+		echo '<tr><th scope="row"><label for="eurob2b-group-currency">' . esc_html__( 'Currency', 'stm-eu-b2b' ) . '</label></th><td>';
 		echo '<select id="eurob2b-group-currency" name="currency">';
 		/* translators: %s: currency code of the shop, e.g. EUR */
-		echo '<option value="">' . esc_html( sprintf( __( 'Shop currency (%s)', 'eurob2b' ), Currency::shop() ) ) . '</option>';
+		echo '<option value="">' . esc_html( sprintf( __( 'Shop currency (%s)', 'stm-eu-b2b' ), Currency::shop() ) ) . '</option>';
 		foreach ( get_woocommerce_currencies() as $code => $label ) {
 			if ( Currency::is_shop( (string) $code ) ) {
 				continue;
@@ -312,7 +313,7 @@ final class GroupsPage {
 			echo '<option value="' . esc_attr( (string) $code ) . '" ' . selected( $current, (string) $code, false ) . '>' . esc_html( $code . ' – ' . $label ) . '</option>';
 		}
 		echo '</select>';
-		echo '<p class="description">' . esc_html__( 'Customers of this group see and pay in this currency, and their orders are stored in it. Nothing is converted: enter the group prices on the products in this currency. The shop\'s own prices, and rules with amounts in another currency, do not apply to the group; a product without a price in this currency shows "Price on request" and cannot be bought by the group. Offer only payment methods that accept the currency (Payment & shipping). After a change, prices in the previous currency stay stored but no longer apply.', 'eurob2b' ) . '</p></td></tr>';
+		echo '<p class="description">' . esc_html__( 'Customers of this group see and pay in this currency, and their orders are stored in it. Nothing is converted: enter the group prices on the products in this currency. The shop\'s own prices, and rules with amounts in another currency, do not apply to the group; a product without a price in this currency shows "Price on request" and cannot be bought by the group. Offer only payment methods that accept the currency (Payment & shipping). After a change, prices in the previous currency stay stored but no longer apply.', 'stm-eu-b2b' ) . '</p></td></tr>';
 	}
 
 	/**
@@ -346,14 +347,14 @@ final class GroupsPage {
 		}
 		$target = $this->groups->find( $target_id );
 		if ( null === $target || $target->id === $group_id || $target->customer_type !== $type ) {
-			throw new RuntimeException( __( 'Upgrade suggestions need a target group of the same customer type.', 'eurob2b' ) );
+			throw new RuntimeException( esc_html__( 'Upgrade suggestions need a target group of the same customer type.', 'stm-eu-b2b' ) );
 		}
 		$amount = str_replace( array( ' ', ',' ), array( '', '.' ), trim( $threshold ) );
 		// Checked after rounding to the shop's decimals: "0.001" would otherwise be stored as "0.00" and
 		// make every member a candidate. No float on the way (AGENTS.md rule 8).
 		$amount = 1 === preg_match( '/^\d+(\.\d+)?$/', $amount ) ? Decimal::round( $amount, max( 0, min( 4, (int) wc_get_price_decimals() ) ) ) : '';
 		if ( '' === $amount || Decimal::compare( $amount, '0' ) <= 0 ) {
-			throw new RuntimeException( __( 'Please enter the net sales a customer needs for the upgrade suggestion.', 'eurob2b' ) );
+			throw new RuntimeException( esc_html__( 'Please enter the net sales a customer needs for the upgrade suggestion.', 'stm-eu-b2b' ) );
 		}
 		if ( ! in_array( $period, UpgradeRule::periods(), true ) ) {
 			$period = UpgradeRule::PERIOD_LAST_12_MONTHS;
@@ -374,21 +375,21 @@ final class GroupsPage {
 				$targets[] = $candidate;
 			}
 		}
-		echo '<tr><th scope="row"><label for="eurob2b-group-upgrade-to">' . esc_html__( 'Upgrade suggestion', 'eurob2b' ) . '</label></th><td>';
-		echo '<select id="eurob2b-group-upgrade-to" name="upgrade_to"><option value="0">' . esc_html__( 'None', 'eurob2b' ) . '</option>';
+		echo '<tr><th scope="row"><label for="eurob2b-group-upgrade-to">' . esc_html__( 'Upgrade suggestion', 'stm-eu-b2b' ) . '</label></th><td>';
+		echo '<select id="eurob2b-group-upgrade-to" name="upgrade_to"><option value="0">' . esc_html__( 'None', 'stm-eu-b2b' ) . '</option>';
 		foreach ( $targets as $target ) {
 			echo '<option value="' . esc_attr( (string) $target->id ) . '"' . selected( null !== $rule && $rule->target_id === $target->id, true, false ) . '>' . esc_html( $target->name ) . '</option>';
 		}
 		echo '</select> ';
-		echo '<label for="eurob2b-group-upgrade-threshold">' . esc_html__( 'from net sales of', 'eurob2b' ) . '</label> ';
+		echo '<label for="eurob2b-group-upgrade-threshold">' . esc_html__( 'from net sales of', 'stm-eu-b2b' ) . '</label> ';
 		echo '<input type="text" inputmode="decimal" class="small-text" id="eurob2b-group-upgrade-threshold" name="upgrade_threshold" value="' . esc_attr( null !== $rule ? wc_format_localized_price( $rule->threshold ) : '' ) . '" /> ';
-		echo '<label for="eurob2b-group-upgrade-period">' . esc_html__( 'in', 'eurob2b' ) . '</label> ';
+		echo '<label for="eurob2b-group-upgrade-period">' . esc_html__( 'in', 'stm-eu-b2b' ) . '</label> ';
 		echo '<select id="eurob2b-group-upgrade-period" name="upgrade_period">';
 		foreach ( UpgradeSuggestionsPage::period_labels() as $value => $label ) {
 			echo '<option value="' . esc_attr( $value ) . '"' . selected( null !== $rule ? $rule->period : UpgradeRule::PERIOD_LAST_12_MONTHS, $value, false ) . '>' . esc_html( $label ) . '</option>';
 		}
 		echo '</select>';
-		echo '<p class="description">' . esc_html__( 'Customers of this group who reach the net sales (without tax and shipping, after refunds, paid orders) are listed under EuroB2B → Customers → Group suggestions. Nothing moves automatically. The target group must have the same customer type; for a new group, choose it after saving.', 'eurob2b' ) . '</p></td></tr>';
+		echo '<p class="description">' . esc_html__( 'Customers of this group who reach the net sales (without tax and shipping, after refunds, paid orders) are listed under STM EU-B2B → Customers → Group suggestions. Nothing moves automatically. The target group must have the same customer type; for a new group, choose it after saving.', 'stm-eu-b2b' ) . '</p></td></tr>';
 	}
 
 	/**
@@ -398,7 +399,7 @@ final class GroupsPage {
 	 */
 	private function authorise( string $nonce ): void {
 		if ( ! current_user_can( Capabilities::MANAGE_GROUPS ) ) {
-			wp_die( esc_html__( 'You are not allowed to manage customer groups.', 'eurob2b' ), '', array( 'response' => 403 ) );
+			wp_die( esc_html__( 'You are not allowed to manage customer groups.', 'stm-eu-b2b' ), '', array( 'response' => 403 ) );
 		}
 		check_admin_referer( $nonce );
 	}
@@ -422,9 +423,9 @@ final class GroupsPage {
 	 */
 	public static function type_label( CustomerType $type ): string {
 		return match ( $type ) {
-			CustomerType::B2B => __( 'Business (B2B)', 'eurob2b' ),
-			CustomerType::B2C => __( 'Private (B2C)', 'eurob2b' ),
-			CustomerType::GUEST => __( 'Guest', 'eurob2b' ),
+			CustomerType::B2B => __( 'Business (B2B)', 'stm-eu-b2b' ),
+			CustomerType::B2C => __( 'Private (B2C)', 'stm-eu-b2b' ),
+			CustomerType::GUEST => __( 'Guest', 'stm-eu-b2b' ),
 		};
 	}
 }

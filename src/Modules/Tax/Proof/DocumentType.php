@@ -25,11 +25,11 @@ enum DocumentType: string {
 	 */
 	public function label(): string {
 		return match ( $this ) {
-			self::SIGNED_CONFIRMATION => __( 'Signed confirmation of receipt', 'eurob2b' ),
-			self::CONSIGNMENT_NOTE    => __( 'Consignment note (CMR)', 'eurob2b' ),
-			self::FORWARDER           => __( 'Forwarder certificate', 'eurob2b' ),
-			self::COURIER_TRACKING    => __( 'Courier tracking record', 'eurob2b' ),
-			self::OTHER               => __( 'Other document', 'eurob2b' ),
+			self::SIGNED_CONFIRMATION => __( 'Signed confirmation of receipt', 'stm-eu-b2b' ),
+			self::CONSIGNMENT_NOTE    => __( 'Consignment note (CMR)', 'stm-eu-b2b' ),
+			self::FORWARDER           => __( 'Forwarder certificate', 'stm-eu-b2b' ),
+			self::COURIER_TRACKING    => __( 'Courier tracking record', 'stm-eu-b2b' ),
+			self::OTHER               => __( 'Other document', 'stm-eu-b2b' ),
 		};
 	}
 }

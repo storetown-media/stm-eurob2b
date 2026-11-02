@@ -19,7 +19,7 @@ use EuroB2B\Modules\Countries\TaxArea;
 /**
  * TAX-020: warning when an EU customer country has no tax rate (an exemption would be invisible).
  * CTY-004, CTY-005: the country profiles with their review state, VAT rates and thresholds on the
- * VAT IDs page. EuroB2B Pro adds the export of exempt sales (TAX-023), the special territories
+ * VAT IDs page. EU-B2B Pro adds the export of exempt sales (TAX-023), the special territories
  * (TAX-024) and the rate warning for Northern Ireland (TAX-034) (PLT-015).
  */
 final class TaxReports {
@@ -54,7 +54,7 @@ final class TaxReports {
 		foreach ( is_array( $countries ) ? $countries : array() as $iso ) {
 			$iso = strtoupper( (string) $iso );
 			if ( in_array( CountryRegistry::tax_area( $iso ), array( TaxArea::SWISS_VAT_AREA, TaxArea::EEA_OWN_VAT ), true ) ) {
-				// EuroB2B exempts nothing for these countries (CH-05, NO-02), so a missing rate hides nothing.
+				// EU-B2B exempts nothing for these countries (CH-05, NO-02), so a missing rate hides nothing.
 				continue;
 			}
 			$rates = \WC_Tax::find_rates(
@@ -85,7 +85,7 @@ final class TaxReports {
 		echo '<div class="notice notice-warning"><p>' . esc_html(
 			sprintf(
 				/* translators: %s: comma-separated country codes */
-				__( 'EuroB2B: no WooCommerce tax rate exists for these customer countries: %s. Without a rate, taxed and exempt orders look the same to the customer; add the rates under WooCommerce → Settings → Tax.', 'eurob2b' ),
+				__( 'STM EU-B2B: no WooCommerce tax rate exists for these customer countries: %s. Without a rate, taxed and exempt orders look the same to the customer; add the rates under WooCommerce → Settings → Tax.', 'stm-eu-b2b' ),
 				implode( ', ', $missing )
 			)
 		) . '</p></div>';
@@ -99,13 +99,13 @@ final class TaxReports {
 			return;
 		}
 		$labels = array(
-			CountryProfile::REVIEW_REVIEWED     => __( 'Reviewed', 'eurob2b' ),
-			CountryProfile::REVIEW_NEEDS_REVIEW => __( 'Researched, needs professional review', 'eurob2b' ),
-			CountryProfile::REVIEW_UNVERIFIED   => __( 'Unverified', 'eurob2b' ),
+			CountryProfile::REVIEW_REVIEWED     => __( 'Reviewed', 'stm-eu-b2b' ),
+			CountryProfile::REVIEW_NEEDS_REVIEW => __( 'Researched, needs professional review', 'stm-eu-b2b' ),
+			CountryProfile::REVIEW_UNVERIFIED   => __( 'Unverified', 'stm-eu-b2b' ),
 		);
-		echo '<h2>' . esc_html__( 'Country profiles', 'eurob2b' ) . '</h2>';
-		echo '<p>' . esc_html__( 'Countries that are not reviewed are taxed and flagged instead of exempted, unless you accept unreviewed rules in the settings.', 'eurob2b' ) . '</p>';
-		echo '<table class="widefat striped"><thead><tr><th>' . esc_html__( 'Country', 'eurob2b' ) . '</th><th>' . esc_html__( 'Company identifier', 'eurob2b' ) . '</th><th>' . esc_html__( 'Domestic B2B e-invoicing', 'eurob2b' ) . '</th><th>' . esc_html__( 'Review', 'eurob2b' ) . '</th><th>' . esc_html__( 'Rules', 'eurob2b' ) . '</th></tr></thead><tbody>';
+		echo '<h2>' . esc_html__( 'Country profiles', 'stm-eu-b2b' ) . '</h2>';
+		echo '<p>' . esc_html__( 'Countries that are not reviewed are taxed and flagged instead of exempted, unless you accept unreviewed rules in the settings.', 'stm-eu-b2b' ) . '</p>';
+		echo '<table class="widefat striped"><thead><tr><th>' . esc_html__( 'Country', 'stm-eu-b2b' ) . '</th><th>' . esc_html__( 'Company identifier', 'stm-eu-b2b' ) . '</th><th>' . esc_html__( 'Domestic B2B e-invoicing', 'stm-eu-b2b' ) . '</th><th>' . esc_html__( 'Review', 'stm-eu-b2b' ) . '</th><th>' . esc_html__( 'Rules', 'stm-eu-b2b' ) . '</th></tr></thead><tbody>';
 		foreach ( CountryProfiles::all() as $profile ) {
 			echo '<tr><td>' . esc_html( self::country_label( $profile ) ) . '</td><td>' . esc_html( self::profile_text( $profile->company_identifier ) ) . '</td><td>' . esc_html( self::profile_text( $profile->einvoicing ) ) . '</td><td>' . esc_html( $labels[ $profile->review ] ?? $profile->review ) . '</td><td>' . esc_html( $profile->rules_version() . ' · ' . $profile->rules_checked_at() ) . '</td></tr>';
 		}
@@ -121,9 +121,9 @@ final class TaxReports {
 		if ( array() === $profiles ) {
 			return;
 		}
-		echo '<h3>' . esc_html__( 'VAT rates and registration thresholds outside the EU', 'eurob2b' ) . '</h3>';
-		echo '<p>' . esc_html__( 'For your information: EuroB2B does not exempt sales to these countries; your WooCommerce tax rates decide. If your sales exceed a threshold, you may have to register for VAT there and charge its VAT; ask your tax adviser.', 'eurob2b' ) . '</p>';
-		echo '<table class="widefat striped"><thead><tr><th>' . esc_html__( 'Country', 'eurob2b' ) . '</th><th>' . esc_html__( 'VAT rates', 'eurob2b' ) . '</th><th>' . esc_html__( 'Thresholds', 'eurob2b' ) . '</th><th>' . esc_html__( 'Sources', 'eurob2b' ) . '</th></tr></thead><tbody>';
+		echo '<h3>' . esc_html__( 'VAT rates and registration thresholds outside the EU', 'stm-eu-b2b' ) . '</h3>';
+		echo '<p>' . esc_html__( 'For your information: EU-B2B does not exempt sales to these countries; your WooCommerce tax rates decide. If your sales exceed a threshold, you may have to register for VAT there and charge its VAT; ask your tax adviser.', 'stm-eu-b2b' ) . '</p>';
+		echo '<table class="widefat striped"><thead><tr><th>' . esc_html__( 'Country', 'stm-eu-b2b' ) . '</th><th>' . esc_html__( 'VAT rates', 'stm-eu-b2b' ) . '</th><th>' . esc_html__( 'Thresholds', 'stm-eu-b2b' ) . '</th><th>' . esc_html__( 'Sources', 'stm-eu-b2b' ) . '</th></tr></thead><tbody>';
 		foreach ( $profiles as $profile ) {
 			$rates   = array();
 			$sources = array();
@@ -152,11 +152,11 @@ final class TaxReports {
 	 */
 	public static function rate_label( string $type ): string {
 		return match ( $type ) {
-			'standard'                => __( 'standard rate', 'eurob2b' ),
-			'reduced'                 => __( 'reduced rate', 'eurob2b' ),
-			'accommodation'           => __( 'accommodation', 'eurob2b' ),
-			'food'                    => __( 'food', 'eurob2b' ),
-			'transport_accommodation' => __( 'passenger transport and accommodation', 'eurob2b' ),
+			'standard'                => __( 'standard rate', 'stm-eu-b2b' ),
+			'reduced'                 => __( 'reduced rate', 'stm-eu-b2b' ),
+			'accommodation'           => __( 'accommodation', 'stm-eu-b2b' ),
+			'food'                    => __( 'food', 'stm-eu-b2b' ),
+			'transport_accommodation' => __( 'passenger transport and accommodation', 'stm-eu-b2b' ),
 			default                   => $type,
 		};
 	}
@@ -179,10 +179,10 @@ final class TaxReports {
 	 */
 	public static function threshold_bases(): array {
 		return array(
-			'Turnover per year from taxable and exempt supplies in Switzerland and abroad, for a business that supplies in Switzerland; a foreign business needs a tax representative' => __( 'Turnover per year from taxable and exempt supplies in Switzerland and abroad, for a business that supplies in Switzerland; a foreign business needs a tax representative', 'eurob2b' ),
-			'Turnover per year from small consignments to Switzerland and Liechtenstein (import tax of at most CHF 5); from then on every consignment is a domestic supply' => __( 'Turnover per year from small consignments to Switzerland and Liechtenstein (import tax of at most CHF 5); from then on every consignment is a domestic supply', 'eurob2b' ),
-			'Turnover per year in Liechtenstein and abroad from supplies that are not excluded from the tax under Art. 21(2) MWSTG (Art. 10(2)(a) MWSTG)' => __( 'Turnover per year in Liechtenstein and abroad from supplies that are not excluded from the tax under Art. 21(2) MWSTG (Art. 10(2)(a) MWSTG)', 'eurob2b' ),
-			'Taxable sales over 12 months, excluding VAT (NOK 140,000 for charitable and non-profit organisations); a business without establishment in Norway registers through a representative unless it is resident in the United Kingdom or one of the listed EEA countries, which do not include Liechtenstein' => __( 'Taxable sales over 12 months, excluding VAT (NOK 140,000 for charitable and non-profit organisations); a business without establishment in Norway registers through a representative unless it is resident in the United Kingdom or one of the listed EEA countries, which do not include Liechtenstein', 'eurob2b' ),
+			'Turnover per year from taxable and exempt supplies in Switzerland and abroad, for a business that supplies in Switzerland; a foreign business needs a tax representative' => __( 'Turnover per year from taxable and exempt supplies in Switzerland and abroad, for a business that supplies in Switzerland; a foreign business needs a tax representative', 'stm-eu-b2b' ),
+			'Turnover per year from small consignments to Switzerland and Liechtenstein (import tax of at most CHF 5); from then on every consignment is a domestic supply' => __( 'Turnover per year from small consignments to Switzerland and Liechtenstein (import tax of at most CHF 5); from then on every consignment is a domestic supply', 'stm-eu-b2b' ),
+			'Turnover per year in Liechtenstein and abroad from supplies that are not excluded from the tax under Art. 21(2) MWSTG (Art. 10(2)(a) MWSTG)' => __( 'Turnover per year in Liechtenstein and abroad from supplies that are not excluded from the tax under Art. 21(2) MWSTG (Art. 10(2)(a) MWSTG)', 'stm-eu-b2b' ),
+			'Taxable sales over 12 months, excluding VAT (NOK 140,000 for charitable and non-profit organisations); a business without establishment in Norway registers through a representative unless it is resident in the United Kingdom or one of the listed EEA countries, which do not include Liechtenstein' => __( 'Taxable sales over 12 months, excluding VAT (NOK 140,000 for charitable and non-profit organisations); a business without establishment in Norway registers through a representative unless it is resident in the United Kingdom or one of the listed EEA countries, which do not include Liechtenstein', 'stm-eu-b2b' ),
 		);
 	}
 
@@ -219,57 +219,57 @@ final class TaxReports {
 	 */
 	public static function profile_texts(): array {
 		return array(
-			'Handelsregisternummer (HRA/HRB/GnR/PR/VR + number + register court)' => __( 'Handelsregisternummer (HRA/HRB/GnR/PR/VR + number + register court)', 'eurob2b' ),
-			'Reception mandatory since 2025-01-01; issuing mandatory from 2028-01-01 (2027-01-01 for issuers above EUR 800k turnover); XRechnung/ZUGFeRD >= 2.0.1' => __( 'Reception mandatory since 2025-01-01; issuing mandatory from 2028-01-01 (2027-01-01 for issuers above EUR 800k turnover); XRechnung/ZUGFeRD >= 2.0.1', 'eurob2b' ),
-			'Firmenbuchnummer (up to 6 digits + check letter)' => __( 'Firmenbuchnummer (up to 6 digits + check letter)', 'eurob2b' ),
-			'B2G only (IKT-KonsG § 5)'                    => __( 'B2G only (IKT-KonsG § 5)', 'eurob2b' ),
-			'Enterprise number (10 digits, equals the VAT number)' => __( 'Enterprise number (10 digits, equals the VAT number)', 'eurob2b' ),
-			'Mandatory since 2026-01-01 (Peppol BIS)'     => __( 'Mandatory since 2026-01-01 (Peppol BIS)', 'eurob2b' ),
-			'None adopted'                                => __( 'None adopted', 'eurob2b' ),
-			'OIB (11 digits)'                             => __( 'OIB (11 digits)', 'eurob2b' ),
-			'Fiskalizacija 2.0: VAT payers since 2026-01-01, others from 2027-01-01' => __( 'Fiskalizacija 2.0: VAT payers since 2026-01-01, others from 2027-01-01', 'eurob2b' ),
-			'No mandate'                                  => __( 'No mandate', 'eurob2b' ),
-			'IČO (8 digits)'                              => __( 'IČO (8 digits)', 'eurob2b' ),
-			'None (B2G ISDOC)'                            => __( 'None (B2G ISDOC)', 'eurob2b' ),
-			'CVR (8 digits)'                              => __( 'CVR (8 digits)', 'eurob2b' ),
-			'Bookkeeping-system requirements 2027-03-01 / 2028-01-01; no general B2B duty' => __( 'Bookkeeping-system requirements 2027-03-01 / 2028-01-01; no general B2B duty', 'eurob2b' ),
-			'Registry code (8 digits)'                    => __( 'Registry code (8 digits)', 'eurob2b' ),
-			'Buyers may demand e-invoices since 2025-07-01; mandate proposed' => __( 'Buyers may demand e-invoices since 2025-07-01; mandate proposed', 'eurob2b' ),
-			'Y-tunnus (7 digits + check digit)'           => __( 'Y-tunnus (7 digits + check digit)', 'eurob2b' ),
-			'B2G; customers may require e-invoices'       => __( 'B2G; customers may require e-invoices', 'eurob2b' ),
-			'SIREN (9 digits) / SIRET (14 digits)'        => __( 'SIREN (9 digits) / SIRET (14 digits)', 'eurob2b' ),
-			'Since 2026-09-01 (reception all; issuing large/ETI), SMEs issue from 2027-09-01' => __( 'Since 2026-09-01 (reception all; issuing large/ETI), SMEs issue from 2027-09-01', 'eurob2b' ),
-			'myDATA phases 2026 (dates conflict across sources)' => __( 'myDATA phases 2026 (dates conflict across sources)', 'eurob2b' ),
-			'Tax number (8 digits)'                       => __( 'Tax number (8 digits)', 'eurob2b' ),
-			'Real-time invoice data reporting; no general e-invoice mandate' => __( 'Real-time invoice data reporting; no general e-invoice mandate', 'eurob2b' ),
-			'CRO number (5-6 digits)'                     => __( 'CRO number (5-6 digits)', 'eurob2b' ),
-			'Large corporates issue from 2028-11-01; all must receive' => __( 'Large corporates issue from 2028-11-01; all must receive', 'eurob2b' ),
-			'Partita IVA (11 digits); Codice Fiscale (11/16)' => __( 'Partita IVA (11 digits); Codice Fiscale (11/16)', 'eurob2b' ),
-			'Mandatory since 2019-01-01 (SdI, FatturaPA)' => __( 'Mandatory since 2019-01-01 (SdI, FatturaPA)', 'eurob2b' ),
-			'Registration number (11 digits)'             => __( 'Registration number (11 digits)', 'eurob2b' ),
-			'Mandatory 2028-01-01 (Peppol/EN 16931)'      => __( 'Mandatory 2028-01-01 (Peppol/EN 16931)', 'eurob2b' ),
-			'Company code (9 digits)'                     => __( 'Company code (9 digits)', 'eurob2b' ),
-			'None before 2030'                            => __( 'None before 2030', 'eurob2b' ),
-			'RCS number'                                  => __( 'RCS number', 'eurob2b' ),
-			'Draft bill: receive 2028-01-01, issue 2028-07/2029-01' => __( 'Draft bill: receive 2028-01-01, issue 2028-07/2029-01', 'eurob2b' ),
-			'KVK number (8 digits)'                       => __( 'KVK number (8 digits)', 'eurob2b' ),
-			'No B2B mandate'                              => __( 'No B2B mandate', 'eurob2b' ),
-			'NIP (10 digits, equals the VAT number); REGON 9/14; KRS 10' => __( 'NIP (10 digits, equals the VAT number); REGON 9/14; KRS 10', 'eurob2b' ),
-			'KSeF: 2026-02-01 (> PLN 200m), 2026-04-01 others; small issuers may wait until 2026-12-31' => __( 'KSeF: 2026-02-01 (> PLN 200m), 2026-04-01 others; small issuers may wait until 2026-12-31', 'eurob2b' ),
-			'NIF/NIPC (9 digits)'                         => __( 'NIF/NIPC (9 digits)', 'eurob2b' ),
-			'No general B2B structured mandate; QES on PDF invoices from 2027-01-01' => __( 'No general B2B structured mandate; QES on PDF invoices from 2027-01-01', 'eurob2b' ),
-			'CUI'                                         => __( 'CUI', 'eurob2b' ),
-			'RO e-Factura mandatory since 2024-07-01'     => __( 'RO e-Factura mandatory since 2024-07-01', 'eurob2b' ),
-			'Mandatory 2027-01-01 (Act 385/2025, Peppol)' => __( 'Mandatory 2027-01-01 (Act 385/2025, Peppol)', 'eurob2b' ),
-			'Matična številka'                            => __( 'Matična številka', 'eurob2b' ),
-			'ZIERDED adopted 2025-10-23; application 2028-01-01 (date unverified)' => __( 'ZIERDED adopted 2025-10-23; application 2028-01-01 (date unverified)', 'eurob2b' ),
-			'NIF (legal-form letter + 7 digits + check character)' => __( 'NIF (legal-form letter + 7 digits + check character)', 'eurob2b' ),
-			'Crea y Crece ~2027-10 (> EUR 8m) / ~2028-10 (others); Verifactu 2027' => __( 'Crea y Crece ~2027-10 (> EUR 8m) / ~2028-10 (others); Verifactu 2027', 'eurob2b' ),
-			'Organisationsnummer (10 digits)'             => __( 'Organisationsnummer (10 digits)', 'eurob2b' ),
-			'B2G only'                                    => __( 'B2G only', 'eurob2b' ),
-			'UID (CHE-xxx.xxx.xxx, + MWST when VAT-registered)' => __( 'UID (CHE-xxx.xxx.xxx, + MWST when VAT-registered)', 'eurob2b' ),
-			'Five-digit Liechtenstein VAT number; a CHE UID where the business has one; PEID with the administration (format unverified)' => __( 'Five-digit Liechtenstein VAT number; a CHE UID where the business has one; PEID with the administration (format unverified)', 'eurob2b' ),
-			'Organisasjonsnummer (9 digits, + MVA)'       => __( 'Organisasjonsnummer (9 digits, + MVA)', 'eurob2b' ),
+			'Handelsregisternummer (HRA/HRB/GnR/PR/VR + number + register court)' => __( 'Handelsregisternummer (HRA/HRB/GnR/PR/VR + number + register court)', 'stm-eu-b2b' ),
+			'Reception mandatory since 2025-01-01; issuing mandatory from 2028-01-01 (2027-01-01 for issuers above EUR 800k turnover); XRechnung/ZUGFeRD >= 2.0.1' => __( 'Reception mandatory since 2025-01-01; issuing mandatory from 2028-01-01 (2027-01-01 for issuers above EUR 800k turnover); XRechnung/ZUGFeRD >= 2.0.1', 'stm-eu-b2b' ),
+			'Firmenbuchnummer (up to 6 digits + check letter)' => __( 'Firmenbuchnummer (up to 6 digits + check letter)', 'stm-eu-b2b' ),
+			'B2G only (IKT-KonsG § 5)'                    => __( 'B2G only (IKT-KonsG § 5)', 'stm-eu-b2b' ),
+			'Enterprise number (10 digits, equals the VAT number)' => __( 'Enterprise number (10 digits, equals the VAT number)', 'stm-eu-b2b' ),
+			'Mandatory since 2026-01-01 (Peppol BIS)'     => __( 'Mandatory since 2026-01-01 (Peppol BIS)', 'stm-eu-b2b' ),
+			'None adopted'                                => __( 'None adopted', 'stm-eu-b2b' ),
+			'OIB (11 digits)'                             => __( 'OIB (11 digits)', 'stm-eu-b2b' ),
+			'Fiskalizacija 2.0: VAT payers since 2026-01-01, others from 2027-01-01' => __( 'Fiskalizacija 2.0: VAT payers since 2026-01-01, others from 2027-01-01', 'stm-eu-b2b' ),
+			'No mandate'                                  => __( 'No mandate', 'stm-eu-b2b' ),
+			'IČO (8 digits)'                              => __( 'IČO (8 digits)', 'stm-eu-b2b' ),
+			'None (B2G ISDOC)'                            => __( 'None (B2G ISDOC)', 'stm-eu-b2b' ),
+			'CVR (8 digits)'                              => __( 'CVR (8 digits)', 'stm-eu-b2b' ),
+			'Bookkeeping-system requirements 2027-03-01 / 2028-01-01; no general B2B duty' => __( 'Bookkeeping-system requirements 2027-03-01 / 2028-01-01; no general B2B duty', 'stm-eu-b2b' ),
+			'Registry code (8 digits)'                    => __( 'Registry code (8 digits)', 'stm-eu-b2b' ),
+			'Buyers may demand e-invoices since 2025-07-01; mandate proposed' => __( 'Buyers may demand e-invoices since 2025-07-01; mandate proposed', 'stm-eu-b2b' ),
+			'Y-tunnus (7 digits + check digit)'           => __( 'Y-tunnus (7 digits + check digit)', 'stm-eu-b2b' ),
+			'B2G; customers may require e-invoices'       => __( 'B2G; customers may require e-invoices', 'stm-eu-b2b' ),
+			'SIREN (9 digits) / SIRET (14 digits)'        => __( 'SIREN (9 digits) / SIRET (14 digits)', 'stm-eu-b2b' ),
+			'Since 2026-09-01 (reception all; issuing large/ETI), SMEs issue from 2027-09-01' => __( 'Since 2026-09-01 (reception all; issuing large/ETI), SMEs issue from 2027-09-01', 'stm-eu-b2b' ),
+			'myDATA phases 2026 (dates conflict across sources)' => __( 'myDATA phases 2026 (dates conflict across sources)', 'stm-eu-b2b' ),
+			'Tax number (8 digits)'                       => __( 'Tax number (8 digits)', 'stm-eu-b2b' ),
+			'Real-time invoice data reporting; no general e-invoice mandate' => __( 'Real-time invoice data reporting; no general e-invoice mandate', 'stm-eu-b2b' ),
+			'CRO number (5-6 digits)'                     => __( 'CRO number (5-6 digits)', 'stm-eu-b2b' ),
+			'Large corporates issue from 2028-11-01; all must receive' => __( 'Large corporates issue from 2028-11-01; all must receive', 'stm-eu-b2b' ),
+			'Partita IVA (11 digits); Codice Fiscale (11/16)' => __( 'Partita IVA (11 digits); Codice Fiscale (11/16)', 'stm-eu-b2b' ),
+			'Mandatory since 2019-01-01 (SdI, FatturaPA)' => __( 'Mandatory since 2019-01-01 (SdI, FatturaPA)', 'stm-eu-b2b' ),
+			'Registration number (11 digits)'             => __( 'Registration number (11 digits)', 'stm-eu-b2b' ),
+			'Mandatory 2028-01-01 (Peppol/EN 16931)'      => __( 'Mandatory 2028-01-01 (Peppol/EN 16931)', 'stm-eu-b2b' ),
+			'Company code (9 digits)'                     => __( 'Company code (9 digits)', 'stm-eu-b2b' ),
+			'None before 2030'                            => __( 'None before 2030', 'stm-eu-b2b' ),
+			'RCS number'                                  => __( 'RCS number', 'stm-eu-b2b' ),
+			'Draft bill: receive 2028-01-01, issue 2028-07/2029-01' => __( 'Draft bill: receive 2028-01-01, issue 2028-07/2029-01', 'stm-eu-b2b' ),
+			'KVK number (8 digits)'                       => __( 'KVK number (8 digits)', 'stm-eu-b2b' ),
+			'No B2B mandate'                              => __( 'No B2B mandate', 'stm-eu-b2b' ),
+			'NIP (10 digits, equals the VAT number); REGON 9/14; KRS 10' => __( 'NIP (10 digits, equals the VAT number); REGON 9/14; KRS 10', 'stm-eu-b2b' ),
+			'KSeF: 2026-02-01 (> PLN 200m), 2026-04-01 others; small issuers may wait until 2026-12-31' => __( 'KSeF: 2026-02-01 (> PLN 200m), 2026-04-01 others; small issuers may wait until 2026-12-31', 'stm-eu-b2b' ),
+			'NIF/NIPC (9 digits)'                         => __( 'NIF/NIPC (9 digits)', 'stm-eu-b2b' ),
+			'No general B2B structured mandate; QES on PDF invoices from 2027-01-01' => __( 'No general B2B structured mandate; QES on PDF invoices from 2027-01-01', 'stm-eu-b2b' ),
+			'CUI'                                         => __( 'CUI', 'stm-eu-b2b' ),
+			'RO e-Factura mandatory since 2024-07-01'     => __( 'RO e-Factura mandatory since 2024-07-01', 'stm-eu-b2b' ),
+			'Mandatory 2027-01-01 (Act 385/2025, Peppol)' => __( 'Mandatory 2027-01-01 (Act 385/2025, Peppol)', 'stm-eu-b2b' ),
+			'Matična številka'                            => __( 'Matična številka', 'stm-eu-b2b' ),
+			'ZIERDED adopted 2025-10-23; application 2028-01-01 (date unverified)' => __( 'ZIERDED adopted 2025-10-23; application 2028-01-01 (date unverified)', 'stm-eu-b2b' ),
+			'NIF (legal-form letter + 7 digits + check character)' => __( 'NIF (legal-form letter + 7 digits + check character)', 'stm-eu-b2b' ),
+			'Crea y Crece ~2027-10 (> EUR 8m) / ~2028-10 (others); Verifactu 2027' => __( 'Crea y Crece ~2027-10 (> EUR 8m) / ~2028-10 (others); Verifactu 2027', 'stm-eu-b2b' ),
+			'Organisationsnummer (10 digits)'             => __( 'Organisationsnummer (10 digits)', 'stm-eu-b2b' ),
+			'B2G only'                                    => __( 'B2G only', 'stm-eu-b2b' ),
+			'UID (CHE-xxx.xxx.xxx, + MWST when VAT-registered)' => __( 'UID (CHE-xxx.xxx.xxx, + MWST when VAT-registered)', 'stm-eu-b2b' ),
+			'Five-digit Liechtenstein VAT number; a CHE UID where the business has one; PEID with the administration (format unverified)' => __( 'Five-digit Liechtenstein VAT number; a CHE UID where the business has one; PEID with the administration (format unverified)', 'stm-eu-b2b' ),
+			'Organisasjonsnummer (9 digits, + MVA)'       => __( 'Organisasjonsnummer (9 digits, + MVA)', 'stm-eu-b2b' ),
 		);
 	}
 }

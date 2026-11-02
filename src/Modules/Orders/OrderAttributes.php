@@ -30,7 +30,7 @@ final class OrderAttributes {
 	public const META_COMPANY_ID    = '_eurob2b_company_id';
 
 	/**
-	 * The user who placed an order for a company account (written by the company module of EuroB2B
+	 * The user who placed an order for a company account (written by the company module of EU-B2B
 	 * Pro; read by the proof of supply, which asks only the ordering person to confirm the receipt).
 	 */
 	public const META_PLACED_BY = '_eurob2b_placed_by';
@@ -149,22 +149,22 @@ final class OrderAttributes {
 		if ( ! $order instanceof WC_Order ) {
 			return;
 		}
-		// Orders without the attributes (placed before EuroB2B or created in the admin) get the box
+		// Orders without the attributes (placed before EU-B2B or created in the admin) get the box
 		// only when another module has a row for them, e.g. days overdue (PAY-021).
 		$type = (string) $order->get_meta( self::META_CUSTOMER_TYPE, true );
 		$rows = array();
 		if ( '' !== $type ) {
 			$rows    = array(
-				__( 'Customer type', 'eurob2b' ) => 'b2b' === $type ? __( 'Business (B2B)', 'eurob2b' ) : __( 'Private (B2C)', 'eurob2b' ),
-				__( 'Group', 'eurob2b' )         => (string) $order->get_meta( self::META_GROUP_NAME, true ),
+				__( 'Customer type', 'stm-eu-b2b' ) => 'b2b' === $type ? __( 'Business (B2B)', 'stm-eu-b2b' ) : __( 'Private (B2C)', 'stm-eu-b2b' ),
+				__( 'Group', 'stm-eu-b2b' )         => (string) $order->get_meta( self::META_GROUP_NAME, true ),
 			);
 			$company = (string) $order->get_meta( self::META_COMPANY_ID, true );
 			if ( '' !== $company ) {
-				$rows[ __( 'Company', 'eurob2b' ) ] = '#' . $company;
+				$rows[ __( 'Company', 'stm-eu-b2b' ) ] = '#' . $company;
 			}
 		}
 		/**
-		 * Filters the rows shown in the EuroB2B box on the order screen.
+		 * Filters the rows shown in the EU-B2B box on the order screen.
 		 *
 		 * @param array<string, string> $rows  Label => value.
 		 * @param WC_Order              $order Order.
@@ -176,7 +176,7 @@ final class OrderAttributes {
 		}
 
 		/**
-		 * Colours of rows in the EuroB2B box (PLT-017): label => tone of `StatusLabel` (ok, warn, bad,
+		 * Colours of rows in the EU-B2B box (PLT-017): label => tone of `StatusLabel` (ok, warn, bad,
 		 * info). A coloured row shows its text as a label, e.g. a missing proof of supply in red.
 		 *
 		 * @param array<string, string> $tones Label => tone.
@@ -187,7 +187,7 @@ final class OrderAttributes {
 		$tones = is_array( $tones ) ? $tones : array();
 
 		echo '<div class="eurob2b-order-attributes" style="clear:both;padding-top:12px;">';
-		echo '<h3 style="margin-bottom:4px;">' . esc_html__( 'EuroB2B at purchase', 'eurob2b' ) . '</h3>';
+		echo '<h3 style="margin-bottom:4px;">' . esc_html__( 'EU-B2B at purchase', 'stm-eu-b2b' ) . '</h3>';
 		foreach ( $rows as $label => $value ) {
 			$tone = isset( $tones[ $label ] ) ? (string) $tones[ $label ] : '';
 			echo '<p class="form-field form-field-wide" style="margin:0 0 4px;"><strong>' . esc_html( (string) $label ) . ':</strong> ' . ( '' === $tone ? esc_html( (string) $value ) : StatusLabel::html( (string) $value, $tone ) ) . '</p>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped here or in StatusLabel::html().
@@ -196,7 +196,7 @@ final class OrderAttributes {
 	}
 
 	/**
-	 * Hooked to admin_enqueue_scripts: the EuroB2B admin stylesheet (status labels) on the order screens.
+	 * Hooked to admin_enqueue_scripts: the EU-B2B admin stylesheet (status labels) on the order screens.
 	 */
 	public static function enqueue_style(): void {
 		$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;

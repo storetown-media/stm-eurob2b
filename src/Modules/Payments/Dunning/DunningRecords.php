@@ -15,9 +15,9 @@ use WC_Order;
  * The data model of the dunning of PAY-023 (D-28) as the core keeps it: the order meta
  * `_eurob2b_dunning` with the history (see DunningHistory), its lines for people to read, and its
  * place in WooCommerce's personal data export of an order and in WooCommerce's order anonymisation.
- * Sending the payment reminder and the dunning letters is part of EuroB2B Pro (`DunningService`,
+ * Sending the payment reminder and the dunning letters is part of EU-B2B Pro (`DunningService`,
  * PLT-015); the export and the anonymisation are part of the core and use this class, so a history
- * written with EuroB2B Pro is exported and removed also while Pro is inactive (product owner
+ * written with EU-B2B Pro is exported and removed also while Pro is inactive (product owner
  * decision of 2026-10-29). All order access through the CRUD API (HPOS-safe).
  */
 final class DunningRecords {
@@ -73,7 +73,7 @@ final class DunningRecords {
 			$parts = array(
 				null !== $level ? $level->label() : $entry['level'],
 				self::day( $entry['date'] ),
-				DunningHistory::RESULT_SENT === $entry['result'] ? __( 'sent', 'eurob2b' ) : __( 'not sent (mail error)', 'eurob2b' ),
+				DunningHistory::RESULT_SENT === $entry['result'] ? __( 'sent', 'stm-eu-b2b' ) : __( 'not sent (mail error)', 'stm-eu-b2b' ),
 			);
 			if ( $with_user && $entry['by'] > 0 ) {
 				$user    = get_userdata( $entry['by'] );
@@ -104,7 +104,7 @@ final class DunningRecords {
 	 */
 	public static function export_props( $props, $order ) {
 		if ( is_array( $props ) && $order instanceof WC_Order && ! self::history( $order )->is_empty() ) {
-			$props[ self::EXPORT_PROP ] = __( 'Dunning', 'eurob2b' );
+			$props[ self::EXPORT_PROP ] = __( 'Dunning', 'stm-eu-b2b' );
 		}
 		return $props;
 	}
@@ -126,7 +126,7 @@ final class DunningRecords {
 
 	/**
 	 * WooCommerce order anonymisation: the history goes with the other customer data of the order,
-	 * like the other EuroB2B additions to orders (D-05).
+	 * like the other EU-B2B additions to orders (D-05).
 	 *
 	 * @param mixed $order Order.
 	 */

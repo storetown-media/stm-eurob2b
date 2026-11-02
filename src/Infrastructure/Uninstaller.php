@@ -18,7 +18,7 @@ namespace EuroB2B\Infrastructure;
  * the capabilities removed. Order meta always stays: orders are WooCommerce's records.
  *
  * In a network every site is handled with its own opt-in. User meta is shared by all sites of a
- * network, so it is only deleted when every site that used EuroB2B opted in (PLT-012).
+ * network, so it is only deleted when every site that used EU-B2B opted in (PLT-012).
  */
 final class Uninstaller {
 
@@ -28,6 +28,13 @@ final class Uninstaller {
 	public static function run(): void {
 		// WordPress only includes uninstall.php from the plugin deletion flow (admin with
 		// delete_plugins, or WP-CLI without a user), so no capability check is repeated here.
+		// WordPress defines WP_UNINSTALL_PLUGIN as the basename of the plugin it uninstalls.
+		$uninstalling = defined( 'WP_UNINSTALL_PLUGIN' ) ? constant( 'WP_UNINSTALL_PLUGIN' ) : '';
+		if ( self::another_copy_runs( is_string( $uninstalling ) ? $uninstalling : '', defined( 'EUROB2B_PLUGIN_BASENAME' ) ? (string) EUROB2B_PLUGIN_BASENAME : null ) ) {
+			// PLT-019: another copy of the plugin (e.g. EU-B2B in stm-eu-b2b/ while the old eurob2b/ is
+			// deleted) is running in this request and uses the same data and scheduled events.
+			return;
+		}
 		if ( function_exists( 'is_multisite' ) && is_multisite() ) {
 			$all = true;
 			foreach ( get_sites(
@@ -37,7 +44,7 @@ final class Uninstaller {
 				)
 			) as $site_id ) {
 				switch_to_blog( (int) $site_id );
-				// A site where EuroB2B never ran has nothing to remove and no say about the shared user meta.
+				// A site where EU-B2B never ran has nothing to remove and no say about the shared user meta.
 				if ( false !== get_option( Schema::OPTION_INSTALLED_AT, false ) ) {
 					$all = self::run_site() && $all;
 				}
@@ -51,6 +58,20 @@ final class Uninstaller {
 		if ( self::run_site() ) {
 			self::delete_user_meta();
 		}
+	}
+
+	/**
+	 * Whether the plugin being uninstalled is not the copy that runs in this request (PLT-019).
+	 *
+	 * The folders eurob2b/ (up to 1.7.0) and stm-eu-b2b/ (since 1.8.0) share options, tables and meta.
+	 * WordPress deletes only inactive plugins, so a running copy in the same request is another
+	 * copy, and its data must stay: nothing is removed, not even the scheduled events.
+	 *
+	 * @param string      $uninstalling Basename WordPress uninstalls (WP_UNINSTALL_PLUGIN), '' when unknown.
+	 * @param string|null $running      Basename of the loaded copy (EUROB2B_PLUGIN_BASENAME), null when none is loaded.
+	 */
+	public static function another_copy_runs( string $uninstalling, ?string $running ): bool {
+		return null !== $running && '' !== $uninstalling && $uninstalling !== $running;
 	}
 
 	/**
@@ -120,7 +141,7 @@ final class Uninstaller {
 		foreach ( Schema::table_suffixes() as $suffix ) {
 			$table = Schema::table( $suffix );
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.DirectDatabaseQuery.SchemaChange,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-			$wpdb->query( "DROP TABLE IF EXISTS `{$table}`" );
+			$wpdb->query( $wpdb->prepare( 'DROP TABLE IF EXISTS %i', $table ) );
 		}
 
 		foreach ( Schema::options() as $option ) {

@@ -1,5 +1,5 @@
 /**
- * Editor part of the EuroB2B registration form block (no build step: plain wp.element).
+ * Editor part of the EU-B2B registration form block (no build step: plain wp.element).
  */
 ( function ( wp ) {
 	'use strict';
@@ -16,7 +16,7 @@
 
 	registerBlockType( 'eurob2b/registration-form', {
 		edit: function ( props ) {
-			var options = [ { label: __( 'Choose a registration type', 'eurob2b' ), value: '' } ].concat(
+			var options = [ { label: __( 'Choose a registration type', 'stm-eu-b2b' ), value: '' } ].concat(
 				types.map( function ( t ) {
 					return { label: t.label, value: t.slug };
 				} )
@@ -33,9 +33,9 @@
 					null,
 					el(
 						PanelBody,
-						{ title: __( 'Registration type', 'eurob2b' ) },
+						{ title: __( 'Registration type', 'stm-eu-b2b' ) },
 						el( SelectControl, {
-							label: __( 'Form is locked to', 'eurob2b' ),
+							label: __( 'Form is locked to', 'stm-eu-b2b' ),
 							value: props.attributes.type,
 							options: options,
 							onChange: function ( value ) {
@@ -47,8 +47,8 @@
 				el(
 					'div',
 					{ className: 'eurob2b-registration-form-placeholder', style: { border: '1px solid #ccd0d4', padding: '16px' } },
-					el( 'strong', null, __( 'EuroB2B registration form', 'eurob2b' ) ),
-					el( 'p', null, current ? current.label : __( 'Choose a registration type in the block settings.', 'eurob2b' ) )
+					el( 'strong', null, __( 'EU-B2B registration form', 'stm-eu-b2b' ) ),
+					el( 'p', null, current ? current.label : __( 'Choose a registration type in the block settings.', 'stm-eu-b2b' ) )
 				)
 			);
 		},

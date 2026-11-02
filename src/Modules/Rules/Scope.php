@@ -45,7 +45,7 @@ final class Scope {
 		public readonly array $ids = array()
 	) {
 		if ( ! in_array( $kind, self::KINDS, true ) ) {
-			throw new InvalidArgumentException( sprintf( 'Unknown scope "%s".', $kind ) );
+			throw new InvalidArgumentException( sprintf( 'Unknown scope "%s".', $kind ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal, untranslated message for developers and logs; every sink escapes or decodes it (docs/architecture.md, "Exception messages").
 		}
 	}
 

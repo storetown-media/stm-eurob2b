@@ -144,8 +144,8 @@ final class AuditLog {
 		list( $where, $args ) = self::where( $filters );
 		$args[]               = max( 1, $limit );
 		$args[]               = max( 0, $offset );
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- table name and placeholders built above; $args holds one value per placeholder.
-		$rows = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$table} WHERE {$where} ORDER BY created_at DESC, id DESC LIMIT %d OFFSET %d", $args ) );
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber,PluginCheck.Security.DirectDB.UnescapedDBParameter -- $where is built by where() from fixed clauses with placeholders only; the table and every value are prepare() arguments.
+		$rows = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM %i WHERE {$where} ORDER BY created_at DESC, id DESC LIMIT %d OFFSET %d", array_merge( array( $table ), $args ) ) );
 		return array_map( array( AuditEntry::class, 'from_row' ), is_array( $rows ) ? $rows : array() );
 	}
 
@@ -158,9 +158,8 @@ final class AuditLog {
 		global $wpdb;
 		$table                = self::table();
 		list( $where, $args ) = self::where( $filters );
-		$sql                  = "SELECT COUNT(*) FROM {$table} WHERE {$where}";
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.NotPrepared -- table name and placeholders built above.
-		return (int) $wpdb->get_var( array() !== $args ? $wpdb->prepare( $sql, $args ) : $sql );
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber,PluginCheck.Security.DirectDB.UnescapedDBParameter -- $where is built by where() from fixed clauses with placeholders only; the table and every value are prepare() arguments.
+		return (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM %i WHERE {$where}", array_merge( array( $table ), $args ) ) );
 	}
 
 	/**
@@ -176,7 +175,7 @@ final class AuditLog {
 		}
 		$table = self::table();
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- table name from Schema.
-		$rows = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$table} WHERE actor_id = %d OR subject_id = %d ORDER BY created_at ASC, id ASC", $user_id, $user_id ) );
+		$rows = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %i WHERE actor_id = %d OR subject_id = %d ORDER BY created_at ASC, id ASC', $table, $user_id, $user_id ) );
 		return array_map( array( AuditEntry::class, 'from_row' ), is_array( $rows ) ? $rows : array() );
 	}
 
@@ -196,9 +195,9 @@ final class AuditLog {
 		}
 		$table        = self::table();
 		$placeholders = implode( ', ', array_fill( 0, count( $ids ), '%d' ) );
-		$args         = array_merge( array( sanitize_key( $object_type ) ), $ids, array( max( 1, $limit ) ) );
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare,WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- table name from Schema; one %d per id, passed as one array.
-		$rows = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$table} WHERE object_type = %s AND object_id IN ({$placeholders}) ORDER BY created_at ASC, id ASC LIMIT %d", $args ) );
+		$args         = array_merge( array( $table, sanitize_key( $object_type ) ), $ids, array( max( 1, $limit ) ) );
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare,WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber,PluginCheck.Security.DirectDB.UnescapedDBParameter -- $placeholders is one "%d" per id; the table and every value are prepare() arguments, passed as one array.
+		$rows = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM %i WHERE object_type = %s AND object_id IN ({$placeholders}) ORDER BY created_at ASC, id ASC LIMIT %d", $args ) );
 		return array_map( array( AuditEntry::class, 'from_row' ), is_array( $rows ) ? $rows : array() );
 	}
 
@@ -217,7 +216,8 @@ final class AuditLog {
 		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- table name from Schema.
 		$changed  = (int) $wpdb->query(
 			$wpdb->prepare(
-				"UPDATE {$table} SET subject_id = 0, object_id = IF(object_type = %s AND object_id = %d, 0, object_id) WHERE subject_id = %d OR (object_type = %s AND object_id = %d)",
+				'UPDATE %i SET subject_id = 0, object_id = IF(object_type = %s AND object_id = %d, 0, object_id) WHERE subject_id = %d OR (object_type = %s AND object_id = %d)',
+				$table,
 				self::OBJECT_USER,
 				$user_id,
 				$user_id,
@@ -225,7 +225,7 @@ final class AuditLog {
 				$user_id
 			)
 		);
-		$changed += (int) $wpdb->query( $wpdb->prepare( "UPDATE {$table} SET actor_id = 0 WHERE actor_id = %d", $user_id ) );
+		$changed += (int) $wpdb->query( $wpdb->prepare( 'UPDATE %i SET actor_id = 0 WHERE actor_id = %d', $table, $user_id ) );
 		// phpcs:enable WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		return $changed;
 	}
@@ -240,6 +240,6 @@ final class AuditLog {
 		global $wpdb;
 		$table = self::table();
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- table name from Schema.
-		return (int) $wpdb->query( $wpdb->prepare( "DELETE FROM {$table} WHERE created_at < %s ORDER BY id ASC LIMIT %d", $cutoff, max( 1, $limit ) ) );
+		return (int) $wpdb->query( $wpdb->prepare( 'DELETE FROM %i WHERE created_at < %s ORDER BY id ASC LIMIT %d', $table, $cutoff, max( 1, $limit ) ) );
 	}
 }

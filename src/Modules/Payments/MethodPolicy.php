@@ -55,7 +55,7 @@ final class MethodPolicy {
 		if ( self::KIND_SHIPPING === $kind ) {
 			return self::OPTION_SHIPPING;
 		}
-		throw new InvalidArgumentException( sprintf( 'Unknown method kind "%s".', $kind ) );
+		throw new InvalidArgumentException( sprintf( 'Unknown method kind "%s".', $kind ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal, untranslated message for developers and logs; every sink escapes or decodes it (docs/architecture.md, "Exception messages").
 	}
 
 	/**

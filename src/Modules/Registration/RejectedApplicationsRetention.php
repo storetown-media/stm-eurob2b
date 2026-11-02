@@ -18,7 +18,7 @@ use EuroB2B\Modules\Privacy\RetentionTaskInterface;
 /**
  * Deletes the accounts of rejected applications once the retention period is over (D-02, PRV-004).
  *
- * Only applications are touched: accounts that registered through EuroB2B, were rejected and
+ * Only applications are touched: accounts that registered through EU-B2B, were rejected and
  * were never approved. A deactivated customer (approved once, rejected later) keeps the account.
  * An application with orders, or an account with any role besides "customer" or "subscriber",
  * is never deleted automatically; it is counted as kept so the shop can decide by hand.

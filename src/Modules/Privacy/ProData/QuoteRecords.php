@@ -17,7 +17,7 @@ use EuroB2B\Modules\Registration\FieldDefinition;
 /**
  * Quote requests and offers of the shared schema (tables `eurob2b_quotes` and `eurob2b_quote_items`,
  * migrations 5, 6, 9 and 12) and the quote basket in user meta (D-06), read and changed for the
- * privacy export and erasure, user deletion and the retention jobs. EuroB2B Pro writes them; this
+ * privacy export and erasure, user deletion and the retention jobs. EU-B2B Pro writes them; this
  * part of the core handles them also while Pro is inactive or deleted (PLT-015). Pro uses the same
  * keys: its classes alias the constants and labels below. Request fields hold no files (the quote
  * fields offer no file type), so nothing lies in the private file storage.
@@ -67,18 +67,18 @@ final class QuoteRecords {
 	public static function statuses( string $type ): array {
 		if ( self::TYPE_OFFER === $type ) {
 			return array(
-				self::STATUS_DRAFT    => __( 'Draft', 'eurob2b' ),
-				self::STATUS_SENT     => __( 'Sent', 'eurob2b' ),
-				self::STATUS_ACCEPTED => __( 'Accepted', 'eurob2b' ),
-				self::STATUS_EXPIRED  => __( 'Expired', 'eurob2b' ),
-				self::STATUS_DECLINED => __( 'Declined', 'eurob2b' ),
+				self::STATUS_DRAFT    => __( 'Draft', 'stm-eu-b2b' ),
+				self::STATUS_SENT     => __( 'Sent', 'stm-eu-b2b' ),
+				self::STATUS_ACCEPTED => __( 'Accepted', 'stm-eu-b2b' ),
+				self::STATUS_EXPIRED  => __( 'Expired', 'stm-eu-b2b' ),
+				self::STATUS_DECLINED => __( 'Declined', 'stm-eu-b2b' ),
 			);
 		}
 		return array(
-			self::STATUS_OPEN     => __( 'Open', 'eurob2b' ),
-			self::STATUS_ANSWERED => __( 'Answered', 'eurob2b' ),
-			self::STATUS_OFFERED  => __( 'Offer sent', 'eurob2b' ),
-			self::STATUS_CLOSED   => __( 'Closed', 'eurob2b' ),
+			self::STATUS_OPEN     => __( 'Open', 'stm-eu-b2b' ),
+			self::STATUS_ANSWERED => __( 'Answered', 'stm-eu-b2b' ),
+			self::STATUS_OFFERED  => __( 'Offer sent', 'stm-eu-b2b' ),
+			self::STATUS_CLOSED   => __( 'Closed', 'stm-eu-b2b' ),
 		);
 	}
 
@@ -148,7 +148,7 @@ final class QuoteRecords {
 	 */
 	public static function field_display( array $entry ): string {
 		if ( FieldDefinition::TYPE_CHECKBOX === $entry['type'] ) {
-			return '1' === $entry['value'] ? __( 'Yes', 'eurob2b' ) : __( 'No', 'eurob2b' );
+			return '1' === $entry['value'] ? __( 'Yes', 'stm-eu-b2b' ) : __( 'No', 'stm-eu-b2b' );
 		}
 		return $entry['value'];
 	}
@@ -163,7 +163,7 @@ final class QuoteRecords {
 		global $wpdb;
 		$quotes = Schema::table( self::TABLE_QUOTES );
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		return (array) $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$quotes} WHERE user_id = %d ORDER BY created_at DESC, id DESC", $user_id ), ARRAY_A );
+		return (array) $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %i WHERE user_id = %d ORDER BY created_at DESC, id DESC', $quotes, $user_id ), ARRAY_A );
 	}
 
 	/**
@@ -180,7 +180,7 @@ final class QuoteRecords {
 		}
 		$quotes = Schema::table( self::TABLE_QUOTES );
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		return (array) $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$quotes} WHERE user_id = %d AND guest_email = %s AND type = %s ORDER BY created_at DESC, id DESC", 0, $email, self::TYPE_REQUEST ), ARRAY_A );
+		return (array) $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %i WHERE user_id = %d AND guest_email = %s AND type = %s ORDER BY created_at DESC, id DESC', $quotes, 0, $email, self::TYPE_REQUEST ), ARRAY_A );
 	}
 
 	/**
@@ -193,7 +193,7 @@ final class QuoteRecords {
 		global $wpdb;
 		$items = Schema::table( self::TABLE_ITEMS );
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		return (array) $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$items} WHERE quote_id = %d ORDER BY sort_order ASC, id ASC", $quote_id ), ARRAY_A );
+		return (array) $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %i WHERE quote_id = %d ORDER BY sort_order ASC, id ASC', $items, $quote_id ), ARRAY_A );
 	}
 
 	/**
@@ -255,12 +255,13 @@ final class QuoteRecords {
 	public function stale_ids( string $cutoff, int $limit ): array {
 		global $wpdb;
 		$quotes = Schema::table( self::TABLE_QUOTES );
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
 		$ids = $wpdb->get_col(
 			$wpdb->prepare(
-				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- the table name comes from Schema.
-				"SELECT q.id FROM {$quotes} q WHERE q.updated_at < %s AND q.accepted_order_id = 0 AND NOT ( q.type = 'request' AND q.user_id = 0 AND q.guest_email <> '' ) AND NOT EXISTS ( SELECT 1 FROM {$quotes} c WHERE c.parent_id = q.id AND ( c.accepted_order_id > 0 OR c.updated_at >= %s ) ) ORDER BY q.id ASC LIMIT %d",
+				"SELECT q.id FROM %i q WHERE q.updated_at < %s AND q.accepted_order_id = 0 AND NOT ( q.type = 'request' AND q.user_id = 0 AND q.guest_email <> '' ) AND NOT EXISTS ( SELECT 1 FROM %i c WHERE c.parent_id = q.id AND ( c.accepted_order_id > 0 OR c.updated_at >= %s ) ) ORDER BY q.id ASC LIMIT %d",
+				$quotes,
 				$cutoff,
+				$quotes,
 				$cutoff,
 				max( 1, $limit )
 			)
@@ -280,7 +281,7 @@ final class QuoteRecords {
 		global $wpdb;
 		$quotes = Schema::table( self::TABLE_QUOTES );
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		$ids = $wpdb->get_col( $wpdb->prepare( "SELECT id FROM {$quotes} WHERE type = %s AND user_id = 0 AND guest_email <> '' AND updated_at < %s ORDER BY id ASC LIMIT %d", self::TYPE_REQUEST, $cutoff, max( 1, $limit ) ) );
+		$ids = $wpdb->get_col( $wpdb->prepare( "SELECT id FROM %i WHERE type = %s AND user_id = 0 AND guest_email <> '' AND updated_at < %s ORDER BY id ASC LIMIT %d", $quotes, self::TYPE_REQUEST, $cutoff, max( 1, $limit ) ) );
 		return array_map( 'intval', (array) $ids );
 	}
 
@@ -306,7 +307,7 @@ final class QuoteRecords {
 		global $wpdb;
 		$quotes = Schema::table( self::TABLE_QUOTES );
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		return (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$quotes} WHERE parent_id = %d AND type = %s AND accepted_order_id > 0", $request_id, self::TYPE_OFFER ) ) > 0;
+		return (int) $wpdb->get_var( $wpdb->prepare( 'SELECT COUNT(*) FROM %i WHERE parent_id = %d AND type = %s AND accepted_order_id > 0', $quotes, $request_id, self::TYPE_OFFER ) ) > 0;
 	}
 
 	/**
@@ -319,6 +320,6 @@ final class QuoteRecords {
 		$table = Schema::table( self::TABLE_QUOTES );
 		// The field values are written as NULL, like an empty list.
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		$wpdb->query( $wpdb->prepare( "UPDATE {$table} SET user_id = 0, message = '', field_values = NULL, title = %s, updated_at = %s WHERE id = %d", mb_substr( __( 'Anonymised', 'eurob2b' ), 0, 190 ), ( new DateTimeImmutable( 'now', new DateTimeZone( 'UTC' ) ) )->format( 'Y-m-d H:i:s' ), $id ) );
+		$wpdb->query( $wpdb->prepare( "UPDATE %i SET user_id = 0, message = '', field_values = NULL, title = %s, updated_at = %s WHERE id = %d", $table, mb_substr( __( 'Anonymised', 'stm-eu-b2b' ), 0, 190 ), ( new DateTimeImmutable( 'now', new DateTimeZone( 'UTC' ) ) )->format( 'Y-m-d H:i:s' ), $id ) );
 	}
 }

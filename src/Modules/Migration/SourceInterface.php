@@ -10,7 +10,7 @@ declare( strict_types=1 );
 namespace EuroB2B\Modules\Migration;
 
 /**
- * Reads another B2B plugin's stored data (MIG-001) and hands it to the ImportWriter in EuroB2B's
+ * Reads another B2B plugin's stored data (MIG-001) and hands it to the ImportWriter in EU-B2B's
  * model. A source only reads: it never changes or deletes the other plugin's data, and it works
  * from the database, so the other plugin may already be deactivated. Pages are deterministic
  * (ordered by id), so a run can stop after any page and continue.

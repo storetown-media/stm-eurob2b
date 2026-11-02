@@ -243,7 +243,7 @@ final class VatIdField {
 		$raw      = isset( $post[ self::INPUT ] ) && is_scalar( $post[ self::INPUT ] ) ? trim( (string) $post[ self::INPUT ] ) : '';
 		if ( '' === $raw ) {
 			if ( $business && self::MODE_REQUIRED_B2B === $this->mode() ) {
-				$errors->add( 'eurob2b_vat_id', __( 'Please enter your VAT ID.', 'eurob2b' ) );
+				$errors->add( 'eurob2b_vat_id', __( 'Please enter your VAT ID.', 'stm-eu-b2b' ) );
 			}
 			return $errors;
 		}
@@ -275,7 +275,7 @@ final class VatIdField {
 
 	/**
 	 * REG-011: the VAT ID of a business registration made by another form, with the rules of the
-	 * EuroB2B registration form (required when the field is mandatory for business customers). With
+	 * EU-B2B registration form (required when the field is mandatory for business customers). With
 	 * a customer, the number is checked online when "validate at registration" is on and the
 	 * evidence belongs to that customer; without one, only presence and syntax are checked and
 	 * nothing is stored.
@@ -290,7 +290,7 @@ final class VatIdField {
 		}
 		$raw = trim( sanitize_text_field( $raw ) );
 		if ( '' === $raw ) {
-			return self::MODE_REQUIRED_B2B === $this->mode() ? new WP_Error( 'eurob2b_vat_id', __( 'Please enter your VAT ID.', 'eurob2b' ) ) : null;
+			return self::MODE_REQUIRED_B2B === $this->mode() ? new WP_Error( 'eurob2b_vat_id', __( 'Please enter your VAT ID.', 'stm-eu-b2b' ) ) : null;
 		}
 		return $this->check_input( $raw, null, $user_id, null !== $user_id && (bool) $this->settings->get( 'tax_validate_at_registration' ) );
 	}
@@ -334,7 +334,7 @@ final class VatIdField {
 		$raw = isset( $_POST[ self::INPUT ] ) ? trim( sanitize_text_field( wp_unslash( (string) $_POST[ self::INPUT ] ) ) ) : '';
 		if ( '' === $raw ) {
 			if ( self::MODE_REQUIRED_B2B === $this->mode() ) {
-				$errors->add( 'eurob2b_vat_id', __( 'Please enter your VAT ID.', 'eurob2b' ) );
+				$errors->add( 'eurob2b_vat_id', __( 'Please enter your VAT ID.', 'stm-eu-b2b' ) );
 			}
 			return;
 		}
@@ -396,9 +396,9 @@ final class VatIdField {
 	public function classic_billing_field( array $fields ): array {
 		$user_id               = get_current_user_id();
 		$fields[ self::INPUT ] = array(
-			'label'        => __( 'VAT ID', 'eurob2b' ),
-			'placeholder'  => __( 'e.g. DE123456789', 'eurob2b' ),
-			'description'  => __( 'With country prefix.', 'eurob2b' ),
+			'label'        => __( 'VAT ID', 'stm-eu-b2b' ),
+			'placeholder'  => __( 'e.g. DE123456789', 'stm-eu-b2b' ),
+			'description'  => __( 'With country prefix.', 'stm-eu-b2b' ),
 			'required'     => $this->required_at_checkout(),
 			// update_totals_on_change: WooCommerce refreshes the order review when the number changes,
 			// so the totals shown before "Place order" already follow it.
@@ -569,8 +569,8 @@ final class VatIdField {
 		woocommerce_register_additional_checkout_field(
 			array(
 				'id'                => self::BLOCK_FIELD_ID,
-				'label'             => __( 'VAT ID (with country prefix)', 'eurob2b' ),
-				'optionalLabel'     => __( 'VAT ID (optional, with country prefix)', 'eurob2b' ),
+				'label'             => __( 'VAT ID (with country prefix)', 'stm-eu-b2b' ),
+				'optionalLabel'     => __( 'VAT ID (optional, with country prefix)', 'stm-eu-b2b' ),
 				'location'          => 'address',
 				'type'              => 'text',
 				'required'          => is_admin() && ! wp_doing_ajax() ? false : $this->required_at_checkout(),
@@ -732,13 +732,13 @@ final class VatIdField {
 	public function store_api_schema(): array {
 		return array(
 			'status'  => array(
-				'description' => __( 'Result of the VAT ID check: valid, invalid, pending, unavailable, error (the order would be refused), or empty when nothing was checked.', 'eurob2b' ),
+				'description' => __( 'Result of the VAT ID check: valid, invalid, pending, unavailable, error (the order would be refused), or empty when nothing was checked.', 'stm-eu-b2b' ),
 				'type'        => 'string',
 				'context'     => array( 'view', 'edit' ),
 				'readonly'    => true,
 			),
 			'message' => array(
-				'description' => __( 'The result as a sentence for the customer, or empty.', 'eurob2b' ),
+				'description' => __( 'The result as a sentence for the customer, or empty.', 'stm-eu-b2b' ),
 				'type'        => 'string',
 				'context'     => array( 'view', 'edit' ),
 				'readonly'    => true,
@@ -774,7 +774,7 @@ final class VatIdField {
 	/* ---------------------------------------------------------------- Order screen */
 
 	/**
-	 * Adds VAT ID rows to the EuroB2B box on the order screen.
+	 * Adds VAT ID rows to the EU-B2B box on the order screen.
 	 *
 	 * @param mixed $rows  Rows.
 	 * @param mixed $order Order.
@@ -788,16 +788,16 @@ final class VatIdField {
 		if ( '' === $vat_id ) {
 			return $rows;
 		}
-		$rows[ __( 'VAT ID', 'eurob2b' ) ] = $vat_id;
-		$status                            = ValidationStatus::tryFrom( (string) $order->get_meta( self::META_VALIDATION_STATE, true ) );
+		$rows[ __( 'VAT ID', 'stm-eu-b2b' ) ] = $vat_id;
+		$status                               = ValidationStatus::tryFrom( (string) $order->get_meta( self::META_VALIDATION_STATE, true ) );
 		if ( null !== $status ) {
-			$rows[ __( 'VAT ID check', 'eurob2b' ) ] = Admin\ValidationsPage::status_label( $status );
+			$rows[ __( 'VAT ID check', 'stm-eu-b2b' ) ] = Admin\ValidationsPage::status_label( $status );
 		}
 		return $rows;
 	}
 
 	/**
-	 * Colour of the VAT ID check in the EuroB2B box of the order screen (PLT-017).
+	 * Colour of the VAT ID check in the EU-B2B box of the order screen (PLT-017).
 	 *
 	 * @param mixed $tones Label => tone (StatusLabel constants).
 	 * @param mixed $rows  Rows of the box (label => text).
@@ -810,7 +810,7 @@ final class VatIdField {
 		}
 		$status = ValidationStatus::tryFrom( (string) $order->get_meta( self::META_VALIDATION_STATE, true ) );
 		if ( null !== $status ) {
-			$tones[ __( 'VAT ID check', 'eurob2b' ) ] = Admin\ValidationsPage::status_tone( $status );
+			$tones[ __( 'VAT ID check', 'stm-eu-b2b' ) ] = Admin\ValidationsPage::status_tone( $status );
 		}
 		return $tones;
 	}
@@ -843,12 +843,12 @@ final class VatIdField {
 		if ( ValidationStatus::INVALID === $record->status && $this->settings->get( 'tax_block_invalid' ) ) {
 			if ( ExternalServices::UID_PREFIX === $vat_id->prefix && ExternalServices::REASON_NOT_VAT_REGISTERED === $record->reason_code ) {
 				// A Liechtenstein business may hold a UID, but its VAT number is the five-digit one.
-				return new WP_Error( 'eurob2b_vat_id', __( 'The number is not an active Swiss VAT number. Businesses in Liechtenstein enter their five-digit Liechtenstein VAT number instead. Please check it or leave the field empty.', 'eurob2b' ) );
+				return new WP_Error( 'eurob2b_vat_id', __( 'The number is not an active Swiss VAT number. Businesses in Liechtenstein enter their five-digit Liechtenstein VAT number instead. Please check it or leave the field empty.', 'stm-eu-b2b' ) );
 			}
-			return new WP_Error( 'eurob2b_vat_id', __( 'The VAT ID could not be confirmed as registered. Please check it or leave the field empty.', 'eurob2b' ) );
+			return new WP_Error( 'eurob2b_vat_id', __( 'The VAT ID could not be confirmed as registered. Please check it or leave the field empty.', 'stm-eu-b2b' ) );
 		}
 		if ( $this->service->blocks_action( $record ) ) {
-			return new WP_Error( 'eurob2b_vat_id', __( 'The VAT ID could not be checked right now. Please try again in a few minutes.', 'eurob2b' ) );
+			return new WP_Error( 'eurob2b_vat_id', __( 'The VAT ID could not be checked right now. Please try again in a few minutes.', 'stm-eu-b2b' ) );
 		}
 		return array(
 			'vat_id' => $vat_id,
@@ -1050,9 +1050,9 @@ final class VatIdField {
 	private function render_input( string $value, string $types, bool $required ): void {
 		$attr = $required ? ( '' === $types ? ' required' : ' data-eurob2b-required="1"' ) : '';
 		echo '<p class="form-row form-row-wide eurob2b-vat-id-row" data-eurob2b-types="' . esc_attr( $types ) . '">';
-		echo '<label for="' . esc_attr( self::INPUT ) . '">' . esc_html__( 'VAT ID', 'eurob2b' ) . ( $required ? ' <span class="required" aria-hidden="true">*</span>' : ' <span class="optional">(' . esc_html__( 'optional', 'eurob2b' ) . ')</span>' ) . '</label>';
-		echo '<input type="text" class="input-text" id="' . esc_attr( self::INPUT ) . '" name="' . esc_attr( self::INPUT ) . '" value="' . esc_attr( $value ) . '" placeholder="' . esc_attr__( 'e.g. DE123456789', 'eurob2b' ) . '" autocomplete="off" aria-describedby="' . esc_attr( self::INPUT . '-hint' ) . '"' . $attr . ' />'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static attribute.
-		echo '<span class="description" id="' . esc_attr( self::INPUT . '-hint' ) . '">' . esc_html__( 'With country prefix.', 'eurob2b' ) . '</span></p>';
+		echo '<label for="' . esc_attr( self::INPUT ) . '">' . esc_html__( 'VAT ID', 'stm-eu-b2b' ) . ( $required ? ' <span class="required" aria-hidden="true">*</span>' : ' <span class="optional">(' . esc_html__( 'optional', 'stm-eu-b2b' ) . ')</span>' ) . '</label>';
+		echo '<input type="text" class="input-text" id="' . esc_attr( self::INPUT ) . '" name="' . esc_attr( self::INPUT ) . '" value="' . esc_attr( $value ) . '" placeholder="' . esc_attr__( 'e.g. DE123456789', 'stm-eu-b2b' ) . '" autocomplete="off" aria-describedby="' . esc_attr( self::INPUT . '-hint' ) . '"' . $attr . ' />'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static attribute.
+		echo '<span class="description" id="' . esc_attr( self::INPUT . '-hint' ) . '">' . esc_html__( 'With country prefix.', 'stm-eu-b2b' ) . '</span></p>';
 	}
 
 	/**
@@ -1062,9 +1062,9 @@ final class VatIdField {
 	 */
 	public static function syntax_message( string $reason ): string {
 		return match ( $reason ) {
-			'empty'          => __( 'Please enter your VAT ID.', 'eurob2b' ),
-			'unknown_prefix' => __( 'Please enter the VAT ID with its country prefix, e.g. DE123456789.', 'eurob2b' ),
-			default          => __( 'This does not look like a valid VAT ID. Please check it.', 'eurob2b' ),
+			'empty'          => __( 'Please enter your VAT ID.', 'stm-eu-b2b' ),
+			'unknown_prefix' => __( 'Please enter the VAT ID with its country prefix, e.g. DE123456789.', 'stm-eu-b2b' ),
+			default          => __( 'This does not look like a valid VAT ID. Please check it.', 'stm-eu-b2b' ),
 		};
 	}
 
@@ -1078,14 +1078,14 @@ final class VatIdField {
 		// wording says nothing about VAT or a review.
 		$outside_eu = in_array( CountryRegistry::tax_area( $record->country_code ), array( TaxArea::SWISS_VAT_AREA, TaxArea::EEA_OWN_VAT ), true );
 		if ( $outside_eu && ValidationService::is_format_only( $record ) ) {
-			return __( 'VAT ID format checked.', 'eurob2b' );
+			return __( 'VAT ID format checked.', 'stm-eu-b2b' );
 		}
 		return match ( $record->status ) {
-			ValidationStatus::VALID       => __( 'VAT ID confirmed.', 'eurob2b' ),
-			ValidationStatus::INVALID     => __( 'The VAT ID could not be confirmed as registered.', 'eurob2b' ),
+			ValidationStatus::VALID       => __( 'VAT ID confirmed.', 'stm-eu-b2b' ),
+			ValidationStatus::INVALID     => __( 'The VAT ID could not be confirmed as registered.', 'stm-eu-b2b' ),
 			ValidationStatus::PENDING, ValidationStatus::UNAVAILABLE => $outside_eu
-				? __( 'The VAT ID could not be checked right now.', 'eurob2b' )
-				: __( 'The VAT ID could not be checked right now; your order will be processed with VAT and reviewed.', 'eurob2b' ),
+				? __( 'The VAT ID could not be checked right now.', 'stm-eu-b2b' )
+				: __( 'The VAT ID could not be checked right now; your order will be processed with VAT and reviewed.', 'stm-eu-b2b' ),
 		};
 	}
 }

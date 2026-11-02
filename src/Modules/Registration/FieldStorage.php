@@ -73,7 +73,7 @@ final class FieldStorage {
 			return $value;
 		}
 		/* translators: 1: file name, 2: file size, 3: date and time of the upload */
-		return sprintf( __( '%1$s (%2$s, uploaded %3$s)', 'eurob2b' ), $file['original_name'], size_format( $file['size'] ), mysql2date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), get_date_from_gmt( $file['created_at'] ) ) );
+		return sprintf( __( '%1$s (%2$s, uploaded %3$s)', 'stm-eu-b2b' ), $file['original_name'], size_format( $file['size'] ), mysql2date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), get_date_from_gmt( $file['created_at'] ) ) );
 	}
 
 	/**
@@ -100,7 +100,7 @@ final class FieldStorage {
 		if ( FieldDefinition::TYPE_FILE === $type ) {
 			return $this->file_text( $user_id, $field_key, $value );
 		}
-		return FieldDefinition::TYPE_CHECKBOX === $type ? __( 'Yes', 'eurob2b' ) : $value;
+		return FieldDefinition::TYPE_CHECKBOX === $type ? __( 'Yes', 'stm-eu-b2b' ) : $value;
 	}
 
 	/**
@@ -217,7 +217,7 @@ final class FieldStorage {
 			);
 			$label = '' !== $tomb['label'] ? $tomb['label'] : ucfirst( str_replace( '_', ' ', $key ) );
 			/* translators: %s: former label of a deleted custom field */
-			$label            = sprintf( __( '%s (deleted field)', 'eurob2b' ), $label );
+			$label            = sprintf( __( '%s (deleted field)', 'stm-eu-b2b' ), $label );
 			$label            = self::unique_label( $result, $label, $key );
 			$result[ $label ] = $this->display( $user_id, $key, (string) $tomb['type'], $value );
 			$entries[]        = array(

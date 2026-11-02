@@ -13,7 +13,7 @@ namespace EuroB2B\Modules\Tax\Treatment;
  * A rule that takes precedence over the standard decision table of `TaxTreatmentDecider` for some
  * facts. The core ships none: without one, special territories count as their member state and
  * Northern Ireland as a part of the United Kingdom (third country), as with their settings off.
- * EuroB2B Pro adds the special territories (TAX-024) and Northern Ireland (TAX-034) through
+ * EU-B2B Pro adds the special territories (TAX-024) and Northern Ireland (TAX-034) through
  * `eurob2b_tax_special_treatments` (PLT-015). Implementations are pure: no WordPress calls.
  */
 interface SpecialTreatment {

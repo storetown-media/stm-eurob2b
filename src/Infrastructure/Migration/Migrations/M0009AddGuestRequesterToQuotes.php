@@ -89,7 +89,7 @@ final class M0009AddGuestRequesterToQuotes implements MigrationInterface {
 		$quotes = Schema::table( 'eurob2b_quotes' );
 		foreach ( array( 'guest_name', 'guest_email', 'guest_company' ) as $column ) {
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- table name from Schema.
-			if ( $wpdb->get_var( $wpdb->prepare( "SHOW COLUMNS FROM {$quotes} LIKE %s", $column ) ) !== $column ) {
+			if ( $wpdb->get_var( $wpdb->prepare( 'SHOW COLUMNS FROM %i LIKE %s', $quotes, $column ) ) !== $column ) {
 				return false;
 			}
 		}

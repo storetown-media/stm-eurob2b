@@ -48,7 +48,7 @@ final class TaxDataProvider implements PersonalDataProviderInterface {
 	 * Label.
 	 */
 	public function label(): string {
-		return __( 'EuroB2B VAT ID data', 'eurob2b' );
+		return __( 'EU-B2B VAT ID data', 'stm-eu-b2b' );
 	}
 
 	/**
@@ -73,15 +73,15 @@ final class TaxDataProvider implements PersonalDataProviderInterface {
 			$status   = ValidationStatus::tryFrom( $state );
 			$groups[] = array(
 				'group_id'    => 'eurob2b-vat-id',
-				'group_label' => __( 'VAT ID', 'eurob2b' ),
+				'group_label' => __( 'VAT ID', 'stm-eu-b2b' ),
 				'item_id'     => 'eurob2b-vat-id-' . $user->ID,
 				'data'        => array(
 					array(
-						'name'  => __( 'VAT ID', 'eurob2b' ),
+						'name'  => __( 'VAT ID', 'stm-eu-b2b' ),
 						'value' => $vat_id,
 					),
 					array(
-						'name'  => __( 'Last check', 'eurob2b' ),
+						'name'  => __( 'Last check', 'stm-eu-b2b' ),
 						'value' => null !== $status ? ValidationsPage::status_label( $status ) : $state,
 					),
 				),
@@ -90,27 +90,27 @@ final class TaxDataProvider implements PersonalDataProviderInterface {
 		foreach ( $this->repository->for_user( $user->ID ) as $record ) {
 			$items = array(
 				array(
-					'name'  => __( 'VAT ID', 'eurob2b' ),
+					'name'  => __( 'VAT ID', 'stm-eu-b2b' ),
 					'value' => $record->vat_id(),
 				),
 				array(
-					'name'  => __( 'Result', 'eurob2b' ),
+					'name'  => __( 'Result', 'stm-eu-b2b' ),
 					'value' => ValidationsPage::status_label( $record->status ),
 				),
 				array(
-					'name'  => _x( 'Service', 'VAT ID validation service', 'eurob2b' ),
+					'name'  => _x( 'Service', 'VAT ID validation service', 'stm-eu-b2b' ),
 					'value' => ValidationsPage::service_label( $record->service ),
 				),
 				array(
-					'name'  => __( 'Checked at (UTC)', 'eurob2b' ),
+					'name'  => __( 'Checked at (UTC)', 'stm-eu-b2b' ),
 					'value' => $record->checked_at->format( 'Y-m-d H:i:s' ),
 				),
 			);
 			foreach ( array(
-				__( 'Consultation number', 'eurob2b' ) => $record->consultation_number,
-				__( 'Name returned', 'eurob2b' )       => $record->response_name,
-				__( 'Address returned', 'eurob2b' )    => $record->response_address,
-				__( 'Decision note', 'eurob2b' )       => $record->decision_note,
+				__( 'Consultation number', 'stm-eu-b2b' ) => $record->consultation_number,
+				__( 'Name returned', 'stm-eu-b2b' )       => $record->response_name,
+				__( 'Address returned', 'stm-eu-b2b' )    => $record->response_address,
+				__( 'Decision note', 'stm-eu-b2b' )       => $record->decision_note,
 			) as $name => $value ) {
 				if ( null !== $value && '' !== $value ) {
 					$items[] = array(
@@ -121,13 +121,13 @@ final class TaxDataProvider implements PersonalDataProviderInterface {
 			}
 			if ( null !== $record->order_id ) {
 				$items[] = array(
-					'name'  => _x( 'Order', 'shop order', 'eurob2b' ),
+					'name'  => _x( 'Order', 'shop order', 'stm-eu-b2b' ),
 					'value' => (string) $record->order_id,
 				);
 			}
 			$groups[] = array(
 				'group_id'    => 'eurob2b-vat-validations',
-				'group_label' => __( 'VAT ID checks', 'eurob2b' ),
+				'group_label' => __( 'VAT ID checks', 'stm-eu-b2b' ),
 				'item_id'     => 'eurob2b-vat-validation-' . $record->id,
 				'data'        => $items,
 			);
@@ -170,7 +170,7 @@ final class TaxDataProvider implements PersonalDataProviderInterface {
 		if ( $result['retained'] > 0 ) {
 			$messages[] = sprintf(
 				/* translators: %d: number of records */
-				_n( '%d VAT ID check linked to an order was kept as tax evidence; the link to the user and the returned trader data were removed.', '%d VAT ID checks linked to orders were kept as tax evidence; the link to the user and the returned trader data were removed.', $result['retained'], 'eurob2b' ),
+				_n( '%d VAT ID check linked to an order was kept as tax evidence; the link to the user and the returned trader data were removed.', '%d VAT ID checks linked to orders were kept as tax evidence; the link to the user and the returned trader data were removed.', $result['retained'], 'stm-eu-b2b' ),
 				$result['retained']
 			);
 		}

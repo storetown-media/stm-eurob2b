@@ -17,11 +17,12 @@ use EuroB2B\Modules\Tax\VatIdField;
 use Throwable;
 use WP_Error;
 use WP_User;
+use EuroB2B\Support\ExceptionMessage;
 
 /**
  * REG-011: a form builder (Gravity Forms, WPForms, Forminator …) creates the WordPress user, and
- * EuroB2B turns it into a business customer: registration type, custom field values, terms
- * acceptance and VAT ID, with the validation of the EuroB2B registration form. The registration
+ * EU-B2B turns it into a business customer: registration type, custom field values, terms
+ * acceptance and VAT ID, with the validation of the EU-B2B registration form. The registration
  * type decides between pending (manual approval) and approved, and the usual e-mails go out.
  *
  * Input (`$data`):
@@ -134,7 +135,7 @@ final class ExternalRegistration {
 
 		$terms = is_scalar( $data['terms_accepted'] ?? null ) && filter_var( $data['terms_accepted'], FILTER_VALIDATE_BOOLEAN );
 		if ( ! $terms && $this->settings->get( 'registration_terms_required' ) ) {
-			$errors->add( 'eurob2b_terms', __( 'Please accept the terms to register.', 'eurob2b' ) );
+			$errors->add( 'eurob2b_terms', __( 'Please accept the terms to register.', 'stm-eu-b2b' ) );
 		}
 		if ( $errors->has_errors() ) {
 			return $errors;
@@ -165,7 +166,7 @@ final class ExternalRegistration {
 			return new WP_Error( 'eurob2b_unknown_user', sprintf( 'User %d does not exist.', $user_id ) );
 		}
 		if ( '' !== (string) get_user_meta( $user_id, RegistrationService::META_REGISTRATION_TYPE, true ) || metadata_exists( 'user', $user_id, CustomersModule::META_STATUS ) ) {
-			return new WP_Error( 'eurob2b_already_registered', sprintf( 'User %d is already an EuroB2B customer; use eurob2b_set_customer_group() to move it.', $user_id ) );
+			return new WP_Error( 'eurob2b_already_registered', sprintf( 'User %d is already an EU-B2B customer; use eurob2b_set_customer_group() to move it.', $user_id ) );
 		}
 		if ( array() !== array_diff( $user->roles, self::CUSTOMER_ROLES ) || LoginGuard::is_staff( $user ) ) {
 			return new WP_Error( 'eurob2b_not_a_customer_account', sprintf( 'User %d is a staff account (a role besides customer or subscriber, or staff capabilities) and is not registered as a customer.', $user_id ) );
@@ -178,7 +179,7 @@ final class ExternalRegistration {
 		try {
 			$this->service->complete( $user_id, $checked['type'], $checked['values'], $checked['terms'] );
 		} catch ( Throwable $e ) {
-			return new WP_Error( 'eurob2b_registration_failed', $e->getMessage() );
+			return new WP_Error( 'eurob2b_registration_failed', ExceptionMessage::plain( $e ) );
 		}
 		if ( null !== $this->vat && is_array( $checked['vat'] ) ) {
 			$this->vat->store_registration_input( $user_id, $checked['vat'] );
@@ -204,7 +205,7 @@ final class ExternalRegistration {
 		/**
 		 * Fires when the action `eurob2b_register_business_customer` could not register the user.
 		 *
-		 * The account stays as the form builder created it (not an EuroB2B business customer).
+		 * The account stays as the form builder created it (not an EU-B2B business customer).
 		 *
 		 * @param int      $user_id User id.
 		 * @param WP_Error $error   Reasons (field, terms and VAT ID messages are translated).

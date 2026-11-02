@@ -44,19 +44,19 @@ final class AuditFormatter {
 	 */
 	public static function action_labels(): array {
 		return array(
-			AuditLog::ACTION_REGISTRATION_APPROVED => __( 'Registration approved', 'eurob2b' ),
-			AuditLog::ACTION_REGISTRATION_REJECTED => __( 'Registration rejected', 'eurob2b' ),
-			AuditLog::ACTION_STATUS_CHANGED        => __( 'Customer status changed', 'eurob2b' ),
-			AuditLog::ACTION_TYPE_CHANGED          => __( 'Customer type changed', 'eurob2b' ),
-			AuditLog::ACTION_GROUP_CHANGED         => __( 'Customer group changed', 'eurob2b' ),
-			AuditLog::ACTION_VAT_DECIDED           => __( 'VAT ID check decided manually', 'eurob2b' ),
-			AuditLog::ACTION_ORDER_APPROVED        => __( 'Order approved', 'eurob2b' ),
-			AuditLog::ACTION_ORDER_REJECTED        => __( 'Order rejected', 'eurob2b' ),
-			AuditLog::ACTION_MEMBER_LOGIN          => __( 'Logged in as a company member', 'eurob2b' ),
-			AuditLog::ACTION_MEMBER_LOGOUT         => __( 'Acting as a company member ended', 'eurob2b' ),
-			AuditLog::ACTION_MEMBER_ORDER          => __( 'Order placed while acting as a member', 'eurob2b' ),
-			AuditLog::ACTION_EXPORT_EVIDENCE       => __( 'Export evidence changed', 'eurob2b' ),
-			AuditLog::ACTION_TAX_REVIEWED          => __( 'Tax treatment reviewed', 'eurob2b' ),
+			AuditLog::ACTION_REGISTRATION_APPROVED => __( 'Registration approved', 'stm-eu-b2b' ),
+			AuditLog::ACTION_REGISTRATION_REJECTED => __( 'Registration rejected', 'stm-eu-b2b' ),
+			AuditLog::ACTION_STATUS_CHANGED        => __( 'Customer status changed', 'stm-eu-b2b' ),
+			AuditLog::ACTION_TYPE_CHANGED          => __( 'Customer type changed', 'stm-eu-b2b' ),
+			AuditLog::ACTION_GROUP_CHANGED         => __( 'Customer group changed', 'stm-eu-b2b' ),
+			AuditLog::ACTION_VAT_DECIDED           => __( 'VAT ID check decided manually', 'stm-eu-b2b' ),
+			AuditLog::ACTION_ORDER_APPROVED        => __( 'Order approved', 'stm-eu-b2b' ),
+			AuditLog::ACTION_ORDER_REJECTED        => __( 'Order rejected', 'stm-eu-b2b' ),
+			AuditLog::ACTION_MEMBER_LOGIN          => __( 'Logged in as a company member', 'stm-eu-b2b' ),
+			AuditLog::ACTION_MEMBER_LOGOUT         => __( 'Acting as a company member ended', 'stm-eu-b2b' ),
+			AuditLog::ACTION_MEMBER_ORDER          => __( 'Order placed while acting as a member', 'stm-eu-b2b' ),
+			AuditLog::ACTION_EXPORT_EVIDENCE       => __( 'Export evidence changed', 'stm-eu-b2b' ),
+			AuditLog::ACTION_TAX_REVIEWED          => __( 'Tax treatment reviewed', 'stm-eu-b2b' ),
 		);
 	}
 
@@ -87,34 +87,34 @@ final class AuditFormatter {
 				return null !== $status ? $status->label() : $value;
 			case AuditLog::ACTION_MEMBER_LOGIN:
 				/* translators: %d: minutes */
-				return sprintf( _n( 'for at most %d minute', 'for at most %d minutes', (int) $value, 'eurob2b' ), (int) $value );
+				return sprintf( _n( 'for at most %d minute', 'for at most %d minutes', (int) $value, 'stm-eu-b2b' ), (int) $value );
 			case AuditLog::ACTION_TYPE_CHANGED:
 				$types = array(
-					'b2b'   => __( 'Business customer', 'eurob2b' ),
-					'b2c'   => __( 'Private customer', 'eurob2b' ),
-					'guest' => __( 'Guest', 'eurob2b' ),
+					'b2b'   => __( 'Business customer', 'stm-eu-b2b' ),
+					'b2c'   => __( 'Private customer', 'stm-eu-b2b' ),
+					'guest' => __( 'Guest', 'stm-eu-b2b' ),
 				);
 				return $types[ $value ] ?? $value;
 			case AuditLog::ACTION_GROUP_CHANGED:
 				$group = $this->groups->find( (int) $value );
 				/* translators: %d: group id */
-				return null !== $group ? $group->name : sprintf( __( 'Deleted group #%d', 'eurob2b' ), (int) $value );
+				return null !== $group ? $group->name : sprintf( __( 'Deleted group #%d', 'stm-eu-b2b' ), (int) $value );
 			case AuditLog::ACTION_VAT_DECIDED:
 				$labels = array(
-					ValidationStatus::VALID->value       => __( 'Valid', 'eurob2b' ),
-					ValidationStatus::INVALID->value     => __( 'Invalid', 'eurob2b' ),
-					ValidationStatus::UNAVAILABLE->value => __( 'Service unavailable', 'eurob2b' ),
-					ValidationStatus::PENDING->value     => __( 'Pending (retrying)', 'eurob2b' ),
+					ValidationStatus::VALID->value       => __( 'Valid', 'stm-eu-b2b' ),
+					ValidationStatus::INVALID->value     => __( 'Invalid', 'stm-eu-b2b' ),
+					ValidationStatus::UNAVAILABLE->value => __( 'Service unavailable', 'stm-eu-b2b' ),
+					ValidationStatus::PENDING->value     => __( 'Pending (retrying)', 'stm-eu-b2b' ),
 				);
 				return $labels[ $value ] ?? $value;
 			case AuditLog::ACTION_EXPORT_EVIDENCE:
 				return self::export_evidence_value( $value );
 			case AuditLog::ACTION_TAX_REVIEWED:
-				return 'reviewed' === $value ? __( 'Reviewed', 'eurob2b' ) : $value;
+				return 'reviewed' === $value ? __( 'Reviewed', 'stm-eu-b2b' ) : $value;
 		}//end switch
 		/**
 		 * Label of a stored value the core does not know, e.g. why acting as a member ended
-		 * (company accounts of EuroB2B Pro). Without a label the stored code is shown.
+		 * (company accounts of EU-B2B Pro). Without a label the stored code is shown.
 		 *
 		 * @param string $value  Stored value code.
 		 * @param string $action Action key.
@@ -136,11 +136,11 @@ final class AuditFormatter {
 			return $label;
 		}
 		$events = array(
-			ExportEvidenceRecords::EVENT_DETAILS    => __( 'details recorded', 'eurob2b' ),
-			ExportEvidenceRecords::EVENT_DOCUMENT   => __( 'document added', 'eurob2b' ),
-			ExportEvidenceRecords::EVENT_ACCEPTED   => __( 'accepted', 'eurob2b' ),
-			ExportEvidenceRecords::EVENT_NOT_NEEDED => __( 'marked as not needed', 'eurob2b' ),
-			ExportEvidenceRecords::EVENT_REOPENED   => __( 'reopened', 'eurob2b' ),
+			ExportEvidenceRecords::EVENT_DETAILS    => __( 'details recorded', 'stm-eu-b2b' ),
+			ExportEvidenceRecords::EVENT_DOCUMENT   => __( 'document added', 'stm-eu-b2b' ),
+			ExportEvidenceRecords::EVENT_ACCEPTED   => __( 'accepted', 'stm-eu-b2b' ),
+			ExportEvidenceRecords::EVENT_NOT_NEEDED => __( 'marked as not needed', 'stm-eu-b2b' ),
+			ExportEvidenceRecords::EVENT_REOPENED   => __( 'reopened', 'stm-eu-b2b' ),
 		);
 		return $label . ' (' . ( $events[ $parts[1] ] ?? $parts[1] ) . ')';
 	}
@@ -156,7 +156,7 @@ final class AuditFormatter {
 		if ( '' === $old && '' === $new ) {
 			return '';
 		}
-		$none = _x( 'none', 'audit value', 'eurob2b' );
+		$none = _x( 'none', 'audit value', 'stm-eu-b2b' );
 		if ( '' === $old ) {
 			return AuditLog::ACTION_GROUP_CHANGED === $entry->action ? $none . ' → ' . $new : $new;
 		}

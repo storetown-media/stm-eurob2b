@@ -17,6 +17,7 @@ use EuroB2B\Modules\Customers\GroupRepository;
 use EuroB2B\Modules\Privacy\PrivateFiles;
 use RuntimeException;
 use WP_Error;
+use EuroB2B\Support\ExceptionMessage;
 
 /**
  * Validates a registration submission and completes a new customer.
@@ -140,7 +141,7 @@ final class RegistrationService {
 	public function validate( array $post, WP_Error $errors, ?string $locked = null, bool $terms_required = false, array $files = array() ): array {
 		$type = $this->resolve_type( $post, $locked );
 		if ( null === $type ) {
-			$errors->add( 'eurob2b_registration_type', __( 'Please choose what kind of customer you are.', 'eurob2b' ) );
+			$errors->add( 'eurob2b_registration_type', __( 'Please choose what kind of customer you are.', 'stm-eu-b2b' ) );
 			return array(
 				'type'    => null,
 				'values'  => array(),
@@ -177,7 +178,7 @@ final class RegistrationService {
 		$terms_required = $terms_required && CustomerType::B2B === $type->customer_type;
 		$terms          = $terms_required && isset( $post['eurob2b_terms'] ) && is_scalar( $post['eurob2b_terms'] ) && '1' === trim( (string) $post['eurob2b_terms'] );
 		if ( $terms_required && ! $terms ) {
-			$errors->add( 'eurob2b_terms', __( 'Please accept the terms to register.', 'eurob2b' ) );
+			$errors->add( 'eurob2b_terms', __( 'Please accept the terms to register.', 'stm-eu-b2b' ) );
 		}
 
 		return array(
@@ -208,7 +209,7 @@ final class RegistrationService {
 	}
 
 	/**
-	 * Completes a freshly created WordPress user as an EuroB2B customer.
+	 * Completes a freshly created WordPress user as an EU-B2B customer.
 	 *
 	 * @param int                                                                      $user_id        New user id.
 	 * @param RegistrationType                                                         $type           Chosen type.
@@ -239,14 +240,14 @@ final class RegistrationService {
 				} catch ( RuntimeException $e ) {
 					// The account exists already; the shop sees the missing document on the approval card.
 					if ( function_exists( 'wc_get_logger' ) ) {
-						wc_get_logger()->error( 'Registration document of user ' . $user_id . ' not stored: ' . $e->getMessage(), array( 'source' => 'eurob2b' ) );
+						wc_get_logger()->error( 'Registration document of user ' . $user_id . ' not stored: ' . ExceptionMessage::plain( $e ), array( 'source' => 'eurob2b' ) );
 					}
 				}
 			}
 		}
 
 		/**
-		 * Fires after a customer registered through EuroB2B.
+		 * Fires after a customer registered through EU-B2B.
 		 *
 		 * @param int                   $user_id User id.
 		 * @param RegistrationType      $type    Registration type.
@@ -328,7 +329,7 @@ final class RegistrationService {
 	 */
 	private function assert_pending( int $user_id ): void {
 		if ( CustomerStatus::PENDING !== $this->customers->status_of( $user_id ) ) {
-			throw new RuntimeException( esc_html__( 'This application was already decided. Please reload the list.', 'eurob2b' ) );
+			throw new RuntimeException( esc_html__( 'This application was already decided. Please reload the list.', 'stm-eu-b2b' ) );
 		}
 	}
 }

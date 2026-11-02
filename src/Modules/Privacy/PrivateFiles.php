@@ -161,7 +161,7 @@ final class PrivateFiles {
 		$htaccess = $dir . '/.htaccess';
 		if ( ! file_exists( $htaccess ) ) {
 			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents -- a small static file next to the uploads.
-			file_put_contents( $htaccess, "# EuroB2B private files: no direct access.\n<IfModule mod_authz_core.c>\n\tRequire all denied\n</IfModule>\n<IfModule !mod_authz_core.c>\n\tDeny from all\n</IfModule>\n" );
+			file_put_contents( $htaccess, "# STM EU-B2B private files: no direct access.\n<IfModule mod_authz_core.c>\n\tRequire all denied\n</IfModule>\n<IfModule !mod_authz_core.c>\n\tDeny from all\n</IfModule>\n" );
 		}
 		$index = $dir . '/index.php';
 		if ( ! file_exists( $index ) ) {
@@ -268,11 +268,7 @@ final class PrivateFiles {
 		$dir    = self::ensure_dir();
 		$stored = bin2hex( random_bytes( 16 ) ) . '.bin';
 		$target = $dir . '/' . $stored;
-		// An upload is moved (PHP checks it is one); a file from elsewhere (tests, imports) is copied.
-		$moved = is_uploaded_file( $file['tmp'] ) ? move_uploaded_file( $file['tmp'], $target ) : copy( $file['tmp'], $target );
-		if ( ! $moved ) {
-			throw new RuntimeException( 'The file could not be stored.' );
-		}
+		self::place( $file, $dir, $stored );
 		// Owner read/write only; not every host allows it, the directory protection stays either way.
 		@chmod( $target, 0600 ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged,WordPress.WP.AlternativeFunctions.file_system_operations_chmod
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
@@ -298,6 +294,73 @@ final class PrivateFiles {
 	}
 
 	/**
+	 * Puts a checked file into the private directory under its random name through WordPress's
+	 * upload handling (PLT-020): an upload of this request with wp_handle_upload(), which moves it
+	 * after PHP's own upload check, a file from elsewhere (imports, tests) as a copy with
+	 * wp_handle_sideload(). For this call only, `upload_dir` points to the private directory and the
+	 * unique file name is the random name; both handlers check the type again against TYPES.
+	 *
+	 * @param array{tmp: string, name: string, mime: string, size: int} $file   Checked file.
+	 * @param string                                                    $dir    Private directory.
+	 * @param string                                                    $stored Random name.
+	 * @throws RuntimeException When the file could not be stored there.
+	 */
+	private static function place( array $file, string $dir, string $stored ): void {
+		if ( ! function_exists( 'wp_handle_upload' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/file.php';
+		}
+		$uploaded = is_uploaded_file( $file['tmp'] );
+		$source   = $file['tmp'];
+		if ( ! $uploaded ) {
+			// The handler moves its input; the caller's file stays where it is.
+			$source = wp_tempnam( $stored );
+			if ( '' === $source || ! copy( $file['tmp'], $source ) ) {
+				throw new RuntimeException( 'The file could not be stored.' );
+			}
+		}
+		$upload_dir = static fn( array $uploads ): array => array_merge(
+			$uploads,
+			array(
+				'path'    => $dir,
+				'url'     => '',
+				'subdir'  => '',
+				'basedir' => $dir,
+				'baseurl' => '',
+				'error'   => false,
+			)
+		);
+		$overrides  = array(
+			'test_form'                => false,
+			'mimes'                    => self::TYPES,
+			'unique_filename_callback' => static fn(): string => $stored,
+		);
+		$entry      = array(
+			'name'     => $file['name'],
+			'type'     => $file['mime'],
+			'tmp_name' => $source,
+			'error'    => UPLOAD_ERR_OK,
+			'size'     => $file['size'],
+		);
+		add_filter( 'upload_dir', $upload_dir, PHP_INT_MAX );
+		try {
+			$result = $uploaded ? wp_handle_upload( $entry, $overrides ) : wp_handle_sideload( $entry, $overrides );
+		} finally {
+			remove_filter( 'upload_dir', $upload_dir, PHP_INT_MAX );
+			if ( ! $uploaded && is_file( $source ) ) {
+				wp_delete_file( $source );
+			}
+		}
+		$target = $dir . '/' . $stored;
+		if ( isset( $result['error'] ) || ! isset( $result['file'] ) || wp_normalize_path( (string) $result['file'] ) !== wp_normalize_path( $target ) ) {
+			// A filter of another plugin that moved the file elsewhere is refused as well.
+			if ( isset( $result['file'] ) && is_file( (string) $result['file'] ) ) {
+				wp_delete_file( (string) $result['file'] );
+			}
+			throw new RuntimeException( 'The file could not be stored.' );
+		}
+	}
+
+	/**
 	 * One file record, or null.
 	 *
 	 * @param int $id File id.
@@ -307,7 +370,7 @@ final class PrivateFiles {
 		global $wpdb;
 		$table = self::table();
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		$row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$table} WHERE id = %d", $id ), ARRAY_A );
+		$row = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM %i WHERE id = %d', $table, $id ), ARRAY_A );
 		return is_array( $row ) ? self::row( $row ) : null;
 	}
 
@@ -341,8 +404,8 @@ final class PrivateFiles {
 		$table = self::table();
 		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$rows = null === $context
-			? $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$table} WHERE owner_id = %d ORDER BY id ASC", $owner_id ), ARRAY_A )
-			: $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$table} WHERE owner_id = %d AND context = %s ORDER BY id ASC", $owner_id, $context ), ARRAY_A );
+			? $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %i WHERE owner_id = %d ORDER BY id ASC', $table, $owner_id ), ARRAY_A )
+			: $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %i WHERE owner_id = %d AND context = %s ORDER BY id ASC', $table, $owner_id, $context ), ARRAY_A );
 		// phpcs:enable WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		return array_map( array( self::class, 'row' ), (array) $rows );
 	}
@@ -357,7 +420,7 @@ final class PrivateFiles {
 		global $wpdb;
 		$table = self::table();
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		return array_map( 'intval', (array) $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT owner_id FROM {$table} WHERE context = %s ORDER BY owner_id ASC", $context ) ) );
+		return array_map( 'intval', (array) $wpdb->get_col( $wpdb->prepare( 'SELECT DISTINCT owner_id FROM %i WHERE context = %s ORDER BY owner_id ASC', $table, $context ) ) );
 	}
 
 	/**
@@ -371,7 +434,7 @@ final class PrivateFiles {
 		global $wpdb;
 		$table = self::table();
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		$rows = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$table} WHERE context = %s AND field_key = %s ORDER BY id ASC", $context, $field_key ), ARRAY_A );
+		$rows = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %i WHERE context = %s AND field_key = %s ORDER BY id ASC', $table, $context, $field_key ), ARRAY_A );
 		return array_map( array( self::class, 'row' ), (array) $rows );
 	}
 
@@ -385,7 +448,7 @@ final class PrivateFiles {
 		global $wpdb;
 		$table = self::table();
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		return array_map( 'strval', (array) $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT field_key FROM {$table} WHERE context = %s ORDER BY field_key ASC", $context ) ) );
+		return array_map( 'strval', (array) $wpdb->get_col( $wpdb->prepare( 'SELECT DISTINCT field_key FROM %i WHERE context = %s ORDER BY field_key ASC', $table, $context ) ) );
 	}
 
 	/**
@@ -426,7 +489,7 @@ final class PrivateFiles {
 		global $wpdb;
 		$table = self::table();
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		$rows = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$table} WHERE context = %s AND created_at < %s ORDER BY id ASC LIMIT %d", $context, $before, max( 1, $limit ) ), ARRAY_A );
+		$rows = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %i WHERE context = %s AND created_at < %s ORDER BY id ASC LIMIT %d', $table, $context, $before, max( 1, $limit ) ), ARRAY_A );
 		return array_map( array( self::class, 'row' ), (array) $rows );
 	}
 
@@ -483,7 +546,7 @@ final class PrivateFiles {
 		$dir     = self::dir();
 		$table   = self::table();
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		$rows  = (array) $wpdb->get_results( "SELECT id, stored_name FROM {$table}", ARRAY_A );
+		$rows  = (array) $wpdb->get_results( $wpdb->prepare( 'SELECT id, stored_name FROM %i', $table ), ARRAY_A );
 		$known = array();
 		foreach ( $rows as $row ) {
 			$known[ (string) $row['stored_name'] ] = true;
@@ -557,11 +620,11 @@ final class PrivateFiles {
 		check_admin_referer( self::ACTION_DOWNLOAD . '_' . $id );
 		$file = $this->find( $id );
 		if ( null === $file || ! self::may_download( $file ) ) {
-			wp_die( esc_html__( 'You are not allowed to download this file.', 'eurob2b' ), '', array( 'response' => 403 ) );
+			wp_die( esc_html__( 'You are not allowed to download this file.', 'stm-eu-b2b' ), '', array( 'response' => 403 ) );
 		}
 		$path = self::dir() . '/' . $file['stored_name'];
 		if ( '' === $file['stored_name'] || ! is_file( $path ) || ! in_array( $file['mime'], self::TYPES, true ) ) {
-			wp_die( esc_html__( 'The file no longer exists.', 'eurob2b' ), '', array( 'response' => 404 ) );
+			wp_die( esc_html__( 'The file no longer exists.', 'stm-eu-b2b' ), '', array( 'response' => 404 ) );
 		}
 		if ( ! headers_sent() ) {
 			nocache_headers();
@@ -584,7 +647,7 @@ final class PrivateFiles {
 	public function register_test( $tests ) {
 		if ( is_array( $tests ) ) {
 			$tests['direct'][ self::TEST ] = array(
-				'label' => __( 'Uploaded documents are not reachable from the web', 'eurob2b' ),
+				'label' => __( 'Uploaded documents are not reachable from the web', 'stm-eu-b2b' ),
 				'test'  => array( $this, 'site_health' ),
 			);
 		}
@@ -636,33 +699,33 @@ final class PrivateFiles {
 	public function site_health(): array {
 		$state = $this->reachability();
 		$badge = array(
-			'label' => __( 'Privacy', 'eurob2b' ),
+			'label' => __( 'Privacy', 'stm-eu-b2b' ),
 			'color' => 'blue',
 		);
 		$where = '<p><code>' . esc_html( self::dir() ) . '</code></p>';
 		if ( 'reachable' === $state ) {
 			return array(
-				'label'       => __( 'Uploaded documents can be downloaded from the web', 'eurob2b' ),
+				'label'       => __( 'Uploaded documents can be downloaded from the web', 'stm-eu-b2b' ),
 				'status'      => 'critical',
 				'badge'       => $badge,
-				'description' => '<p>' . esc_html__( 'The web server delivers files from the folder of uploaded documents to anyone who knows their address. The file names are random, but the folder must be closed. With nginx, add a rule that denies the folder, or move the folder outside the web root with the constant EUROB2B_PRIVATE_DIR in wp-config.php.', 'eurob2b' ) . '</p>' . $where,
+				'description' => '<p>' . esc_html__( 'The web server delivers files from the folder of uploaded documents to anyone who knows their address. The file names are random, but the folder must be closed. With nginx, add a rule that denies the folder, or move the folder outside the web root with the constant EUROB2B_PRIVATE_DIR in wp-config.php.', 'stm-eu-b2b' ) . '</p>' . $where,
 				'test'        => self::TEST,
 			);
 		}
 		if ( 'unknown' === $state ) {
 			return array(
-				'label'       => __( 'Whether uploaded documents are reachable from the web could not be checked', 'eurob2b' ),
+				'label'       => __( 'Whether uploaded documents are reachable from the web could not be checked', 'stm-eu-b2b' ),
 				'status'      => 'recommended',
 				'badge'       => $badge,
-				'description' => '<p>' . esc_html__( 'The site could not request a test file from its own folder of uploaded documents. Make sure the web server denies the folder, or move it outside the web root with the constant EUROB2B_PRIVATE_DIR in wp-config.php.', 'eurob2b' ) . '</p>' . $where,
+				'description' => '<p>' . esc_html__( 'The site could not request a test file from its own folder of uploaded documents. Make sure the web server denies the folder, or move it outside the web root with the constant EUROB2B_PRIVATE_DIR in wp-config.php.', 'stm-eu-b2b' ) . '</p>' . $where,
 				'test'        => self::TEST,
 			);
 		}
 		return array(
-			'label'       => __( 'Uploaded documents are not reachable from the web', 'eurob2b' ),
+			'label'       => __( 'Uploaded documents are not reachable from the web', 'stm-eu-b2b' ),
 			'status'      => 'good',
 			'badge'       => $badge,
-			'description' => '<p>' . esc_html( 'outside' === $state ? __( 'The folder of uploaded documents lies outside the WordPress folder.', 'eurob2b' ) : __( 'A test file in the folder of uploaded documents could not be downloaded from the web.', 'eurob2b' ) ) . '</p>' . $where,
+			'description' => '<p>' . esc_html( 'outside' === $state ? __( 'The folder of uploaded documents lies outside the WordPress folder.', 'stm-eu-b2b' ) : __( 'A test file in the folder of uploaded documents could not be downloaded from the web.', 'stm-eu-b2b' ) ) . '</p>' . $where,
 			'test'        => self::TEST,
 		);
 	}

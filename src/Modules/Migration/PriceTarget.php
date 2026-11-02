@@ -10,7 +10,7 @@ declare( strict_types=1 );
 namespace EuroB2B\Modules\Migration;
 
 /**
- * Customer prices and tier prices are features of EuroB2B Pro. Its pricing module registers this
+ * Customer prices and tier prices are features of EU-B2B Pro. Its pricing module registers this
  * target in the container; without it the import leaves customer prices, tier sets and the tier
  * table switch out and says so (PLT-015). Group prices are imported either way.
  */

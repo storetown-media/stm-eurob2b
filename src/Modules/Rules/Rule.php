@@ -238,18 +238,18 @@ final class Rule {
 	}
 
 	/**
-	 * Labels of the rule types offered: the core offers the discount (PLT-015), EuroB2B Pro and
+	 * Labels of the rule types offered: the core offers the discount (PLT-015), EU-B2B Pro and
 	 * other modules add theirs through the filter.
 	 *
 	 * @return array<string, string>
 	 */
 	public static function types(): array {
 		$types = array(
-			self::TYPE_DISCOUNT => __( 'Discount', 'eurob2b' ),
+			self::TYPE_DISCOUNT => __( 'Discount', 'stm-eu-b2b' ),
 		);
 		/**
 		 * Filters the rule types offered in the admin (id => label). Modules that add a type also
-		 * provide its evaluation through the RuleEvaluator. EuroB2B Pro adds its types with
+		 * provide its evaluation through the RuleEvaluator. EU-B2B Pro adds its types with
 		 * priority 5, right after the discount.
 		 *
 		 * @param array<string, string> $types Types.

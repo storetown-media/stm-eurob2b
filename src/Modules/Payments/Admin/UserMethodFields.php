@@ -63,16 +63,16 @@ final class UserMethodFields {
 		if ( ! $user instanceof WP_User || ! current_user_can( Capabilities::MANAGE_CUSTOMERS ) ) {
 			return;
 		}
-		echo '<h2>' . esc_html__( 'EuroB2B payment and shipping methods', 'eurob2b' ) . '</h2>';
+		echo '<h2>' . esc_html__( 'EU-B2B payment and shipping methods', 'stm-eu-b2b' ) . '</h2>';
 		echo '<table class="form-table" role="presentation"><tbody>';
 		foreach ( array(
-			MethodPolicy::KIND_PAYMENT  => array( __( 'Payment gateways', 'eurob2b' ), $this->page->payment_rows() ),
-			MethodPolicy::KIND_SHIPPING => array( __( 'Shipping methods', 'eurob2b' ), $this->page->shipping_rows() ),
+			MethodPolicy::KIND_PAYMENT  => array( __( 'Payment gateways', 'stm-eu-b2b' ), $this->page->payment_rows() ),
+			MethodPolicy::KIND_SHIPPING => array( __( 'Shipping methods', 'stm-eu-b2b' ), $this->page->shipping_rows() ),
 		) as $kind => [ $label, $rows ] ) {
 			$override = $this->policy->user_override( $user->ID, $kind );
 			echo '<tr><th scope="row">' . esc_html( $label ) . '</th><td>';
-			echo '<label><input type="radio" name="' . esc_attr( 'eurob2b_' . $kind . '_mode' ) . '" value="inherit" ' . checked( null === $override, true, false ) . ' /> ' . esc_html__( 'Inherit from the group / customer type', 'eurob2b' ) . '</label><br />';
-			echo '<label><input type="radio" name="' . esc_attr( 'eurob2b_' . $kind . '_mode' ) . '" value="manual" ' . checked( null !== $override, true, false ) . ' /> ' . esc_html__( 'Only these:', 'eurob2b' ) . '</label>';
+			echo '<label><input type="radio" name="' . esc_attr( 'eurob2b_' . $kind . '_mode' ) . '" value="inherit" ' . checked( null === $override, true, false ) . ' /> ' . esc_html__( 'Inherit from the group / customer type', 'stm-eu-b2b' ) . '</label><br />';
+			echo '<label><input type="radio" name="' . esc_attr( 'eurob2b_' . $kind . '_mode' ) . '" value="manual" ' . checked( null !== $override, true, false ) . ' /> ' . esc_html__( 'Only these:', 'stm-eu-b2b' ) . '</label>';
 			echo '<div style="margin:.3em 0 0 1.5em">';
 			foreach ( $rows as $id => $title ) {
 				echo '<label style="display:block"><input type="checkbox" name="' . esc_attr( 'eurob2b_' . $kind . '_methods[]' ) . '" value="' . esc_attr( $id ) . '" ' . checked( null !== $override && in_array( $id, $override, true ), true, false ) . ' /> ' . esc_html( $title ) . ' <code>' . esc_html( $id ) . '</code></label>';

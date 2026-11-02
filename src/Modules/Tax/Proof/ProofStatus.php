@@ -34,11 +34,11 @@ enum ProofStatus: string {
 	 */
 	public function label(): string {
 		return match ( $this ) {
-			self::MISSING   => __( 'Missing', 'eurob2b' ),
-			self::REQUESTED => __( 'Requested', 'eurob2b' ),
-			self::CONFIRMED => __( 'Confirmed by the customer', 'eurob2b' ),
-			self::DOCUMENTS => __( 'Documents uploaded', 'eurob2b' ),
-			self::ACCEPTED  => __( 'Accepted', 'eurob2b' ),
+			self::MISSING   => __( 'Missing', 'stm-eu-b2b' ),
+			self::REQUESTED => __( 'Requested', 'stm-eu-b2b' ),
+			self::CONFIRMED => __( 'Confirmed by the customer', 'stm-eu-b2b' ),
+			self::DOCUMENTS => __( 'Documents uploaded', 'stm-eu-b2b' ),
+			self::ACCEPTED  => __( 'Accepted', 'stm-eu-b2b' ),
 		};
 	}
 }

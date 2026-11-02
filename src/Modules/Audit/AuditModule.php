@@ -91,8 +91,8 @@ final class AuditModule extends AbstractModule {
 			array(
 				'id'          => 'audit_retention_days',
 				'section'     => 'privacy',
-				'label'       => __( 'Delete audit log entries after (days)', 'eurob2b' ),
-				'description' => __( 'Entries of the audit log (EuroB2B → Settings → Audit log) are deleted this many days after they were written by a daily job. Between 30 and 3650 days; the log cannot be kept without a limit.', 'eurob2b' ),
+				'label'       => __( 'Delete audit log entries after (days)', 'stm-eu-b2b' ),
+				'description' => __( 'Entries of the audit log (STM EU-B2B → Settings → Audit log) are deleted this many days after they were written by a daily job. Between 30 and 3650 days; the log cannot be kept without a limit.', 'stm-eu-b2b' ),
 				'type'        => SettingsSchema::TYPE_NUMBER,
 				'default'     => 365,
 				'min'         => AuditRetention::MIN_DAYS,

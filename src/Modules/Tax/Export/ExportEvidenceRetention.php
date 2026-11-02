@@ -17,7 +17,7 @@ use EuroB2B\Modules\Privacy\RetentionTaskInterface;
  * (`tax_retention_years`, default 10, as the proof of supply) from the end of the calendar year of
  * its latest entry (`_eurob2b_export_retain_until`, § 147 (4) AO). Afterwards the meta and the files
  * of the order are deleted; files whose order was deleted for good go in every run. Runs also while
- * the feature is off: evidence recorded earlier still has to go, and while EuroB2B Pro, which records
+ * the feature is off: evidence recorded earlier still has to go, and while EU-B2B Pro, which records
  * it, is inactive (PLT-015).
  */
 final class ExportEvidenceRetention implements RetentionTaskInterface {

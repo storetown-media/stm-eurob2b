@@ -2,7 +2,7 @@
 /**
  * Draft of the record of processing activities.
  *
- * @package EuroB2B
+ * @package EU-B2B'
  */
 
 declare( strict_types=1 );
@@ -17,7 +17,7 @@ use EuroB2B\Modules\Tax\VatIdField;
 
 /**
  * Builds a draft of the record of processing activities (Art. 30(1) GDPR, PRV-010) for the
- * processing EuroB2B adds to a shop.
+ * processing EU-B2B adds to a shop.
  *
  * One activity per purpose, laid out like the template of the German data protection authorities
  * (DSK, 2018). Each activity names the rows of the data inventory (docs/privacy-and-data-flows.md §2)
@@ -46,7 +46,7 @@ final class ProcessingRecord {
 		'EB-13' => array( 'D-21', 'D-30' ),
 		'EB-14' => array( 'D-31' ),
 		'EB-15' => array( 'D-33' ),
-		// EuroB2B Pro from WPBay (PLT-018): the WPBay archive lists EB-16 in the place of EB-15.
+		// EU-B2B Pro from WPBay (PLT-018): the WPBay archive lists EB-16 in the place of EB-15.
 		'EB-16' => array( 'D-35' ),
 	);
 
@@ -56,7 +56,7 @@ final class ProcessingRecord {
 	public const NOT_LISTED = array(
 		'D-12' => 'The logs hold no personal data yet: migration errors and the counts of the retention job.',
 		'D-22' => 'The import journal is no purpose of its own: for at most 30 days it keeps the earlier values of data listed under EB-01, EB-02 and EB-04 that an import from another plugin replaced, only to undo that import.',
-		'D-24' => 'The overdue list stores nothing: it shows, on request, WooCommerce order data that the shop processes to collect its own invoices anyway, with the calculated interest; EuroB2B adds no data of its own.',
+		'D-24' => 'The overdue list stores nothing: it shows, on request, WooCommerce order data that the shop processes to collect its own invoices anyway, with the calculated interest; EU-B2B adds no data of its own.',
 		'D-26' => 'The OSS threshold totals hold no personal data: sums and order counts per year and a shop-wide list of hidden notices.',
 		'D-27' => 'The audit file stores nothing: it compiles, on request, records already listed under EB-03 (including the proof of supply and the export evidence), EB-05 and EB-10 for the tax audit of an order; the temporary ZIP is deleted right after the download.',
 		'D-32' => 'The Northern Ireland notice holds no personal data: a shop-wide yes/no whether such orders or customers were found and whether the notice was hidden.',
@@ -92,11 +92,11 @@ final class ProcessingRecord {
 	 */
 	public static function settings_schema( SettingsSchema $schema ): void {
 		$fields = array(
-			'record_contact'           => array( __( 'Phone and e-mail address', 'eurob2b' ), SettingsSchema::TYPE_TEXTAREA, __( 'For the controller sheet of the record of processing activities (EuroB2B → Settings → Processing record); empty fields are marked "please add" there, write "none" where something does not apply. These details stay on this site: they are not part of the settings export and are deleted when EuroB2B is deleted.', 'eurob2b' ) ),
-			'record_contact_person'    => array( __( 'Contact person', 'eurob2b' ), SettingsSchema::TYPE_TEXT, '' ),
-			'record_joint_controllers' => array( __( 'Joint controllers (Art. 26 GDPR)', 'eurob2b' ), SettingsSchema::TYPE_TEXTAREA, '' ),
-			'record_eu_representative' => array( __( 'Representative in the EU (Art. 27 GDPR)', 'eurob2b' ), SettingsSchema::TYPE_TEXTAREA, '' ),
-			'record_dpo'               => array( __( 'Data protection officer (Art. 37 GDPR)', 'eurob2b' ), SettingsSchema::TYPE_TEXTAREA, __( 'Name and contact details.', 'eurob2b' ) ),
+			'record_contact'           => array( __( 'Phone and e-mail address', 'stm-eu-b2b' ), SettingsSchema::TYPE_TEXTAREA, __( 'For the controller sheet of the record of processing activities (STM EU-B2B → Settings → Processing record); empty fields are marked "please add" there, write "none" where something does not apply. These details stay on this site: they are not part of the settings export and are deleted when EU-B2B is deleted.', 'stm-eu-b2b' ) ),
+			'record_contact_person'    => array( __( 'Contact person', 'stm-eu-b2b' ), SettingsSchema::TYPE_TEXT, '' ),
+			'record_joint_controllers' => array( __( 'Joint controllers (Art. 26 GDPR)', 'stm-eu-b2b' ), SettingsSchema::TYPE_TEXTAREA, '' ),
+			'record_eu_representative' => array( __( 'Representative in the EU (Art. 27 GDPR)', 'stm-eu-b2b' ), SettingsSchema::TYPE_TEXTAREA, '' ),
+			'record_dpo'               => array( __( 'Data protection officer (Art. 37 GDPR)', 'stm-eu-b2b' ), SettingsSchema::TYPE_TEXTAREA, __( 'Name and contact details.', 'stm-eu-b2b' ) ),
 		);
 		foreach ( $fields as $id => list( $label, $type, $description ) ) {
 			$schema->add_field(
@@ -113,7 +113,7 @@ final class ProcessingRecord {
 	}
 
 	/**
-	 * The activities, EuroB2B's own first, then those added through the filter.
+	 * The activities, EU-B2B's own first, then those added through the filter.
 	 *
 	 * @return array<int, array{id: string, name: string, inventory: string[], in_use: bool, off_reason: string, purposes: string[], subjects: string[], data: string[], internal: string[], external: string[], retention: string[], legal_basis: string[]}>
 	 */
@@ -165,7 +165,7 @@ final class ProcessingRecord {
 	}
 
 	/**
-	 * EuroB2B's own activities. EuroB2B Pro adds the activities of its modules (EB-04, EB-06 to
+	 * EU-B2B's own activities. EU-B2B Pro adds the activities of its modules (EB-04, EB-06 to
 	 * EB-08, EB-11 to EB-14) and completes EB-09 through the filter (PLT-015).
 	 *
 	 * @return array<int, array<string, mixed>>
@@ -189,51 +189,51 @@ final class ProcessingRecord {
 	private function registration(): array {
 		$days      = (int) $this->settings->get( 'privacy_rejected_days' );
 		$data      = array(
-			__( 'Customer type, customer group, approval status with time and approving staff member', 'eurob2b' ),
-			__( 'Registration type, the values of the registration form fields set up by the shop, time the terms were accepted', 'eurob2b' ),
-			__( 'Rejection note, time of the rejection and rejecting staff member', 'eurob2b' ),
+			__( 'Customer type, customer group, approval status with time and approving staff member', 'stm-eu-b2b' ),
+			__( 'Registration type, the values of the registration form fields set up by the shop, time the terms were accepted', 'stm-eu-b2b' ),
+			__( 'Rejection note, time of the rejection and rejecting staff member', 'stm-eu-b2b' ),
 		);
 		$internal  = array(
-			__( 'Shop staff with the capability to manage customers (eurob2b_manage_customers), in the admin and through the REST API (classification by user ID only)', 'eurob2b' ),
-			__( 'Shop staff and extensions with access to orders (copies of registration fields on orders)', 'eurob2b' ),
+			__( 'Shop staff with the capability to manage customers (eurob2b_manage_customers), in the admin and through the REST API (classification by user ID only)', 'stm-eu-b2b' ),
+			__( 'Shop staff and extensions with access to orders (copies of registration fields on orders)', 'stm-eu-b2b' ),
 		);
 		$retention = array(
-			__( 'As long as the customer account exists.', 'eurob2b' ),
+			__( 'As long as the customer account exists.', 'stm-eu-b2b' ),
 			$days > 0
 				/* translators: %d: number of days */
-				? sprintf( _n( 'Rejected applications that were never approved: deleted %d day after the rejection, unless orders were placed with the account or it has other roles.', 'Rejected applications that were never approved: deleted %d days after the rejection, unless orders were placed with the account or it has other roles.', $days, 'eurob2b' ), $days )
-				: __( 'Rejected applications: kept until deleted manually (automatic deletion is switched off in the settings).', 'eurob2b' ),
-			__( 'Copies of registration fields on orders: with the order; removed when WooCommerce anonymises the order.', 'eurob2b' ),
+				? sprintf( _n( 'Rejected applications that were never approved: deleted %d day after the rejection, unless orders were placed with the account or it has other roles.', 'Rejected applications that were never approved: deleted %d days after the rejection, unless orders were placed with the account or it has other roles.', $days, 'stm-eu-b2b' ), $days )
+				: __( 'Rejected applications: kept until deleted manually (automatic deletion is switched off in the settings).', 'stm-eu-b2b' ),
+			__( 'Copies of registration fields on orders: with the order; removed when WooCommerce anonymises the order.', 'stm-eu-b2b' ),
 		);
 		// Documents uploaded with the registration (REG-016, D-09) while a file field is set up.
 		if ( self::has_file_field() ) {
 			$file_days   = max( 0, (int) $this->settings->get( 'registration_file_retention_days' ) );
-			$data[]      = __( 'Documents uploaded with the registration (for example a trade licence): the file, its original name, type and size, and the time of the upload', 'eurob2b' );
-			$internal[]  = __( 'Shop staff with the capability to manage customers, through a protected download link; the files cannot be downloaded publicly', 'eurob2b' );
+			$data[]      = __( 'Documents uploaded with the registration (for example a trade licence): the file, its original name, type and size, and the time of the upload', 'stm-eu-b2b' );
+			$internal[]  = __( 'Shop staff with the capability to manage customers, through a protected download link; the files cannot be downloaded publicly', 'stm-eu-b2b' );
 			$retention[] = $file_days > 0
 				/* translators: %d: number of days */
-				? sprintf( _n( 'Uploaded documents: deleted %d day after the approval or rejection, at the latest with the customer account or on an erasure request.', 'Uploaded documents: deleted %d days after the approval or rejection, at the latest with the customer account or on an erasure request.', $file_days, 'eurob2b' ), $file_days )
-				: __( 'Uploaded documents: kept as long as the customer account exists; deleted with it or on an erasure request.', 'eurob2b' );
+				? sprintf( _n( 'Uploaded documents: deleted %d day after the approval or rejection, at the latest with the customer account or on an erasure request.', 'Uploaded documents: deleted %d days after the approval or rejection, at the latest with the customer account or on an erasure request.', $file_days, 'stm-eu-b2b' ), $file_days )
+				: __( 'Uploaded documents: kept as long as the customer account exists; deleted with it or on an erasure request.', 'stm-eu-b2b' );
 		}
 		return array(
 			'id'          => 'EB-01',
 			'inventory'   => self::INVENTORY['EB-01'],
-			'name'        => __( 'Business customer registration and approval', 'eurob2b' ),
+			'name'        => __( 'Business customer registration and approval', 'stm-eu-b2b' ),
 			'purposes'    => array(
-				__( 'Reviewing applications for a business customer account and approving or rejecting them.', 'eurob2b' ),
-				__( 'Classifying customers as business or consumer customers and assigning them to a customer group, which decides prices, payment methods and visible products.', 'eurob2b' ),
-				__( 'Recording who approved or rejected an account and when.', 'eurob2b' ),
+				__( 'Reviewing applications for a business customer account and approving or rejecting them.', 'stm-eu-b2b' ),
+				__( 'Classifying customers as business or consumer customers and assigning them to a customer group, which decides prices, payment methods and visible products.', 'stm-eu-b2b' ),
+				__( 'Recording who approved or rejected an account and when.', 'stm-eu-b2b' ),
 			),
 			'subjects'    => array(
-				__( 'Applicants for a business customer account (sole traders and contact persons of companies)', 'eurob2b' ),
-				__( 'Customers with a customer account', 'eurob2b' ),
-				__( 'Shop staff who approve or reject applications (user ID only)', 'eurob2b' ),
+				__( 'Applicants for a business customer account (sole traders and contact persons of companies)', 'stm-eu-b2b' ),
+				__( 'Customers with a customer account', 'stm-eu-b2b' ),
+				__( 'Shop staff who approve or reject applications (user ID only)', 'stm-eu-b2b' ),
 			),
 			'data'        => $data,
 			'internal'    => $internal,
 			'retention'   => $retention,
 			'legal_basis' => array(
-				__( 'Art. 6(1)(b) GDPR: contract and steps prior to entering into a contract at the request of the applicant', 'eurob2b' ),
+				__( 'Art. 6(1)(b) GDPR: contract and steps prior to entering into a contract at the request of the applicant', 'stm-eu-b2b' ),
 			),
 		);
 	}
@@ -259,35 +259,35 @@ final class ProcessingRecord {
 		return array(
 			'id'          => 'EB-02',
 			'inventory'   => self::INVENTORY['EB-02'],
-			'name'        => __( 'Conditions agreed with individual customers', 'eurob2b' ),
+			'name'        => __( 'Conditions agreed with individual customers', 'stm-eu-b2b' ),
 			'purposes'    => array(
-				__( 'Applying the prices and conditions agreed with one customer: own prices and tier prices, allowed payment and shipping methods, pricing and checkout rules addressed to that customer.', 'eurob2b' ),
+				__( 'Applying the prices and conditions agreed with one customer: own prices and tier prices, allowed payment and shipping methods, pricing and checkout rules addressed to that customer.', 'stm-eu-b2b' ),
 			),
 			'subjects'    => array(
-				__( 'Customers with individual conditions, in particular sole traders', 'eurob2b' ),
+				__( 'Customers with individual conditions, in particular sole traders', 'stm-eu-b2b' ),
 			),
 			'data'        => array(
-				__( 'Own regular, sale and tier prices per product or variation', 'eurob2b' ),
-				__( 'Lists of the payment and shipping methods allowed for the customer', 'eurob2b' ),
-				__( 'References to the customer (user ID) in pricing and checkout rules', 'eurob2b' ),
+				__( 'Own regular, sale and tier prices per product or variation', 'stm-eu-b2b' ),
+				__( 'Lists of the payment and shipping methods allowed for the customer', 'stm-eu-b2b' ),
+				__( 'References to the customer (user ID) in pricing and checkout rules', 'stm-eu-b2b' ),
 			),
 			'internal'    => array(
-				__( 'Shop staff on the product screen, on the user profile and in the rules (capability eurob2b_manage_rules)', 'eurob2b' ),
-				__( 'The customer sees their own prices in the shop', 'eurob2b' ),
+				__( 'Shop staff on the product screen, on the user profile and in the rules (capability eurob2b_manage_rules)', 'stm-eu-b2b' ),
+				__( 'The customer sees their own prices in the shop', 'stm-eu-b2b' ),
 			),
 			'retention'   => array(
-				__( 'Own prices and allowed payment and shipping methods: as long as the customer account exists; deleted on an erasure request and when the account is deleted. Orders keep the prices they were placed at.', 'eurob2b' ),
-				__( 'References to the customer in rules: until the rule is changed or the account is deleted. An erasure request does not remove them, because the rule still applies to the existing account.', 'eurob2b' ),
+				__( 'Own prices and allowed payment and shipping methods: as long as the customer account exists; deleted on an erasure request and when the account is deleted. Orders keep the prices they were placed at.', 'stm-eu-b2b' ),
+				__( 'References to the customer in rules: until the rule is changed or the account is deleted. An erasure request does not remove them, because the rule still applies to the existing account.', 'stm-eu-b2b' ),
 			),
 			'legal_basis' => array(
-				__( 'Art. 6(1)(b) GDPR: conditions agreed with the customer', 'eurob2b' ),
-				__( 'Art. 6(1)(f) GDPR: legitimate interest in payment risk decisions and in the configuration of the shop', 'eurob2b' ),
+				__( 'Art. 6(1)(b) GDPR: conditions agreed with the customer', 'stm-eu-b2b' ),
+				__( 'Art. 6(1)(f) GDPR: legitimate interest in payment risk decisions and in the configuration of the shop', 'stm-eu-b2b' ),
 			),
 		);
 	}
 
 	/**
-	 * EB-03: VAT ID checks and evidence (D-03). EuroB2B Pro adds its checking services, the proof of
+	 * EB-03: VAT ID checks and evidence (D-03). EU-B2B Pro adds its checking services, the proof of
 	 * intra-Community supply (D-23) and the export evidence (D-29) through
 	 * `eurob2b_processing_record_vat_parts`.
 	 *
@@ -300,66 +300,66 @@ final class ProcessingRecord {
 		$days     = max( 1, (int) $this->settings->get( 'tax_retention_orderless_days' ) );
 
 		$data = array(
-			__( 'VAT ID and country, check result with reason, checking service, consultation number and times', 'eurob2b' ),
-			__( 'Manual decision with the deciding staff member and note', 'eurob2b' ),
-			__( 'Copy of the VAT ID and of the tax treatment on orders', 'eurob2b' ),
+			__( 'VAT ID and country, check result with reason, checking service, consultation number and times', 'stm-eu-b2b' ),
+			__( 'Manual decision with the deciding staff member and note', 'stm-eu-b2b' ),
+			__( 'Copy of the VAT ID and of the tax treatment on orders', 'stm-eu-b2b' ),
 		);
 		if ( $vies ) {
-			$data[] = __( 'Name and address of the trader as returned by VIES', 'eurob2b' );
+			$data[] = __( 'Name and address of the trader as returned by VIES', 'stm-eu-b2b' );
 		}
 		$external = array();
 		if ( $vies ) {
 			$external[] = '' !== $shop_vat
-				? __( 'European Commission, VIES service: the VAT ID to check and the shop\'s own VAT ID', 'eurob2b' )
-				: __( 'European Commission, VIES service: the VAT ID to check', 'eurob2b' );
+				? __( 'European Commission, VIES service: the VAT ID to check and the shop\'s own VAT ID', 'stm-eu-b2b' )
+				: __( 'European Commission, VIES service: the VAT ID to check', 'stm-eu-b2b' );
 		}
 		$parts = self::vat_parts(
 			array(
 				'inventory'   => array( 'D-03' ),
 				'purposes'    => array(
-					__( 'Checking VAT identification numbers to decide the tax treatment of orders (tax-exempt intra-Community supplies, reverse charge).', 'eurob2b' ),
-					__( 'Keeping the check results as evidence of due diligence.', 'eurob2b' ),
+					__( 'Checking VAT identification numbers to decide the tax treatment of orders (tax-exempt intra-Community supplies, reverse charge).', 'stm-eu-b2b' ),
+					__( 'Keeping the check results as evidence of due diligence.', 'stm-eu-b2b' ),
 				),
 				'subjects'    => array(
-					__( 'Business customers who enter a VAT ID (for sole traders the number is personal data)', 'eurob2b' ),
-					__( 'Shop staff who decide on a check manually (user ID only)', 'eurob2b' ),
+					__( 'Business customers who enter a VAT ID (for sole traders the number is personal data)', 'stm-eu-b2b' ),
+					__( 'Shop staff who decide on a check manually (user ID only)', 'stm-eu-b2b' ),
 				),
 				'data'        => $data,
 				'internal'    => array(
-					__( 'Shop staff with the capability to decide on VAT ID checks (eurob2b_decide_validation)', 'eurob2b' ),
+					__( 'Shop staff with the capability to decide on VAT ID checks (eurob2b_decide_validation)', 'stm-eu-b2b' ),
 				),
 				'external'    => $external,
 				'retention'   => array(
 					/* translators: %d: number of years */
-					sprintf( _n( 'Check results that belong to an order: %d year, counted from the end of the calendar year of the order.', 'Check results that belong to an order: %d years, counted from the end of the calendar year of the order.', $years, 'eurob2b' ), $years ),
+					sprintf( _n( 'Check results that belong to an order: %d year, counted from the end of the calendar year of the order.', 'Check results that belong to an order: %d years, counted from the end of the calendar year of the order.', $years, 'stm-eu-b2b' ), $years ),
 					/* translators: %d: number of days */
-					sprintf( _n( 'Other check results: deleted after %d day.', 'Other check results: deleted after %d days.', $days, 'eurob2b' ), $days ),
-					__( 'On an erasure request, results that belong to an order keep the number and the result as tax evidence without the link to the person.', 'eurob2b' ),
+					sprintf( _n( 'Other check results: deleted after %d day.', 'Other check results: deleted after %d days.', $days, 'stm-eu-b2b' ), $days ),
+					__( 'On an erasure request, results that belong to an order keep the number and the result as tax evidence without the link to the person.', 'stm-eu-b2b' ),
 				),
-				'legal_basis' => array( __( 'Art. 6(1)(c) GDPR in connection with the tax evidence duties for tax-exempt supplies, or Art. 6(1)(f) GDPR for other checks; this is an open legal question', 'eurob2b' ) ),
+				'legal_basis' => array( __( 'Art. 6(1)(c) GDPR in connection with the tax evidence duties for tax-exempt supplies, or Art. 6(1)(f) GDPR for other checks; this is an open legal question', 'stm-eu-b2b' ) ),
 			)
 		);
 
 		return array(
 			'id'          => 'EB-03',
 			'inventory'   => $parts['inventory'],
-			'name'        => __( 'VAT ID checks and tax evidence', 'eurob2b' ),
+			'name'        => __( 'VAT ID checks and tax evidence', 'stm-eu-b2b' ),
 			// Rechecks from the VAT IDs screen and scheduled retries run while a checking service is on,
 			// even when the field no longer collects new numbers.
 			'in_use'      => VatIdField::MODE_OFF !== (string) $this->settings->get( 'tax_vat_field_mode' ) || $vies || $parts['in_use'],
-			'off_reason'  => __( 'The VAT ID field and all checking services are switched off.', 'eurob2b' ),
+			'off_reason'  => __( 'The VAT ID field and all checking services are switched off.', 'stm-eu-b2b' ),
 			'purposes'    => $parts['purposes'],
 			'subjects'    => $parts['subjects'],
 			'data'        => $parts['data'],
 			'internal'    => $parts['internal'],
-			'external'    => array() !== $parts['external'] ? $parts['external'] : array( __( 'None: VAT IDs are only checked for their format, because no checking service is switched on.', 'eurob2b' ) ),
+			'external'    => array() !== $parts['external'] ? $parts['external'] : array( __( 'None: VAT IDs are only checked for their format, because no checking service is switched on.', 'stm-eu-b2b' ) ),
 			'retention'   => $parts['retention'],
 			'legal_basis' => $parts['legal_basis'],
 		);
 	}
 
 	/**
-	 * The lists of EB-03 with what an add-on appends to them (EuroB2B Pro, PLT-015).
+	 * The lists of EB-03 with what an add-on appends to them (EU-B2B Pro, PLT-015).
 	 *
 	 * @param array<string, string[]> $lists The core's lists (inventory, purposes, subjects, data, internal, external, retention, legal_basis).
 	 * @return array{in_use: bool, inventory: string[], purposes: string[], subjects: string[], data: string[], internal: string[], external: string[], retention: string[], legal_basis: string[]}
@@ -370,7 +370,7 @@ final class ProcessingRecord {
 		$base  = array_merge( array( 'in_use' => false ), $empty, $lists );
 		/**
 		 * Filters the lists of the activity EB-03 (VAT ID checks and tax evidence) of the record.
-		 * EuroB2B Pro appends its checking services (BZSt, UID register, Brønnøysund), the proof of
+		 * EU-B2B Pro appends its checking services (BZSt, UID register, Brønnøysund), the proof of
 		 * intra-Community supply and the export evidence, and sets `in_use` while one of them is on
 		 * (PLT-015). Add to the end of each list; lists hold plain text.
 		 *
@@ -387,7 +387,7 @@ final class ProcessingRecord {
 	}
 
 	/**
-	 * EB-05: additions to orders (D-05). EuroB2B Pro adds the dunning history (D-28), the company
+	 * EB-05: additions to orders (D-05). EU-B2B Pro adds the dunning history (D-28), the company
 	 * members and the purchase order documents (D-25) through `eurob2b_processing_activities`.
 	 *
 	 * @return array<string, mixed>
@@ -396,27 +396,27 @@ final class ProcessingRecord {
 		return array(
 			'id'          => 'EB-05',
 			'inventory'   => array( 'D-05' ),
-			'name'        => __( 'Business details on orders', 'eurob2b' ),
+			'name'        => __( 'Business details on orders', 'stm-eu-b2b' ),
 			'purposes'    => array(
-				__( 'Recording on each order the customer classification and the tax treatment, for order processing and invoicing.', 'eurob2b' ),
+				__( 'Recording on each order the customer classification and the tax treatment, for order processing and invoicing.', 'stm-eu-b2b' ),
 			),
 			'subjects'    => array(
-				__( 'Customers who place orders', 'eurob2b' ),
+				__( 'Customers who place orders', 'stm-eu-b2b' ),
 			),
 			'data'        => array(
-				__( 'Copy of the VAT ID, tax treatment and reason for a tax exemption', 'eurob2b' ),
-				__( 'Customer type and customer group', 'eurob2b' ),
+				__( 'Copy of the VAT ID, tax treatment and reason for a tax exemption', 'stm-eu-b2b' ),
+				__( 'Customer type and customer group', 'stm-eu-b2b' ),
 			),
 			'internal'    => array(
-				__( 'Shop staff who process orders, and extensions with access to orders (for example invoicing plugins)', 'eurob2b' ),
+				__( 'Shop staff who process orders, and extensions with access to orders (for example invoicing plugins)', 'stm-eu-b2b' ),
 			),
 			'retention'   => array(
-				__( 'With the order, following the retention of orders in WooCommerce and the statutory retention periods for business records.', 'eurob2b' ),
-				__( 'When WooCommerce anonymises an order, these details are removed; on orders with a tax exemption the VAT ID stays as tax evidence.', 'eurob2b' ),
+				__( 'With the order, following the retention of orders in WooCommerce and the statutory retention periods for business records.', 'stm-eu-b2b' ),
+				__( 'When WooCommerce anonymises an order, these details are removed; on orders with a tax exemption the VAT ID stays as tax evidence.', 'stm-eu-b2b' ),
 			),
 			'legal_basis' => array(
-				__( 'Art. 6(1)(b) GDPR: performance of the contract', 'eurob2b' ),
-				__( 'Art. 6(1)(c) GDPR: statutory retention duties', 'eurob2b' ),
+				__( 'Art. 6(1)(b) GDPR: performance of the contract', 'stm-eu-b2b' ),
+				__( 'Art. 6(1)(c) GDPR: statutory retention duties', 'stm-eu-b2b' ),
 			),
 		);
 	}
@@ -431,33 +431,33 @@ final class ProcessingRecord {
 		return array(
 			'id'          => 'EB-10',
 			'inventory'   => self::INVENTORY['EB-10'],
-			'name'        => __( 'Audit log of administrative decisions', 'eurob2b' ),
+			'name'        => __( 'Audit log of administrative decisions', 'stm-eu-b2b' ),
 			'purposes'    => array(
-				__( 'Tracing who decided on registrations, customer status, type and group and VAT ID checks, and when, as evidence of accountability and for internal control.', 'eurob2b' ),
+				__( 'Tracing who decided on registrations, customer status, type and group and VAT ID checks, and when, as evidence of accountability and for internal control.', 'stm-eu-b2b' ),
 			),
 			'subjects'    => array(
-				__( 'Customers concerned by a decision', 'eurob2b' ),
-				__( 'Shop staff who decide (user ID only)', 'eurob2b' ),
+				__( 'Customers concerned by a decision', 'stm-eu-b2b' ),
+				__( 'Shop staff who decide (user ID only)', 'stm-eu-b2b' ),
 			),
 			'data'        => array(
-				__( 'Time, action, user IDs of the deciding and the concerned person, order or check number, previous and new value (status, customer type, customer group, check result); no IP addresses, no notes, no names', 'eurob2b' ),
+				__( 'Time, action, user IDs of the deciding and the concerned person, order or check number, previous and new value (status, customer type, customer group, check result); no IP addresses, no notes, no names', 'stm-eu-b2b' ),
 			),
 			'internal'    => array(
-				__( 'Shop staff with the capability to manage settings (eurob2b_manage_settings), read only', 'eurob2b' ),
+				__( 'Shop staff with the capability to manage settings (eurob2b_manage_settings), read only', 'stm-eu-b2b' ),
 			),
 			'retention'   => array(
 				/* translators: %d: number of days */
-				sprintf( _n( 'Deleted %d day after the entry was written, by a daily job.', 'Deleted %d days after the entry was written, by a daily job.', $days, 'eurob2b' ), $days ),
-				__( 'On an erasure request and when an account is deleted, the reference to the person is removed; the entry stays without it.', 'eurob2b' ),
+				sprintf( _n( 'Deleted %d day after the entry was written, by a daily job.', 'Deleted %d days after the entry was written, by a daily job.', $days, 'stm-eu-b2b' ), $days ),
+				__( 'On an erasure request and when an account is deleted, the reference to the person is removed; the entry stays without it.', 'stm-eu-b2b' ),
 			),
 			'legal_basis' => array(
-				__( 'Art. 6(1)(f) GDPR: legitimate interest in tracing decisions and in internal control, as part of the accountability under Art. 5(2) GDPR', 'eurob2b' ),
+				__( 'Art. 6(1)(f) GDPR: legitimate interest in tracing decisions and in internal control, as part of the accountability under Art. 5(2) GDPR', 'stm-eu-b2b' ),
 			),
 		);
 	}
 
 	/**
-	 * EB-09: abuse protection of the registration (D-15). EuroB2B Pro replaces it with the activity
+	 * EB-09: abuse protection of the registration (D-15). EU-B2B Pro replaces it with the activity
 	 * that also covers the order form (D-16) and quote requests from guests.
 	 *
 	 * @return array<string, mixed>
@@ -467,26 +467,26 @@ final class ProcessingRecord {
 		return array(
 			'id'          => 'EB-09',
 			'inventory'   => array( 'D-15' ),
-			'name'        => __( 'Protection of the registration against abuse', 'eurob2b' ),
+			'name'        => __( 'Protection of the registration against abuse', 'stm-eu-b2b' ),
 			'in_use'      => $registration,
-			'off_reason'  => __( 'All request limits are switched off.', 'eurob2b' ),
+			'off_reason'  => __( 'All request limits are switched off.', 'stm-eu-b2b' ),
 			'purposes'    => array(
-				__( 'Limiting the registrations per connection and hour, against automated mass registrations.', 'eurob2b' ),
+				__( 'Limiting the registrations per connection and hour, against automated mass registrations.', 'stm-eu-b2b' ),
 			),
 			'subjects'    => array(
-				__( 'Visitors who register', 'eurob2b' ),
+				__( 'Visitors who register', 'stm-eu-b2b' ),
 			),
 			'data'        => array(
-				__( 'A salted hash of the IP address that cannot be turned back into the address, and a request count', 'eurob2b' ),
+				__( 'A salted hash of the IP address that cannot be turned back into the address, and a request count', 'stm-eu-b2b' ),
 			),
 			'internal'    => array(
-				__( 'None; the entries are not shown in the admin', 'eurob2b' ),
+				__( 'None; the entries are not shown in the admin', 'stm-eu-b2b' ),
 			),
 			'retention'   => array(
-				__( 'Registration: 1 hour, then the entry expires.', 'eurob2b' ),
+				__( 'Registration: 1 hour, then the entry expires.', 'stm-eu-b2b' ),
 			),
 			'legal_basis' => array(
-				__( 'Art. 6(1)(f) GDPR: legitimate interest in protecting the shop against automated abuse', 'eurob2b' ),
+				__( 'Art. 6(1)(f) GDPR: legitimate interest in protecting the shop against automated abuse', 'stm-eu-b2b' ),
 			),
 		);
 	}
@@ -534,22 +534,22 @@ final class ProcessingRecord {
 		$in_use     = array_values( array_filter( $activities, static fn( array $a ): bool => $a['in_use'] ) );
 		$not_in_use = array_values( array_filter( $activities, static fn( array $a ): bool => ! $a['in_use'] ) );
 		$controller = $this->controller();
-		$missing    = '<span class="eurob2b-record__todo">' . esc_html__( 'please add', 'eurob2b' ) . '</span>';
+		$missing    = '<span class="eurob2b-record__todo">' . esc_html__( 'please add', 'stm-eu-b2b' ) . '</span>';
 		$text       = static fn( string $value ): string => '' !== $value ? nl2br( esc_html( $value ), false ) : $missing;
 
 		$html  = '<div class="eurob2b-record">';
-		$html .= '<p class="eurob2b-record__scope">' . esc_html__( 'This draft covers only the processing that EuroB2B adds to the shop. Your record also needs the processing of WordPress, WooCommerce and other plugins, of your hosting, e-mail delivery, payment and shipping services and of your business outside the shop. Check every entry, add what is missing and remove what does not apply. Legal bases are candidates that you should review with your data protection advisor. Whether you must keep a record follows from Art. 30(5) GDPR.', 'eurob2b' ) . '</p>';
+		$html .= '<p class="eurob2b-record__scope">' . esc_html__( 'This draft covers only the processing that STM EU-B2B adds to the shop. Your record also needs the processing of WordPress, WooCommerce and other plugins, of your hosting, e-mail delivery, payment and shipping services and of your business outside the shop. Check every entry, add what is missing and remove what does not apply. Legal bases are candidates that you should review with your data protection advisor. Whether you must keep a record follows from Art. 30(5) GDPR.', 'stm-eu-b2b' ) . '</p>';
 
-		$html .= '<section class="eurob2b-record__cover"><h2>' . esc_html__( 'Controller (Art. 30(1)(a) GDPR)', 'eurob2b' ) . '</h2><table>';
+		$html .= '<section class="eurob2b-record__cover"><h2>' . esc_html__( 'Controller (Art. 30(1)(a) GDPR)', 'stm-eu-b2b' ) . '</h2><table>';
 		$rows  = array(
-			__( 'Name', 'eurob2b' )                     => '' !== $controller['name'] ? esc_html( $controller['name'] ) : $missing,
-			__( 'Address', 'eurob2b' )                  => '' !== $controller['address'] ? nl2br( esc_html( $controller['address'] ), false ) : $missing,
-			__( 'Website', 'eurob2b' )                  => esc_html( $controller['website'] ),
-			__( 'Phone and e-mail address', 'eurob2b' ) => $text( $controller['contact'] ),
-			__( 'Contact person', 'eurob2b' )           => $text( $controller['contact_person'] ),
-			__( 'Joint controllers (Art. 26 GDPR)', 'eurob2b' ) => $text( $controller['joint_controllers'] ),
-			__( 'Representative in the EU (Art. 27 GDPR)', 'eurob2b' ) => $text( $controller['eu_representative'] ),
-			__( 'Data protection officer (Art. 37 GDPR)', 'eurob2b' ) => $text( $controller['dpo'] ),
+			__( 'Name', 'stm-eu-b2b' )                     => '' !== $controller['name'] ? esc_html( $controller['name'] ) : $missing,
+			__( 'Address', 'stm-eu-b2b' )                  => '' !== $controller['address'] ? nl2br( esc_html( $controller['address'] ), false ) : $missing,
+			__( 'Website', 'stm-eu-b2b' )                  => esc_html( $controller['website'] ),
+			__( 'Phone and e-mail address', 'stm-eu-b2b' ) => $text( $controller['contact'] ),
+			__( 'Contact person', 'stm-eu-b2b' )           => $text( $controller['contact_person'] ),
+			__( 'Joint controllers (Art. 26 GDPR)', 'stm-eu-b2b' ) => $text( $controller['joint_controllers'] ),
+			__( 'Representative in the EU (Art. 27 GDPR)', 'stm-eu-b2b' ) => $text( $controller['eu_representative'] ),
+			__( 'Data protection officer (Art. 37 GDPR)', 'stm-eu-b2b' ) => $text( $controller['dpo'] ),
 		);
 		foreach ( $rows as $label => $value ) {
 			$html .= '<tr><th scope="row">' . esc_html( $label ) . '</th><td>' . $value . '</td></tr>';
@@ -560,33 +560,33 @@ final class ProcessingRecord {
 			$html .= $this->activity_html( $activity );
 		}
 
-		$html .= '<section class="eurob2b-record__general"><h2>' . esc_html__( 'For all activities above', 'eurob2b' ) . '</h2>';
-		$html .= '<h3>' . esc_html__( 'Special categories of personal data (Art. 9 and 10 GDPR)', 'eurob2b' ) . '</h3>';
+		$html .= '<section class="eurob2b-record__general"><h2>' . esc_html__( 'For all activities above', 'stm-eu-b2b' ) . '</h2>';
+		$html .= '<h3>' . esc_html__( 'Special categories of personal data (Art. 9 and 10 GDPR)', 'stm-eu-b2b' ) . '</h3>';
 		/**
 		 * Filters the sentence on special categories of personal data (Art. 9 and 10 GDPR) in the
-		 * record. EuroB2B Pro adds its quote request forms.
+		 * record. EU-B2B Pro adds its quote request forms.
 		 *
 		 * @param string $sentence Plain text.
 		 */
-		$special = apply_filters( 'eurob2b_processing_record_special_categories', __( 'EuroB2B itself processes no special categories of personal data and no data on criminal convictions. Fields you add to the registration form can change this.', 'eurob2b' ) );
+		$special = apply_filters( 'eurob2b_processing_record_special_categories', __( 'EU-B2B itself processes no special categories of personal data and no data on criminal convictions. Fields you add to the registration form can change this.', 'stm-eu-b2b' ) );
 		$html   .= '<p>' . esc_html( is_string( $special ) ? $special : '' ) . '</p>';
-		$html   .= '<h3>' . esc_html__( 'Transfers to third countries (Art. 30(1)(e) GDPR)', 'eurob2b' ) . '</h3>';
+		$html   .= '<h3>' . esc_html__( 'Transfers to third countries (Art. 30(1)(e) GDPR)', 'stm-eu-b2b' ) . '</h3>';
 		/**
 		 * Filters the sentences on transfers to third countries (Art. 30(1)(e) GDPR) in the record,
-		 * plain text joined by spaces. The first is the core's statement; EuroB2B Pro replaces it
+		 * plain text joined by spaces. The first is the core's statement; EU-B2B Pro replaces it
 		 * while the Swiss UID check is on and adds one on Norway while the Brønnøysund check is on
 		 * (docs/privacy-and-data-flows.md D-03).
 		 *
 		 * @param string[] $sentences Sentences.
 		 */
-		$transfers = apply_filters( 'eurob2b_processing_record_transfers', array( __( 'EuroB2B transfers no personal data to third countries or international organisations. Add the transfers of your hosting, e-mail delivery and other services.', 'eurob2b' ) ) );
+		$transfers = apply_filters( 'eurob2b_processing_record_transfers', array( __( 'EU-B2B transfers no personal data to third countries or international organisations. Add the transfers of your hosting, e-mail delivery and other services.', 'stm-eu-b2b' ) ) );
 
 		$html .= '<p>' . implode( ' ', array_map( 'esc_html', is_array( $transfers ) ? array_filter( $transfers, 'is_string' ) : array() ) ) . '</p>';
-		$html .= '<h3>' . esc_html__( 'Technical and organisational measures (Art. 30(1)(g) and Art. 32(1) GDPR)', 'eurob2b' ) . '</h3>';
-		$html .= '<p>' . esc_html__( 'Measures of EuroB2B; add those of your hosting and your organisation (for example encryption in transit, backups, access to the server, staff instructions):', 'eurob2b' ) . '</p><ul>';
+		$html .= '<h3>' . esc_html__( 'Technical and organisational measures (Art. 30(1)(g) and Art. 32(1) GDPR)', 'stm-eu-b2b' ) . '</h3>';
+		$html .= '<p>' . esc_html__( 'Measures of EU-B2B; add those of your hosting and your organisation (for example encryption in transit, backups, access to the server, staff instructions):', 'stm-eu-b2b' ) . '</p><ul>';
 		/**
 		 * Filters the technical and organisational measures of the record (Art. 30(1)(g) GDPR), plain
-		 * text keyed by topic: access, input, abuse, retention, connections, telemetry. EuroB2B Pro adds
+		 * text keyed by topic: access, input, abuse, retention, connections, telemetry. EU-B2B Pro adds
 		 * `companies` after `input` and names the Peppol Directory lookup in `connections` (PLT-015).
 		 *
 		 * @param array<string, string> $measures Measures in their order.
@@ -594,12 +594,12 @@ final class ProcessingRecord {
 		$measures = apply_filters(
 			'eurob2b_processing_record_measures',
 			array(
-				'access'      => __( 'Admin screens, exports and the REST API require role-based capabilities; forms and downloads are protected against cross-site request forgery (nonces).', 'eurob2b' ),
-				'input'       => __( 'Input is validated on the server, output is escaped, and database queries use prepared statements.', 'eurob2b' ),
-				'abuse'       => __( 'The abuse protection stores IP addresses only as salted hashes that cannot be turned back into the address.', 'eurob2b' ),
-				'retention'   => __( 'Retention periods are applied by a daily job; requests for access and erasure are answered with the WordPress tools Export Personal Data and Erase Personal Data, which include EuroB2B\'s data.', 'eurob2b' ),
-				'connections' => __( 'Connections to external services exist only for VAT ID checks, only after they are switched on, and use HTTPS.', 'eurob2b' ),
-				'telemetry'   => __( 'EuroB2B has no telemetry and sends no data to its developers. Uninstalling deletes data only after an explicit opt-in.', 'eurob2b' ),
+				'access'      => __( 'Admin screens, exports and the REST API require role-based capabilities; forms and downloads are protected against cross-site request forgery (nonces).', 'stm-eu-b2b' ),
+				'input'       => __( 'Input is validated on the server, output is escaped, and database queries use prepared statements.', 'stm-eu-b2b' ),
+				'abuse'       => __( 'The abuse protection stores IP addresses only as salted hashes that cannot be turned back into the address.', 'stm-eu-b2b' ),
+				'retention'   => __( 'Retention periods are applied by a daily job; requests for access and erasure are answered with the WordPress tools Export Personal Data and Erase Personal Data, which include EU-B2B\'s data.', 'stm-eu-b2b' ),
+				'connections' => __( 'Connections to external services exist only for VAT ID checks, only after they are switched on, and use HTTPS.', 'stm-eu-b2b' ),
+				'telemetry'   => __( 'EU-B2B has no telemetry and sends no data to its developers. Uninstalling deletes data only after an explicit opt-in.', 'stm-eu-b2b' ),
 			)
 		);
 		foreach ( is_array( $measures ) ? $measures : array() as $measure ) {
@@ -610,8 +610,8 @@ final class ProcessingRecord {
 		$html .= '</ul></section>';
 
 		if ( array() !== $not_in_use ) {
-			$html .= '<section class="eurob2b-record__unused"><h2>' . esc_html__( 'Not in use on this shop', 'eurob2b' ) . '</h2>';
-			$html .= '<p>' . esc_html__( 'These activities are not part of the record while their feature is switched off. Data stored while it was on stays until its retention period ends.', 'eurob2b' ) . '</p><ul>';
+			$html .= '<section class="eurob2b-record__unused"><h2>' . esc_html__( 'Not in use on this shop', 'stm-eu-b2b' ) . '</h2>';
+			$html .= '<p>' . esc_html__( 'These activities are not part of the record while their feature is switched off. Data stored while it was on stays until its retention period ends.', 'stm-eu-b2b' ) . '</p><ul>';
 			foreach ( $not_in_use as $activity ) {
 				$html .= '<li>' . esc_html( $activity['id'] . ' ' . $activity['name'] ) . ( '' !== $activity['off_reason'] ? ': ' . esc_html( $activity['off_reason'] ) : '' ) . '</li>';
 			}
@@ -621,7 +621,7 @@ final class ProcessingRecord {
 		$html .= '<p class="eurob2b-record__footer">' . esc_html(
 			sprintf(
 				/* translators: 1: date, 2: plugin version */
-				__( 'Generated on %1$s by EuroB2B %2$s from the current settings. Changes to the settings change this draft; keep dated copies as the history of your record.', 'eurob2b' ),
+				__( 'Generated on %1$s by STM EU-B2B %2$s from the current settings. Changes to the settings change this draft; keep dated copies as the history of your record.', 'stm-eu-b2b' ),
 				wp_date( (string) get_option( 'date_format' ) ),
 				EUROB2B_VERSION
 			)
@@ -635,15 +635,15 @@ final class ProcessingRecord {
 	 * @param array{id: string, name: string, inventory: string[], in_use: bool, off_reason: string, purposes: string[], subjects: string[], data: string[], internal: string[], external: string[], retention: string[], legal_basis: string[]} $activity Activity.
 	 */
 	private function activity_html( array $activity ): string {
-		$none  = array( _x( 'None', 'recipients', 'eurob2b' ) );
+		$none  = array( _x( 'None', 'recipients', 'stm-eu-b2b' ) );
 		$rows  = array(
-			__( 'Purposes (Art. 30(1)(b))', 'eurob2b' ) => $activity['purposes'],
-			__( 'Categories of data subjects (Art. 30(1)(c))', 'eurob2b' ) => $activity['subjects'],
-			__( 'Categories of personal data (Art. 30(1)(c))', 'eurob2b' ) => $activity['data'],
-			__( 'Recipients inside the shop (persons with access)', 'eurob2b' ) => array() !== $activity['internal'] ? $activity['internal'] : $none,
-			__( 'External recipients (Art. 30(1)(d))', 'eurob2b' ) => array() !== $activity['external'] ? $activity['external'] : $none,
-			__( 'Time limits for erasure (Art. 30(1)(f))', 'eurob2b' ) => $activity['retention'],
-			__( 'Legal basis (candidates to review)', 'eurob2b' ) => $activity['legal_basis'],
+			__( 'Purposes (Art. 30(1)(b))', 'stm-eu-b2b' ) => $activity['purposes'],
+			__( 'Categories of data subjects (Art. 30(1)(c))', 'stm-eu-b2b' ) => $activity['subjects'],
+			__( 'Categories of personal data (Art. 30(1)(c))', 'stm-eu-b2b' ) => $activity['data'],
+			__( 'Recipients inside the shop (persons with access)', 'stm-eu-b2b' ) => array() !== $activity['internal'] ? $activity['internal'] : $none,
+			__( 'External recipients (Art. 30(1)(d))', 'stm-eu-b2b' ) => array() !== $activity['external'] ? $activity['external'] : $none,
+			__( 'Time limits for erasure (Art. 30(1)(f))', 'stm-eu-b2b' ) => $activity['retention'],
+			__( 'Legal basis (candidates to review)', 'stm-eu-b2b' ) => $activity['legal_basis'],
 		);
 		$html  = '<section class="eurob2b-record__activity" id="' . esc_attr( 'eurob2b-record-' . sanitize_title( $activity['id'] ) ) . '">';
 		$html .= '<h2>' . esc_html( $activity['id'] . ' ' . $activity['name'] ) . '</h2><table>';
@@ -656,7 +656,7 @@ final class ProcessingRecord {
 			$html .= '</td></tr>';
 		}
 		if ( array() !== $activity['inventory'] ) {
-			$html .= '<tr><th scope="row">' . esc_html__( 'EuroB2B data inventory', 'eurob2b' ) . '</th><td>' . esc_html( implode( ', ', $activity['inventory'] ) ) . '</td></tr>';
+			$html .= '<tr><th scope="row">' . esc_html__( 'STM EU-B2B data inventory', 'stm-eu-b2b' ) . '</th><td>' . esc_html( implode( ', ', $activity['inventory'] ) ) . '</td></tr>';
 		}
 		return $html . '</table></section>';
 	}

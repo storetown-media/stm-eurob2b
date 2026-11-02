@@ -189,10 +189,10 @@ final class UpgradeSuggestions {
 	 */
 	public function assert_member( int $user_id, Group $source ): void {
 		if ( $this->in_company( $user_id ) ) {
-			throw new InvalidArgumentException( __( 'The customer is a member of a company account; the company\'s group applies, so change it on the company.', 'eurob2b' ) );
+			throw new InvalidArgumentException( esc_html__( 'The customer is a member of a company account; the company\'s group applies, so change it on the company.', 'stm-eu-b2b' ) );
 		}
 		if ( ! in_array( $user_id, $this->members( $source ), true ) ) {
-			throw new InvalidArgumentException( __( 'The customer is no longer an approved member of this group.', 'eurob2b' ) );
+			throw new InvalidArgumentException( esc_html__( 'The customer is no longer an approved member of this group.', 'stm-eu-b2b' ) );
 		}
 	}
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * Settings of EuroB2B Pro that a save without it keeps.
+ * Settings of EU-B2B Pro that a save without it keeps.
  *
  * @package EuroB2B
  */
@@ -10,8 +10,8 @@ declare( strict_types=1 );
 namespace EuroB2B\Modules\Admin;
 
 /**
- * The ids of the settings fields that EuroB2B Pro registers (PLT-015, product owner decision of
- * 2026-10-29). Saving the settings while EuroB2B Pro is inactive keeps their stored values, so the
+ * The ids of the settings fields that EU-B2B Pro registers (PLT-015, product owner decision of
+ * 2026-10-29). Saving the settings while EU-B2B Pro is inactive keeps their stored values, so the
  * Pro configuration is still there when Pro is active again, and the privacy handling in the core
  * reads the retention periods the shop chose (`Settings::stored()`). Any other key the schema does
  * not know is dropped, as before. `ProSettingKeysTest` checks this list against the fields the Pro

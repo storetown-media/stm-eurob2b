@@ -226,6 +226,6 @@ final class CheckoutRevalidation {
 	private static function message( array $mismatches ): string {
 		$names = implode( ', ', array_unique( array_map( static fn( array $m ): string => $m['name'], $mismatches ) ) );
 		/* translators: %s: product names */
-		return sprintf( __( 'The price of %s has changed. Please review your cart and try again.', 'eurob2b' ), $names );
+		return sprintf( __( 'The price of %s has changed. Please review your cart and try again.', 'stm-eu-b2b' ), $names );
 	}
 }

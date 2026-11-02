@@ -12,20 +12,20 @@ namespace EuroB2B\Modules\Rules;
 /**
  * The core applies percentage discounts with an audience, a scope, a priority and a date window
  * (PLT-015). Every other rule type, the fixed-amount mode, conditions and the discount line in the
- * cart are features of EuroB2B Pro. A stored rule that uses one of them stays stored, but without
- * EuroB2B Pro it never applies, and the rules page cannot edit it, so it is never applied or saved
+ * cart are features of EU-B2B Pro. A stored rule that uses one of them stays stored, but without
+ * EU-B2B Pro it never applies, and the rules page cannot edit it, so it is never applied or saved
  * differently from what it says (a discount with a condition never becomes an unconditional one).
  * Rule types that other plugins add (`eurob2b_rule_types`) are theirs to apply.
  *
  * The core contains no behaviour for those parts: its adjustment provider takes percentage discounts
- * only, and conditions are decided by a `ConditionChecker` that only EuroB2B Pro provides. The flag
+ * only, and conditions are decided by a `ConditionChecker` that only EU-B2B Pro provides. The flag
  * `eurob2b_rules_extended` therefore only says that another module handles them: the evaluator then
  * hands such rules to their consumers and the rules page opens and accepts them.
  */
 final class RuleSupport {
 
 	/**
-	 * Rule types of EuroB2B Pro.
+	 * Rule types of EU-B2B Pro.
 	 */
 	public const EXTENDED_TYPES = array(
 		Rule::TYPE_MARKUP,
@@ -42,7 +42,7 @@ final class RuleSupport {
 	);
 
 	/**
-	 * Whether the rule uses a rule type, mode, condition or display of EuroB2B Pro.
+	 * Whether the rule uses a rule type, mode, condition or display of EU-B2B Pro.
 	 *
 	 * @param Rule $rule Rule.
 	 */
@@ -54,7 +54,7 @@ final class RuleSupport {
 	}
 
 	/**
-	 * Whether the rule may apply and be edited: always when it needs nothing of EuroB2B Pro,
+	 * Whether the rule may apply and be edited: always when it needs nothing of EU-B2B Pro,
 	 * otherwise only next to it.
 	 *
 	 * @param Rule $rule Rule.
@@ -70,7 +70,7 @@ final class RuleSupport {
 	public static function extended(): bool {
 		/**
 		 * Filters whether a module handles the rule types, the fixed-amount mode, the conditions and
-		 * the discount line in the cart (EuroB2B Pro returns true; return true only from the module
+		 * the discount line in the cart (EU-B2B Pro returns true; return true only from the module
 		 * that applies them and adds their form parts). It switches no behaviour on by itself.
 		 * Without it, rules that use them stay stored but never apply, and the rules page lists them
 		 * without editing them.

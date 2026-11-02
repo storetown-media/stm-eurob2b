@@ -20,7 +20,7 @@ use EuroB2B\Modules\Privacy\RetentionTaskInterface;
  * Off by default (0 days): whether offers that did not lead to an order count as business letters
  * with a statutory retention period is an open legal question (docs/privacy-and-data-flows.md §8),
  * so the shop owner decides. Quotes an order references are never deleted by this task. Part of the
- * core: the period is read as stored, so the job keeps running while EuroB2B Pro, which offers the
+ * core: the period is read as stored, so the job keeps running while EU-B2B Pro, which offers the
  * setting, is inactive (PLT-015).
  */
 final class QuoteRetention implements RetentionTaskInterface {

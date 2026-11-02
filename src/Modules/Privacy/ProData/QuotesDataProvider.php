@@ -16,7 +16,7 @@ use EuroB2B\Support\Money;
  * Exports a customer's requests and offers and the requests sent from the e-mail address without a
  * customer account (D-06) and, on erasure, deletes those no order references and anonymises the
  * rest (the lines stay as the commercial record of the order). Part of the core: it reads the shared
- * tables, also while EuroB2B Pro, which records the quotes, is inactive (PLT-015).
+ * tables, also while EU-B2B Pro, which records the quotes, is inactive (PLT-015).
  */
 final class QuotesDataProvider implements PersonalDataProviderInterface {
 
@@ -47,7 +47,7 @@ final class QuotesDataProvider implements PersonalDataProviderInterface {
 	 * Label.
 	 */
 	public function label(): string {
-		return __( 'EuroB2B quotes and offers', 'eurob2b' );
+		return __( 'EU-B2B quotes and offers', 'stm-eu-b2b' );
 	}
 
 	/**
@@ -74,45 +74,45 @@ final class QuotesDataProvider implements PersonalDataProviderInterface {
 			}
 			$fields = array(
 				array(
-					'name'  => __( 'Type', 'eurob2b' ),
-					'value' => $offer ? __( 'Offer', 'eurob2b' ) : __( 'Request', 'eurob2b' ),
+					'name'  => __( 'Type', 'stm-eu-b2b' ),
+					'value' => $offer ? __( 'Offer', 'stm-eu-b2b' ) : __( 'Request', 'stm-eu-b2b' ),
 				),
 				array(
-					'name'  => __( 'Subject', 'eurob2b' ),
+					'name'  => __( 'Subject', 'stm-eu-b2b' ),
 					'value' => (string) $quote['title'],
 				),
 				array(
-					'name'  => __( 'Status', 'eurob2b' ),
+					'name'  => __( 'Status', 'stm-eu-b2b' ),
 					'value' => QuoteRecords::status_label( $quote ),
 				),
 				array(
-					'name'  => __( 'Created', 'eurob2b' ),
+					'name'  => __( 'Created', 'stm-eu-b2b' ),
 					'value' => (string) $quote['created_at'],
 				),
 				array(
-					'name'  => __( 'Lines', 'eurob2b' ),
+					'name'  => __( 'Lines', 'stm-eu-b2b' ),
 					'value' => implode( "\n", $lines ),
 				),
 			);
 			if ( QuoteRecords::is_guest( $quote ) ) {
 				$fields[] = array(
-					'name'  => __( 'Name', 'eurob2b' ),
+					'name'  => __( 'Name', 'stm-eu-b2b' ),
 					'value' => (string) ( $quote['guest_name'] ?? '' ),
 				);
 				$fields[] = array(
-					'name'  => __( 'E-mail address', 'eurob2b' ),
+					'name'  => __( 'E-mail address', 'stm-eu-b2b' ),
 					'value' => (string) ( $quote['guest_email'] ?? '' ),
 				);
 				if ( '' !== (string) ( $quote['guest_company'] ?? '' ) ) {
 					$fields[] = array(
-						'name'  => __( 'Company', 'eurob2b' ),
+						'name'  => __( 'Company', 'stm-eu-b2b' ),
 						'value' => (string) $quote['guest_company'],
 					);
 				}
 			}
 			if ( '' !== (string) ( $quote['message'] ?? '' ) ) {
 				$fields[] = array(
-					'name'  => __( 'Message', 'eurob2b' ),
+					'name'  => __( 'Message', 'stm-eu-b2b' ),
 					'value' => (string) $quote['message'],
 				);
 			}
@@ -124,13 +124,13 @@ final class QuotesDataProvider implements PersonalDataProviderInterface {
 			}
 			if ( '' !== (string) ( $quote['note'] ?? '' ) ) {
 				$fields[] = array(
-					'name'  => $offer ? __( 'Text for the customer', 'eurob2b' ) : __( 'Our reply', 'eurob2b' ),
+					'name'  => $offer ? __( 'Text for the customer', 'stm-eu-b2b' ) : __( 'Our reply', 'stm-eu-b2b' ),
 					'value' => (string) $quote['note'],
 				);
 			}
 			if ( (int) $quote['accepted_order_id'] > 0 ) {
 				$fields[] = array(
-					'name'  => _x( 'Order', 'shop order', 'eurob2b' ),
+					'name'  => _x( 'Order', 'shop order', 'stm-eu-b2b' ),
 					'value' => (string) (int) $quote['accepted_order_id'],
 				);
 			}
@@ -177,7 +177,7 @@ final class QuotesDataProvider implements PersonalDataProviderInterface {
 		$messages           = array();
 		if ( $result['anonymised'] > 0 ) {
 			/* translators: %d: number of quotes */
-			$messages[] = sprintf( __( '%d quote(s) referenced by orders were anonymised and kept as commercial records.', 'eurob2b' ), $result['anonymised'] );
+			$messages[] = sprintf( __( '%d quote(s) referenced by orders were anonymised and kept as commercial records.', 'stm-eu-b2b' ), $result['anonymised'] );
 		}
 		return array(
 			'items_removed'  => $result['deleted'] > 0,

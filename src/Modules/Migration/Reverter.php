@@ -20,6 +20,7 @@ use EuroB2B\Modules\Registration\RegistrationTypeRepository;
 use EuroB2B\Modules\Rules\RuleRepository;
 use InvalidArgumentException;
 use RuntimeException;
+use EuroB2B\Support\ExceptionMessage;
 
 /**
  * Puts back what one journal row of an import changed (MIG-001). Rows are reverted newest first,
@@ -65,7 +66,7 @@ final class Reverter {
 	private MethodPolicy $policy;
 
 	/**
-	 * Company accounts (EuroB2B Pro); null without it.
+	 * Company accounts (EU-B2B Pro); null without it.
 	 *
 	 * @var CompanyTarget|null
 	 */
@@ -87,7 +88,7 @@ final class Reverter {
 	 * @param RuleRepository             $rules     Rules.
 	 * @param MethodPolicy               $policy    Method policies.
 	 * @param AudienceResolver           $audiences Audience cache.
-	 * @param CompanyTarget|null         $companies Company accounts, when EuroB2B Pro is active.
+	 * @param CompanyTarget|null         $companies Company accounts, when EU-B2B Pro is active.
 	 */
 	public function __construct( GroupRepository $groups, RegistrationTypeRepository $types, FieldRepository $fields, RuleRepository $rules, MethodPolicy $policy, AudienceResolver $audiences, ?CompanyTarget $companies = null ) {
 		$this->groups    = $groups;
@@ -100,10 +101,10 @@ final class Reverter {
 	}
 
 	/**
-	 * Error text of a company row while EuroB2B Pro is not active: the row stays in the journal.
+	 * Error text of a company row while EU-B2B Pro is not active: the row stays in the journal.
 	 */
 	private static function needs_pro(): string {
-		return __( 'Company accounts are a feature of EuroB2B Pro; activate it to undo this part of the import.', 'eurob2b' );
+		return __( 'Company accounts are a feature of EU-B2B Pro; activate it to undo this part of the import.', 'stm-eu-b2b' );
 	}
 
 	/**
@@ -197,13 +198,13 @@ final class Reverter {
 					break;
 			}//end switch
 		} catch ( InvalidArgumentException | RuntimeException $e ) {
-			return $e->getMessage();
+			return ExceptionMessage::plain( $e );
 		}//end try
 		return '';
 	}
 
 	/**
-	 * Puts back an entry of the source-to-EuroB2B map.
+	 * Puts back an entry of the source-to-EU-B2B map.
 	 *
 	 * @param string      $source Source id.
 	 * @param string      $ref    kind:source key.

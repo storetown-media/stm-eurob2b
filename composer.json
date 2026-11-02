@@ -1,6 +1,6 @@
 {
   "name": "storetown-media/eurob2b",
-  "description": "EuroB2B – the complete B2B solution for WooCommerce, built for Europe.",
+  "description": "EU-B2B – the complete B2B solution for WooCommerce, built for Europe.",
   "type": "wordpress-plugin",
   "license": "GPL-2.0-or-later",
   "homepage": "https://github.com/storetown-media/eurob2b",
@@ -50,6 +50,7 @@
     }
   },
   "config": {
+    "autoloader-suffix": "StmEuB2b",
     "sort-packages": true,
     "optimize-autoloader": true,
     "platform": {
@@ -60,7 +61,7 @@
     }
   },
   "scripts": {
-    "lint": "@php -l eurob2b.php && find src tests -name '*.php' -print0 | xargs -0 -n1 -P4 php -l > /dev/null",
+    "lint": "@php -l stm-eu-b2b.php && find src tests -name '*.php' -print0 | xargs -0 -n1 -P4 php -l > /dev/null",
     "phpcs": "phpcs",
     "phpcs:fix": "phpcbf",
     "phpstan": "phpstan analyse --memory-limit=1G",

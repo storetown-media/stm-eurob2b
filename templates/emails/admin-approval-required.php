@@ -16,31 +16,31 @@
 
 defined( 'ABSPATH' ) || exit;
 
-do_action( 'woocommerce_email_header', $email_heading, $email );
+do_action( 'woocommerce_email_header', $email_heading, $email ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- WooCommerce core action: the header of the shop's WooCommerce e-mail, fired as WooCommerce's own e-mail templates do.
 ?>
 <p>
 	<?php
 	/* translators: 1: customer name, 2: registration type */
-	echo esc_html( sprintf( __( '%1$s registered as "%2$s" and is waiting for your approval.', 'eurob2b' ), $customer_name, null !== $registration_type ? $registration_type->label : '' ) );
+	echo esc_html( sprintf( __( '%1$s registered as "%2$s" and is waiting for your approval.', 'stm-eu-b2b' ), $customer_name, null !== $registration_type ? $registration_type->label : '' ) );
 	?>
 </p>
 <?php if ( $user instanceof WP_User ) : ?>
 <table cellspacing="0" cellpadding="6" style="width: 100%; border: 1px solid #e5e5e5;" border="1">
-	<tr><th scope="row" style="text-align:left;"><?php esc_html_e( 'Username', 'eurob2b' ); ?></th><td><?php echo esc_html( $user->user_login ); ?></td></tr>
-	<tr><th scope="row" style="text-align:left;"><?php esc_html_e( 'E-mail', 'eurob2b' ); ?></th><td><a href="mailto:<?php echo esc_attr( $user->user_email ); ?>"><?php echo esc_html( $user->user_email ); ?></a></td></tr>
-	<?php foreach ( $fields as $label => $value ) : ?>
-	<tr><th scope="row" style="text-align:left;"><?php echo esc_html( $label ); ?></th><td><?php echo nl2br( esc_html( $value ) ); ?></td></tr>
+	<tr><th scope="row" style="text-align:left;"><?php esc_html_e( 'Username', 'stm-eu-b2b' ); ?></th><td><?php echo esc_html( $user->user_login ); ?></td></tr>
+	<tr><th scope="row" style="text-align:left;"><?php esc_html_e( 'E-mail', 'stm-eu-b2b' ); ?></th><td><a href="mailto:<?php echo esc_attr( $user->user_email ); ?>"><?php echo esc_html( $user->user_email ); ?></a></td></tr>
+	<?php foreach ( $fields as $eurob2b_label => $eurob2b_value ) : ?>
+	<tr><th scope="row" style="text-align:left;"><?php echo esc_html( $eurob2b_label ); ?></th><td><?php echo nl2br( esc_html( $eurob2b_value ) ); ?></td></tr>
 	<?php endforeach; ?>
 </table>
 <?php endif; ?>
 <p>
-	<a href="<?php echo esc_url( $approvals_url ); ?>"><?php esc_html_e( 'Open the approvals list', 'eurob2b' ); ?></a>
+	<a href="<?php echo esc_url( $approvals_url ); ?>"><?php esc_html_e( 'Open the approvals list', 'stm-eu-b2b' ); ?></a>
 	<?php if ( '' !== $profile_url ) : ?>
-		&middot; <a href="<?php echo esc_url( $profile_url ); ?>"><?php esc_html_e( 'Open the user profile', 'eurob2b' ); ?></a>
+		&middot; <a href="<?php echo esc_url( $profile_url ); ?>"><?php esc_html_e( 'Open the user profile', 'stm-eu-b2b' ); ?></a>
 	<?php endif; ?>
 </p>
 <?php
 if ( $additional_content ) {
 	echo wp_kses_post( wpautop( wptexturize( $additional_content ) ) );
 }
-do_action( 'woocommerce_email_footer', $email );
+do_action( 'woocommerce_email_footer', $email ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- WooCommerce core action: the footer of the shop's WooCommerce e-mail, fired as WooCommerce's own e-mail templates do.

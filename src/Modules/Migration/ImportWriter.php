@@ -1,6 +1,6 @@
 <?php
 /**
- * Writes imported data into EuroB2B's model.
+ * Writes imported data into EU-B2B's model.
  *
  * @package EuroB2B
  */
@@ -24,17 +24,18 @@ use EuroB2B\Modules\Rules\Admin\RulesPage;
 use EuroB2B\Modules\Rules\RuleRepository;
 use InvalidArgumentException;
 use RuntimeException;
+use EuroB2B\Support\ExceptionMessage;
 
 /**
  * The one place an import writes through (MIG-001). Sources call it with values already mapped
- * to EuroB2B's model. In a test run it only compares with what is stored and counts new, changed,
- * unchanged and skipped values; in an import it writes through EuroB2B's own repositories and
+ * to EU-B2B's model. In a test run it only compares with what is stored and counts new, changed,
+ * unchanged and skipped values; in an import it writes through EU-B2B's own repositories and
  * services (same validation as the admin screens) and journals the previous value of everything
  * it changes, so Reverter can undo the import. The journal row is written first; when it cannot
  * be written, the writing methods throw JournalException (an object created just before is taken
  * back), and the run stops.
  *
- * It never deletes a value: an empty source value leaves the EuroB2B value as it is. Objects it
+ * It never deletes a value: an empty source value leaves the EU-B2B value as it is. Objects it
  * creates (groups, rules, registration types and fields) are remembered per source in the option
  * `eurob2b_migration_map`, so a repeated import updates them instead of creating them twice.
  */
@@ -104,7 +105,7 @@ final class ImportWriter {
 	private CustomerService $customers;
 
 	/**
-	 * Company accounts (EuroB2B Pro); null without it.
+	 * Company accounts (EU-B2B Pro); null without it.
 	 *
 	 * @var CompanyTarget|null
 	 */
@@ -135,7 +136,7 @@ final class ImportWriter {
 	 * @param RulesPage                  $rules_page Rules screen (validation).
 	 * @param MethodPolicy               $policy     Method policies.
 	 * @param CustomerService            $customers  Customers.
-	 * @param CompanyTarget|null         $companies  Company accounts, when EuroB2B Pro is active.
+	 * @param CompanyTarget|null         $companies  Company accounts, when EU-B2B Pro is active.
 	 */
 	public function __construct( Journal $journal, GroupRepository $groups, RegistrationTypeRepository $types, FieldRepository $fields, RuleRepository $rules, RulesPage $rules_page, MethodPolicy $policy, CustomerService $customers, ?CompanyTarget $companies = null ) {
 		$this->journal    = $journal;
@@ -258,7 +259,7 @@ final class ImportWriter {
 		}
 		if ( '' === $slug ) {
 			/* translators: 1: group name, 2: slug */
-			$this->skip( sprintf( __( 'Group "%1$s": the slug %2$s belongs to a private customer group here; rename one of them and run the import again.', 'eurob2b' ), $name, $fallback ) );
+			$this->skip( sprintf( __( 'Group "%1$s": the slug %2$s belongs to a private customer group here; rename one of them and run the import again.', 'stm-eu-b2b' ), $name, $fallback ) );
 			$run->remember( 'group', $key, 0 );
 			return 0;
 		}
@@ -273,7 +274,7 @@ final class ImportWriter {
 		} catch ( InvalidArgumentException | RuntimeException $e ) {
 			$run->count( 'new', -1 );
 			/* translators: 1: group name, 2: error message */
-			$this->skip( sprintf( __( 'Group "%1$s" could not be created: %2$s', 'eurob2b' ), $name, $e->getMessage() ) );
+			$this->skip( sprintf( __( 'Group "%1$s" could not be created: %2$s', 'stm-eu-b2b' ), $name, ExceptionMessage::plain( $e ) ) );
 			$run->remember( 'group', $key, 0 );
 			return 0;
 		}
@@ -317,7 +318,7 @@ final class ImportWriter {
 		} catch ( RuntimeException $e ) {
 			$run->count( null === $current ? 'new' : 'changed', -1 );
 			/* translators: 1: registration type, 2: error message */
-			$this->skip( sprintf( __( 'Registration type "%1$s" was not imported: %2$s', 'eurob2b' ), $type->label, $e->getMessage() ) );
+			$this->skip( sprintf( __( 'Registration type "%1$s" was not imported: %2$s', 'stm-eu-b2b' ), $type->label, ExceptionMessage::plain( $e ) ) );
 			$run->remember( 'registration_type', $key, '' );
 			return '';
 		}
@@ -337,7 +338,7 @@ final class ImportWriter {
 		$current = $this->fields->find( $field->key );
 		if ( '' !== $field->map_to && isset( $this->fields->mapping_owners( $field->key )[ $field->map_to ] ) ) {
 			/* translators: 1: field label, 2: WooCommerce billing field key */
-			$this->note( Run::LEVEL_WARNING, sprintf( __( 'Field "%1$s" is imported without filling %2$s: another field fills it already.', 'eurob2b' ), $field->label, $field->map_to ) );
+			$this->note( Run::LEVEL_WARNING, sprintf( __( 'Field "%1$s" is imported without filling %2$s: another field fills it already.', 'stm-eu-b2b' ), $field->label, $field->map_to ) );
 			$data           = $field->to_array();
 			$data['map_to'] = '';
 			$field          = FieldDefinition::from_array( $data );
@@ -358,7 +359,7 @@ final class ImportWriter {
 		} catch ( InvalidArgumentException $e ) {
 			$run->count( null === $current ? 'new' : 'changed', -1 );
 			/* translators: 1: field label, 2: error message */
-			$this->skip( sprintf( __( 'Field "%1$s" was not imported: %2$s', 'eurob2b' ), $field->label, $e->getMessage() ) );
+			$this->skip( sprintf( __( 'Field "%1$s" was not imported: %2$s', 'stm-eu-b2b' ), $field->label, ExceptionMessage::plain( $e ) ) );
 			$run->remember( 'field', $key, '' );
 			return '';
 		}
@@ -386,7 +387,7 @@ final class ImportWriter {
 			$rule = $this->rules_page->rule_from_request( null !== $existing ? $existing->id : 0, $form );
 		} catch ( RuntimeException $e ) {
 			/* translators: 1: rule name, 2: reason */
-			$this->skip( sprintf( __( 'Rule "%1$s" was not imported: %2$s', 'eurob2b' ), (string) ( $form['name'] ?? $key ), $e->getMessage() ) );
+			$this->skip( sprintf( __( 'Rule "%1$s" was not imported: %2$s', 'stm-eu-b2b' ), (string) ( $form['name'] ?? $key ), ExceptionMessage::plain( $e ) ) );
 			return 0;
 		}
 		if ( null !== $existing ) {
@@ -475,7 +476,7 @@ final class ImportWriter {
 			$this->customers->assign( $user_id, $type, $status, null !== $group ? $group->id : null, $run->user_id );
 		} catch ( InvalidArgumentException | RuntimeException $e ) {
 			/* translators: 1: user id, 2: error message */
-			$this->skip( sprintf( __( 'Customer #%1$d was not classified: %2$s', 'eurob2b' ), $user_id, $e->getMessage() ) );
+			$this->skip( sprintf( __( 'Customer #%1$d was not classified: %2$s', 'stm-eu-b2b' ), $user_id, ExceptionMessage::plain( $e ) ) );
 			return;
 		}
 		$run->count( $is_new ? 'new' : 'changed' );
@@ -525,12 +526,12 @@ final class ImportWriter {
 	 */
 	private function journal( string $object_type, int $object_id, string $ref, ?string $old_value ): void {
 		if ( ! $this->journal->record( $this->run()->id, $object_type, $object_id, $ref, $old_value ) ) {
-			throw new JournalException( __( 'The import journal could not be written, so the import stopped before changing anything it could not undo. Undo or finish what was imported so far.', 'eurob2b' ) );
+			throw new JournalException( esc_html__( 'The import journal could not be written, so the import stopped before changing anything it could not undo. Undo or finish what was imported so far.', 'stm-eu-b2b' ) );
 		}
 	}
 
 	/**
-	 * Sets one meta value of a product or variation, a user or a term (EuroB2B keys only).
+	 * Sets one meta value of a product or variation, a user or a term (EU-B2B keys only).
 	 *
 	 * @param string $object_type post, user or term.
 	 * @param int    $object_id   Object id.
@@ -580,18 +581,18 @@ final class ImportWriter {
 		$run = $this->run();
 		if ( null === $this->companies ) {
 			/* translators: %d: user id */
-			$this->skip( sprintf( __( 'Account #%d has sub-accounts; company accounts are a feature of EuroB2B Pro, so they were not linked.', 'eurob2b' ), $owner ) );
+			$this->skip( sprintf( __( 'Account #%d has sub-accounts; company accounts are a feature of EU-B2B Pro, so they were not linked.', 'stm-eu-b2b' ), $owner ) );
 			return;
 		}
 		$company = $this->companies->company_of( $owner );
 		if ( null === $company && $this->companies->membership_company( $owner ) > 0 ) {
 			/* translators: %d: user id */
-			$this->skip( sprintf( __( 'Account #%d is a member of a company already; its sub-accounts were not linked.', 'eurob2b' ), $owner ) );
+			$this->skip( sprintf( __( 'Account #%d is a member of a company already; its sub-accounts were not linked.', 'stm-eu-b2b' ), $owner ) );
 			return;
 		}
 		if ( null !== $company && $company['owner'] !== $owner ) {
 			/* translators: %d: user id */
-			$this->skip( sprintf( __( 'Account #%d belongs to a company it does not own; its sub-accounts were not linked.', 'eurob2b' ), $owner ) );
+			$this->skip( sprintf( __( 'Account #%d belongs to a company it does not own; its sub-accounts were not linked.', 'stm-eu-b2b' ), $owner ) );
 			return;
 		}
 		$add = array();
@@ -601,7 +602,7 @@ final class ImportWriter {
 				$add[] = $member;
 			} elseif ( null === $company || $membership !== $company['id'] ) {
 				/* translators: 1: user id, 2: user id */
-				$this->note( Run::LEVEL_WARNING, sprintf( __( 'Sub-account #%1$d of account #%2$d belongs to another company and was not linked.', 'eurob2b' ), $member, $owner ) );
+				$this->note( Run::LEVEL_WARNING, sprintf( __( 'Sub-account #%1$d of account #%2$d belongs to another company and was not linked.', 'stm-eu-b2b' ), $member, $owner ) );
 			}
 		}
 		if ( null !== $company && empty( $add ) ) {
@@ -632,7 +633,7 @@ final class ImportWriter {
 			}
 		} catch ( RuntimeException $e ) {
 			/* translators: 1: user id, 2: error message */
-			$this->skip( sprintf( __( 'The company of account #%1$d was not completed: %2$s', 'eurob2b' ), $owner, $e->getMessage() ) );
+			$this->skip( sprintf( __( 'The company of account #%1$d was not completed: %2$s', 'stm-eu-b2b' ), $owner, ExceptionMessage::plain( $e ) ) );
 		}//end try
 	}
 

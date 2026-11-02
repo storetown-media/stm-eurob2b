@@ -43,7 +43,7 @@ final class ModuleRegistry {
 	/**
 	 * Adds a module. Ids must be unique.
 	 *
-	 * Modules register and boot in the order they were added. An add-on (EuroB2B Pro) can place a
+	 * Modules register and boot in the order they were added. An add-on (EU-B2B Pro) can place a
 	 * module right after a module that is already there, so that its hooks run in the same order as
 	 * if the module were part of the core list; when that module is not there, the new one goes last.
 	 *
@@ -54,7 +54,7 @@ final class ModuleRegistry {
 	public function add( ModuleInterface $module, ?string $after = null ): void {
 		$id = $module->id();
 		if ( isset( $this->modules[ $id ] ) ) {
-			throw new InvalidArgumentException( sprintf( 'EuroB2B: module "%s" is registered twice.', $id ) );
+			throw new InvalidArgumentException( sprintf( 'STM EU-B2B: module "%s" is registered twice.', $id ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal, untranslated message for developers and logs; every sink escapes or decodes it (docs/architecture.md, "Exception messages").
 		}
 		if ( null === $after || ! isset( $this->modules[ $after ] ) ) {
 			$this->modules[ $id ] = $module;

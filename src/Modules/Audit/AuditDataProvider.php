@@ -57,7 +57,7 @@ final class AuditDataProvider implements PersonalDataProviderInterface {
 	 * Label.
 	 */
 	public function label(): string {
-		return __( 'EuroB2B audit log', 'eurob2b' );
+		return __( 'EU-B2B audit log', 'stm-eu-b2b' );
 	}
 
 	/**
@@ -74,30 +74,30 @@ final class AuditDataProvider implements PersonalDataProviderInterface {
 			$concerned = $entry->subject_id === $user->ID;
 			$rows      = array(
 				array(
-					'name'  => __( 'Time (UTC)', 'eurob2b' ),
+					'name'  => __( 'Time (UTC)', 'stm-eu-b2b' ),
 					'value' => $entry->created_at,
 				),
 				array(
-					'name'  => __( 'Action', 'eurob2b' ),
+					'name'  => __( 'Action', 'stm-eu-b2b' ),
 					'value' => $this->format->action( $entry->action ),
 				),
 				array(
-					'name'  => __( 'Your role', 'eurob2b' ),
-					'value' => $concerned ? __( 'Concerned by the decision', 'eurob2b' ) : __( 'Made the decision', 'eurob2b' ),
+					'name'  => __( 'Your role', 'stm-eu-b2b' ),
+					'value' => $concerned ? __( 'Concerned by the decision', 'stm-eu-b2b' ) : __( 'Made the decision', 'stm-eu-b2b' ),
 				),
 			);
 			if ( $concerned ) {
 				$change = $this->format->change( $entry );
 				if ( '' !== $change ) {
 					$rows[] = array(
-						'name'  => __( 'Change', 'eurob2b' ),
+						'name'  => __( 'Change', 'stm-eu-b2b' ),
 						'value' => $change,
 					);
 				}
 			}
 			if ( AuditLog::OBJECT_ORDER === $entry->object_type && $entry->object_id > 0 ) {
 				$rows[] = array(
-					'name'  => __( 'Order', 'eurob2b' ),
+					'name'  => __( 'Order', 'stm-eu-b2b' ),
 					'value' => '#' . $entry->object_id,
 				);
 			}
@@ -127,7 +127,7 @@ final class AuditDataProvider implements PersonalDataProviderInterface {
 		return array(
 			'items_removed'  => $changed > 0,
 			'items_retained' => false,
-			'messages'       => $changed > 0 ? array( __( 'EuroB2B audit log: the entries stay without the reference to this person, so the decisions remain traceable.', 'eurob2b' ) ) : array(),
+			'messages'       => $changed > 0 ? array( __( 'EU-B2B audit log: the entries stay without the reference to this person, so the decisions remain traceable.', 'stm-eu-b2b' ) ) : array(),
 			'done'           => true,
 		);
 	}

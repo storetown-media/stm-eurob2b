@@ -45,10 +45,10 @@ final class RuleRepository {
 		$table = $this->table();
 		if ( null === $type ) {
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-			$rows = $wpdb->get_results( "SELECT * FROM {$table} ORDER BY priority DESC, id ASC", ARRAY_A );
+			$rows = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %i ORDER BY priority DESC, id ASC', $table ), ARRAY_A );
 		} else {
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-			$rows = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$table} WHERE type = %s ORDER BY priority DESC, id ASC", $type ), ARRAY_A );
+			$rows = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %i WHERE type = %s ORDER BY priority DESC, id ASC', $table, $type ), ARRAY_A );
 		}
 		return array_map( array( $this, 'hydrate' ), is_array( $rows ) ? $rows : array() );
 	}
@@ -64,7 +64,7 @@ final class RuleRepository {
 			global $wpdb;
 			$table = $this->table();
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-			$rows          = $wpdb->get_results( "SELECT * FROM {$table} WHERE enabled = 1 ORDER BY priority DESC, id ASC", ARRAY_A );
+			$rows          = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %i WHERE enabled = 1 ORDER BY priority DESC, id ASC', $table ), ARRAY_A );
 			$this->enabled = array();
 			foreach ( is_array( $rows ) ? $rows : array() as $row ) {
 				$rule                           = $this->hydrate( $row );
@@ -83,7 +83,7 @@ final class RuleRepository {
 		global $wpdb;
 		$table = $this->table();
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		$row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$table} WHERE id = %d", $id ), ARRAY_A );
+		$row = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM %i WHERE id = %d', $table, $id ), ARRAY_A );
 		return is_array( $row ) ? $this->hydrate( $row ) : null;
 	}
 
@@ -108,7 +108,7 @@ final class RuleRepository {
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
 			$ok = $wpdb->update( $this->table(), $data, array( 'id' => $rule->id ), null, array( '%d' ) );
 			if ( false === $ok ) {
-				throw new RuntimeException( 'Could not update the rule: ' . $wpdb->last_error );
+				throw new RuntimeException( 'Could not update the rule: ' . $wpdb->last_error ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal, untranslated message for developers and logs; every sink escapes or decodes it (docs/architecture.md, "Exception messages").
 			}
 			return $rule;
 		}
@@ -116,7 +116,7 @@ final class RuleRepository {
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
 		$ok = $wpdb->insert( $this->table(), $data );
 		if ( false === $ok ) {
-			throw new RuntimeException( 'Could not create the rule: ' . $wpdb->last_error );
+			throw new RuntimeException( 'Could not create the rule: ' . $wpdb->last_error ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal, untranslated message for developers and logs; every sink escapes or decodes it (docs/architecture.md, "Exception messages").
 		}
 		return $rule->with_id( (int) $wpdb->insert_id );
 	}
@@ -161,7 +161,7 @@ final class RuleRepository {
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
 		$ok = $wpdb->delete( $this->table(), array( 'id' => $id ), array( '%d' ) );
 		if ( false === $ok ) {
-			throw new RuntimeException( 'Could not delete the rule: ' . $wpdb->last_error );
+			throw new RuntimeException( 'Could not delete the rule: ' . $wpdb->last_error ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal, untranslated message for developers and logs; every sink escapes or decodes it (docs/architecture.md, "Exception messages").
 		}
 	}
 

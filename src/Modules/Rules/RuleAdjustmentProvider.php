@@ -17,8 +17,8 @@ use WC_Product;
 
 /**
  * Feeds percentage discount rules into the price pipeline; the pipeline applies the highest
- * priority only or stacks them, per the shop setting. A discount that needs EuroB2B Pro (a fixed
- * amount, a condition, a line in the cart) is left out here in any case; EuroB2B Pro puts its own
+ * priority only or stacks them, per the shop setting. A discount that needs EU-B2B Pro (a fixed
+ * amount, a condition, a line in the cart) is left out here in any case; EU-B2B Pro puts its own
  * provider for every type and mode in the place of this one (PLT-015).
  */
 final class RuleAdjustmentProvider implements AdjustmentProviderInterface {

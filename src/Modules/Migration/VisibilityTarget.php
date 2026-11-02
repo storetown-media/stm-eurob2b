@@ -10,7 +10,7 @@ declare( strict_types=1 );
 namespace EuroB2B\Modules\Migration;
 
 /**
- * Product and category visibility is a feature of EuroB2B Pro. Its access module registers this
+ * Product and category visibility is a feature of EU-B2B Pro. Its access module registers this
  * target in the container; without it the import leaves visibility out and says so (PLT-015).
  */
 interface VisibilityTarget {

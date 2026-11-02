@@ -90,7 +90,7 @@ final class ValidationService {
 	 * @param VatIdNormalizer           $normalizer Normaliser.
 	 * @param Settings                  $settings   Settings.
 	 * @param AudienceResolver          $audiences  Audience resolver.
-	 * @param VatIdValidatorInterface[] $validators Core validators (VIES; EuroB2B Pro adds its services through `eurob2b_vat_validators`).
+	 * @param VatIdValidatorInterface[] $validators Core validators (VIES; EU-B2B Pro adds its services through `eurob2b_vat_validators`).
 	 */
 	public function __construct( ValidationRepository $repository, VatIdNormalizer $normalizer, Settings $settings, AudienceResolver $audiences, array $validators ) {
 		$this->repository      = $repository;
@@ -105,7 +105,7 @@ final class ValidationService {
 	 */
 	public function enabled(): bool {
 		/**
-		 * Filters whether a checking service is switched on: VIES, or a service of an add-on (EuroB2B
+		 * Filters whether a checking service is switched on: VIES, or a service of an add-on (EU-B2B
 		 * Pro: the BZSt, the Swiss UID register and the Brønnøysund register, each by its setting).
 		 * Off, numbers are only checked for their format.
 		 *
@@ -500,7 +500,7 @@ final class ValidationService {
 			return true;
 		}
 		/**
-		 * Filters whether checks ask for a qualified confirmation with the company data now (EuroB2B
+		 * Filters whether checks ask for a qualified confirmation with the company data now (EU-B2B
 		 * Pro: the BZSt in its qualified mode). Then a stored BZSt answer that compared other company
 		 * data is not reused, and the service is asked again.
 		 *
@@ -515,7 +515,7 @@ final class ValidationService {
 	/**
 	 * Company data for a qualified confirmation of a registered customer (registration after the
 	 * account exists, My Account, scheduled retries, admin re-checks): the customer's stored billing
-	 * data, which EuroB2B Pro replaces with the billing address of the company that binds the
+	 * data, which EU-B2B Pro replaces with the billing address of the company that binds the
 	 * customer (CMP-012). Never a guest session: guest checkouts pass their checkout data explicitly,
 	 * and registrations before the account exists stay simple. Null when the company name or the city
 	 * is missing.
@@ -532,7 +532,7 @@ final class ValidationService {
 			$trader   = TraderDetails::from( $customer->get_billing_company(), $customer->get_billing_city(), $customer->get_billing_postcode(), $customer->get_billing_address_1() );
 		}
 		/**
-		 * Filters the company data of a registered customer for a qualified confirmation (EuroB2B
+		 * Filters the company data of a registered customer for a qualified confirmation (EU-B2B
 		 * Pro: the billing address of the company that binds the customer, CMP-012). Null means no
 		 * company data (the confirmation stays simple).
 		 *
@@ -564,13 +564,13 @@ final class ValidationService {
 		}
 		$subject = sprintf(
 			/* translators: 1: site name, 2: VAT ID */
-			__( '[%1$s] VAT ID needs review: %2$s', 'eurob2b' ),
+			__( '[%1$s] VAT ID needs review: %2$s', 'stm-eu-b2b' ),
 			wp_specialchars_decode( (string) get_option( 'blogname' ), ENT_QUOTES ),
 			$record->vat_id()
 		);
 		$body = sprintf(
 			/* translators: 1: VAT ID, 2: status, 3: reason code, 4: admin URL */
-			__( "The VAT ID %1\$s could not be confirmed (status: %2\$s, reason: %3\$s).\n\nReview it here: %4\$s", 'eurob2b' ),
+			__( "The VAT ID %1\$s could not be confirmed (status: %2\$s, reason: %3\$s).\n\nReview it here: %4\$s", 'stm-eu-b2b' ),
 			$record->vat_id(),
 			$record->status->value,
 			(string) $record->reason_code,

@@ -11,7 +11,7 @@ namespace EuroB2B\Modules\Tax\VatId;
 
 /**
  * The checking services besides VIES (the BZSt, the Swiss UID register and the Brønnøysund
- * register) are part of EuroB2B Pro (PLT-015). Their answers are rows of the validations table like
+ * register) are part of EU-B2B Pro (PLT-015). Their answers are rows of the validations table like
  * any other, which the core shows, reuses, copies, exports and deletes also while Pro is inactive:
  * this class holds the service ids, the reason codes the core acts on and the format of the stored
  * BZSt evidence. The Pro validators alias these constants. Pure: no WordPress calls.

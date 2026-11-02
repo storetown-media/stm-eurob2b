@@ -24,6 +24,7 @@ use EuroB2B\Modules\Registration\FieldDefinition;
 use EuroB2B\Modules\Registration\RegistrationType;
 use EuroB2B\Support\Decimal;
 use InvalidArgumentException;
+use EuroB2B\Support\ExceptionMessage;
 
 /**
  * Reads B2BKing's data (MIG-002) as B2BKing Core 5.2.61 stores and reads it; B2BKing Pro uses the
@@ -43,7 +44,7 @@ final class B2BKingSource implements SourceInterface {
 	public const PART_VISIBILITY   = 'visibility';
 
 	/**
-	 * Field types B2BKing and EuroB2B share.
+	 * Field types B2BKing and EU-B2B share.
 	 */
 	private const FIELD_TYPES = array( 'text', 'textarea', 'number', 'tel', 'select', 'checkbox', 'email', 'file', 'date' );
 
@@ -72,28 +73,28 @@ final class B2BKingSource implements SourceInterface {
 	private B2BKingRules $rules;
 
 	/**
-	 * Whether company accounts can be imported (EuroB2B Pro).
+	 * Whether company accounts can be imported (EU-B2B Pro).
 	 *
 	 * @var bool
 	 */
 	private bool $companies;
 
 	/**
-	 * Visibility rules (EuroB2B Pro); null without it.
+	 * Visibility rules (EU-B2B Pro); null without it.
 	 *
 	 * @var VisibilityTarget|null
 	 */
 	private ?VisibilityTarget $visibility;
 
 	/**
-	 * Quantity limits (EuroB2B Pro); null without it.
+	 * Quantity limits (EU-B2B Pro); null without it.
 	 *
 	 * @var QuantityTarget|null
 	 */
 	private ?QuantityTarget $quantities;
 
 	/**
-	 * Customer prices and tier sets (EuroB2B Pro); null without it.
+	 * Customer prices and tier sets (EU-B2B Pro); null without it.
 	 *
 	 * @var PriceTarget|null
 	 */
@@ -117,7 +118,7 @@ final class B2BKingSource implements SourceInterface {
 	 * Constructor.
 	 *
 	 * The company accounts, the visibility, the quantity rules, the customer prices and the tier
-	 * prices of EuroB2B Pro are imported only when it is active (PLT-015).
+	 * prices of EU-B2B Pro are imported only when it is active (PLT-015).
 	 *
 	 * @param Settings              $settings   Settings.
 	 * @param B2BKingRules          $rules      Rule mapping.
@@ -170,13 +171,13 @@ final class B2BKingSource implements SourceInterface {
 	 */
 	public function summary(): array {
 		return array(
-			__( 'Customer groups', 'eurob2b' )     => $this->count_posts( 'b2bking_group' ),
-			__( 'Customers with a group or approval status', 'eurob2b' ) => $this->count_customers(),
-			__( 'Registration roles', 'eurob2b' )  => $this->count_posts( 'b2bking_custom_role' ) - $this->count_placeholder_roles(),
-			__( 'Registration fields', 'eurob2b' ) => $this->count_posts( 'b2bking_custom_field' ),
-			__( 'Products and variations with B2B prices', 'eurob2b' ) => $this->count_priced_products(),
-			__( 'Rules', 'eurob2b' )               => $this->count_posts( 'b2bking_rule' ),
-			__( 'Sub-accounts', 'eurob2b' )        => $this->count_users( 'b2bking_account_type', 'subaccount' ),
+			__( 'Customer groups', 'stm-eu-b2b' )     => $this->count_posts( 'b2bking_group' ),
+			__( 'Customers with a group or approval status', 'stm-eu-b2b' ) => $this->count_customers(),
+			__( 'Registration roles', 'stm-eu-b2b' )  => $this->count_posts( 'b2bking_custom_role' ) - $this->count_placeholder_roles(),
+			__( 'Registration fields', 'stm-eu-b2b' ) => $this->count_posts( 'b2bking_custom_field' ),
+			__( 'Products and variations with B2B prices', 'stm-eu-b2b' ) => $this->count_priced_products(),
+			__( 'Rules', 'stm-eu-b2b' )               => $this->count_posts( 'b2bking_rule' ),
+			__( 'Sub-accounts', 'stm-eu-b2b' )        => $this->count_users( 'b2bking_account_type', 'subaccount' ),
 		);
 	}
 
@@ -187,14 +188,14 @@ final class B2BKingSource implements SourceInterface {
 	 */
 	public function parts(): array {
 		return array(
-			self::PART_GROUPS       => __( 'Customer groups', 'eurob2b' ),
-			self::PART_REGISTRATION => __( 'Registration roles and fields', 'eurob2b' ),
-			self::PART_CUSTOMERS    => __( 'Customers: type, group, approval status, registration values', 'eurob2b' ),
-			self::PART_COMPANIES    => __( 'Sub-accounts as company accounts', 'eurob2b' ),
-			self::PART_PRICES       => __( 'Group and customer prices, tier prices, quantity limits', 'eurob2b' ),
-			self::PART_METHODS      => __( 'Payment and shipping methods per group and customer', 'eurob2b' ),
-			self::PART_RULES        => __( 'Rules', 'eurob2b' ),
-			self::PART_VISIBILITY   => __( 'Product and category visibility', 'eurob2b' ),
+			self::PART_GROUPS       => __( 'Customer groups', 'stm-eu-b2b' ),
+			self::PART_REGISTRATION => __( 'Registration roles and fields', 'stm-eu-b2b' ),
+			self::PART_CUSTOMERS    => __( 'Customers: type, group, approval status, registration values', 'stm-eu-b2b' ),
+			self::PART_COMPANIES    => __( 'Sub-accounts as company accounts', 'stm-eu-b2b' ),
+			self::PART_PRICES       => __( 'Group and customer prices, tier prices, quantity limits', 'stm-eu-b2b' ),
+			self::PART_METHODS      => __( 'Payment and shipping methods per group and customer', 'stm-eu-b2b' ),
+			self::PART_RULES        => __( 'Rules', 'stm-eu-b2b' ),
+			self::PART_VISIBILITY   => __( 'Product and category visibility', 'stm-eu-b2b' ),
 		);
 	}
 
@@ -229,45 +230,45 @@ final class B2BKingSource implements SourceInterface {
 		// phpcs:enable WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
 		if ( $vat_customers > 0 || $tax_rules > 0 ) {
 			/* translators: 1: number of customers, 2: number of rules */
-			$add( Run::LEVEL_WARNING, sprintf( __( 'Tax is not imported (customers with a VAT ID that B2BKing validated: %1$d; tax rules: %2$d). These customers pay VAT in EuroB2B until EuroB2B has checked their VAT ID (Settings → Tax and VAT IDs).', 'eurob2b' ), $vat_customers, $tax_rules ) );
+			$add( Run::LEVEL_WARNING, sprintf( __( 'Tax is not imported (customers with a VAT ID that B2BKing validated: %1$d; tax rules: %2$d). These customers pay VAT in EU-B2B until EU-B2B has checked their VAT ID (Settings → Tax and VAT IDs).', 'stm-eu-b2b' ), $vat_customers, $tax_rules ) );
 		}
 		$offers        = $this->count_posts( 'b2bking_offer' );
 		$conversations = $this->count_posts( 'b2bking_conversation' );
 		$lists         = $this->count_posts( 'b2bking_list' );
 		if ( $offers + $conversations + $lists > 0 ) {
 			/* translators: 1: number of offers, 2: number of conversations, 3: number of purchase lists */
-			$add( Run::LEVEL_INFO, sprintf( __( 'Not imported from B2BKing: offers (%1$d), conversations (%2$d), purchase lists (%3$d).', 'eurob2b' ), $offers, $conversations, $lists ) );
+			$add( Run::LEVEL_INFO, sprintf( __( 'Not imported from B2BKing: offers (%1$d), conversations (%2$d), purchase lists (%3$d).', 'stm-eu-b2b' ), $offers, $conversations, $lists ) );
 		}
 		if ( $info_rows > 0 ) {
 			/* translators: %d: number of products */
-			$add( Run::LEVEL_INFO, sprintf( __( 'Not imported: the extra information rows of products (%d products); EuroB2B has no such rows.', 'eurob2b' ), $info_rows ) );
+			$add( Run::LEVEL_INFO, sprintf( __( 'Not imported: the extra information rows of products (%d products); EU-B2B has no such rows.', 'stm-eu-b2b' ), $info_rows ) );
 		}
 		$subaccounts = $this->count_users( 'b2bking_account_type', 'subaccount' ) > 0;
 		if ( $subaccounts && ! $this->companies ) {
-			$add( Run::LEVEL_WARNING, __( 'B2BKing has sub-accounts; company accounts are a feature of EuroB2B Pro, so they are not imported.', 'eurob2b' ) );
+			$add( Run::LEVEL_WARNING, __( 'B2BKing has sub-accounts; company accounts are a feature of EU-B2B Pro, so they are not imported.', 'stm-eu-b2b' ) );
 		} elseif ( $subaccounts && ! $this->settings->get( 'company_enabled' ) ) {
-			$add( Run::LEVEL_WARNING, __( 'B2BKing has sub-accounts, but company accounts are switched off in EuroB2B (Settings → Company accounts). The companies are created; switch them on to use them.', 'eurob2b' ) );
+			$add( Run::LEVEL_WARNING, __( 'B2BKing has sub-accounts, but company accounts are switched off in EU-B2B (Settings → Company accounts). The companies are created; switch them on to use them.', 'stm-eu-b2b' ) );
 		}
 		if ( $this->visibility_in_use() && null === $this->visibility ) {
-			$add( Run::LEVEL_WARNING, __( 'B2BKing hides products from groups; product visibility is a feature of EuroB2B Pro, so it is not imported and the products are visible to everyone.', 'eurob2b' ) );
+			$add( Run::LEVEL_WARNING, __( 'B2BKing hides products from groups; product visibility is a feature of EU-B2B Pro, so it is not imported and the products are visible to everyone.', 'stm-eu-b2b' ) );
 		} elseif ( $this->visibility_in_use() && ! $this->settings->get( 'visibility_control' ) ) {
-			$add( Run::LEVEL_WARNING, __( 'B2BKing hides products from groups, but product visibility is switched off in EuroB2B (Settings → Guest access). Switch it on after the import, or the products are visible to everyone.', 'eurob2b' ) );
+			$add( Run::LEVEL_WARNING, __( 'B2BKing hides products from groups, but product visibility is switched off in EU-B2B (Settings → Guest access). Switch it on after the import, or the products are visible to everyone.', 'stm-eu-b2b' ) );
 		}
 		if ( $this->quantities_in_use() && null === $this->quantities ) {
-			$add( Run::LEVEL_WARNING, __( 'B2BKing has quantity limits per product; quantity rules are a feature of EuroB2B Pro, so they are not imported.', 'eurob2b' ) );
+			$add( Run::LEVEL_WARNING, __( 'B2BKing has quantity limits per product; quantity rules are a feature of EU-B2B Pro, so they are not imported.', 'stm-eu-b2b' ) );
 		} elseif ( $this->quantities_in_use() && ! $this->settings->get( 'quantity_rules_enabled' ) ) {
-			$add( Run::LEVEL_WARNING, __( 'B2BKing has quantity limits per product, but quantity rules are switched off in EuroB2B (Settings → Ordering).', 'eurob2b' ) );
+			$add( Run::LEVEL_WARNING, __( 'B2BKing has quantity limits per product, but quantity rules are switched off in EU-B2B (Settings → Ordering).', 'stm-eu-b2b' ) );
 		}
 		if ( null === $this->prices && $this->has_product_meta( array( 'b2bking_regular_price_user_', 'b2bking_sale_price_user_' ) ) ) {
-			$add( Run::LEVEL_WARNING, __( 'B2BKing has prices for single customers; customer prices are a feature of EuroB2B Pro, so they are not imported.', 'eurob2b' ) );
+			$add( Run::LEVEL_WARNING, __( 'B2BKing has prices for single customers; customer prices are a feature of EU-B2B Pro, so they are not imported.', 'stm-eu-b2b' ) );
 		}
 		if ( null === $this->prices && $this->has_product_meta( array( 'b2bking_product_pricetiers_' ) ) ) {
-			$add( Run::LEVEL_WARNING, __( 'B2BKing has tier prices; tier prices are a feature of EuroB2B Pro, so they are not imported.', 'eurob2b' ) );
+			$add( Run::LEVEL_WARNING, __( 'B2BKing has tier prices; tier prices are a feature of EU-B2B Pro, so they are not imported.', 'stm-eu-b2b' ) );
 		}
 		$mode = (string) get_option( 'b2bking_plugin_status_setting', 'b2b' );
 		/* translators: %s: B2BKing shop mode (b2b or hybrid) */
-		$add( Run::LEVEL_INFO, sprintf( __( 'Settings are not imported. B2BKing ran in the mode "%s"; compare guest access, registration and approval in the EuroB2B settings by hand.', 'eurob2b' ), $mode ) );
-		$add( Run::LEVEL_INFO, __( 'B2BKing subtracts a discount that is not shown in the shop as a fee in the cart; EuroB2B applies every discount to the price.', 'eurob2b' ) );
+		$add( Run::LEVEL_INFO, sprintf( __( 'Settings are not imported. B2BKing ran in the mode "%s"; compare guest access, registration and approval in the EU-B2B settings by hand.', 'stm-eu-b2b' ), $mode ) );
+		$add( Run::LEVEL_INFO, __( 'B2BKing subtracts a discount that is not shown in the shop as a fee in the cart; EU-B2B applies every discount to the price.', 'stm-eu-b2b' ) );
 		return $notes;
 	}
 
@@ -302,7 +303,7 @@ final class B2BKingSource implements SourceInterface {
 	}
 
 	/**
-	 * EuroB2B group of a B2BKing group id: its id (negative in a test run for a new group), or null
+	 * EU-B2B group of a B2BKing group id: its id (negative in a test run for a new group), or null
 	 * when the group was not imported.
 	 *
 	 * @param ImportWriter $writer     Writer.
@@ -327,7 +328,7 @@ final class B2BKingSource implements SourceInterface {
 		foreach ( $posts as $post ) {
 			$name = trim( wp_strip_all_tags( $post['title'] ) );
 			/* translators: %d: B2BKing group id */
-			$name = '' !== $name ? mb_substr( $name, 0, 190 ) : sprintf( __( 'B2BKing group %d', 'eurob2b' ), $post['id'] );
+			$name = '' !== $name ? mb_substr( $name, 0, 190 ) : sprintf( __( 'B2BKing group %d', 'stm-eu-b2b' ), $post['id'] );
 			$slug = substr( sanitize_title( $name ), 0, 64 );
 			$slug = 1 === preg_match( '/^[a-z0-9][a-z0-9_-]{0,63}$/', $slug ) ? $slug : 'b2bking-' . $post['id'];
 			$writer->group( 'group:' . $post['id'], $name, $slug, 'b2bking-' . $post['id'] );
@@ -354,7 +355,7 @@ final class B2BKingSource implements SourceInterface {
 			$group    = $this->role_group( $writer, $meta );
 			$approval = 'manual' === ( $meta['b2bking_custom_role_approval'] ?? '' ) ? RegistrationType::APPROVAL_MANUAL : RegistrationType::APPROVAL_AUTOMATIC;
 			/* translators: %d: B2BKing role id */
-			$label = '' !== trim( $post['title'] ) ? trim( wp_strip_all_tags( $post['title'] ) ) : sprintf( __( 'B2BKing registration role %d', 'eurob2b' ), $post['id'] );
+			$label = '' !== trim( $post['title'] ) ? trim( wp_strip_all_tags( $post['title'] ) ) : sprintf( __( 'B2BKing registration role %d', 'stm-eu-b2b' ), $post['id'] );
 			$type  = new RegistrationType(
 				'b2bking-' . $post['id'],
 				$label,
@@ -384,21 +385,21 @@ final class B2BKingSource implements SourceInterface {
 		$meta  = $this->post_meta( $post['id'] );
 		$label = trim( wp_strip_all_tags( '' !== ( $meta['b2bking_custom_field_field_label'] ?? '' ) ? $meta['b2bking_custom_field_field_label'] : $post['title'] ) );
 		/* translators: %d: B2BKing field id */
-		$label = '' !== $label ? $label : sprintf( __( 'B2BKing field %d', 'eurob2b' ), $post['id'] );
+		$label = '' !== $label ? $label : sprintf( __( 'B2BKing field %d', 'stm-eu-b2b' ), $post['id'] );
 		if ( 'billing_vat' === ( $meta['b2bking_custom_field_billing_connection'] ?? '' ) || '1' === ( $meta['b2bking_custom_field_VAT_VIES_validation'] ?? '' ) ) {
 			/* translators: %s: field label */
-			$writer->skip( sprintf( __( 'Field "%s" is the VAT ID field; EuroB2B asks for the VAT ID itself (tax is not imported).', 'eurob2b' ), $label ) );
+			$writer->skip( sprintf( __( 'Field "%s" is the VAT ID field; EU-B2B asks for the VAT ID itself (tax is not imported).', 'stm-eu-b2b' ), $label ) );
 			return;
 		}
 		if ( 'publish' !== $post['status'] || '0' === ( $meta['b2bking_custom_field_status'] ?? '1' ) ) {
 			/* translators: %s: field label */
-			$writer->skip( sprintf( __( 'Field "%s" is switched off in B2BKing and was not imported.', 'eurob2b' ), $label ) );
+			$writer->skip( sprintf( __( 'Field "%s" is switched off in B2BKing and was not imported.', 'stm-eu-b2b' ), $label ) );
 			return;
 		}
 		$types = $this->field_roles( $meta, $writer );
 		if ( null === $types ) {
 			/* translators: %s: field label */
-			$writer->skip( sprintf( __( 'Field "%s" belongs to registration roles that were not imported.', 'eurob2b' ), $label ) );
+			$writer->skip( sprintf( __( 'Field "%s" belongs to registration roles that were not imported.', 'stm-eu-b2b' ), $label ) );
 			return;
 		}
 		$type    = $this->field_type( $post['id'] );
@@ -439,7 +440,7 @@ final class B2BKingSource implements SourceInterface {
 				$field = FieldDefinition::from_array( $data );
 			} catch ( InvalidArgumentException $e ) {
 				/* translators: 1: field label, 2: error message */
-				$writer->skip( sprintf( __( 'Field "%1$s" was not imported: %2$s', 'eurob2b' ), $label, $e->getMessage() ) );
+				$writer->skip( sprintf( __( 'Field "%1$s" was not imported: %2$s', 'stm-eu-b2b' ), $label, ExceptionMessage::plain( $e ) ) );
 				continue;
 			}
 			$writer->field( 'field:' . $post['id'] . $suffix, $field );
@@ -514,7 +515,7 @@ final class B2BKingSource implements SourceInterface {
 			$target = self::group_of( $writer, (int) $group );
 			if ( null === $target ) {
 				/* translators: 1: user id, 2: B2BKing group id */
-				$writer->note( Run::LEVEL_WARNING, sprintf( __( 'Customer #%1$d: B2BKing group %2$d was not imported; the customer is put into the default business group.', 'eurob2b' ), $user_id, (int) $group ) );
+				$writer->note( Run::LEVEL_WARNING, sprintf( __( 'Customer #%1$d: B2BKing group %2$d was not imported; the customer is put into the default business group.', 'stm-eu-b2b' ), $user_id, (int) $group ) );
 			}
 			$writer->customer( $user_id, CustomerType::B2B, $status, $target );
 			return;
@@ -547,7 +548,7 @@ final class B2BKingSource implements SourceInterface {
 			$type     = $this->field_type( $field_id );
 			if ( 'file' === $type ) {
 				/* translators: 1: user id, 2: B2BKing field id */
-				$writer->skip( sprintf( __( 'Customer #%1$d: the file of field %2$d stays in the media library; files are not moved.', 'eurob2b' ), $user_id, $field_id ) );
+				$writer->skip( sprintf( __( 'Customer #%1$d: the file of field %2$d stays in the media library; files are not moved.', 'stm-eu-b2b' ), $user_id, $field_id ) );
 				continue;
 			}
 			$option = isset( $m[2] ) ? (int) $m[2] : 0;
@@ -598,7 +599,7 @@ final class B2BKingSource implements SourceInterface {
 			$user = get_userdata( $owner );
 			if ( ! $user ) {
 				/* translators: %d: user id */
-				$writer->skip( sprintf( __( 'Main account #%d does not exist; its sub-accounts were not linked.', 'eurob2b' ), $owner ) );
+				$writer->skip( sprintf( __( 'Main account #%d does not exist; its sub-accounts were not linked.', 'stm-eu-b2b' ), $owner ) );
 				continue;
 			}
 			$name     = trim( (string) get_user_meta( $owner, 'billing_company', true ) );
@@ -674,13 +675,13 @@ final class B2BKingSource implements SourceInterface {
 		if ( null === $group || '' === $price ) {
 			if ( '' === $price ) {
 				/* translators: 1: product id, 2: stored value */
-				$writer->skip( sprintf( __( 'Product #%1$d: the group price "%2$s" is not a number.', 'eurob2b' ), $id, $raw ) );
+				$writer->skip( sprintf( __( 'Product #%1$d: the group price "%2$s" is not a number.', 'stm-eu-b2b' ), $id, $raw ) );
 			}
 			return;
 		}
 		if ( '' !== $base && Decimal::compare( $price, $base ) > 0 ) {
 			/* translators: 1: product id, 2: group price, 3: regular price */
-			$writer->note( Run::LEVEL_WARNING, sprintf( __( 'Product #%1$d: the group price %2$s is above the regular price %3$s. Please check it.', 'eurob2b' ), $id, $price, $base ) );
+			$writer->note( Run::LEVEL_WARNING, sprintf( __( 'Product #%1$d: the group price %2$s is above the regular price %3$s. Please check it.', 'stm-eu-b2b' ), $id, $price, $base ) );
 		}
 		$writer->meta( 'post', $id, GroupPrices::regular_key( $group ), $price );
 		$sale = B2BKingFormat::decimal( $raw_sale );
@@ -689,7 +690,7 @@ final class B2BKingSource implements SourceInterface {
 		}
 		if ( Decimal::compare( $sale, $price ) >= 0 ) {
 			/* translators: 1: product id, 2: sale price */
-			$writer->skip( sprintf( __( 'Product #%1$d: the group sale price %2$s is not below the group price and was not imported.', 'eurob2b' ), $id, $sale ) );
+			$writer->skip( sprintf( __( 'Product #%1$d: the group sale price %2$s is not below the group price and was not imported.', 'stm-eu-b2b' ), $id, $sale ) );
 			return;
 		}
 		$writer->meta( 'post', $id, GroupPrices::sale_key( $group ), $sale );
@@ -698,7 +699,7 @@ final class B2BKingSource implements SourceInterface {
 	/**
 	 * A customer's own price on one product or variation (older B2BKing versions keyed it by login).
 	 *
-	 * @param PriceTarget           $target Customer prices (EuroB2B Pro).
+	 * @param PriceTarget           $target Customer prices (EU-B2B Pro).
 	 * @param int                   $id     Product or variation.
 	 * @param string                $kind   regular or sale.
 	 * @param string                $who    User id or login.
@@ -725,7 +726,7 @@ final class B2BKingSource implements SourceInterface {
 	 * A tier set: stored on the product, or as a tiered percentage rule when B2BKing reads the
 	 * amounts as percentages.
 	 *
-	 * @param PriceTarget  $target  Tier sets (EuroB2B Pro).
+	 * @param PriceTarget  $target  Tier sets (EU-B2B Pro).
 	 * @param int          $id      Product or variation.
 	 * @param string       $kind    group or user.
 	 * @param string       $who     Group id, `b2c`, user id or login.
@@ -743,7 +744,7 @@ final class B2BKingSource implements SourceInterface {
 			$user_id = self::user_id( $who );
 			if ( $user_id <= 0 ) {
 				/* translators: 1: product id, 2: user id or login */
-				$writer->skip( sprintf( __( 'Product #%1$d: the tier set of customer "%2$s" belongs to no existing account and was not imported.', 'eurob2b' ), $id, $who ) );
+				$writer->skip( sprintf( __( 'Product #%1$d: the tier set of customer "%2$s" belongs to no existing account and was not imported.', 'stm-eu-b2b' ), $id, $who ) );
 				return;
 			}
 			$audience = array( 'audience_users' => array( $user_id ) );
@@ -765,7 +766,7 @@ final class B2BKingSource implements SourceInterface {
 		$form = array_merge(
 			array(
 				/* translators: %d: product id */
-				'name'               => sprintf( __( 'B2BKing tier discounts of product %d', 'eurob2b' ), $id ),
+				'name'               => sprintf( __( 'B2BKing tier discounts of product %d', 'stm-eu-b2b' ), $id ),
 				'type'               => 'tiered_price',
 				'enabled'            => '1',
 				'priority'           => 10,
@@ -832,7 +833,7 @@ final class B2BKingSource implements SourceInterface {
 		foreach ( $ids as $id ) {
 			$user_id = (int) $id;
 			$meta    = $this->user_meta( $user_id );
-			// EuroB2B's list per customer allows only what it names, B2BKing allows every method without
+			// EU-B2B's list per customer allows only what it names, B2BKing allows every method without
 			// a stored value; so a list is written only when B2BKing blocks one of today's methods.
 			$allowed = self::allowed_payment( $gateways, static fn( string $gw ): ?string => $meta[ 'b2bking_user_payment_method_' . $gw ] ?? null );
 			if ( $payment && count( $allowed ) < count( $gateways ) ) {
@@ -873,13 +874,13 @@ final class B2BKingSource implements SourceInterface {
 		global $wpdb;
 		if ( ! $this->visibility_in_use() ) {
 			if ( 0 === $offset ) {
-				$writer->note( Run::LEVEL_INFO, __( 'B2BKing shows every product to everyone; there is no visibility to import.', 'eurob2b' ) );
+				$writer->note( Run::LEVEL_INFO, __( 'B2BKing shows every product to everyone; there is no visibility to import.', 'stm-eu-b2b' ) );
 			}
 			return 0;
 		}
 		$target = $this->visibility;
 		if ( null === $target ) {
-			// Without EuroB2B Pro there is no visibility to write; notes() said so before the import.
+			// Without EU-B2B Pro there is no visibility to write; notes() said so before the import.
 			return 0;
 		}
 		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- read-only paging over another plugin's data.
@@ -980,7 +981,7 @@ final class B2BKingSource implements SourceInterface {
 	}
 
 	/**
-	 * EuroB2B group of a registration role (group_<id> of automatic approval), or null.
+	 * EU-B2B group of a registration role (group_<id> of automatic approval), or null.
 	 *
 	 * @param ImportWriter          $writer Writer.
 	 * @param array<string, string> $meta   Role meta.
@@ -1006,7 +1007,7 @@ final class B2BKingSource implements SourceInterface {
 	}
 
 	/**
-	 * EuroB2B type of a B2BKing field.
+	 * EU-B2B type of a B2BKing field.
 	 *
 	 * @param int $field_id Field post id.
 	 */
@@ -1115,7 +1116,7 @@ final class B2BKingSource implements SourceInterface {
 	private function posts( string $type, int $offset, int $limit, bool $by_order = false ): array {
 		global $wpdb;
 		$order = $by_order ? 'menu_order ASC, ID ASC' : 'ID ASC';
-		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- placeholders filled from one array; read-only paging over another plugin's posts; $order is one of two literals.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber,PluginCheck.Security.DirectDB.UnescapedDBParameter -- placeholders filled from one array; read-only paging over another plugin's posts; $order is one of two literals.
 		$rows = $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT ID, post_title, post_status, menu_order FROM {$wpdb->posts} WHERE post_type = %s AND post_status IN (%s, %s, %s, %s, %s) ORDER BY {$order} LIMIT %d OFFSET %d",
@@ -1123,7 +1124,7 @@ final class B2BKingSource implements SourceInterface {
 			),
 			ARRAY_A
 		);
-		// phpcs:enable WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber
+		// phpcs:enable WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber,PluginCheck.Security.DirectDB.UnescapedDBParameter
 		$out = array();
 		foreach ( is_array( $rows ) ? $rows : array() as $row ) {
 			$out[] = array(
@@ -1202,7 +1203,7 @@ final class B2BKingSource implements SourceInterface {
 	private function count_priced_products(): int {
 		global $wpdb;
 		list( $where, $args ) = self::price_keys_sql();
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare -- read-only count; $where is built from placeholders.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare,PluginCheck.Security.DirectDB.UnescapedDBParameter -- read-only count; $where is built from placeholders; price_keys_sql() returns fixed clauses with placeholders only, every value is a prepare() argument.
 		return (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DISTINCT m.post_id) FROM {$wpdb->postmeta} m JOIN {$wpdb->posts} p ON p.ID = m.post_id WHERE p.post_type IN ('product', 'product_variation') AND m.meta_value <> '' AND {$where}", $args ) );
 	}
 
@@ -1216,7 +1217,7 @@ final class B2BKingSource implements SourceInterface {
 	private function priced_products( int $offset, int $limit ): array {
 		global $wpdb;
 		list( $where, $args ) = self::price_keys_sql();
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- read-only paging; $where is built from placeholders.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber,PluginCheck.Security.DirectDB.UnescapedDBParameter -- read-only paging; $where is built from placeholders; price_keys_sql() returns fixed clauses with placeholders only, every value is a prepare() argument.
 		$ids = $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT m.post_id FROM {$wpdb->postmeta} m JOIN {$wpdb->posts} p ON p.ID = m.post_id WHERE p.post_type IN ('product', 'product_variation') AND m.meta_value <> '' AND {$where} ORDER BY m.post_id ASC LIMIT %d OFFSET %d", array_merge( $args, array( $limit, $offset ) ) ) );
 		return array_map( 'intval', $ids );
 	}

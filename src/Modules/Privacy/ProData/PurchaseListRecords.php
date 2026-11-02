@@ -14,7 +14,7 @@ use EuroB2B\Infrastructure\Schema;
 /**
  * Purchase lists of the shared schema (tables `eurob2b_purchase_lists` and
  * `eurob2b_purchase_list_items`, migration 3; D-08), read and deleted for the privacy export and
- * erasure and on user deletion. EuroB2B Pro writes them; this part of the core handles them also
+ * erasure and on user deletion. EU-B2B Pro writes them; this part of the core handles them also
  * while Pro is inactive or deleted (PLT-015).
  */
 final class PurchaseListRecords {
@@ -35,7 +35,7 @@ final class PurchaseListRecords {
 		global $wpdb;
 		$lists = Schema::table( self::TABLE_LISTS );
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		return (array) $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$lists} WHERE user_id = %d ORDER BY updated_at DESC, id DESC", $user_id ), ARRAY_A );
+		return (array) $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %i WHERE user_id = %d ORDER BY updated_at DESC, id DESC', $lists, $user_id ), ARRAY_A );
 	}
 
 	/**
@@ -48,7 +48,7 @@ final class PurchaseListRecords {
 		global $wpdb;
 		$items = Schema::table( self::TABLE_ITEMS );
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		return (array) $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$items} WHERE list_id = %d ORDER BY sort_order ASC, id ASC", $list_id ), ARRAY_A );
+		return (array) $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %i WHERE list_id = %d ORDER BY sort_order ASC, id ASC', $items, $list_id ), ARRAY_A );
 	}
 
 	/**

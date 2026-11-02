@@ -18,6 +18,7 @@ use EuroB2B\Modules\Tax\Validation\ValidationService;
 use EuroB2B\Modules\Tax\VatId\ExternalServices;
 use EuroB2B\Modules\Tax\VatId\ValidationStatus;
 use EuroB2B\Modules\Tax\VatId\ViesValidator;
+use EuroB2B\Support\ExceptionMessage;
 
 /**
  * Review list (pending, unavailable, invalid) with accept/reject and the recent history (TAX-008, TAX-009).
@@ -51,7 +52,7 @@ final class ValidationsPage {
 	 * @param Menu $menu Menu.
 	 */
 	public function register_page( Menu $menu ): void {
-		$menu->add_page( self::SLUG, __( 'VAT ID validations', 'eurob2b' ), __( 'VAT IDs', 'eurob2b' ), Capabilities::DECIDE_VALIDATION, array( $this, 'render' ), 40 );
+		$menu->add_page( self::SLUG, __( 'VAT ID validations', 'stm-eu-b2b' ), __( 'VAT IDs', 'stm-eu-b2b' ), Capabilities::DECIDE_VALIDATION, array( $this, 'render' ), 40 );
 	}
 
 	/**
@@ -67,10 +68,10 @@ final class ValidationsPage {
 		}
 		$items[] = array(
 			'count'      => $this->review_count(),
-			'title'      => __( 'VAT ID checks to look at', 'eurob2b' ),
-			'text'       => __( 'Checks without a clear result or waiting for your decision.', 'eurob2b' ),
+			'title'      => __( 'VAT ID checks to look at', 'stm-eu-b2b' ),
+			'text'       => __( 'Checks without a clear result or waiting for your decision.', 'stm-eu-b2b' ),
 			'url'        => Menu::url( self::SLUG ),
-			'action'     => __( 'Look at', 'eurob2b' ),
+			'action'     => __( 'Look at', 'stm-eu-b2b' ),
 			'capability' => Capabilities::DECIDE_VALIDATION,
 		);
 		return $items;
@@ -94,14 +95,14 @@ final class ValidationsPage {
 		// phpcs:enable WordPress.Security.NonceVerification.Missing
 		$status = 'accept' === $decision ? ValidationStatus::VALID : ( 'reject' === $decision ? ValidationStatus::INVALID : null );
 		if ( null === $status ) {
-			$this->redirect( array( 'error' => __( 'Unknown decision.', 'eurob2b' ) ) );
+			$this->redirect( array( 'error' => __( 'Unknown decision.', 'stm-eu-b2b' ) ) );
 			return;
 		}
 		try {
 			$this->service->decide( $id, $status, get_current_user_id(), $note );
 			$this->redirect( array( 'decided' => $id ) );
 		} catch ( \Throwable $e ) {
-			$this->redirect( array( 'error' => $e->getMessage() ) );
+			$this->redirect( array( 'error' => ExceptionMessage::plain( $e ) ) );
 		}
 	}
 
@@ -112,12 +113,12 @@ final class ValidationsPage {
 		$id     = $this->authorise();
 		$record = $this->service->repository()->find( $id );
 		if ( null === $record ) {
-			$this->redirect( array( 'error' => __( 'Unknown record.', 'eurob2b' ) ) );
+			$this->redirect( array( 'error' => __( 'Unknown record.', 'stm-eu-b2b' ) ) );
 			return;
 		}
 		$vat_id = $this->service->normalize( $record->vat_id() );
 		if ( ! $vat_id instanceof \EuroB2B\Modules\Tax\VatId\VatId ) {
-			$this->redirect( array( 'error' => __( 'The stored number cannot be parsed.', 'eurob2b' ) ) );
+			$this->redirect( array( 'error' => __( 'The stored number cannot be parsed.', 'stm-eu-b2b' ) ) );
 			return;
 		}
 		$fresh = $this->service->check( $vat_id, $record->user_id, true );
@@ -129,7 +130,7 @@ final class ValidationsPage {
 	 */
 	public function render(): void {
 		if ( ! current_user_can( Capabilities::DECIDE_VALIDATION ) ) {
-			wp_die( esc_html__( 'You are not allowed to decide on VAT ID validations.', 'eurob2b' ), '', array( 'response' => 403 ) );
+			wp_die( esc_html__( 'You are not allowed to decide on VAT ID validations.', 'stm-eu-b2b' ), '', array( 'response' => 403 ) );
 		}
 		// phpcs:disable WordPress.Security.NonceVerification.Recommended -- read-only notices.
 		$decided   = isset( $_GET['decided'] ) ? absint( $_GET['decided'] ) : 0;
@@ -137,34 +138,34 @@ final class ValidationsPage {
 		$error     = isset( $_GET['error'] ) ? sanitize_text_field( (string) wp_unslash( $_GET['error'] ) ) : '';
 		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
-		PageHeader::open( 'eurob2b-vat-validations', __( 'VAT ID validations', 'eurob2b' ) );
+		PageHeader::open( 'eurob2b-vat-validations', __( 'VAT ID validations', 'stm-eu-b2b' ) );
 		if ( $decided > 0 ) {
-			echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'Decision stored.', 'eurob2b' ) . '</p></div>';
+			echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'Decision stored.', 'stm-eu-b2b' ) . '</p></div>';
 		}
 		if ( $rechecked > 0 ) {
-			echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'The number was checked again.', 'eurob2b' ) . '</p></div>';
+			echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'The number was checked again.', 'stm-eu-b2b' ) . '</p></div>';
 		}
 		if ( '' !== $error ) {
 			echo '<div class="notice notice-error"><p>' . esc_html( $error ) . '</p></div>';
 		}
 		if ( ! $this->service->enabled() ) {
-			echo '<div class="notice notice-warning"><p>' . esc_html__( 'Online validation via VIES is switched off (EuroB2B → Settings → Tax and VAT IDs). Numbers are only checked for syntax until you enable it.', 'eurob2b' ) . '</p></div>';
+			echo '<div class="notice notice-warning"><p>' . esc_html__( 'Online validation via VIES is switched off (STM EU-B2B → Settings → Tax and VAT IDs). Numbers are only checked for syntax until you enable it.', 'stm-eu-b2b' ) . '</p></div>';
 		}
 
 		$review = $this->service->repository()->review_list( 200 );
-		echo '<h2>' . esc_html__( 'Needs a look', 'eurob2b' ) . ' ' . StatusLabel::html( (string) count( $review ), array() === $review ? StatusLabel::OK : StatusLabel::BAD ) . '</h2>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in StatusLabel::html().
+		echo '<h2>' . esc_html__( 'Needs a look', 'stm-eu-b2b' ) . ' ' . StatusLabel::html( (string) count( $review ), array() === $review ? StatusLabel::OK : StatusLabel::BAD ) . '</h2>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in StatusLabel::html().
 		if ( empty( $review ) ) {
-			echo '<p>' . esc_html__( 'Nothing to review.', 'eurob2b' ) . '</p>';
+			echo '<p>' . esc_html__( 'Nothing to review.', 'stm-eu-b2b' ) . '</p>';
 		} else {
 			$this->render_table( $review, true );
 		}
 
-		echo '<h2>' . esc_html__( 'Recent checks', 'eurob2b' ) . '</h2>';
+		echo '<h2>' . esc_html__( 'Recent checks', 'stm-eu-b2b' ) . '</h2>';
 		$this->render_table( $this->service->repository()->recent( 50 ), false );
 
 		/**
 		 * Fires at the end of the VAT IDs page (reports add their forms here). The core adds the country
-		 * profiles at priority 20; EuroB2B Pro adds the OSS monitor (4), the recapitulative statement
+		 * profiles at priority 20; EU-B2B Pro adds the OSS monitor (4), the recapitulative statement
 		 * (5), the export of exempt sales (10) and the special territories (20, after the profiles).
 		 */
 		do_action( 'eurob2b_vat_validations_page_end' );
@@ -179,7 +180,7 @@ final class ValidationsPage {
 	 */
 	private function render_table( array $records, bool $decidable ): void {
 		echo '<table class="widefat striped"><thead><tr>';
-		foreach ( array( __( 'VAT ID', 'eurob2b' ), __( 'Status', 'eurob2b' ), __( 'Reason', 'eurob2b' ), _x( 'Service', 'VAT ID validation service', 'eurob2b' ), __( 'Checked', 'eurob2b' ), __( 'Attempts', 'eurob2b' ), __( 'Customer', 'eurob2b' ), __( 'Evidence', 'eurob2b' ), $decidable ? __( 'Decision', 'eurob2b' ) : __( 'Decided by', 'eurob2b' ) ) as $head ) {
+		foreach ( array( __( 'VAT ID', 'stm-eu-b2b' ), __( 'Status', 'stm-eu-b2b' ), __( 'Reason', 'stm-eu-b2b' ), _x( 'Service', 'VAT ID validation service', 'stm-eu-b2b' ), __( 'Checked', 'stm-eu-b2b' ), __( 'Attempts', 'stm-eu-b2b' ), __( 'Customer', 'stm-eu-b2b' ), __( 'Evidence', 'stm-eu-b2b' ), $decidable ? __( 'Decision', 'stm-eu-b2b' ) : __( 'Decided by', 'stm-eu-b2b' ) ) as $head ) {
 			echo '<th>' . esc_html( $head ) . '</th>';
 		}
 		echo '</tr></thead><tbody>';
@@ -192,7 +193,7 @@ final class ValidationsPage {
 			echo '<td>' . esc_html( self::service_label( $record->service ) ) . '</td>';
 			echo '<td>' . esc_html( self::checked_label( $record ) ) . '</td>';
 			echo '<td>' . esc_html( (string) $record->attempts ) . '</td>';
-			echo '<td>' . ( $user ? '<a href="' . esc_url( get_edit_user_link( $user->ID ) ) . '">' . esc_html( $user->display_name ) . '</a>' : '&mdash;' ) . ( null !== $record->order_id ? ' · ' . esc_html_x( 'Order', 'shop order', 'eurob2b' ) . ' #' . esc_html( (string) $record->order_id ) : '' ) . '</td>';
+			echo '<td>' . ( $user ? '<a href="' . esc_url( get_edit_user_link( $user->ID ) ) . '">' . esc_html( $user->display_name ) . '</a>' : '&mdash;' ) . ( null !== $record->order_id ? ' · ' . esc_html_x( 'Order', 'shop order', 'stm-eu-b2b' ) . ' #' . esc_html( (string) $record->order_id ) : '' ) . '</td>';
 			$qualified = ExternalServices::BZST === $record->service ? ExternalServices::bzst_summary( $record->response_address ) : '';
 			echo '<td>' . esc_html( trim( implode( ' ', array_filter( array( $record->consultation_number, $record->response_name, '' !== $qualified ? '(' . $qualified . ')' : '' ) ) ) ) ) . '</td>';
 			if ( $decidable ) {
@@ -200,14 +201,14 @@ final class ValidationsPage {
 				echo '<form method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '" style="display:inline-block;margin-right:6px;">';
 				wp_nonce_field( self::NONCE );
 				echo '<input type="hidden" name="action" value="' . esc_attr( self::ACTION_DECIDE ) . '" /><input type="hidden" name="id" value="' . esc_attr( (string) $record->id ) . '" />';
-				echo '<input type="text" name="note" class="regular-text" placeholder="' . esc_attr__( 'Note (e.g. confirmation letter received)', 'eurob2b' ) . '" style="max-width:220px;" /> ';
-				echo '<button type="submit" class="button button-primary" name="decision" value="accept">' . esc_html__( 'Accept', 'eurob2b' ) . '</button> ';
-				echo '<button type="submit" class="button" name="decision" value="reject">' . esc_html__( 'Reject', 'eurob2b' ) . '</button>';
+				echo '<input type="text" name="note" class="regular-text" placeholder="' . esc_attr__( 'Note (e.g. confirmation letter received)', 'stm-eu-b2b' ) . '" style="max-width:220px;" /> ';
+				echo '<button type="submit" class="button button-primary" name="decision" value="accept">' . esc_html__( 'Accept', 'stm-eu-b2b' ) . '</button> ';
+				echo '<button type="submit" class="button" name="decision" value="reject">' . esc_html__( 'Reject', 'stm-eu-b2b' ) . '</button>';
 				echo '</form>';
 				echo '<form method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '" style="display:inline-block;">';
 				wp_nonce_field( self::NONCE );
 				echo '<input type="hidden" name="action" value="' . esc_attr( self::ACTION_RECHECK ) . '" /><input type="hidden" name="id" value="' . esc_attr( (string) $record->id ) . '" />';
-				echo '<button type="submit" class="button">' . esc_html__( 'Check again', 'eurob2b' ) . '</button>';
+				echo '<button type="submit" class="button">' . esc_html__( 'Check again', 'stm-eu-b2b' ) . '</button>';
 				echo '</form>';
 				echo '</td>';
 			} else {
@@ -263,10 +264,10 @@ final class ValidationsPage {
 	 */
 	public static function status_label( ValidationStatus $status ): string {
 		return match ( $status ) {
-			ValidationStatus::VALID       => __( 'Valid', 'eurob2b' ),
-			ValidationStatus::INVALID     => __( 'Invalid', 'eurob2b' ),
-			ValidationStatus::UNAVAILABLE => __( 'Service unavailable', 'eurob2b' ),
-			ValidationStatus::PENDING     => __( 'Pending (retrying)', 'eurob2b' ),
+			ValidationStatus::VALID       => __( 'Valid', 'stm-eu-b2b' ),
+			ValidationStatus::INVALID     => __( 'Invalid', 'stm-eu-b2b' ),
+			ValidationStatus::UNAVAILABLE => __( 'Service unavailable', 'stm-eu-b2b' ),
+			ValidationStatus::PENDING     => __( 'Pending (retrying)', 'stm-eu-b2b' ),
 		};
 	}
 
@@ -275,13 +276,13 @@ final class ValidationsPage {
 	 */
 	private function authorise(): int {
 		if ( ! current_user_can( Capabilities::DECIDE_VALIDATION ) ) {
-			wp_die( esc_html__( 'You are not allowed to decide on VAT ID validations.', 'eurob2b' ), '', array( 'response' => 403 ) );
+			wp_die( esc_html__( 'You are not allowed to decide on VAT ID validations.', 'stm-eu-b2b' ), '', array( 'response' => 403 ) );
 		}
 		check_admin_referer( self::NONCE );
 		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- verified above.
 		$id = isset( $_POST['id'] ) ? absint( $_POST['id'] ) : 0;
 		if ( $id <= 0 ) {
-			wp_die( esc_html__( 'Unknown record.', 'eurob2b' ), '', array( 'response' => 400 ) );
+			wp_die( esc_html__( 'Unknown record.', 'stm-eu-b2b' ), '', array( 'response' => 400 ) );
 		}
 		return $id;
 	}

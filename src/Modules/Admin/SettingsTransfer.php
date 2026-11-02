@@ -19,9 +19,10 @@ use EuroB2B\Modules\Registration\RegistrationType;
 use EuroB2B\Modules\Registration\RegistrationTypeRepository;
 use RuntimeException;
 use Throwable;
+use EuroB2B\Support\ExceptionMessage;
 
 /**
- * PLT-012: the shop's EuroB2B configuration as one JSON file, and its import into another shop
+ * PLT-012: the shop's EU-B2B configuration as one JSON file, and its import into another shop
  * (or back into the same one). Exported: the settings (without the uninstall opt-in), customer
  * groups, registration types and fields, quote request fields, the payment and shipping method
  * policies, payment terms and the per-method/per-group adjustments when present. Not exported:
@@ -31,7 +32,7 @@ use Throwable;
  * The settings, groups, registration types and registration fields are the core's parts; the
  * other parts come from their modules through the filter `eurob2b_settings_transfer_parts`
  * (TransferPart): the payment and shipping parts from the payments module, the quote request fields
- * from EuroB2B Pro (PLT-015).
+ * from EU-B2B Pro (PLT-015).
  *
  * Groups are matched by slug (the default group of each customer type also by its role), missing
  * groups are created, and every reference "group:<id>" or `group_id` is rewritten to the local ids.
@@ -173,18 +174,18 @@ final class SettingsTransfer {
 	 *
 	 * @param string $json File content.
 	 * @return array<string, mixed>
-	 * @throws RuntimeException Not an EuroB2B export (translated message).
+	 * @throws RuntimeException Not an EU-B2B export (translated message).
 	 */
 	public static function parse( string $json ): array {
 		if ( strlen( $json ) > self::MAX_BYTES ) {
-			throw new RuntimeException( __( 'The file is larger than 1 MB.', 'eurob2b' ) );
+			throw new RuntimeException( esc_html__( 'The file is larger than 1 MB.', 'stm-eu-b2b' ) );
 		}
 		$data = json_decode( $json, true, 64 );
 		if ( ! is_array( $data ) || self::FORMAT !== ( $data['format'] ?? null ) ) {
-			throw new RuntimeException( __( 'This is not a EuroB2B settings file.', 'eurob2b' ) );
+			throw new RuntimeException( esc_html__( 'This is not an EU-B2B settings file.', 'stm-eu-b2b' ) );
 		}
 		if ( (int) ( $data['version'] ?? 0 ) !== self::VERSION ) {
-			throw new RuntimeException( __( 'This settings file was written by a EuroB2B version this one cannot read.', 'eurob2b' ) );
+			throw new RuntimeException( esc_html__( 'This settings file was written by an EU-B2B version this one cannot read.', 'stm-eu-b2b' ) );
 		}
 		return $data;
 	}
@@ -256,7 +257,7 @@ final class SettingsTransfer {
 				$this->apply_section( $section, $incoming, $report );
 			} catch ( Throwable $e ) {
 				/* translators: 1: part of the settings, 2: error message */
-				$report['errors'][] = sprintf( __( '%1$s: %2$s', 'eurob2b' ), $labels[ $section ], $e->getMessage() );
+				$report['errors'][] = sprintf( __( '%1$s: %2$s', 'stm-eu-b2b' ), $labels[ $section ], ExceptionMessage::plain( $e ) );
 			}
 		}//end foreach
 		if ( $apply && class_exists( '\WC_Cache_Helper' ) ) {
@@ -274,7 +275,7 @@ final class SettingsTransfer {
 	 * @return array{groups_created: string[], groups_matched: int, changed: string[], warnings: string[], errors: string[]}
 	 */
 	private static function stop( array $report ): array {
-		$report['errors'][] = __( 'The other parts were not imported because a group could not be matched or created. Fix the group and check the file again.', 'eurob2b' );
+		$report['errors'][] = __( 'The other parts were not imported because a group could not be matched or created. Fix the group and check the file again.', 'stm-eu-b2b' );
 		return $report;
 	}
 
@@ -285,9 +286,9 @@ final class SettingsTransfer {
 	 */
 	public function section_labels(): array {
 		$labels = array(
-			'settings'            => __( 'Settings', 'eurob2b' ),
-			'registration_types'  => __( 'Registration types', 'eurob2b' ),
-			'registration_fields' => __( 'Registration fields', 'eurob2b' ),
+			'settings'            => __( 'Settings', 'stm-eu-b2b' ),
+			'registration_types'  => __( 'Registration types', 'stm-eu-b2b' ),
+			'registration_fields' => __( 'Registration fields', 'stm-eu-b2b' ),
 		);
 		foreach ( $this->parts() as $key => $part ) {
 			$labels[ $key ] = $part->label;
@@ -335,7 +336,7 @@ final class SettingsTransfer {
 						$this->fields->save( $field );
 					} catch ( Throwable $e ) {
 						/* translators: 1: field key, 2: error message */
-						$report['errors'][] = sprintf( __( 'Registration field "%1$s": %2$s', 'eurob2b' ), (string) ( $row['key'] ?? '' ), $e->getMessage() );
+						$report['errors'][] = sprintf( __( 'Registration field "%1$s": %2$s', 'stm-eu-b2b' ), (string) ( $row['key'] ?? '' ), ExceptionMessage::plain( $e ) );
 					}
 				}
 				foreach ( array_keys( $this->fields->all() ) as $key ) {
@@ -389,7 +390,7 @@ final class SettingsTransfer {
 			}
 			if ( null === $local && $collision ) {
 				/* translators: 1: group name, 2: error message */
-				$report['errors'][] = sprintf( __( 'Group "%1$s": %2$s', 'eurob2b' ), (string) ( $row['name'] ?? '' ), sprintf( /* translators: %s: group slug */ __( 'The slug "%s" belongs to a group of the other customer type in this shop.', 'eurob2b' ), (string) ( $row['slug'] ?? '' ) ) );
+				$report['errors'][] = sprintf( __( 'Group "%1$s": %2$s', 'stm-eu-b2b' ), (string) ( $row['name'] ?? '' ), sprintf( /* translators: %s: group slug */ __( 'The slug "%s" belongs to a group of the other customer type in this shop.', 'stm-eu-b2b' ), (string) ( $row['slug'] ?? '' ) ) );
 				continue;
 			}
 			if ( null !== $local ) {
@@ -408,7 +409,7 @@ final class SettingsTransfer {
 				$created[ $group->id ]   = is_array( $row['settings'] ?? null ) ? $row['settings'] : array();
 			} catch ( Throwable $e ) {
 				/* translators: 1: group name, 2: error message */
-				$report['errors'][] = sprintf( __( 'Group "%1$s": %2$s', 'eurob2b' ), (string) ( $row['name'] ?? '' ), $e->getMessage() );
+				$report['errors'][] = sprintf( __( 'Group "%1$s": %2$s', 'stm-eu-b2b' ), (string) ( $row['name'] ?? '' ), ExceptionMessage::plain( $e ) );
 			}
 		}//end foreach
 		// The settings of new groups may point at other groups: written once every id is known.
@@ -461,7 +462,7 @@ final class SettingsTransfer {
 	private function warn_local_references( array $data, array &$report ): void {
 		$json = (string) wp_json_encode( $data );
 		if ( 1 === preg_match( '/\b(user|company):\d+\b/', $json ) ) {
-			$report['warnings'][] = __( 'The file names individual customers or companies (user:… or company:… in an audience). Their numbers belong to the shop the file comes from; check those audiences after the import.', 'eurob2b' );
+			$report['warnings'][] = __( 'The file names individual customers or companies (user:… or company:… in an audience). Their numbers belong to the shop the file comes from; check those audiences after the import.', 'stm-eu-b2b' );
 		}
 		/**
 		 * Warnings about values of a settings file that only mean something in the shop the file

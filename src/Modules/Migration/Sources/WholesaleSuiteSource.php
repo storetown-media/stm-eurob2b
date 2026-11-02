@@ -79,9 +79,9 @@ final class WholesaleSuiteSource implements SourceInterface {
 	public function summary(): array {
 		$roles = array_keys( self::roles() );
 		return array(
-			__( 'Wholesale roles', 'eurob2b' ) => count( $roles ),
-			__( 'Customers with a wholesale role', 'eurob2b' ) => $this->count_customers( $roles ),
-			__( 'Products and variations with wholesale prices', 'eurob2b' ) => $this->count_priced( $roles ),
+			__( 'Wholesale roles', 'stm-eu-b2b' ) => count( $roles ),
+			__( 'Customers with a wholesale role', 'stm-eu-b2b' ) => $this->count_customers( $roles ),
+			__( 'Products and variations with wholesale prices', 'stm-eu-b2b' ) => $this->count_priced( $roles ),
 		);
 	}
 
@@ -92,10 +92,10 @@ final class WholesaleSuiteSource implements SourceInterface {
 	 */
 	public function parts(): array {
 		return array(
-			self::PART_GROUPS    => __( 'Wholesale roles as customer groups', 'eurob2b' ),
-			self::PART_CUSTOMERS => __( 'Customers with a wholesale role', 'eurob2b' ),
-			self::PART_PRICES    => __( 'Wholesale prices of products and variations', 'eurob2b' ),
-			self::PART_RULES     => __( 'General discount per role', 'eurob2b' ),
+			self::PART_GROUPS    => __( 'Wholesale roles as customer groups', 'stm-eu-b2b' ),
+			self::PART_CUSTOMERS => __( 'Customers with a wholesale role', 'stm-eu-b2b' ),
+			self::PART_PRICES    => __( 'Wholesale prices of products and variations', 'stm-eu-b2b' ),
+			self::PART_RULES     => __( 'General discount per role', 'stm-eu-b2b' ),
 		);
 	}
 
@@ -108,11 +108,11 @@ final class WholesaleSuiteSource implements SourceInterface {
 		$notes = array(
 			array(
 				'level' => Run::LEVEL_INFO,
-				'text'  => __( 'Not imported: data that only the paid Wholesale Suite add-ons store (discounts per category, quantity tiers and minimum quantities, visibility, payment and shipping methods and tax per role, registration). Set them up in EuroB2B by hand.', 'eurob2b' ),
+				'text'  => __( 'Not imported: data that only the paid Wholesale Suite add-ons store (discounts per category, quantity tiers and minimum quantities, visibility, payment and shipping methods and tax per role, registration). Set them up in EU-B2B by hand.', 'stm-eu-b2b' ),
 			),
 			array(
 				'level' => Run::LEVEL_INFO,
-				'text'  => __( 'Settings are not imported; orders keep their wholesale marks. The customers keep their WordPress role.', 'eurob2b' ),
+				'text'  => __( 'Settings are not imported; orders keep their wholesale marks. The customers keep their WordPress role.', 'stm-eu-b2b' ),
 			),
 		);
 		global $wpdb;
@@ -122,13 +122,13 @@ final class WholesaleSuiteSource implements SourceInterface {
 			$notes[] = array(
 				'level' => Run::LEVEL_INFO,
 				/* translators: %d: number of products and variations */
-				'text'  => sprintf( __( 'Wholesale prices entered as a percentage (%d products and variations) are imported as the price Wholesale Suite stored; EuroB2B keeps it when the regular price changes.', 'eurob2b' ), $percentages ),
+				'text'  => sprintf( __( 'Wholesale prices entered as a percentage (%d products and variations) are imported as the price Wholesale Suite stored; EU-B2B keeps it when the regular price changes.', 'stm-eu-b2b' ), $percentages ),
 			);
 		}
 		if ( 'yes' === get_option( 'wwp_hide_price_add_to_cart', 'no' ) ) {
 			$notes[] = array(
 				'level' => Run::LEVEL_WARNING,
-				'text'  => __( 'Wholesale Suite hides prices and the cart button from guests. EuroB2B does this with Settings → Guest access → hide prices; it is not switched on by the import.', 'eurob2b' ),
+				'text'  => __( 'Wholesale Suite hides prices and the cart button from guests. EU-B2B does this with Settings → Guest access → hide prices; it is not switched on by the import.', 'stm-eu-b2b' ),
 			);
 		}
 		return $notes;
@@ -183,7 +183,7 @@ final class WholesaleSuiteSource implements SourceInterface {
 	}
 
 	/**
-	 * EuroB2B group of a wholesale role, or null when it was not imported.
+	 * EU-B2B group of a wholesale role, or null when it was not imported.
 	 *
 	 * @param ImportWriter $writer Writer.
 	 * @param string       $role   Role key.
@@ -227,7 +227,7 @@ final class WholesaleSuiteSource implements SourceInterface {
 			return 0;
 		}
 		list( $where, $args ) = self::role_filter( $roles );
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- read-only paging; $where is built from placeholders.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber,PluginCheck.Security.DirectDB.UnescapedDBParameter -- read-only paging; $where is built from placeholders; role_filter() returns fixed clauses with placeholders only, every value is a prepare() argument.
 		$ids = $wpdb->get_col( $wpdb->prepare( "SELECT user_id FROM {$wpdb->usermeta} WHERE {$where} ORDER BY user_id ASC LIMIT %d OFFSET %d", array_merge( $args, array( $limit, $offset ) ) ) );
 		foreach ( $ids as $id ) {
 			$user = get_userdata( (int) $id );
@@ -275,13 +275,13 @@ final class WholesaleSuiteSource implements SourceInterface {
 				}
 				if ( '' === $price ) {
 					/* translators: 1: product id, 2: stored value */
-					$writer->skip( sprintf( __( 'Product #%1$d: the wholesale price "%2$s" is not a number.', 'eurob2b' ), $id, $raw ) );
+					$writer->skip( sprintf( __( 'Product #%1$d: the wholesale price "%2$s" is not a number.', 'stm-eu-b2b' ), $id, $raw ) );
 					continue;
 				}
 				$base = SourceValues::decimal( $regular );
 				if ( '' !== $base && Decimal::compare( $price, $base ) > 0 ) {
 					/* translators: 1: product id, 2: wholesale price, 3: regular price */
-					$writer->note( Run::LEVEL_WARNING, sprintf( __( 'Product #%1$d: the wholesale price %2$s is above the regular price %3$s. Please check it (a decimal comma typed into a shop that uses a decimal point is stored as a much higher number).', 'eurob2b' ), $id, $price, $base ) );
+					$writer->note( Run::LEVEL_WARNING, sprintf( __( 'Product #%1$d: the wholesale price %2$s is above the regular price %3$s. Please check it (a decimal comma typed into a shop that uses a decimal point is stored as a much higher number).', 'stm-eu-b2b' ), $id, $price, $base ) );
 				}
 				$writer->meta( 'post', $id, GroupPrices::regular_key( $group ), $price );
 				$sale = SourceValues::decimal( (string) get_post_meta( $id, $role . '_wholesale_sale_price', true ) );
@@ -295,7 +295,7 @@ final class WholesaleSuiteSource implements SourceInterface {
 
 	/**
 	 * The general discount per role as a discount rule, switched off: Wholesale Suite gives it only
-	 * on products without a wholesale price, EuroB2B would also take it off the group prices.
+	 * on products without a wholesale price, EU-B2B would also take it off the group prices.
 	 *
 	 * @param int          $offset Items handled before.
 	 * @param ImportWriter $writer Writer.
@@ -316,9 +316,9 @@ final class WholesaleSuiteSource implements SourceInterface {
 			}
 			++$handled;
 			/* translators: %s: name of the wholesale role */
-			$name = sprintf( __( 'Wholesale Suite general discount: %s', 'eurob2b' ), $roles[ $role ] );
+			$name = sprintf( __( 'Wholesale Suite general discount: %s', 'stm-eu-b2b' ), $roles[ $role ] );
 			/* translators: %s: rule name */
-			$writer->note( Run::LEVEL_WARNING, sprintf( __( 'Rule "%s" is imported switched off: Wholesale Suite gives the general discount only on products without a wholesale price, EuroB2B would also take it off the group prices. Switch it on only if that is what you want, or limit it to categories.', 'eurob2b' ), $name ) );
+			$writer->note( Run::LEVEL_WARNING, sprintf( __( 'Rule "%s" is imported switched off: Wholesale Suite gives the general discount only on products without a wholesale price, EU-B2B would also take it off the group prices. Switch it on only if that is what you want, or limit it to categories.', 'stm-eu-b2b' ), $name ) );
 			$writer->rule(
 				'discount:' . $role,
 				array(
@@ -364,7 +364,7 @@ final class WholesaleSuiteSource implements SourceInterface {
 			return 0;
 		}
 		list( $where, $args ) = self::role_filter( $roles );
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber,WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare -- read-only count; $where is built from placeholders.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber,WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare,PluginCheck.Security.DirectDB.UnescapedDBParameter -- read-only count; $where is built from placeholders; role_filter() returns fixed clauses with placeholders only, every value is a prepare() argument.
 		return (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->usermeta} WHERE {$where}", $args ) );
 	}
 
@@ -393,7 +393,7 @@ final class WholesaleSuiteSource implements SourceInterface {
 			return 0;
 		}
 		list( $where, $args ) = self::price_filter( $roles );
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber,WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare -- read-only count; $where is built from placeholders.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber,WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare,PluginCheck.Security.DirectDB.UnescapedDBParameter -- read-only count; $where is built from placeholders; price_filter() returns fixed clauses with placeholders only, every value is a prepare() argument.
 		return (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DISTINCT m.post_id) FROM {$wpdb->postmeta} m JOIN {$wpdb->posts} p ON p.ID = m.post_id WHERE p.post_type IN ('product', 'product_variation') AND m.meta_value <> '' AND {$where}", $args ) );
 	}
 
@@ -411,7 +411,7 @@ final class WholesaleSuiteSource implements SourceInterface {
 			return array();
 		}
 		list( $where, $args ) = self::price_filter( $roles );
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- read-only paging; $where is built from placeholders.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber,PluginCheck.Security.DirectDB.UnescapedDBParameter -- read-only paging; $where is built from placeholders; price_filter() returns fixed clauses with placeholders only, every value is a prepare() argument.
 		$ids = $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT m.post_id FROM {$wpdb->postmeta} m JOIN {$wpdb->posts} p ON p.ID = m.post_id WHERE p.post_type IN ('product', 'product_variation') AND m.meta_value <> '' AND {$where} ORDER BY m.post_id ASC LIMIT %d OFFSET %d", array_merge( $args, array( $limit, $offset ) ) ) );
 		return array_map( 'intval', $ids );
 	}

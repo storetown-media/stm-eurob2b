@@ -18,9 +18,9 @@ use WC_Order;
  * The data model of the proof of intra-Community supply (TAX-030, D-23) as the core keeps it: the
  * order meta keys, the reading of a proof, the queries by person and by retention end, and the
  * deletion with its files. The proof itself (requests, confirmations, uploads, acceptance) is part
- * of EuroB2B Pro (`ProofOfSupply`, PLT-015); the privacy export, the erasure answer and the retention
+ * of EU-B2B Pro (`ProofOfSupply`, PLT-015); the privacy export, the erasure answer and the retention
  * task (`ProofDataProvider`, `ProofRetention`) are part of the core and use this class, so data
- * written with EuroB2B Pro is exported and deleted also while Pro is inactive (product owner
+ * written with EU-B2B Pro is exported and deleted also while Pro is inactive (product owner
  * decision of 2026-10-29). All order access through the CRUD API (HPOS-safe).
  */
 final class ProofRecords {
@@ -56,7 +56,7 @@ final class ProofRecords {
 	}
 
 	/**
-	 * Hooks: the meta queries of the posts store (also used by the export evidence and EuroB2B Pro).
+	 * Hooks: the meta queries of the posts store (also used by the export evidence and EU-B2B Pro).
 	 */
 	public function hooks(): void {
 		add_filter( 'woocommerce_order_data_store_cpt_get_orders_query', array( $this, 'cpt_meta_query' ), 10, 2 );
@@ -115,7 +115,7 @@ final class ProofRecords {
 			$order->delete_meta_data( $key );
 		}
 		$order->save();
-		$order->add_order_note( __( 'Proof of supply: confirmation and documents were deleted at the end of the retention period.', 'eurob2b' ) );
+		$order->add_order_note( __( 'Proof of supply: confirmation and documents were deleted at the end of the retention period.', 'stm-eu-b2b' ) );
 		return $removed;
 	}
 

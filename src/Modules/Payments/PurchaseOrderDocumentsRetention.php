@@ -16,7 +16,7 @@ use EuroB2B\Modules\Privacy\RetentionTaskInterface;
  * D-25: purchase order documents have no period of their own; they go with the order. The daily task
  * removes pending checkout uploads older than a day and the documents of orders that no longer exist
  * (deleted without WooCommerce's delete hook, e.g. directly in the database). Part of the core: it
- * runs also while EuroB2B Pro, which takes the uploads, is inactive (PLT-015).
+ * runs also while EU-B2B Pro, which takes the uploads, is inactive (PLT-015).
  */
 final class PurchaseOrderDocumentsRetention implements RetentionTaskInterface {
 

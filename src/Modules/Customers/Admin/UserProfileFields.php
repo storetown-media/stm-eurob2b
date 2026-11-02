@@ -15,6 +15,7 @@ use EuroB2B\Modules\Customers\CustomerService;
 use EuroB2B\Modules\Customers\CustomerStatus;
 use EuroB2B\Modules\Customers\CustomerType;
 use EuroB2B\Modules\Customers\GroupRepository;
+use EuroB2B\Support\ExceptionMessage;
 
 /**
  * Shows and saves customer type, status and group on the WordPress user profile.
@@ -80,34 +81,34 @@ final class UserProfileFields {
 		$status = $this->resolver->stored_status( $user->ID );
 		$group  = $this->resolver->stored_group( $user->ID );
 
-		echo '<h2>' . esc_html__( 'EuroB2B customer', 'eurob2b' ) . '</h2>';
+		echo '<h2>' . esc_html__( 'EU-B2B customer', 'stm-eu-b2b' ) . '</h2>';
 		wp_nonce_field( self::NONCE, self::NONCE . '_nonce' );
 		echo '<table class="form-table" role="presentation"><tbody>';
 
-		echo '<tr><th><label for="eurob2b-customer-type">' . esc_html__( 'Customer type', 'eurob2b' ) . '</label></th><td>';
+		echo '<tr><th><label for="eurob2b-customer-type">' . esc_html__( 'Customer type', 'stm-eu-b2b' ) . '</label></th><td>';
 		echo '<select id="eurob2b-customer-type" name="eurob2b_customer_type">';
 		foreach ( array( CustomerType::B2C, CustomerType::B2B ) as $option ) {
 			echo '<option value="' . esc_attr( $option->value ) . '" ' . selected( $type->value, $option->value, false ) . '>' . esc_html( GroupsPage::type_label( $option ) ) . '</option>';
 		}
 		echo '</select></td></tr>';
 
-		echo '<tr><th><label for="eurob2b-customer-status">' . esc_html__( 'Status', 'eurob2b' ) . '</label></th><td>';
+		echo '<tr><th><label for="eurob2b-customer-status">' . esc_html__( 'Status', 'stm-eu-b2b' ) . '</label></th><td>';
 		echo '<select id="eurob2b-customer-status" name="eurob2b_status">';
 		foreach ( CustomerStatus::cases() as $option ) {
 			echo '<option value="' . esc_attr( $option->value ) . '" ' . selected( $status->value, $option->value, false ) . '>' . esc_html( $option->label() ) . '</option>';
 		}
 		echo '</select>';
-		echo '<p class="description">' . esc_html__( 'Pending and rejected customers cannot log in and are treated like guests.', 'eurob2b' ) . '</p></td></tr>';
+		echo '<p class="description">' . esc_html__( 'Pending and rejected customers cannot log in and are treated like guests.', 'stm-eu-b2b' ) . '</p></td></tr>';
 
-		echo '<tr><th><label for="eurob2b-customer-group">' . esc_html__( 'Group', 'eurob2b' ) . '</label></th><td>';
+		echo '<tr><th><label for="eurob2b-customer-group">' . esc_html__( 'Group', 'stm-eu-b2b' ) . '</label></th><td>';
 		echo '<select id="eurob2b-customer-group" name="eurob2b_group_id">';
-		echo '<option value="0">' . esc_html__( 'Default group of the customer type', 'eurob2b' ) . '</option>';
+		echo '<option value="0">' . esc_html__( 'Default group of the customer type', 'stm-eu-b2b' ) . '</option>';
 		foreach ( $this->groups->all() as $option ) {
 			$label = sprintf( '%s (%s)', $option->name, GroupsPage::type_label( $option->customer_type ) );
 			echo '<option value="' . esc_attr( (string) $option->id ) . '" ' . selected( $group ? $group->id : 0, $option->id, false ) . '>' . esc_html( $label ) . '</option>';
 		}
 		echo '</select>';
-		echo '<p class="description">' . esc_html__( 'The group must match the customer type.', 'eurob2b' ) . '</p></td></tr>';
+		echo '<p class="description">' . esc_html__( 'The group must match the customer type.', 'stm-eu-b2b' ) . '</p></td></tr>';
 
 		echo '</tbody></table>';
 	}
@@ -132,7 +133,7 @@ final class UserProfileFields {
 		try {
 			$this->customers->validate_assignment( $user_id, $posted['type'], $posted['status'], $posted['group_id'] );
 		} catch ( \InvalidArgumentException $e ) {
-			$errors->add( 'eurob2b_customer', $e->getMessage() );
+			$errors->add( 'eurob2b_customer', ExceptionMessage::html( $e ) );
 		}
 	}
 
@@ -204,10 +205,10 @@ final class UserProfileFields {
 			$this->customers->assign( $user_id, $posted['type'], $posted['status'], $posted['group_id'], get_current_user_id() );
 		} catch ( \InvalidArgumentException | \RuntimeException $e ) {
 			if ( null !== $errors ) {
-				$errors->add( 'eurob2b_customer', $e->getMessage() );
+				$errors->add( 'eurob2b_customer', ExceptionMessage::html( $e ) );
 				return;
 			}
-			set_transient( self::NOTICE_TRANSIENT . get_current_user_id(), $e->getMessage(), MINUTE_IN_SECONDS );
+			set_transient( self::NOTICE_TRANSIENT . get_current_user_id(), ExceptionMessage::plain( $e ), MINUTE_IN_SECONDS );
 		}
 	}
 }
