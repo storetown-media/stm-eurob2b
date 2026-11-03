@@ -1,9 +1,9 @@
 <?php
 /**
  * Plugin Name:       STM EU-B2B
- * Plugin URI:        https://github.com/storetown-media/eurob2b
+ * Plugin URI:        https://github.com/storetown-media/stm-eurob2b
  * Description:       B2B for WooCommerce, built for Europe: business customers, group prices, VAT ID check with VIES, reverse charge decisions and privacy by design. More with the add-on STM EU-B2B Pro.
- * Version:           1.8.0
+ * Version:           1.8.1
  * Requires at least: 6.7
  * Requires PHP:      8.1
  * Requires Plugins:  woocommerce
@@ -62,7 +62,7 @@ if ( defined( 'EUROB2B_VERSION' ) ) {
 	return;
 }//end if
 
-define( 'EUROB2B_VERSION', '1.8.0' );
+define( 'EUROB2B_VERSION', '1.8.1' );
 define( 'EUROB2B_DB_VERSION', 2 );
 define( 'EUROB2B_PLUGIN_FILE', __FILE__ );
 define( 'EUROB2B_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );

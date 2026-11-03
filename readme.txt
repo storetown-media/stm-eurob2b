@@ -4,7 +4,7 @@ Tags: b2b, wholesale, vat, reverse charge, customer groups
 Requires at least: 6.7
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.8.0
+Stable tag: 1.8.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -97,7 +97,11 @@ EU-B2B connects to one external service, and only when you use it:
 
 == Changelog ==
 
-The full changelog is in CHANGELOG.md in the plugin folder and on https://github.com/storetown-media/eurob2b.
+The full changelog is in CHANGELOG.md in the plugin folder and on https://github.com/storetown-media/stm-eurob2b.
+
+= 1.8.1 =
+* The settings screens are translated again (1.8.0 showed them in English on sites in other languages).
+* The plugin links point to the public repository on GitHub.
 
 = 1.8.0 =
 * EuroB2B is now STM EU-B2B. The plugin moves to the folder stm-eu-b2b; all settings and data stay. See the upgrade notice.

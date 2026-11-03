@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: STM EU-B2B\n"
-"Report-Msgid-Bugs-To: https://github.com/storetown-media/eurob2b/issues\n"
+"Report-Msgid-Bugs-To: https://github.com/storetown-media/stm-eurob2b/issues\n"
 "PO-Revision-Date: 2026-11-01 11:18+0000\n"
 "Last-Translator: Storetown Media\n"
 "Language-Team: Italian\n"
@@ -13813,8 +13813,8 @@ msgid "B2B for WooCommerce, built for Europe: business customers, group prices, 
 msgstr "B2B per WooCommerce, pensato per l'Europa: clienti business, prezzi per gruppo, verifica della partita IVA con VIES, decisione sull'inversione contabile e protezione dei dati fin dalla progettazione. Di più con il componente aggiuntivo STM EU-B2B Pro."
 
 #: stm-eu-b2b.php:Plugin-URI
-msgid "https://github.com/storetown-media/eurob2b"
-msgstr "https://github.com/storetown-media/eurob2b"
+msgid "https://github.com/storetown-media/stm-eurob2b"
+msgstr "https://github.com/storetown-media/stm-eurob2b"
 
 #: templates/emails/admin-approval-required.php:24
 #: templates/emails/plain/admin-approval-required.php:19

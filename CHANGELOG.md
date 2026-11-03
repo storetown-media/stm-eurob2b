@@ -4,6 +4,14 @@ All notable changes to STM EU-B2B (called EuroB2B up to 1.7.0) are documented he
 
 ## [Unreleased]
 
+## [1.8.1] – 2026-11-03
+
+Two fixes: the settings screens are translated again, and the public links point to the public repository. No database migration (database version stays 12). No new personal data and no new external connection.
+
+### Fixed
+- **The settings screens are translated again** (1.8.0 showed their sections, field labels and help texts in English on sites in every other language). The settings values read while the plugin boots are built with the text domain held back (PLT-020); WordPress then stored an empty placeholder catalogue for the domain, which blocked loading the translations until `init`, and the settings schema built in between kept its English labels. The held-back build now removes that placeholder again.
+- The plugin URI, the changelog link in `readme.txt` and the bug report address of the language files point to the public repository `github.com/storetown-media/stm-eurob2b` instead of the private development repository, which returned 404 for everyone else.
+
 ## [1.8.0] – 2026-11-02
 
 EuroB2B is now STM EU-B2B: the free plugin moves to the folder `stm-eu-b2b/` and its own text domain for the WordPress.org plugin directory, whose Plugin Check the free archive now passes in CI; settings and data stay, the upgrade steps are below. Two display fixes on the order and report screens. No database migration (database version stays 12). No new personal data and no new external connection.

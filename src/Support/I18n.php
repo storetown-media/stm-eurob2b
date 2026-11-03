@@ -52,12 +52,21 @@ final class I18n {
 		// unload_textdomain()); the previous state is restored afterwards.
 		$unloaded                                 = isset( $GLOBALS['l10n_unloaded'] ) && is_array( $GLOBALS['l10n_unloaded'] ) ? $GLOBALS['l10n_unloaded'] : array();
 		$was_set                                  = isset( $unloaded[ self::DOMAIN ] );
+		$had_catalogue                            = isset( $GLOBALS['l10n'] ) && is_array( $GLOBALS['l10n'] ) && isset( $GLOBALS['l10n'][ self::DOMAIN ] );
 		$GLOBALS['l10n_unloaded'][ self::DOMAIN ] = true; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited, WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- WordPress global, held back for the duration of $build only, restored below.
 		try {
 			return $build();
 		} finally {
 			if ( ! $was_set ) {
 				unset( $GLOBALS['l10n_unloaded'][ self::DOMAIN ] );
+			}
+			// A string translated while the domain is held back makes get_translations_for_domain()
+			// store its empty placeholder (NOOP_Translations) in $l10n. Left there, it stops the
+			// just-in-time load until load_plugin_textdomain() on init, so a schema built in between
+			// kept English labels on every site (1.8.0). Nothing can load the domain while it is held
+			// back, so an entry that was not there before is that placeholder and goes again.
+			if ( ! $had_catalogue && isset( $GLOBALS['l10n'] ) && is_array( $GLOBALS['l10n'] ) ) {
+				unset( $GLOBALS['l10n'][ self::DOMAIN ] );
 			}
 		}
 	}

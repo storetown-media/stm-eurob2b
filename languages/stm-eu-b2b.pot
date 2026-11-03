@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: STM EU-B2B\n"
-"Report-Msgid-Bugs-To: https://github.com/storetown-media/eurob2b/issues\n"
+"Report-Msgid-Bugs-To: https://github.com/storetown-media/stm-eurob2b/issues\n"
 "POT-Creation-Date: 2026-11-01 11:18+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -13808,7 +13808,7 @@ msgid "B2B for WooCommerce, built for Europe: business customers, group prices, 
 msgstr ""
 
 #: stm-eu-b2b.php:Plugin-URI
-msgid "https://github.com/storetown-media/eurob2b"
+msgid "https://github.com/storetown-media/stm-eurob2b"
 msgstr ""
 
 #: templates/emails/admin-approval-required.php:24
