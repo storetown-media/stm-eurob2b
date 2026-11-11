@@ -27,15 +27,6 @@ final class Bootstrap {
 	 * Boots the plugin once all plugins are loaded, so WooCommerce can be detected.
 	 */
 	public static function boot(): void {
-		/*
-		 * WordPress registers the language folder of every active plugin from its header, in the
-		 * order the plugins load. EU-B2B Pro has the same text domain, so whichever of the two loads
-		 * last decides where every translation of the domain is looked for, and the order of the folders
-		 * changed with the rename. Registering our folder again here, before any string is translated,
-		 * keeps it whatever the order.
-		 */
-		Plugin::register_language_folder();
-
 		// The check runs untranslated (plugins_loaded is too early for translations, PLT-020); the notice
 		// translates its messages when it is shown.
 		if ( array() !== I18n::untranslated( array( self::class, 'requirement_problems' ) ) ) {

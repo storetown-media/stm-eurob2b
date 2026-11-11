@@ -177,6 +177,10 @@ final class Uninstaller {
 		// Send locks of the dunning (PAY-023) that a request which died left behind.
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->options} WHERE option_name LIKE %s", $wpdb->esc_like( 'eurob2b_dunning_lock_' ) . '%' ) );
+		// Options of the add-on EU-B2B Pro that stay when its files were removed without deleting it
+		// (its own uninstall.php removes them otherwise; D-33).
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->options} WHERE option_name LIKE %s", $wpdb->esc_like( 'eurob2b_pro_' ) . '%' ) );
 
 		if ( function_exists( 'wp_roles' ) ) {
 			require_once __DIR__ . '/Capabilities.php';

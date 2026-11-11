@@ -18,8 +18,9 @@ use EuroB2B\Modules\Customers\GroupRepository;
 use EuroB2B\Modules\Customers\Upgrades\UpgradeRule;
 use EuroB2B\Support\Currency;
 use EuroB2B\Support\Decimal;
-use RuntimeException;
 use EuroB2B\Support\ExceptionMessage;
+use EuroB2B\Support\Ui;
+use RuntimeException;
 
 /**
  * List, create, edit and delete customer groups.
@@ -276,7 +277,8 @@ final class GroupsPage {
 		if ( null !== $group && ! $group->is_default ) {
 			$targets = array_filter( $this->groups->of_type( $group->customer_type ), static fn( Group $g ): bool => $g->id !== $group->id );
 			echo '<h2>' . esc_html__( 'Delete group', 'stm-eu-b2b' ) . '</h2>';
-			echo '<form method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '" onsubmit="return window.confirm(' . esc_attr( wp_json_encode( __( 'Delete this group and move its members?', 'stm-eu-b2b' ) ) ) . ');">';
+			Ui::enqueue_confirm();
+			echo '<form method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '" data-eurob2b-confirm="' . esc_attr__( 'Delete this group and move its members?', 'stm-eu-b2b' ) . '">';
 			wp_nonce_field( self::NONCE_DELETE );
 			echo '<input type="hidden" name="action" value="' . esc_attr( self::ACTION_DELETE ) . '" />';
 			echo '<input type="hidden" name="group_id" value="' . esc_attr( (string) $group->id ) . '" />';

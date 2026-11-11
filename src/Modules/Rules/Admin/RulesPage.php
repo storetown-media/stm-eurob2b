@@ -23,11 +23,13 @@ use EuroB2B\Modules\Rules\RuleSupport;
 use EuroB2B\Modules\Rules\Scope;
 use EuroB2B\Support\Assets;
 use EuroB2B\Support\Currency;
+use EuroB2B\Support\ExceptionMessage;
+use EuroB2B\Support\Kses;
 use EuroB2B\Support\Money;
+use EuroB2B\Support\Ui;
 use InvalidArgumentException;
 use RuntimeException;
 use WC_Product;
-use EuroB2B\Support\ExceptionMessage;
 
 /**
  * List, create, edit and delete rules. Products, variations, categories and customers are chosen
@@ -315,7 +317,7 @@ final class RulesPage {
 	 * Why a rule is refused or cannot be edited without EU-B2B Pro.
 	 */
 	public static function needs_pro_message(): string {
-		return __( 'This rule needs EU-B2B Pro: its type, a fixed amount, a condition or a discount line in the cart.', 'stm-eu-b2b' );
+		return __( 'STM EU-B2B applies percentage discounts. Other rule types, fixed amounts, conditions and discount lines in the cart belong to the separate add-on STM EU-B2B Pro.', 'stm-eu-b2b' );
 	}
 
 	/**
@@ -610,7 +612,8 @@ final class RulesPage {
 	 */
 	private function render_delete( Rule $rule ): void {
 		echo '<h2>' . esc_html__( 'Delete rule', 'stm-eu-b2b' ) . '</h2>';
-		echo '<form method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '" onsubmit="return window.confirm(' . esc_attr( (string) wp_json_encode( __( 'Delete this rule?', 'stm-eu-b2b' ) ) ) . ');">';
+		Ui::enqueue_confirm();
+		echo '<form method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '" data-eurob2b-confirm="' . esc_attr__( 'Delete this rule?', 'stm-eu-b2b' ) . '">';
 		wp_nonce_field( self::NONCE_DELETE );
 		echo '<input type="hidden" name="action" value="' . esc_attr( self::ACTION_DELETE ) . '" />';
 		echo '<input type="hidden" name="rule_id" value="' . esc_attr( (string) $rule->id ) . '" />';
@@ -647,7 +650,7 @@ final class RulesPage {
 	 * The note on a rule that needs EU-B2B Pro while it is missing.
 	 */
 	private static function needs_pro_note(): string {
-		return __( 'This rule uses features of EU-B2B Pro. Without it, the rule does not apply and cannot be edited.', 'stm-eu-b2b' );
+		return __( 'Created with the add-on STM EU-B2B Pro. The rule stays unchanged and applies again while the add-on is active.', 'stm-eu-b2b' );
 	}
 
 	/**
@@ -678,7 +681,7 @@ final class RulesPage {
 	 */
 	public static function row( string $id, string $label, string $control, string $description = '', string $types = '' ): void {
 		echo '<tr class="eurob2b-row-' . esc_attr( $id ) . '"' . ( '' !== $types ? ' data-eurob2b-type="' . esc_attr( $types ) . '"' : '' ) . '><th scope="row">' . esc_html( $label ) . '</th><td>';
-		echo $control; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- built from escaped parts above.
+		echo wp_kses( $control, Kses::allowed() );
 		if ( '' !== $description ) {
 			echo '<p class="description">' . esc_html( $description ) . '</p>';
 		}

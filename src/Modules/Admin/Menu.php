@@ -21,7 +21,8 @@ use EuroB2B\Infrastructure\Capabilities;
  * evidence, accounting, settings) instead of one per page. The other pages of an area stay
  * registered under their old slug without a menu entry, so every URL keeps working, and appear
  * as tabs in the page header (PageHeader). A page a module adds that is not in AREAS gets its
- * own menu entry, as before.
+ * own menu entry, as before, unless it names an area (add_page(), as EU-B2B Pro's pages that are
+ * not part of the core).
  */
 final class Menu {
 
@@ -39,13 +40,13 @@ final class Menu {
 		'quotes'     => array( 'quotes', 'conversations', 'quote-fields' ),
 		'tax'        => array( 'vat-validations', 'proof-of-supply', 'audit-files' ),
 		'accounting' => array( 'reports', 'accounting-export', 'overdue' ),
-		'settings'   => array( 'settings', 'processing-record', 'audit-log', 'settings-transfer', 'licence' ),
+		'settings'   => array( 'settings', 'processing-record', 'audit-log', 'settings-transfer' ),
 	);
 
 	/**
 	 * Registered pages.
 	 *
-	 * @var array<string, array{title: string, menu_title: string, capability: string, callback: callable, order: int}>
+	 * @var array<string, array{title: string, menu_title: string, capability: string, callback: callable, order: int, area?: string}>
 	 */
 	private array $pages = array();
 
@@ -66,14 +67,18 @@ final class Menu {
 	 * @param string   $capability Required capability.
 	 * @param callable $callback   Renders the page.
 	 * @param int      $order      Sort order.
+	 * @param string   $area       Key of AREAS for a page an add-on adds to an area (a tab after the
+	 *                             area's own pages, by sort order); '' for a page of AREAS or one with
+	 *                             a menu entry of its own.
 	 */
-	public function add_page( string $slug, string $title, string $menu_title, string $capability, callable $callback, int $order = 10 ): void {
+	public function add_page( string $slug, string $title, string $menu_title, string $capability, callable $callback, int $order = 10, string $area = '' ): void {
 		$this->pages[ $slug ] = array(
 			'title'      => $title,
 			'menu_title' => $menu_title,
 			'capability' => $capability,
 			'callback'   => $callback,
 			'order'      => $order,
+			'area'       => $area,
 		);
 	}
 
@@ -143,11 +148,12 @@ final class Menu {
 	 * a page outside AREAS forms an area of its own (key "page:<slug>") after the others, ordered
 	 * by its sort order.
 	 *
-	 * @param array<string, array{title: string, menu_title: string, capability: string, callback: callable, order: int}> $pages Pages.
-	 * @return array<string, array<string, array{title: string, menu_title: string, capability: string, callback: callable, order: int}>>
+	 * @param array<string, array{title: string, menu_title: string, capability: string, callback: callable, order: int, area?: string}> $pages Pages.
+	 * @return array<string, array<string, array{title: string, menu_title: string, capability: string, callback: callable, order: int, area?: string}>>
 	 */
 	public static function group( array $pages ): array {
 		$groups = array();
+		uasort( $pages, static fn( array $a, array $b ): int => $a['order'] <=> $b['order'] );
 		foreach ( self::AREAS as $area => $slugs ) {
 			foreach ( $slugs as $slug ) {
 				if ( isset( $pages[ $slug ] ) ) {
@@ -155,8 +161,14 @@ final class Menu {
 					unset( $pages[ $slug ] );
 				}
 			}
+			// Pages an add-on added to this area (add_page() with $area), after the area's own pages.
+			foreach ( $pages as $slug => $page ) {
+				if ( ( $page['area'] ?? '' ) === $area ) {
+					$groups[ $area ][ $slug ] = $page;
+					unset( $pages[ $slug ] );
+				}
+			}
 		}
-		uasort( $pages, static fn( array $a, array $b ): int => $a['order'] <=> $b['order'] );
 		foreach ( $pages as $slug => $page ) {
 			$groups[ 'page:' . $slug ] = array( $slug => $page );
 		}

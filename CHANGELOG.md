@@ -4,6 +4,40 @@ All notable changes to STM EU-B2B (called EuroB2B up to 1.7.0) are documented he
 
 ## [Unreleased]
 
+## [1.9.2] – 2026-11-10
+
+One fix for sites on SQLite (for example WordPress Playground). No database migration (database version stays 12). No new personal data and no new external connection.
+
+### Fixed
+- **The list of VAT ID checks that need a look works on SQLite.** Its query compared the customer with MySQL's `<=>`, which SQLite does not know, so the page showed a database error there (WordPress Playground runs on SQLite). The comparison is now written in standard SQL with the same meaning; MySQL and MariaDB were not affected.
+
+## [1.9.1] – 2026-11-10
+
+Second round of the WordPress.org review (2026-11-10). No database migration (database version stays 12). No new personal data and no new external connection.
+
+### Changed
+- **Output is escaped where it is printed.** Markup built in one place and printed in another (registration fields, status labels, the record of processing activities, the product data panel, the rules form, page header actions, notices) goes through `wp_kses_post()` or `wp_kses()` with the plugin's allow-list (`Support\Kses`) when it is printed.
+- The printable and downloadable record of processing activities gets its styles and the script of its print button through WordPress's script and style API instead of embedded tags; a downloaded file keeps its layout.
+- Deleting a group or rule, moving customers and the delete buttons of the storefront ask through `data-eurob2b-confirm` and a small script (`assets/js/confirm.js`) instead of inline `onclick`/`onsubmit` handlers.
+- The settings export is sent with `wp_send_json()`; the registration form block gets its registration types through `wp_localize_script()`.
+
+### Fixed
+- The privacy notice on the export and erase screens keeps the bullets of its list (`list-style-type` instead of `list-style`, which WordPress's style filter removes).
+
+## [1.9.0] – 2026-11-07
+
+Changes from the WordPress.org review of the free plugin (2026-11-07). No database migration (database version stays 12). No new personal data and no new external connection.
+
+### Changed
+- **Translations of EU-B2B come from translate.wordpress.org.** The free plugin no longer ships catalogues and no longer registers a language folder; `languages/` in the repository stays the source for the import there. Until a language pack for the site language exists, EU-B2B alone shows English.
+- **EU-B2B Pro has its own text domain `stm-eu-b2b-pro`** and its own catalogues (German informal and formal, French, Italian, Spanish, Dutch, Polish). It also carries the compiled catalogues of EU-B2B and uses them while no language pack exists, so shops with EU-B2B Pro keep their translations after the update; a language pack from WordPress.org always takes precedence.
+- The licence screen of EU-B2B Pro joins the settings area on its own; the free plugin no longer names it. Notes on rules and import steps that belong to EU-B2B Pro now describe the add-on instead of asking to activate it.
+- The opt-in uninstall of EU-B2B removes every option EU-B2B Pro left behind (prefix `eurob2b_pro_`), also when its files were removed without deleting it.
+- Plain-text e-mails escape their links with `esc_url()` (WooCommerce restores `&` before sending).
+- Admin styles of the audit log, the product data panel and the record of processing activities are enqueued instead of printed inline.
+- The registration form shows submitted values again only after `sanitize_user()` / `sanitize_email()`.
+- readme.txt: the VIES endpoints, the terms of use and the Site Health self-test are listed under *External services*; the languages section describes translate.wordpress.org.
+
 ## [1.8.1] – 2026-11-03
 
 Two fixes: the settings screens are translated again, and the public links point to the public repository. No database migration (database version stays 12). No new personal data and no new external connection.

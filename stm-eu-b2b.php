@@ -3,7 +3,7 @@
  * Plugin Name:       STM EU-B2B
  * Plugin URI:        https://github.com/storetown-media/stm-eurob2b
  * Description:       B2B for WooCommerce, built for Europe: business customers, group prices, VAT ID check with VIES, reverse charge decisions and privacy by design. More with the add-on STM EU-B2B Pro.
- * Version:           1.8.1
+ * Version:           1.9.2
  * Requires at least: 6.7
  * Requires PHP:      8.1
  * Requires Plugins:  woocommerce
@@ -41,8 +41,6 @@ if ( defined( 'EUROB2B_VERSION' ) ) {
 				if ( ! current_user_can( 'activate_plugins' ) ) {
 					return;
 				}
-				// phpcs:ignore PluginCheck.CodeAnalysis.DiscouragedFunctions.load_plugin_textdomainFound -- this copy stops at its guard while the old plugin runs, so the bootstrap that registers the language folder never runs; the notice registers languages/ of this copy itself.
-				load_plugin_textdomain( 'stm-eu-b2b', false, basename( __DIR__ ) . '/languages' );
 				$eurob2b_message = 'eurob2b' === $eurob2b_other_copy[1]
 					? sprintf(
 						/* translators: %s: version number of the old plugin */
@@ -62,7 +60,7 @@ if ( defined( 'EUROB2B_VERSION' ) ) {
 	return;
 }//end if
 
-define( 'EUROB2B_VERSION', '1.8.1' );
+define( 'EUROB2B_VERSION', '1.9.2' );
 define( 'EUROB2B_DB_VERSION', 2 );
 define( 'EUROB2B_PLUGIN_FILE', __FILE__ );
 define( 'EUROB2B_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );

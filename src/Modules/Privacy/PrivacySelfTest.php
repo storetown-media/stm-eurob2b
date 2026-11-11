@@ -150,7 +150,7 @@ final class PrivacySelfTest {
 		if ( null === $screen || ! in_array( $screen->id, array( 'export-personal-data', 'erase-personal-data' ), true ) || $this->healthy() ) {
 			return;
 		}
-		echo '<div class="notice notice-error"><p><strong>' . esc_html__( 'STM EU-B2B: personal data requests are incomplete.', 'stm-eu-b2b' ) . '</strong></p>' . $this->findings_html() . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- findings_html() escapes every part.
+		echo '<div class="notice notice-error"><p><strong>' . esc_html__( 'STM EU-B2B: personal data requests are incomplete.', 'stm-eu-b2b' ) . '</strong></p>' . wp_kses_post( $this->findings_html() ) . '</div>';
 	}
 
 	/**
@@ -161,7 +161,7 @@ final class PrivacySelfTest {
 			'exporters' => __( 'Export Personal Data', 'stm-eu-b2b' ),
 			'erasers'   => __( 'Erase Personal Data', 'stm-eu-b2b' ),
 		);
-		$html   = '<p>' . esc_html__( 'A plugin removes entries from the list of exporters or erasers instead of adding its own. Requests then finish without that data, and nobody notices. Ask the plugin\'s vendor for a fix; EU-B2B does not change other plugins.', 'stm-eu-b2b' ) . '</p><ul style="list-style:disc;margin-left:2em">';
+		$html   = '<p>' . esc_html__( 'A plugin removes entries from the list of exporters or erasers instead of adding its own. Requests then finish without that data, and nobody notices. Ask the plugin\'s vendor for a fix; EU-B2B does not change other plugins.', 'stm-eu-b2b' ) . '</p><ul style="list-style-type:disc;margin-left:2em">';
 		foreach ( $this->check() as $kind => $part ) {
 			foreach ( $part['culprits'] as $culprit ) {
 				$html .= '<li>' . esc_html(

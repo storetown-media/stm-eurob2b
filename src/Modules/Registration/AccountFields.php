@@ -9,6 +9,7 @@ declare( strict_types=1 );
 
 namespace EuroB2B\Modules\Registration;
 
+use EuroB2B\Support\Kses;
 use WP_Error;
 
 /**
@@ -75,7 +76,7 @@ final class AccountFields {
 		$user_id = get_current_user_id();
 		foreach ( $this->fields_for( $user_id ) as $field ) {
 			$value = $this->storage->get( $user_id, $field );
-			echo $this->renderer->render( $field, $value ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in the renderer.
+			echo wp_kses( $this->renderer->render( $field, $value ), Kses::allowed() );
 		}
 	}
 

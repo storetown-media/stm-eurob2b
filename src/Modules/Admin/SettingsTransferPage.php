@@ -263,23 +263,19 @@ final class SettingsTransferPage {
 	}
 
 	/**
-	 * Sends a JSON download (skipped in tests, where headers were sent).
+	 * Sends a JSON download through wp_send_json(), which also ends the request (the headers are
+	 * skipped in tests, where output has started).
 	 *
 	 * @param array<string, mixed> $data     Data.
 	 * @param string               $filename File name.
 	 */
 	private function send( array $data, string $filename ): void {
-		$json = (string) wp_json_encode( $data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
-		if ( headers_sent() ) {
-			echo $json; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- JSON download.
-			return;
+		if ( ! headers_sent() ) {
+			nocache_headers();
+			header( 'Content-Disposition: attachment; filename="' . sanitize_file_name( $filename ) . '"' );
+			header( 'X-Content-Type-Options: nosniff' );
 		}
-		nocache_headers();
-		header( 'Content-Type: application/json; charset=utf-8' );
-		header( 'Content-Disposition: attachment; filename="' . sanitize_file_name( $filename ) . '"' );
-		header( 'X-Content-Type-Options: nosniff' );
-		echo $json; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- JSON download.
-		exit;
+		wp_send_json( $data, 200, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
 	}
 
 	/**

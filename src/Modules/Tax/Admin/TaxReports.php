@@ -140,7 +140,7 @@ final class TaxReports {
 			foreach ( array_keys( $sources ) as $url ) {
 				$links[] = '<a href="' . esc_url( $url ) . '" rel="noreferrer">' . esc_html( (string) wp_parse_url( $url, PHP_URL_HOST ) ) . '</a>';
 			}
-			echo '<tr><td>' . esc_html( self::country_label( $profile ) ) . '</td><td>' . esc_html( implode( '; ', $rates ) ) . '</td><td>' . esc_html( implode( '; ', $thresholds ) ) . '</td><td>' . implode( ' ', $links ) . '</td></tr>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- links escaped above.
+			echo '<tr><td>' . esc_html( self::country_label( $profile ) ) . '</td><td>' . esc_html( implode( '; ', $rates ) ) . '</td><td>' . esc_html( implode( '; ', $thresholds ) ) . '</td><td>' . wp_kses_post( implode( ' ', $links ) ) . '</td></tr>';
 		}
 		echo '</tbody></table>';
 	}

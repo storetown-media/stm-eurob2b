@@ -1048,10 +1048,9 @@ final class VatIdField {
 	 * @param bool   $required Whether the field is required.
 	 */
 	private function render_input( string $value, string $types, bool $required ): void {
-		$attr = $required ? ( '' === $types ? ' required' : ' data-eurob2b-required="1"' ) : '';
 		echo '<p class="form-row form-row-wide eurob2b-vat-id-row" data-eurob2b-types="' . esc_attr( $types ) . '">';
 		echo '<label for="' . esc_attr( self::INPUT ) . '">' . esc_html__( 'VAT ID', 'stm-eu-b2b' ) . ( $required ? ' <span class="required" aria-hidden="true">*</span>' : ' <span class="optional">(' . esc_html__( 'optional', 'stm-eu-b2b' ) . ')</span>' ) . '</label>';
-		echo '<input type="text" class="input-text" id="' . esc_attr( self::INPUT ) . '" name="' . esc_attr( self::INPUT ) . '" value="' . esc_attr( $value ) . '" placeholder="' . esc_attr__( 'e.g. DE123456789', 'stm-eu-b2b' ) . '" autocomplete="off" aria-describedby="' . esc_attr( self::INPUT . '-hint' ) . '"' . $attr . ' />'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static attribute.
+		echo '<input type="text" class="input-text" id="' . esc_attr( self::INPUT ) . '" name="' . esc_attr( self::INPUT ) . '" value="' . esc_attr( $value ) . '" placeholder="' . esc_attr__( 'e.g. DE123456789', 'stm-eu-b2b' ) . '" autocomplete="off" aria-describedby="' . esc_attr( self::INPUT . '-hint' ) . '"' . ( $required ? ( '' === $types ? ' required' : ' data-eurob2b-required="1"' ) : '' ) . ' />';
 		echo '<span class="description" id="' . esc_attr( self::INPUT . '-hint' ) . '">' . esc_html__( 'With country prefix.', 'stm-eu-b2b' ) . '</span></p>';
 	}
 

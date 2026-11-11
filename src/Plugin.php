@@ -109,11 +109,11 @@ final class Plugin {
 		// Run pending database migrations after a plugin update (the activation hook does not fire then).
 		add_action( 'init', array( Installer::class, 'maybe_upgrade' ), 1 );
 
-		add_action( 'init', array( $this, 'load_textdomain' ), 0 );
+		// Translations come from translate.wordpress.org: WordPress loads the catalogue of the text
+		// domain stm-eu-b2b just in time, and the JavaScript translations of the blocks through the
+		// textdomain of their block.json; the plugin ships no catalogue and registers no folder.
 		// The editor scripts of the plugin's blocks are versioned like every other plugin asset.
 		add_filter( 'block_type_metadata', array( Assets::class, 'block_metadata' ) );
-		// After every module registered its blocks (init, default priority).
-		add_action( 'init', array( $this, 'load_script_translations' ), 99 );
 
 		$this->modules->boot_all();
 
@@ -126,40 +126,6 @@ final class Plugin {
 		 * @param Plugin $plugin Plugin instance.
 		 */
 		do_action( 'eurob2b_loaded', $this );
-	}
-
-	/**
-	 * Loads translations. English is the source language, German the first translation.
-	 */
-	public function load_textdomain(): void {
-		self::register_language_folder();
-	}
-
-	/**
-	 * Registers languages/ of this plugin as the folder of the text domain stm-eu-b2b. Since WordPress
-	 * 6.7 this only records the folder; the catalogue loads on the first translated string.
-	 */
-	public static function register_language_folder(): void {
-		// phpcs:ignore PluginCheck.CodeAnalysis.DiscouragedFunctions.load_plugin_textdomainFound -- EU-B2B Pro (separate plugin, not on WordPress.org) has the same text domain; WordPress registers each active plugin's folder from its header in load order, so this call keeps the catalogues of this plugin's languages/ folder, which hold the strings of both (LanguageFolderTest).
-		load_plugin_textdomain( 'stm-eu-b2b', false, dirname( EUROB2B_PLUGIN_BASENAME ) . '/languages' );
-	}
-
-	/**
-	 * Hands the bundled JavaScript translations (languages/stm-eu-b2b-<locale>-<md5>.json) to the
-	 * editor scripts of the plugin's blocks (PLT-010).
-	 */
-	public function load_script_translations(): void {
-		if ( ! function_exists( 'wp_set_script_translations' ) || ! class_exists( 'WP_Block_Type_Registry' ) ) {
-			return;
-		}
-		foreach ( \WP_Block_Type_Registry::get_instance()->get_all_registered() as $name => $block ) {
-			if ( ! str_starts_with( (string) $name, 'eurob2b/' ) ) {
-				continue;
-			}
-			foreach ( $block->editor_script_handles as $handle ) {
-				wp_set_script_translations( $handle, 'stm-eu-b2b', EUROB2B_PLUGIN_DIR . 'languages' );
-			}
-		}
 	}
 
 	/**

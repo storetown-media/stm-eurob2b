@@ -27,13 +27,13 @@ $eurob2b_generate_password = 'yes' === get_option( 'woocommerce_registration_gen
 		<?php if ( ! $eurob2b_generate_username ) : ?>
 			<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
 				<label for="reg_username"><?php esc_html_e( 'Username', 'stm-eu-b2b' ); ?>&nbsp;<span class="required" aria-hidden="true">*</span></label>
-				<input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="username" id="reg_username" autocomplete="username" value="<?php echo ( ! empty( $_POST['username'] ) ) ? esc_attr( wp_unslash( $_POST['username'] ) ) : ''; ?>" required /><?php // phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- same as WooCommerce core. ?>
+				<input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="username" id="reg_username" autocomplete="username" value="<?php echo ( ! empty( $_POST['username'] ) ) ? esc_attr( sanitize_user( wp_unslash( (string) $_POST['username'] ) ) ) : ''; ?>" required /><?php // phpcs:ignore WordPress.Security.NonceVerification.Missing -- only the value shown again after a failed submit; the registration handler verifies the nonce. ?>
 			</p>
 		<?php endif; ?>
 
 		<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
 			<label for="reg_email"><?php esc_html_e( 'Email address', 'stm-eu-b2b' ); ?>&nbsp;<span class="required" aria-hidden="true">*</span></label>
-			<input type="email" class="woocommerce-Input woocommerce-Input--text input-text" name="email" id="reg_email" autocomplete="email" value="<?php echo ( ! empty( $_POST['email'] ) ) ? esc_attr( wp_unslash( $_POST['email'] ) ) : ''; ?>" required /><?php // phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- same as WooCommerce core. ?>
+			<input type="email" class="woocommerce-Input woocommerce-Input--text input-text" name="email" id="reg_email" autocomplete="email" value="<?php echo ( ! empty( $_POST['email'] ) ) ? esc_attr( sanitize_email( wp_unslash( (string) $_POST['email'] ) ) ) : ''; ?>" required /><?php // phpcs:ignore WordPress.Security.NonceVerification.Missing -- only the value shown again after a failed submit; the registration handler verifies the nonce. ?>
 		</p>
 
 		<?php if ( ! $eurob2b_generate_password ) : ?>

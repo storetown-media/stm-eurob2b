@@ -82,10 +82,12 @@ final class RenamedPluginNotice {
 		if ( ! function_exists( 'is_plugin_active' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/plugin.php';
 		}
-		echo self::html( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in html().
-			is_plugin_active( self::OLD_BASENAME ),
-			(bool) get_option( Schema::OPTION_REMOVE_DATA, false ),
-			is_network_admin() ? network_admin_url( 'plugins.php' ) : admin_url( 'plugins.php' )
+		echo wp_kses_post(
+			self::html(
+				is_plugin_active( self::OLD_BASENAME ),
+				(bool) get_option( Schema::OPTION_REMOVE_DATA, false ),
+				is_network_admin() ? network_admin_url( 'plugins.php' ) : admin_url( 'plugins.php' )
+			)
 		);
 	}
 

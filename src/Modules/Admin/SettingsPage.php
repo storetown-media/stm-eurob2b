@@ -233,13 +233,13 @@ final class SettingsPage {
 				break;
 
 			case SettingsSchema::TYPE_NUMBER:
-				$attrs = '';
+				echo '<input type="number" class="small-text" id="' . esc_attr( $dom_id ) . '" name="' . esc_attr( $name ) . '" value="' . esc_attr( (string) $value ) . '"';
 				foreach ( array( 'min', 'max', 'step' ) as $attr ) {
 					if ( isset( $field[ $attr ] ) ) {
-						$attrs .= ' ' . $attr . '="' . esc_attr( (string) $field[ $attr ] ) . '"';
+						echo ' ' . esc_attr( $attr ) . '="' . esc_attr( (string) $field[ $attr ] ) . '"';
 					}
 				}
-				echo '<input type="number" class="small-text" id="' . esc_attr( $dom_id ) . '" name="' . esc_attr( $name ) . '" value="' . esc_attr( (string) $value ) . '"' . $attrs . ' />'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- attributes escaped above.
+				echo ' />';
 				break;
 
 			case SettingsSchema::TYPE_SELECT:

@@ -153,7 +153,7 @@ final class ValidationsPage {
 		}
 
 		$review = $this->service->repository()->review_list( 200 );
-		echo '<h2>' . esc_html__( 'Needs a look', 'stm-eu-b2b' ) . ' ' . StatusLabel::html( (string) count( $review ), array() === $review ? StatusLabel::OK : StatusLabel::BAD ) . '</h2>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in StatusLabel::html().
+		echo '<h2>' . esc_html__( 'Needs a look', 'stm-eu-b2b' ) . ' ' . wp_kses_post( StatusLabel::html( (string) count( $review ), array() === $review ? StatusLabel::OK : StatusLabel::BAD ) ) . '</h2>';
 		if ( empty( $review ) ) {
 			echo '<p>' . esc_html__( 'Nothing to review.', 'stm-eu-b2b' ) . '</p>';
 		} else {
@@ -188,7 +188,7 @@ final class ValidationsPage {
 			$user = null !== $record->user_id ? get_userdata( $record->user_id ) : false;
 			echo '<tr>';
 			echo '<td><code>' . esc_html( $record->vat_id() ) . '</code></td>';
-			echo '<td>' . StatusLabel::html( self::status_label( $record->status ), self::status_tone( $record->status ) ) . '</td>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in StatusLabel::html().
+			echo '<td>' . wp_kses_post( StatusLabel::html( self::status_label( $record->status ), self::status_tone( $record->status ) ) ) . '</td>';
 			echo '<td>' . esc_html( (string) $record->reason_code ) . '</td>';
 			echo '<td>' . esc_html( self::service_label( $record->service ) ) . '</td>';
 			echo '<td>' . esc_html( self::checked_label( $record ) ) . '</td>';

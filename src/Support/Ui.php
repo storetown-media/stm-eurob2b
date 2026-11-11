@@ -139,13 +139,33 @@ final class Ui {
 	}
 
 	/**
-	 * Escaped attribute that asks for confirmation before a button deletes data (WCAG 3.3.4). Without
-	 * JavaScript the action runs as before.
+	 * Handle of the script that asks before a form or button deletes data (assets/js/confirm.js).
+	 */
+	public const CONFIRM_SCRIPT = 'eurob2b-confirm';
+
+	/**
+	 * Escaped attribute that asks for confirmation before a button or form deletes data (WCAG 3.3.4):
+	 * assets/js/confirm.js reads it, and this call loads that script. Without JavaScript the action
+	 * runs as before.
 	 *
 	 * @param string $message Question.
 	 */
 	public static function confirm( string $message ): string {
-		return ' onclick="' . esc_attr( 'return window.confirm(' . (string) wp_json_encode( $message ) . ');' ) . '"';
+		self::enqueue_confirm();
+		return ' data-eurob2b-confirm="' . esc_attr( $message ) . '"';
+	}
+
+	/**
+	 * Loads assets/js/confirm.js (in the footer, so a component may ask for it while it renders).
+	 */
+	public static function enqueue_confirm(): void {
+		if ( ! function_exists( 'wp_enqueue_script' ) ) {
+			return;
+		}
+		if ( ! wp_script_is( self::CONFIRM_SCRIPT, 'registered' ) ) {
+			wp_register_script( self::CONFIRM_SCRIPT, EUROB2B_PLUGIN_URL . 'assets/js/confirm.js', array(), Assets::version( 'assets/js/confirm.js' ), true );
+		}
+		wp_enqueue_script( self::CONFIRM_SCRIPT );
 	}
 
 	/**

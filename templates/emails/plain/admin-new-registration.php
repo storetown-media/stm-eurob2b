@@ -25,7 +25,7 @@ if ( $user instanceof WP_User ) {
 	}
 }
 if ( '' !== $profile_url ) {
-	echo "\n" . esc_html__( 'Profile', 'stm-eu-b2b' ) . ': ' . esc_url_raw( $profile_url ) . "\n";
+	echo "\n" . esc_html__( 'Profile', 'stm-eu-b2b' ) . ': ' . esc_url( $profile_url ) . "\n";
 }
 if ( $additional_content ) {
 	echo "\n" . esc_html( wp_strip_all_tags( wptexturize( $additional_content ) ) ) . "\n";

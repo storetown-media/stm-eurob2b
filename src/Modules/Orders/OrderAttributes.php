@@ -190,7 +190,7 @@ final class OrderAttributes {
 		echo '<h3 style="margin-bottom:4px;">' . esc_html__( 'EU-B2B at purchase', 'stm-eu-b2b' ) . '</h3>';
 		foreach ( $rows as $label => $value ) {
 			$tone = isset( $tones[ $label ] ) ? (string) $tones[ $label ] : '';
-			echo '<p class="form-field form-field-wide" style="margin:0 0 4px;"><strong>' . esc_html( (string) $label ) . ':</strong> ' . ( '' === $tone ? esc_html( (string) $value ) : StatusLabel::html( (string) $value, $tone ) ) . '</p>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped here or in StatusLabel::html().
+			echo '<p class="form-field form-field-wide" style="margin:0 0 4px;"><strong>' . esc_html( (string) $label ) . ':</strong> ' . ( '' === $tone ? esc_html( (string) $value ) : wp_kses_post( StatusLabel::html( (string) $value, $tone ) ) ) . '</p>';
 		}
 		echo '</div>';
 	}

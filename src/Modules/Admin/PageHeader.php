@@ -10,6 +10,7 @@ declare( strict_types=1 );
 namespace EuroB2B\Modules\Admin;
 
 use EuroB2B\Support\Assets;
+use EuroB2B\Support\Kses;
 
 /**
  * Opens an EU-B2B admin page: the `wrap` element, a white header band with the product name and
@@ -46,7 +47,7 @@ final class PageHeader {
 		echo '</p><div class="eurob2b-head__row">';
 		echo '<h1>' . esc_html( $title ) . '</h1>';
 		if ( '' !== $actions ) {
-			echo '<div class="eurob2b-head__actions">' . $actions . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped by the caller (documented).
+			echo '<div class="eurob2b-head__actions">' . wp_kses( $actions, Kses::allowed() ) . '</div>';
 		}
 		echo '</div>';
 		if ( $nav ) {

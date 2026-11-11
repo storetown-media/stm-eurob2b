@@ -10,11 +10,12 @@ declare( strict_types=1 );
 namespace EuroB2B\Modules\Registration;
 
 use EuroB2B\Modules\Admin\Settings;
-use EuroB2B\Modules\Registration\RegistrationType;
-use EuroB2B\Modules\Customers\CustomerType;
 use EuroB2B\Modules\Customers\CustomerStatus;
+use EuroB2B\Modules\Customers\CustomerType;
 use EuroB2B\Modules\Customers\LoginGuard;
+use EuroB2B\Modules\Registration\RegistrationType;
 use EuroB2B\Support\Assets;
+use EuroB2B\Support\Kses;
 use EuroB2B\Support\Templates;
 use WP_Error;
 
@@ -159,7 +160,7 @@ final class RegistrationForm {
 	 */
 	public function render_type_choice(): void {
 		$types = $this->types->offered();
-		echo $this->anti_abuse->honeypot_html(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in the method.
+		echo wp_kses( $this->anti_abuse->honeypot_html(), Kses::allowed() );
 
 		if ( null !== $this->locked ) {
 			echo '<input type="hidden" name="eurob2b_registration_type" value="' . esc_attr( $this->locked ) . '" />';
@@ -210,7 +211,7 @@ final class RegistrationForm {
 			}
 			// phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- re-populating after a failed submit; WooCommerce verifies the nonce; value sanitised by FieldDefinition::sanitize().
 			$value = isset( $_POST[ $field->input_name() ] ) ? $field->sanitize( wp_unslash( $_POST[ $field->input_name() ] ) ) : '';
-			echo $this->renderer->render( $field, $value, null !== $this->locked ? array() : $types ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in the renderer.
+			echo wp_kses( $this->renderer->render( $field, $value, null !== $this->locked ? array() : $types ), Kses::allowed() );
 		}
 
 		// The terms checkbox belongs to the business types (REG-012): shown only for them, and without
@@ -219,9 +220,8 @@ final class RegistrationForm {
 		$show     = $this->settings->get( 'registration_terms_required' ) && ! empty( $business ) && ( null === $this->locked || in_array( $this->locked, $business, true ) );
 		if ( $show ) {
 			$text = (string) $this->settings->get( 'registration_terms_text' );
-			$attr = null !== $this->locked ? ' required' : ' data-eurob2b-required="1"';
 			echo '<p class="form-row form-row-wide eurob2b-terms" data-eurob2b-types="' . esc_attr( null !== $this->locked ? '' : implode( ',', $business ) ) . '"><label class="checkbox" for="eurob2b_terms">';
-			echo '<input type="checkbox" class="input-checkbox" id="eurob2b_terms" name="eurob2b_terms" value="1"' . $attr . ' /> '; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static attribute.
+			echo '<input type="checkbox" class="input-checkbox" id="eurob2b_terms" name="eurob2b_terms" value="1"' . ( null !== $this->locked ? ' required' : ' data-eurob2b-required="1"' ) . ' /> ';
 			echo wp_kses( '' !== $text ? $text : __( 'I accept the terms and conditions.', 'stm-eu-b2b' ), RegistrationModule::terms_allowed_html() );
 			echo ' <span class="required" aria-hidden="true">*</span></label></p>';
 		}

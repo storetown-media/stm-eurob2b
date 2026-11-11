@@ -249,7 +249,9 @@ final class ValidationRepository {
 				// task: it stays in the table as evidence and leaves the list. "Newer" is ordered like
 				// latest_for(): check time, then id. A background retry that answers later updates the
 				// check time of its own row and so brings that row back to the front.
-				"SELECT v.* FROM {$this->table()} v WHERE v.status IN (%s, %s, %s) AND v.decided_by IS NULL AND NOT EXISTS ( SELECT 1 FROM {$this->table()} n WHERE n.country_code = v.country_code AND n.vat_number = v.vat_number AND n.user_id <=> v.user_id AND ( n.checked_at > v.checked_at OR ( n.checked_at = v.checked_at AND n.id > v.id ) ) ) ORDER BY v.checked_at DESC, v.id DESC LIMIT %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+				// The customer is compared null-safely in standard SQL (MySQL's <=> fails on SQLite, which
+				// WordPress Playground uses).
+				"SELECT v.* FROM {$this->table()} v WHERE v.status IN (%s, %s, %s) AND v.decided_by IS NULL AND NOT EXISTS ( SELECT 1 FROM {$this->table()} n WHERE n.country_code = v.country_code AND n.vat_number = v.vat_number AND ( n.user_id = v.user_id OR ( n.user_id IS NULL AND v.user_id IS NULL ) ) AND ( n.checked_at > v.checked_at OR ( n.checked_at = v.checked_at AND n.id > v.id ) ) ) ORDER BY v.checked_at DESC, v.id DESC LIMIT %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				ValidationStatus::PENDING->value,
 				ValidationStatus::UNAVAILABLE->value,
 				ValidationStatus::INVALID->value,

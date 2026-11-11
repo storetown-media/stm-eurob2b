@@ -108,8 +108,7 @@ final class AuditLogPage {
 		echo '</select> <label for="eurob2b-audit-user">' . esc_html__( 'User ID', 'stm-eu-b2b' ) . '</label> <input type="number" min="1" class="small-text" id="eurob2b-audit-user" name="audit_user" value="' . esc_attr( $user > 0 ? (string) $user : '' ) . '" /> ';
 		echo '<button type="submit" class="button">' . esc_html__( 'Filter', 'stm-eu-b2b' ) . '</button></form>';
 
-		// On narrow screens each entry becomes a block of labelled lines instead of a wide row.
-		echo '<style>@media (max-width:782px){.eurob2b-audit-log__table thead{display:none}.eurob2b-audit-log__table tr{display:block}.eurob2b-audit-log__table td{display:block;padding:.3em .75em}.eurob2b-audit-log__table td[data-label]::before{content:attr(data-label);display:block;font-weight:600}}</style>';
+		// On narrow screens each entry becomes a block of labelled lines (assets/css/admin.css).
 		$headings = array(
 			'time'    => __( 'Time', 'stm-eu-b2b' ),
 			'action'  => __( 'Action', 'stm-eu-b2b' ),
@@ -135,7 +134,7 @@ final class AuditLogPage {
 			);
 			echo '<tr>';
 			foreach ( $cells as $key => $html ) {
-				echo '<td data-label="' . esc_attr( $headings[ $key ] ) . '">' . $html . '</td>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- every cell is escaped above.
+				echo '<td data-label="' . esc_attr( $headings[ $key ] ) . '">' . wp_kses_post( $html ) . '</td>';
 			}
 			echo '</tr>';
 		}

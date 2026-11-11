@@ -248,7 +248,7 @@ final class ApprovalsPage {
 			if ( $entry['file_id'] > 0 && current_user_can( PrivateFiles::capability( PrivateFiles::CONTEXT_REGISTRATION ) ) ) {
 				$link = ' · <a href="' . esc_url( PrivateFiles::download_link( $entry['file_id'] ) ) . '">' . esc_html__( 'Download', 'stm-eu-b2b' ) . '</a>';
 			}
-			echo '<tr><th scope="row">' . esc_html( $entry['label'] ) . '</th><td>' . nl2br( esc_html( $entry['value'] ) ) . $link . '</td></tr>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $link is built from escaped parts.
+			echo '<tr><th scope="row">' . esc_html( $entry['label'] ) . '</th><td>' . wp_kses_post( nl2br( esc_html( $entry['value'] ) ) . $link ) . '</td></tr>';
 		}
 		echo '</tbody></table>';
 

@@ -4,7 +4,7 @@ Tags: b2b, wholesale, vat, reverse charge, customer groups
 Requires at least: 6.7
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.8.1
+Stable tag: 1.9.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -44,7 +44,7 @@ STM EU-B2B turns a WooCommerce shop into a shop for business customers – or fo
 
 = Languages =
 
-English, German (informal and formal), French, Italian, Spanish, Dutch and Polish. The French, Italian, Spanish, Dutch and Polish translations were made with machine assistance and a fixed glossary; corrections are welcome.
+The plugin is written in English and gets its translations from translate.wordpress.org. Complete translations into German (informal and formal), French, Italian, Spanish, Dutch and Polish exist and are submitted there; until they are approved there, the plugin shows English. The French, Italian, Spanish, Dutch and Polish translations were made with machine assistance and a fixed glossary; corrections are welcome.
 
 = EU-B2B Pro =
 
@@ -85,7 +85,9 @@ In your WordPress database only. Nothing is sent to Storetown Media.
 
 EU-B2B connects to one external service, and only when you use it:
 
-* **VIES (VAT Information Exchange System) of the European Commission** checks whether a VAT ID is valid. When a customer enters a VAT ID or shop staff check one again, EU-B2B sends the VAT ID and, if you entered it in the settings, your shop's own VAT ID (so that VIES returns a consultation number). No trader name or address and no other personal data is sent. The check is off until you switch it on in the settings (*Validate EU VAT IDs via VIES*). Service: https://ec.europa.eu/taxation_customs/vies/ – legal notice: https://commission.europa.eu/legal-notice_en – privacy policy: https://commission.europa.eu/privacy-policy-websites-managed-european-commission_en
+* **VIES (VAT Information Exchange System) of the European Commission** checks whether a VAT ID is valid. The check is off until you switch it on in the settings (*Validate EU VAT IDs via VIES*). Then, when a customer enters a VAT ID or shop staff check one again, EU-B2B sends the VAT ID and, if you entered it in the settings, your shop's own VAT ID (so that VIES returns a consultation number). No trader name or address and no other personal data is sent. Requests go to `https://ec.europa.eu/taxation_customs/vies/rest-api/check-vat-number` and, when that does not answer, to `https://ec.europa.eu/taxation_customs/vies/services/checkVatService` (the SOAP interface of the same service). Service: https://ec.europa.eu/taxation_customs/vies/ – terms of use (legal notice of the European Commission): https://commission.europa.eu/legal-notice_en – privacy policy: https://commission.europa.eu/privacy-policy-websites-managed-european-commission_en
+
+Besides that, the Site Health test *Uploaded documents are not reachable from the web* requests a small test file from your own site to check that uploaded documents are protected. This request goes to your own site only and sends no data.
 
 == Screenshots ==
 
@@ -98,6 +100,19 @@ EU-B2B connects to one external service, and only when you use it:
 == Changelog ==
 
 The full changelog is in CHANGELOG.md in the plugin folder and on https://github.com/storetown-media/stm-eurob2b.
+
+= 1.9.2 =
+* The list of VAT ID checks that need a look works on SQLite (for example WordPress Playground).
+
+= 1.9.1 =
+* All output is escaped where it is printed; the printable record of processing activities and the confirmation prompts no longer use inline style or script tags.
+* The privacy notice on the export and erase screens shows its list with bullets again.
+
+= 1.9.0 =
+* Translations now come from translate.wordpress.org; the plugin no longer ships its own language files.
+* STM EU-B2B Pro has its own text domain and keeps the translations of both plugins until language packs exist.
+* Plain-text e-mails, the registration form and the admin styles follow the WordPress.org guidelines more closely.
+* The external services section of this readme names the VIES endpoints and the Site Health self-test.
 
 = 1.8.1 =
 * The settings screens are translated again (1.8.0 showed them in English on sites in other languages).
@@ -124,6 +139,15 @@ The full changelog is in CHANGELOG.md in the plugin folder and on https://github
 * First release on WordPress.org: EU-B2B is now the free core; the Pro features moved to the separate add-on EU-B2B Pro.
 
 == Upgrade Notice ==
+
+= 1.9.2 =
+If you use STM EU-B2B Pro, update it to 1.9.2 at the same time; until both have the same version the Pro features are off.
+
+= 1.9.1 =
+If you use STM EU-B2B Pro, update it to 1.9.1 at the same time; until both have the same version the Pro features are off.
+
+= 1.9.0 =
+If you use STM EU-B2B Pro, update it to 1.9.0 at the same time; until both have the same version the Pro features are off. Without Pro, EU-B2B shows English until its language pack from translate.wordpress.org is available.
 
 = 1.8.0 =
 EuroB2B is now STM EU-B2B. Install STM EU-B2B and update STM EU-B2B Pro first, then deactivate the old "EuroB2B": STM EU-B2B takes over with all data. Then delete the old plugin.

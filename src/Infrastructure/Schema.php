@@ -120,9 +120,6 @@ final class Schema {
 			'eurob2b_migration_lock',
 			// Reports module: accounts and tax keys of the DATEV export (RPT-006).
 			'eurob2b_datev_mapping',
-			// EU-B2B Pro: licence key and the last licence check (PLT-016; pro/uninstall.php removes them too).
-			'eurob2b_pro_licence_key',
-			'eurob2b_pro_licence_state',
 		);
 	}
 

@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitStmEuB2b
 {
     public static $prefixLengthsPsr4 = array (
-        'E' =>
+        'E' => 
         array (
             'EuroB2B\\' => 8,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'EuroB2B\\' =>
+        'EuroB2B\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
         ),
@@ -262,6 +262,7 @@ class ComposerStaticInitStmEuB2b
         'EuroB2B\\Support\\HiddenPrice' => __DIR__ . '/../..' . '/src/Support/HiddenPrice.php',
         'EuroB2B\\Support\\Hpos' => __DIR__ . '/../..' . '/src/Support/Hpos.php',
         'EuroB2B\\Support\\I18n' => __DIR__ . '/../..' . '/src/Support/I18n.php',
+        'EuroB2B\\Support\\Kses' => __DIR__ . '/../..' . '/src/Support/Kses.php',
         'EuroB2B\\Support\\Money' => __DIR__ . '/../..' . '/src/Support/Money.php',
         'EuroB2B\\Support\\Pages' => __DIR__ . '/../..' . '/src/Support/Pages.php',
         'EuroB2B\\Support\\ProductMeta' => __DIR__ . '/../..' . '/src/Support/ProductMeta.php',

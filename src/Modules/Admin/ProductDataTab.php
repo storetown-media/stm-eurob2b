@@ -9,6 +9,8 @@ declare( strict_types=1 );
 
 namespace EuroB2B\Modules\Admin;
 
+use EuroB2B\Support\Assets;
+use EuroB2B\Support\Kses;
 use WC_Product;
 
 /**
@@ -30,6 +32,19 @@ final class ProductDataTab {
 	public function hooks(): void {
 		add_filter( 'woocommerce_product_data_tabs', array( $this, 'tab' ) );
 		add_action( 'woocommerce_product_data_panels', array( $this, 'render' ) );
+		add_action( 'admin_enqueue_scripts', array( self::class, 'enqueue_style' ) );
+	}
+
+	/**
+	 * Hooked to admin_enqueue_scripts: the plugin's admin stylesheet (with the styles of this panel)
+	 * on the product edit screen.
+	 */
+	public static function enqueue_style(): void {
+		$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
+		if ( null === $screen || 'product' !== (string) $screen->id ) {
+			return;
+		}
+		wp_enqueue_style( PageHeader::STYLE, EUROB2B_PLUGIN_URL . 'assets/css/admin.css', array(), Assets::version( 'assets/css/admin.css' ) );
 	}
 
 	/**
@@ -103,7 +118,6 @@ final class ProductDataTab {
 		global $product_object;
 		$product = $product_object instanceof WC_Product ? $product_object : null;
 		echo '<div id="' . esc_attr( self::TARGET ) . '" class="panel woocommerce_options_panel hidden eurob2b-product-panel">';
-		echo '<style>.eurob2b-product-panel details{border-bottom:1px solid #eee}.eurob2b-product-panel summary{cursor:pointer;padding:12px;font-weight:600;list-style-position:inside}.eurob2b-product-panel summary:hover{background:#f6f7f7}.eurob2b-product-section__summary{float:right;margin-left:12px;font-weight:400;font-size:12px;color:#646970}.eurob2b-product-panel details>.options_group:last-child{border-bottom:0}.eurob2b-product-variation-note{margin:0;padding:12px!important;border-bottom:1px solid #eee;color:#646970}</style>';
 		// Variable products keep these values per variation (WooCommerce's Variations tab).
 		echo '<p class="form-field show_if_variable eurob2b-product-variation-note">' . esc_html__( 'Variable products: group prices, customer prices, quantity tiers and order quantities are set on each variation in the Variations tab.', 'stm-eu-b2b' ) . '</p>';
 		$printed = 0;
@@ -121,7 +135,7 @@ final class ProductDataTab {
 				echo '<span class="eurob2b-product-section__summary">' . esc_html( $summary ) . '</span>';
 			}
 			echo '</summary>';
-			echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- printed by the field classes, which escape their output.
+			echo wp_kses( $html, Kses::allowed() );
 			echo '</details>';
 		}
 		if ( 0 === $printed ) {

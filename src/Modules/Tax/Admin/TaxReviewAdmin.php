@@ -202,7 +202,7 @@ final class TaxReviewAdmin {
 			$when = (int) strtotime( (string) $order->get_meta( self::META_REVIEWED_AT, true ) . ' UTC' );
 			/* translators: 1: date and time, 2: name of the staff member */
 			$text = sprintf( __( 'Tax treatment reviewed on %1$s by %2$s.', 'stm-eu-b2b' ), wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $when ), $by ? $by->display_name : '#' . (int) $order->get_meta( self::META_REVIEWED_BY, true ) );
-			echo '<p class="form-field form-field-wide" style="margin:0;">' . StatusLabel::html( $text, StatusLabel::OK ) . '</p>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in StatusLabel::html().
+			echo '<p class="form-field form-field-wide" style="margin:0;">' . wp_kses_post( StatusLabel::html( $text, StatusLabel::OK ) ) . '</p>';
 		} elseif ( current_user_can( Capabilities::DECIDE_VALIDATION ) ) {
 			$args = array(
 				'action'   => self::ACTION,

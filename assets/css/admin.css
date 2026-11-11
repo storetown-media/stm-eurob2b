@@ -489,3 +489,60 @@
 		border-top: 0;
 	}
 }
+
+/* Audit log: on narrow screens each entry becomes a block of labelled lines instead of a wide row. */
+@media screen and (max-width: 782px) {
+	.eurob2b-audit-log__table thead {
+		display: none;
+	}
+
+	.eurob2b-audit-log__table tr {
+		display: block;
+	}
+
+	.eurob2b-audit-log__table td {
+		display: block;
+		padding: 0.3em 0.75em;
+	}
+
+	.eurob2b-audit-log__table td[data-label]::before {
+		content: attr(data-label);
+		display: block;
+		font-weight: 600;
+	}
+}
+
+/* EU-B2B tab of the product data box (product edit screen). */
+.eurob2b-product-panel details {
+	border-bottom: 1px solid #eee;
+}
+
+.eurob2b-product-panel summary {
+	cursor: pointer;
+	padding: 12px;
+	font-weight: 600;
+	list-style-position: inside;
+}
+
+.eurob2b-product-panel summary:hover {
+	background: #f6f7f7;
+}
+
+.eurob2b-product-section__summary {
+	float: right;
+	margin-left: 12px;
+	font-weight: 400;
+	font-size: 12px;
+	color: #646970;
+}
+
+.eurob2b-product-panel details > .options_group:last-child {
+	border-bottom: 0;
+}
+
+.eurob2b-product-variation-note {
+	margin: 0;
+	padding: 12px !important;
+	border-bottom: 1px solid #eee;
+	color: #646970;
+}

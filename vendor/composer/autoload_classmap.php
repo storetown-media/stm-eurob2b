@@ -247,6 +247,7 @@ return array(
     'EuroB2B\\Support\\HiddenPrice' => $baseDir . '/src/Support/HiddenPrice.php',
     'EuroB2B\\Support\\Hpos' => $baseDir . '/src/Support/Hpos.php',
     'EuroB2B\\Support\\I18n' => $baseDir . '/src/Support/I18n.php',
+    'EuroB2B\\Support\\Kses' => $baseDir . '/src/Support/Kses.php',
     'EuroB2B\\Support\\Money' => $baseDir . '/src/Support/Money.php',
     'EuroB2B\\Support\\Pages' => $baseDir . '/src/Support/Pages.php',
     'EuroB2B\\Support\\ProductMeta' => $baseDir . '/src/Support/ProductMeta.php',

@@ -104,7 +104,7 @@ final class Reverter {
 	 * Error text of a company row while EU-B2B Pro is not active: the row stays in the journal.
 	 */
 	private static function needs_pro(): string {
-		return __( 'Company accounts are a feature of EU-B2B Pro; activate it to undo this part of the import.', 'stm-eu-b2b' );
+		return __( 'Company accounts are managed by the add-on STM EU-B2B Pro; this part of the import can be undone while the add-on is active.', 'stm-eu-b2b' );
 	}
 
 	/**

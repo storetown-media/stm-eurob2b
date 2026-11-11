@@ -24,7 +24,7 @@ if ( $user instanceof WP_User ) {
 		echo esc_html( $eurob2b_label ) . ': ' . esc_html( $eurob2b_value ) . "\n";
 	}
 }
-echo "\n" . esc_html__( 'Approvals', 'stm-eu-b2b' ) . ': ' . esc_url_raw( $approvals_url ) . "\n";
+echo "\n" . esc_html__( 'Approvals', 'stm-eu-b2b' ) . ': ' . esc_url( $approvals_url ) . "\n";
 if ( $additional_content ) {
 	echo "\n" . esc_html( wp_strip_all_tags( wptexturize( $additional_content ) ) ) . "\n";
 }

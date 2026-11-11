@@ -15,8 +15,9 @@ use EuroB2B\Modules\Admin\PageHeader;
 use EuroB2B\Modules\Customers\Group;
 use EuroB2B\Modules\Customers\Upgrades\UpgradeRule;
 use EuroB2B\Modules\Customers\Upgrades\UpgradeSuggestions;
-use Throwable;
 use EuroB2B\Support\ExceptionMessage;
+use EuroB2B\Support\Ui;
+use Throwable;
 
 /**
  * STM EU-B2B → Group suggestions (GRP-008): per group with an upgrade rule, the customers who reached
@@ -217,7 +218,8 @@ final class UpgradeSuggestionsPage {
 					'keep' => sprintf( __( 'Keep in %s', 'stm-eu-b2b' ), $source->name ),
 				)
 			);
-			echo '<form method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '" onsubmit="return window.confirm(' . esc_attr( (string) wp_json_encode( __( 'Move all listed customers?', 'stm-eu-b2b' ) ) ) . ');">';
+			Ui::enqueue_confirm();
+			echo '<form method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '" data-eurob2b-confirm="' . esc_attr__( 'Move all listed customers?', 'stm-eu-b2b' ) . '">';
 			$this->hidden_fields( $source, 'move' );
 			foreach ( $open as $customer ) {
 				echo '<input type="hidden" name="user_ids[]" value="' . esc_attr( (string) $customer['user_id'] ) . '" />';

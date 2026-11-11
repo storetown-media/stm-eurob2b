@@ -142,8 +142,8 @@ final class RegistrationModule extends AbstractModule {
 		if ( ! function_exists( 'register_block_type' ) ) {
 			return;
 		}
-		$form = \EuroB2B\Plugin::instance()->container()->get( RegistrationForm::class );
-		register_block_type(
+		$form  = \EuroB2B\Plugin::instance()->container()->get( RegistrationForm::class );
+		$block = register_block_type(
 			EUROB2B_PLUGIN_DIR . 'blocks/registration-form',
 			array(
 				'render_callback' => static function ( array $attributes ) use ( $form ): string {
@@ -151,6 +151,13 @@ final class RegistrationModule extends AbstractModule {
 				},
 			)
 		);
+		// The editor script has no asset file that names wp-i18n, so WordPress does not attach the text
+		// domain of block.json itself. No folder: the translations come from the language packs.
+		if ( $block instanceof \WP_Block_Type && function_exists( 'wp_set_script_translations' ) ) {
+			foreach ( $block->editor_script_handles as $handle ) {
+				wp_set_script_translations( $handle, 'stm-eu-b2b' );
+			}
+		}
 
 		$types = array_map(
 			static fn( RegistrationType $t ): array => array(
@@ -159,7 +166,8 @@ final class RegistrationModule extends AbstractModule {
 			),
 			array_values( \EuroB2B\Plugin::instance()->container()->get( RegistrationTypeRepository::class )->all() )
 		);
-		wp_add_inline_script( 'eurob2b-registration-form-editor-script', 'window.eurob2bRegistrationBlock = ' . (string) wp_json_encode( array( 'types' => $types ) ) . ';', 'before' );
+		// The registration types for the block's settings (window.eurob2bRegistrationBlock.types).
+		wp_localize_script( 'eurob2b-registration-form-editor-script', 'eurob2bRegistrationBlock', array( 'types' => $types ) );
 	}
 
 	/**
